@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { HeaderComponent } from '../Navigation/header/header.component';
+import { User } from '../../Models/user';
+import { AuthenticationService } from '../../Services/authentication.service';
 
 @Component({
   selector: 'app-main',
@@ -9,17 +10,25 @@ import { HeaderComponent } from '../Navigation/header/header.component';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
+  loading = false;
+  currentUser: string;
 
   constructor(private router: Router, 
-              private jwtHelper: JwtHelperService) { }
+              private jwtHelper: JwtHelperService,
+              private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {    
   }
 
   isUserAuthenticated(){
-    const token: string = localStorage.getItem("jwt");
+    this.loading = true;
+    //alert(this.authenticationService.currentUserValue.password);
+
+    const token: string = localStorage.getItem("currentUser");
+    //alert(token);
     if(token && !this.jwtHelper.isTokenExpired(token)){
-      // const userId: string = localStorage.getItem("userId");
+       const userId: string = localStorage.getItem("userId");
+       this.currentUser == userId;
       // this.service.GetUser(userId).subscribe(res =>{
         //   console.log(res.userId);
         // }, error => {

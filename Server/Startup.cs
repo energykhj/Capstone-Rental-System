@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Server.Authentication;
+using Server.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +37,9 @@ namespace Server
             // for EF
             services.AddDbContext<AppDbContext>(option =>
                 option.UseSqlServer(Configuration.GetConnectionString("PhoenixDBConnection")));
+
+            services.AddDbContext<PhoenixContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("PhoenixDBConnection")));
 
             // for Identity
             //services.AddIdentity<AppUser, IdentityRole>()
@@ -67,6 +72,8 @@ namespace Server
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+            services.AddAutoMapper(typeof(Startup));
 
             // for CORS
             services.AddCors(options =>
