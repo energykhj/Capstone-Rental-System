@@ -1,0 +1,16 @@
+<div class="circle" [ngStyle]="{'background-color':  circleColor }">
+    <img *ngIf="!showInitials" src="{{photoUrl}}" class="avatar" [matMenuTriggerFor]="menu">
+    <div *ngIf="showInitials" class="initials">
+        {{ initials }}
+    </div>
+</div>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="logout()">
+        <mat-icon>account_circle</mat-icon>
+        <span>Account</span>
+    </button>
+    <button mat-menu-item>
+        <mat-icon>power_settings_new</mat-icon>
+        <span>Sign Out</span>
+    </button>
+</mat-menu>

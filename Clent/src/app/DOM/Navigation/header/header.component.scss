@@ -1,0 +1,41 @@
+a{
+    text-decoration: none;
+    color: #b9bac4;
+   // font-size: 16px;
+}
+.logo{
+    color: white;
+}
+
+.font-blue{
+    color: #3f51b5 !important;
+}
+
+.loginName{
+    font-size: 14px;
+    padding-top: 2px;
+}
+
+a:hover, a:active{
+    color: lightgray;
+}
+
+.navigation-items{
+    list-style-type:none;
+    padding-top: 0;
+    margin: 0;
+}
+
+mat-toolbar{
+    border-radius: 3px;
+}
+  
+mat-button{
+    background-color: lightgreen !important;
+}
+  
+@media(max-width: 959px){
+    mat-toolbar {
+        border-radius: 0px;
+    }
+}

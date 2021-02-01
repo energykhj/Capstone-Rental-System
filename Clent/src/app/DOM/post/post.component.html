@@ -1,0 +1,20 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Date</th>
+            <th>
+                TemperatureC</th>
+            <th>Summary</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--one of directive in angular 
+            which can be used replicate html elements based on array data-->
+        <tr *ngFor="let dataItem of WeatherList">
+            <td>1{{dataItem.date}}</td>
+            <td>{{dataItem.temperatureC}}</td>            
+            <td>{{dataItem.summary}}</td>            
+        </tr> 
+    </tbody>
+</table>

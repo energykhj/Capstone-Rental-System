@@ -1,0 +1,18 @@
+
+  <ng-template [ngIf]="isUserAuthenticated()" [ngIfElse]="notLoggedIn">
+    <div>
+        <h2>Main screen</h2>
+    </div>
+    <div>
+       <h2 style="font:red"> now Logged in ({{isUserAuthenticated()}})</h2>
+    </div>
+  </ng-template>
+  
+  <ng-template #notLoggedIn>
+    <div>
+        <h2>Main screen</h2>
+    </div>
+    <div>
+        Just show without Log in
+    </div>
+  </ng-template>

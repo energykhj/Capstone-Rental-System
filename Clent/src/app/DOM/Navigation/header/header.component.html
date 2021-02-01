@@ -1,0 +1,65 @@
+<!-- Toolbar -->
+<mat-toolbar color="primary">
+    <div fxHide.gt-xs>
+        <button mat-icon-button (click)="onToggleSidenav()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+    <div><a href="/main" class="logo">Wanted.ca</a></div>
+    <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+        <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+            <li>
+                <!-- <a routerLink="/post">Post</a> -->
+                <a mat-button mat-raised-button routerLink="/post" class="font-blue" routerLinkActive="active">Post</a>
+            </li>
+            <ng-template [ngIf]="userName" [ngIfElse]="logIn">
+                <li>
+                    <!-- <mat-icon>account_circle</mat-icon> -->
+                    <div *ngFor="let user of users">
+                    <app-avatar [photoUrl]="user.photo" [name]="user.name"></app-avatar> 
+                    </div>
+                </li>
+                <!-- <li>
+                    <button mat-icon-button [matMenuTriggerFor]="auth">
+                        <mat-icon>person_outline</mat-icon>
+                    </button>                   
+                    <mat-menu #auth="matMenu">
+                        <button mat-menu-item (click)="logout()">
+                            <mat-icon>exit_to_app</mat-icon>
+                            <span>Sign out</span>
+                        </button>
+                    </mat-menu>
+                </li> -->
+                <!-- <li>
+                    <p class="loginName">Hello, {{userName}}</p>
+                </li> -->
+            </ng-template>
+            <ng-template #logIn>
+                <!-- <li>
+                    <a routerLink="/login" class="loginName">Log in</a>
+                </li>
+                <li>
+                    <a routerLink="/register" class="loginName">Register</a>
+                </li> -->
+                <li>
+                    <button mat-raised-button (click)="openLogin()">Login/Register</button>
+                </li>
+            </ng-template>
+        </ul>
+    </div>
+</mat-toolbar>
+
+
+<!-- Toolbar -->
+<!-- <mat-toolbar color="primary" class="app-header">
+    <div fxHide.gt-xs>
+        <button mat-icon-button (click)="onToggleSidenav()">
+            <mat-icon class="positronx">menu</mat-icon>
+        </button>
+    </div>
+    <div><a href="/main">Wanted.ca</a></div>
+    <span class="nav-tool-items">
+      <a mat-button routerLink="login" routerLinkActive="active">Log in</a>
+      <a mat-button mat-raised-button routerLink="register" routerLinkActive="active">Register</a>
+    </span>
+  </mat-toolbar> -->
