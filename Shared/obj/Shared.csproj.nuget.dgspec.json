@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\CP Level 4\\Capstone\\Phoenix\\Shared\\Shared.csproj": {}
+    "D:\\CP Level 4\\INFO2310-Capstone-Application Project\\Phoenix\\Shared\\Shared.csproj": {}
   },
   "projects": {
-    "D:\\CP Level 4\\Capstone\\Phoenix\\Shared\\Shared.csproj": {
+    "D:\\CP Level 4\\INFO2310-Capstone-Application Project\\Phoenix\\Shared\\Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CP Level 4\\Capstone\\Phoenix\\Shared\\Shared.csproj",
+        "projectUniqueName": "D:\\CP Level 4\\INFO2310-Capstone-Application Project\\Phoenix\\Shared\\Shared.csproj",
         "projectName": "Shared",
-        "projectPath": "D:\\CP Level 4\\Capstone\\Phoenix\\Shared\\Shared.csproj",
+        "projectPath": "D:\\CP Level 4\\INFO2310-Capstone-Application Project\\Phoenix\\Shared\\Shared.csproj",
         "packagesPath": "C:\\Users\\Heejin Ko\\.nuget\\packages\\",
-        "outputPath": "D:\\CP Level 4\\Capstone\\Phoenix\\Shared\\obj\\",
+        "outputPath": "D:\\CP Level 4\\INFO2310-Capstone-Application Project\\Phoenix\\Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Heejin Ko\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserDetailsComponent } from '../../DOM/Account/user-details/user-details.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-avatar',
@@ -25,8 +27,8 @@ export class AvatarComponent implements OnInit {
       '#3670B2', // blue
   ];
 
-  constructor( private router: Router) { }
-
+  constructor( private router: Router,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
 
@@ -64,5 +66,10 @@ export class AvatarComponent implements OnInit {
     localStorage.removeItem("jwt");    
     localStorage.removeItem("userId");    
     this.router.navigate(["/main"]);
+  }
+
+  userDetails()
+  {      
+    this.dialog.open(UserDetailsComponent);
   }
 }

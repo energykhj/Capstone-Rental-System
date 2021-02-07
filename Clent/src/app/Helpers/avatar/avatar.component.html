@@ -5,11 +5,11 @@
     </div>
 </div>
 <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="logout()">
+    <button mat-menu-item (click)="userDetails()">
         <mat-icon>account_circle</mat-icon>
         <span>Account</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="logout()">
         <mat-icon>power_settings_new</mat-icon>
         <span>Sign Out</span>
     </button>

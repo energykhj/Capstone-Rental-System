@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { SharedService } from '../../../Services/shared.service';
-import { UsernameValidator, PasswordValidator, ParentErrorStateMatcher} from 'src/app/validators';
+import { AuthenticationService } from '../../../Services/authentication.service';
+import { PasswordValidator, ParentErrorStateMatcher} from 'src/app/validators';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 
@@ -14,8 +15,7 @@ import { Router } from '@angular/router';
 
 export class RegisterComponent implements OnInit {
 
-  Roles: any = ['Admin', 'Author', 'Reader'];
-  accountDetailsForm:FormGroup;
+  registerForm:FormGroup;
   matching_passwords_group: FormGroup;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
@@ -47,33 +47,25 @@ export class RegisterComponent implements OnInit {
   }
   // constructor(private fb: FormBuilder, private http:HttpClient) { }
   constructor(private fb: FormBuilder, 
-              private service:SharedService,
+              private authenticationService: AuthenticationService,
+              private dialogRef: MatDialogRef<RegisterComponent>,
               private router: Router) { }
 
   ngOnInit(){
     this.createForms();
-    // this.accountDetailsForm = this.fb.group({
-    //   Name: [''],
-    //   Email: [''],
-    //   Password: [''],
-    // });
   }
 
-  onSubmitAccountDetails(value){
-    console.log(value.matching_passwords.password);
-    var val={
-          Username:value.username,
-          Email:value.email,
-          Password:value.matching_passwords.password
-        };
-    
-    this.service.CreateUser(val).subscribe(res=>{
-        //this.router.navigate(['/login']);  
-        const token = (<any>res).token;
-        localStorage.setItem("jwt", token);
-        localStorage.setItem("userId", val.Email);
-        this.router.navigate(['/main']);  
-        console.log(res);
+  onSubmitRegister(value){
+    // console.log(value.matching_passwords.password);
+    var val = {
+      Username: value.email,
+      Email: value.email,
+      Password: value.matching_passwords.password
+    };
+
+    this.authenticationService.CreateUser(val).subscribe(res=>{
+        this.router.navigate(['/main']); 
+        this.dialogRef.close();
         }, error => {
           console.log(error.errors);
         })
@@ -93,14 +85,14 @@ export class RegisterComponent implements OnInit {
     });
 
     // user links form validations
-    this.accountDetailsForm = this.fb.group({
-      username: new FormControl('', Validators.compose([
-       UsernameValidator.validUsername,
-       Validators.maxLength(25),
-       Validators.minLength(5),
-       //Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$'),
-       Validators.required
-      ])),
+    this.registerForm = this.fb.group({
+      // username: new FormControl('', Validators.compose([
+      //  UsernameValidator.validUsername,
+      //  Validators.maxLength(25),
+      //  Validators.minLength(5),
+      //  //Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$'),
+      //  Validators.required
+      // ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')

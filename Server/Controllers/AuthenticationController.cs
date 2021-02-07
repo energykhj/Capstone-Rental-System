@@ -64,15 +64,6 @@ namespace Server.Controllers
             }
         }
 
-        [HttpGet("GetUser/{id}")]
-        public ActionResult<UserDetails> GetUser(string id)
-        {
-            PhoenixContext context = new PhoenixContext();
-            var userDetail = context.UserDetails.FirstOrDefault(c => c.Id == id);
-            //var ttt = mapper.Map<UserDetailsDTO>(userDetail);
-            return Ok(userDetail);
-        }
-
         [HttpPost("Login")]
         public async Task<ActionResult<UserToken>> Login([FromBody] UserInfo userInfo)
         {

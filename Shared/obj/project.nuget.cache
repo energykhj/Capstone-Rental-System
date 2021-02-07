@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dStgXI9rifyQVEzAlj+yWHl6gxNRJUSw3RSzN7inyiW4bQcpsFkj6uEcmKVvDSCYSPh+8xsMvi9dc/8Ezm8I7Q==",
+  "dgSpecHash": "yVH3OiQZMQsJ7CqCVWswfCjVawtSJ7gzRvLQARWTdVBaRtkU+7bXD8h7g+fiT8ubqjPtYU6By878v0rz3EiWVw==",
   "success": true,
-  "projectFilePath": "D:\\CP Level 4\\Capstone\\Phoenix\\Shared\\Shared.csproj",
+  "projectFilePath": "D:\\CP Level 4\\INFO2310-Capstone-Application Project\\Phoenix\\Shared\\Shared.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Heejin Ko\\.nuget\\packages\\microsoft.extensions.configuration\\3.1.5\\microsoft.extensions.configuration.3.1.5.nupkg.sha512",
     "C:\\Users\\Heejin Ko\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\3.1.5\\microsoft.extensions.configuration.abstractions.3.1.5.nupkg.sha512",

@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserAccountComponent } from '../../Account/user-account/user-account.component';
+import { UserDetailsComponent } from '../../Account/user-details/user-details.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,6 +22,14 @@ export class HeaderComponent implements OnInit {
 
   openLogin() {
     this.dialog.open(UserAccountComponent);
+  }
+
+  openLoginModal() {
+    this.dialog.open(UserAccountComponent);
+  }
+
+  openUserDetails() {
+    this.dialog.open(UserDetailsComponent);
   }
 
   ngOnInit(): void {

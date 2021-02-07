@@ -25,26 +25,14 @@ namespace Server.Controllers
             this.mapper = _mapper;
         }
 
-        [Route("{id}")]
-        [HttpGet]
-        //[HttpGet("GetUser/{id}")]
-        public ActionResult<string> Get()
-        {
-            string id = "27d3442d-c41a-4096-bdb0-d05da4611509";
-            //var user = context.AspNetUsers.FirstOrDefault(x => x.Id == id);
-            //return Ok(user.Email);
-            return "test4@test.com";
-        }
-
-
         [HttpGet("GetUser/{id}")]
         public async Task<ActionResult<UserDetailsDTO>> GetUser(string id)
         {
             var userDetail = await context.UserDetails.FirstOrDefaultAsync(c => c.Id == id);
             return mapper.Map<UserDetailsDTO>(userDetail);
-        }
-
-        [HttpPost]
+        } 
+                
+        [HttpPost]  
         public async Task<ActionResult<UserDetailsDTO>> Post(UserDetailsDTO userDetailsDTO)
         {
             try
@@ -73,6 +61,48 @@ namespace Server.Controllers
                 return BadRequest(new ErrorManager(ex.GetBaseException()));
             }
         }
+
+        [HttpPut]
+        public async Task<ActionResult<UserDetailsDTO>> Put(UserDetailsDTO userDetailsDTO)
+        {
+            try
+            {
+                var validation = ValidatePut(userDetailsDTO);
+
+                if (validation == null)
+                {
+                    var userDetails = await context.UserDetails.FirstOrDefaultAsync(c => c.Id == userDetailsDTO.Id);
+
+                    userDetails.FirstName = userDetailsDTO.FirstName;
+                    userDetails.LastName = userDetailsDTO.LastName;
+                    userDetails.Phone = userDetailsDTO.Phone;
+                    userDetails.ProvinceId = userDetailsDTO.ProvinceId;
+                    userDetails.TimeStamp = DateTime.UtcNow;
+
+                    userDetails.StatusId = userDetails.StatusId == (int)UserStatusEnum.New ?
+                                         (int)UserStatusEnum.Active :
+                                         userDetails.StatusId;
+
+                    if (userDetailsDTO.PhotoUrl != null)
+                    {
+                       // delete already uploaded image file then, save again
+                    }
+
+                    context.Update(userDetails);
+                    await context.SaveChangesAsync();
+                    return Ok(mapper.Map<UserDetailsDTO>(userDetails));
+                }
+                else
+                {
+                    return BadRequest(validation);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorManager(ex.GetBaseException()));
+            }
+        }
+
         public List<ErrorManager> ValidatePost(UserDetails userDetails)
         {
             List<ErrorManager> errors = new List<ErrorManager>();
@@ -81,6 +111,31 @@ namespace Server.Controllers
                 .UserDetails
                 .FirstOrDefault(c => c.Id == userDetails.Id) != null)
                 errors.Add(new ErrorManager(6));
+
+            return errors.Count > 0 ? errors : null;
+        }
+
+        public List<ErrorManager> ValidatePut(UserDetailsDTO userDetails)
+        {
+            List<ErrorManager> errors = new List<ErrorManager>();
+            PhoenixContext additionalContext = new PhoenixContext();
+
+            if (additionalContext
+                .AspNetUsers
+                .FirstOrDefault(c => c.Id == userDetails.Id) == null)
+                errors.Add(new ErrorManager(4));
+
+            if (additionalContext
+                .UserDetails
+                .FirstOrDefault(c => c.Id == userDetails.Id) == null)
+                errors.Add(new ErrorManager(6));
+
+            if (additionalContext
+                .Province
+                .FirstOrDefault(c => c.Id == userDetails.ProvinceId) == null)
+                errors.Add(new ErrorManager(9));
+
+            additionalContext.Dispose();
 
             return errors.Count > 0 ? errors : null;
         }

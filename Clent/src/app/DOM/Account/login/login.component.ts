@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SharedService } from '../../../Services/shared.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterComponent } from '../register/register.component';
@@ -13,7 +12,7 @@ import { AuthenticationService } from '../../../Services/authentication.service'
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
+  hide = true;
   invalidLogin: boolean;
   loginForm: FormGroup;
   loading = false;
@@ -21,22 +20,21 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router,
     private fb: FormBuilder,
-    private service: SharedService,
     public dialog: MatDialog,
     private dialogRef: MatDialogRef<LoginComponent>,
     private authenticationService: AuthenticationService) {
-    if (this.authenticationService.currentUserValue) {
-      this.router.navigate(['/main']);
-    }
+    // if (this.authenticationService.currentUserValue) {
+    //   this.router.navigate(['/main']);
+    // }
   }
 
   onLogin(value) {
-     alert(value.Email);
+     //alert(value.Email);
     
     this.submitted = true;
 
     this.authenticationService.Login(value.Email, value.Password).subscribe(res => {
-      const token = (<any>res).token;
+      //const token = (<any>res).token;
 
       // localStorage.setItem("jwt", token);
       // localStorage.setItem("userId", value.Email);

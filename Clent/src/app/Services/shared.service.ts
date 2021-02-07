@@ -32,6 +32,10 @@ export class SharedService {
     return this.http.get<any>(this.APIUrl+'/weatherforecast');
   }
 
+  getProvinces():Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+'/Lookup/GetProvinces') 
+  }
+
   private createCompleteRoute = (route: string, envAddress: string) => {
     return `${envAddress}/${route}`;
   }

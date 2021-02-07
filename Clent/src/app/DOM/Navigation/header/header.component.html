@@ -13,6 +13,9 @@
                 <a mat-button mat-raised-button routerLink="/post" class="font-blue" routerLinkActive="active">Post</a>
             </li>
             <ng-template [ngIf]="userName" [ngIfElse]="logIn">
+                <button class="btn btn-outline-primary mr-2" (click)="openUserDetails()">
+                    <div>UserDetails</div>
+                  </button>
                 <li>
                     <!-- <mat-icon>account_circle</mat-icon> -->
                     <div *ngFor="let user of users">
@@ -44,6 +47,9 @@
                 <li>
                     <button mat-raised-button (click)="openLogin()">Login/Register</button>
                 </li>
+                <button class="btn btn-outline-primary mr-2" (click)="open('focusFirst')">
+                    <div>Open confirm modal</div>
+                  </button>
             </ng-template>
         </ul>
     </div>

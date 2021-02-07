@@ -28,6 +28,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './Services/auth.service';
 import { UserAccountComponent } from './Dom/Account/user-account/user-account.component';
 import { AvatarComponent } from './Helpers/avatar/avatar.component';
+import { UserDetailsComponent } from './DOM/Account/user-details/user-details.component';
 
 export function tokenGetter(){
   return localStorage.getItem("jwt");
@@ -44,7 +45,8 @@ export function tokenGetter(){
     MainComponent,
     PostComponent,
     UserAccountComponent,
-    AvatarComponent
+    AvatarComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,

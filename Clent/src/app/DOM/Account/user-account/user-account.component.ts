@@ -49,6 +49,7 @@ export class UserAccountComponent implements OnInit {
     private dialogRef: MatDialogRef<UserAccountComponent>) { }
 
   ngOnInit() {
+    
     if (this.isLoginUser != null) this._location.back();
     this.createForms();
     this.loginForm = this.fb.group({
