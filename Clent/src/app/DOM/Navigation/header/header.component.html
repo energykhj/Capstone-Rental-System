@@ -1,21 +1,21 @@
 <!-- Toolbar -->
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="header-bg">
     <div fxHide.gt-xs>
         <button mat-icon-button (click)="onToggleSidenav()">
             <mat-icon>menu</mat-icon>
         </button>
     </div>
-    <div><a href="/main" class="logo">Wanted.ca</a></div>
+    <div><a href="/main" class="logo">PRS</a></div>
     <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
         <ul fxLayout fxLayoutGap="15px" class="navigation-items">
             <li>
                 <!-- <a routerLink="/post">Post</a> -->
-                <a mat-button mat-raised-button routerLink="/post" class="font-blue" routerLinkActive="active">Post</a>
+                <a mat-mini-fab routerLink="/post" routerLinkActive="active">Post</a>
             </li>
             <ng-template [ngIf]="userName" [ngIfElse]="logIn">
-                <button class="btn btn-outline-primary mr-2" (click)="openUserDetails()">
+                <!-- <button class="btn btn-outline-primary mr-2" (click)="openUserDetails()">
                     <div>UserDetails</div>
-                  </button>
+                  </button> -->
                 <li>
                     <!-- <mat-icon>account_circle</mat-icon> -->
                     <div *ngFor="let user of users">
@@ -45,11 +45,11 @@
                     <a routerLink="/register" class="loginName">Register</a>
                 </li> -->
                 <li>
-                    <button mat-raised-button (click)="openLogin()">Login/Register</button>
+                    <button mat-button color="accent" (click)="openLogin()">Login/Register</button>
                 </li>
-                <button class="btn btn-outline-primary mr-2" (click)="open('focusFirst')">
+                <!-- <button class="btn btn-outline-primary mr-2" (click)="open('focusFirst')">
                     <div>Open confirm modal</div>
-                  </button>
+                  </button> -->
             </ng-template>
         </ul>
     </div>

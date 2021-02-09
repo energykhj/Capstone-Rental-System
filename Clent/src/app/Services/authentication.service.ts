@@ -37,11 +37,6 @@ export class AuthenticationService {
         // localStorage.setItem("userId", val.Email);
     }
 
-  
-    GetUser(id:string):Observable<any>{
-        return this.http.get<any>(`${environment.apiUrl}/UserDetails/GetUser/${id}`); 
-      }
-    
     Login(Email:string, Password:string) {  
         return this.http.post<any>(`${environment.apiUrl}/Authentication/Login`, { Email, Password})
             .pipe(map(user => {

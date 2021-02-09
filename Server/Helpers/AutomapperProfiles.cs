@@ -9,7 +9,8 @@ namespace Server.Helpers
     {
         public AutomapperProfiles()
         {
-            CreateMap<UserDetails, UserDetailsDTO>();
+            CreateMap<UserDetails, UserDetailsDTO>()
+                .ForMember(m => m.Email, opt => opt.MapFrom(x => x.IdNavigation.Email));
             CreateMap<UserDetailsDTO, UserDetails>();
         }
     }

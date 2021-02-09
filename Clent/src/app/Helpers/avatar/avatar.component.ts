@@ -14,6 +14,7 @@ export class AvatarComponent implements OnInit {
   public photoUrl: string;
 
   @Input()
+  
   public name: string;
 
   public showInitials = false;

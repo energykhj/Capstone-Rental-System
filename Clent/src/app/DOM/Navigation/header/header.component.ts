@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
     private router: Router) { 
-      this.users.push({name: "Brad Pitt", photo: "/assets/shiba1.jpg"});
+      this.users.push({name: "Brad Pitt", photo: "/assets/H.jpg"});
     }
 
   openLogin() {

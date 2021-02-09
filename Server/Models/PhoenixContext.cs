@@ -140,6 +140,12 @@ namespace Server.Models
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.Address1).HasMaxLength(255);
+
+                entity.Property(e => e.Address2).HasMaxLength(255);
+
+                entity.Property(e => e.City).HasMaxLength(50);
+
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
                 entity.Property(e => e.FirstName).HasMaxLength(255);
@@ -151,6 +157,8 @@ namespace Server.Models
                 entity.Property(e => e.Phone).HasMaxLength(255);
 
                 entity.Property(e => e.PhotoUrl).HasColumnName("PhotoURL");
+
+                entity.Property(e => e.PostalCode).HasMaxLength(6);
 
                 entity.Property(e => e.TimeStamp).HasColumnType("datetime");
 

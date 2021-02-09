@@ -13,7 +13,16 @@ namespace Shared.Helpers
 
         private Dictionary<int, string> codeList = new Dictionary<int, string>()
         {
-             {-1, "General error"},
+            {-1, "General error"},
+            {0, "Success - No Errors!"},
+            {1, "The email is already taken"},
+            {2, "RoleId is Invalid"},
+            {3, "User or password not found" },
+            {4, "User not found" },
+            {5, "User already got details" },
+            {6, "User Detail not found" },
+            {7, "User Status not found" },
+            {8, "Image file is not found" },
         };
 
         public ErrorManager()

@@ -4,8 +4,13 @@ export class User {
     password: string;
     firstName: string;
     lastName: string;
+    address1: string;
+    address2: string;
+    city: string
+    province: string;
+    postalCode: string;
+    phone: string
     photourl: string;
     createDate: string;
-    provinceId: string;
     token?: string;
 }

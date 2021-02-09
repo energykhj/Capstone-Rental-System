@@ -27,17 +27,13 @@ export class LoginComponent implements OnInit {
     //   this.router.navigate(['/main']);
     // }
   }
-
+  
   onLogin(value) {
      //alert(value.Email);
     
     this.submitted = true;
 
     this.authenticationService.Login(value.Email, value.Password).subscribe(res => {
-      //const token = (<any>res).token;
-
-      // localStorage.setItem("jwt", token);
-      // localStorage.setItem("userId", value.Email);
 
       this.resetLoginError(false);
       this.router.navigate(["/main"]);
