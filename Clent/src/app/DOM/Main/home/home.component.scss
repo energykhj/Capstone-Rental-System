@@ -1,0 +1,14 @@
+.example-card {
+    max-width: 250px;
+    max-height: 300px;
+  }
+  
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+
+  ::ng-deep .mat-card-header-text {
+    /* CSS styles go here */
+    margin: 0px; // for example to remove the margin
+  }
