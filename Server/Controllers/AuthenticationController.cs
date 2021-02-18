@@ -47,16 +47,8 @@ namespace Server.Controllers
 
             if (result.Succeeded)
             {
-                UserDetails userDetails = new UserDetails()
-                {
-                    Id = user.Id,
-                    CreateDate = DateTime.UtcNow,
-                    TimeStamp = DateTime.UtcNow,
-                    StatusId = (int)UserStatusEnum.New
-            };
-
-                var c = await CreateUserDetails(userDetails);
                 return await BuildToken(model);
+                //var c = await CreateUserDetails(userDetails);
             }
             else
             {
@@ -121,72 +113,19 @@ namespace Server.Controllers
                 UserId = identityUser.Id
             };
         }
-
-        private async Task<ActionResult> CreateUserDetails(UserDetails userDetails)
+        [HttpPost("changepassword")]
+        
+        public async Task<ActionResult> ChangePassword(UserInfo userInfo)
         {
-            try
-            {
-                var validation = ValidateUser(userDetails);
+            var user = await userManager.FindByEmailAsync(userInfo.Email);
+            var trychange = await userManager.ChangePasswordAsync(user,
+                                                                  userInfo.Password,
+                                                                  userInfo.NewPassword);
 
-                if (validation == null)
-                {
-                    PhoenixContext context = new PhoenixContext();
-                    context.Add(userDetails);
-                    await context.SaveChangesAsync();
-                    return Ok(true);
-                }
-                else
-                {
-                    return BadRequest(validation);
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ErrorManager(ex.GetBaseException()));
-            }
+            if (trychange.Succeeded)
+                return Ok();
+            else
+                return BadRequest();
         }
-
-        private async Task<ActionResult> CreateUserDetailsXXX(UserDetailsDTO userDetailsDTO)
-        {
-            try
-            {
-                var userDetails = mapper.Map<UserDetails>(userDetailsDTO);
-
-                userDetails.CreateDate = DateTime.UtcNow;
-                userDetails.TimeStamp = DateTime.UtcNow;
-                userDetails.StatusId = (int)UserStatusEnum.New;
-
-                var validation = ValidateUser(userDetails);
-
-                if (validation == null)
-                {
-                    PhoenixContext context = new PhoenixContext();
-                    context.Add(userDetails);
-                    await context.SaveChangesAsync();
-                    return Ok(true);
-                }
-                else
-                {
-                    return BadRequest(validation);
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ErrorManager(ex.GetBaseException()));
-            }
-        }
-
-        public List<ErrorManager> ValidateUser(UserDetails userDetails)
-        {
-            List<ErrorManager> errors = new List<ErrorManager>();
-            PhoenixContext context = new PhoenixContext();
-            if (context
-                .UserDetails
-                .FirstOrDefault(c => c.Id == userDetails.Id) != null)
-                errors.Add(new ErrorManager(6));
-
-            return errors.Count > 0 ? errors : null;
-        }
-
     }
 }
