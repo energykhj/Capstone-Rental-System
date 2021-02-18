@@ -1,4 +1,5 @@
 ﻿
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,14 @@ namespace Shared.Helpers
             {6, "User Detail not found" },
             {7, "User Status not found" },
             {8, "Image file is not found" },
+            {9, "Image file is empty" },
+            {10, "Max file size exceeded.(max, 10Mbyte)" },
+            {11, "Invalid file type." },
+            {12, "Item not found" },
+            {13, "Category Type not found" },
+            {14, "Address not found" },
+            {15, "Related transaction not found" },
+            {16, "Status not found" },
         };
 
         public ErrorManager()
@@ -47,6 +56,16 @@ namespace Shared.Helpers
             Code = currentMessage.Key;
             Message = currentMessage.Value;
             StackTrace = "N/A";
+        }
+
+        public string ErrorList(List<int> errors)
+        {
+            string result = string.Empty;
+            foreach (var error in errors)
+            {
+                result += JsonConvert.SerializeObject(new ErrorManager(error));
+            }
+            return result;
         }
     }
 }
