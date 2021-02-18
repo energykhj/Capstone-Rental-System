@@ -28,6 +28,27 @@ a:hover, a:active{
     padding-top: 0;
     margin: 0;
 }
+.no-padding-badge{
+    width: 2px;
+}
+.fab-color-post{
+    // background-color: rgb(229, 248, 118);
+    background-color: rgb(209, 248, 118);
+    color:black;
+    width: 43px;
+    height: 40px;
+    font-weight: 500;
+}
+.fab-color-ask{
+  background-color: rgb(118, 248, 242);
+  color:black;
+  width: 43px;
+  height: 40px;
+  font-weight: 500;
+}
+.mat-badge-content{
+    color : yellow
+  }
 
 mat-toolbar{
     border-radius: 3px;
@@ -37,6 +58,30 @@ mat-button{
     background-color: lightgreen !important;
 }
   
+/* Search */
+.example-spacer {
+    flex: 1 1 auto;
+  }
+.example-container .mat-form-field + .mat-form-field {
+  margin-left: 28px;
+}
+
+.example-container .mat-form-field {
+  width: 220px;
+}
+
+.example-container form {
+  margin-bottom: 20px;
+}
+
+.example-container form > * {
+  margin: 5px 0;
+}
+
+.example-container .mat-radio-button {
+  margin: 0 12px;
+}
+/* Search */
 @media(max-width: 959px){
     mat-toolbar {
         border-radius: 0px;

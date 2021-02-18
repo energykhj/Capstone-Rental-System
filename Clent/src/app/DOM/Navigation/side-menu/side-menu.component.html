@@ -1,27 +1,27 @@
 <mat-toolbar>
     <mat-toolbar-row>
-        <h2> Wanted.ca </h2>
+        <h2> PRS </h2>
     </mat-toolbar-row>
 </mat-toolbar>
 <mat-nav-list>
-    <h2 matSubheader> sub tile: Account </h2>
+    <h2 matSubheader> <mat-icon>account_circle</mat-icon>Hello, HK</h2>
 
     <div mat-card-avatar class="example-header-image"></div>
     <a mat-list-item routerLink="/main" (click)="onSidenavClose()">
         <mat-icon>home</mat-icon><span class="nav-caption">Main</span>
     </a>
     <a mat-list-item routerLink="/post" (click)="onSidenavClose()">
-        <mat-icon>assignment_ind</mat-icon><span class="nav-caption">menu1</span>
+        <mat-icon>add_circle</mat-icon><span class="nav-caption">Post</span>
     </a>
     <a mat-list-item routerLink="#" (click)="onSidenavClose()">
         <mat-icon>account_balance</mat-icon><span class="nav-caption">Account Actions</span>
     </a>
     <mat-list-item [matMenuTriggerFor]="menu">
         <mat-icon>unfold_more</mat-icon>
-        <a matline>Example</a>
+        <a matline>Login/Register</a>
     </mat-list-item>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="onSidenavClose()">View profile</button>
-        <button mat-menu-item (click)="onSidenavClose()">Add contact</button>
+        <button mat-menu-item (click)="onSidenavClose()">Losgin</button>
+        <button mat-menu-item (click)="onSidenavClose()">Register</button>
     </mat-menu>
 </mat-nav-list>

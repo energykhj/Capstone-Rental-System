@@ -1,55 +1,52 @@
-<!-- Toolbar -->
+<!-- Toolbar -->  
 <mat-toolbar color="primary" class="header-bg">
     <div fxHide.gt-xs>
         <button mat-icon-button (click)="onToggleSidenav()">
             <mat-icon>menu</mat-icon>
         </button>
     </div>
-    <div><a href="/main" class="logo">PRS</a></div>
+    <div><a href="/home" class="logo">PRS</a></div>
+    <!-- Search start-->
+    <!-- <div class="example-container">
+        <form [formGroup]="options">
+            <mat-form-field appearance="fill" [floatLabel]="floatLabelControl.value">
+                <mat-label>Both a label and a placeholder</mat-label>
+                <input matInput placeholder="Simple placeholder">
+            </mat-form-field>
+            <mat-form-field appearance="fill" [hideRequiredMarker]="hideRequiredControl.value"
+                [floatLabel]="floatLabelControl.value">
+                <mat-select required>
+                    <mat-option>-- None --</mat-option>
+                    <mat-option value="option">Option</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </div> -->
+    <!-- Search end -->
+    <span class="example-spacer"></span>
     <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-        <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+        <ul fxLayout fxLayoutGap="10px" class="navigation-items">
             <li>
                 <!-- <a routerLink="/post">Post</a> -->
-                <a mat-mini-fab routerLink="/post" routerLinkActive="active">Post</a>
+                <!-- <a routerLink="/post" routerLinkActive="active">Post</a> -->
+                <!-- <a mat-stroked-button color="warn" routerLink="/post" routerLinkActive="active">Post</a> -->
+                <a mat-mini-fab routerLink="/post" routerLinkActive="active" class="fab-color-post">Post</a>
+            </li>
+            <li>
+                <a mat-mini-fab routerLink="/ask" routerLinkActive="active" class="fab-color-ask">Ask</a>
             </li>
             <ng-template [ngIf]="userName" [ngIfElse]="logIn">
-                <!-- <button class="btn btn-outline-primary mr-2" (click)="openUserDetails()">
-                    <div>UserDetails</div>
-                  </button> -->
                 <li>
-                    <!-- <mat-icon>account_circle</mat-icon> -->
-                    <div *ngFor="let user of users">
-                    <app-avatar [photoUrl]="user.photo" [name]="user.name"></app-avatar> 
-                    </div>
+                    <mat-icon matBadge="2" matBadgeColor="warn" matBadgeOverlap=false class="no-padding-badge"></mat-icon>
                 </li>
-                <!-- <li>
-                    <button mat-icon-button [matMenuTriggerFor]="auth">
-                        <mat-icon>person_outline</mat-icon>
-                    </button>                   
-                    <mat-menu #auth="matMenu">
-                        <button mat-menu-item (click)="logout()">
-                            <mat-icon>exit_to_app</mat-icon>
-                            <span>Sign out</span>
-                        </button>
-                    </mat-menu>
-                </li> -->
-                <!-- <li>
-                    <p class="loginName">Hello, {{userName}}</p>
-                </li> -->
+                <li>
+                    <app-avatar [photoUrl]="photoUrl" [name]="userName"></app-avatar>
+                </li>
             </ng-template>
             <ng-template #logIn>
-                <!-- <li>
-                    <a routerLink="/login" class="loginName">Log in</a>
-                </li>
-                <li>
-                    <a routerLink="/register" class="loginName">Register</a>
-                </li> -->
                 <li>
                     <button mat-button color="accent" (click)="openLogin()">Login/Register</button>
                 </li>
-                <!-- <button class="btn btn-outline-primary mr-2" (click)="open('focusFirst')">
-                    <div>Open confirm modal</div>
-                  </button> -->
             </ng-template>
         </ul>
     </div>

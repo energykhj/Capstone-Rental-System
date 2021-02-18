@@ -1,6 +1,7 @@
-<div class="circle" [ngStyle]="{'background-color':  circleColor }">
+<!-- <div class="circle" [ngStyle]="{'background-color':  circleColor }"> -->
+<div class="circle">
     <img *ngIf="!showInitials" src="{{photoUrl}}" class="avatar" [matMenuTriggerFor]="menu">
-    <div *ngIf="showInitials" class="initials">
+    <div *ngIf="showInitials" class="initials" [matMenuTriggerFor]="menu">
         {{ initials }}
     </div>
 </div>

@@ -28,20 +28,15 @@ export class LoginComponent implements OnInit {
     // }
   }
   
-  onLogin(value) {
-     //alert(value.Email);
-    
+  onLogin(value) {    
     this.submitted = true;
-
     this.authenticationService.Login(value.Email, value.Password).subscribe(res => {
-
       this.resetLoginError(false);
-      this.router.navigate(["/main"]);
+      this.router.navigate(["/home"]);
       this.loading = false;
       this.dialogRef.close();
     }, error => {
       this.resetLoginError(true);
-      //alert(error.error);
       console.log(error.errors);
     })
   }

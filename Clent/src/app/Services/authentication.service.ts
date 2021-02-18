@@ -4,19 +4,20 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
-import { User } from '../Models/user';
+import { Details } from '../Models/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private currentUserSubject: BehaviorSubject<User>;
-    public currentUser: Observable<User>;
+    private currentUserSubject: BehaviorSubject<Details>;
+    public currentUserInfo: Observable<Details>;
+    public currentUser: Observable<Details>;
 
     constructor(private http: HttpClient) {
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUserSubject = new BehaviorSubject<Details>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    public get currentUserValue(): User {
+    public get currentUserValue(): Details {
         return this.currentUserSubject.value;
     }
 
@@ -40,12 +41,12 @@ export class AuthenticationService {
     Login(Email:string, Password:string) {  
         return this.http.post<any>(`${environment.apiUrl}/Authentication/Login`, { Email, Password})
             .pipe(map(user => {
-                const test = (<any>user).userId;
+                const userId = (<any>user).userId;
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 //localStorage.setItem('userId', JSON.stringify(Email));
                 localStorage.setItem('jwt', JSON.stringify(user.token));
-                localStorage.setItem('userId', JSON.stringify(test));
+                localStorage.setItem('userId', JSON.stringify(userId));
                 this.currentUserSubject.next(user);
                 return user;
             }));

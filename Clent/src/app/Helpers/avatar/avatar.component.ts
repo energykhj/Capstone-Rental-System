@@ -13,8 +13,7 @@ export class AvatarComponent implements OnInit {
   @Input()
   public photoUrl: string;
 
-  @Input()
-  
+  @Input()  
   public name: string;
 
   public showInitials = false;
@@ -32,7 +31,6 @@ export class AvatarComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit() {
-
       if (!this.photoUrl) {
           this.showInitials = true;
           this.createInititals();
@@ -46,22 +44,45 @@ export class AvatarComponent implements OnInit {
   private createInititals(): void {
       let initials = "";
 
-      for (let i = 0; i < this.name.length; i++) {
-          if (this.name.charAt(i) === ' ') {
-              continue;
-          }
-
-          if (this.name.charAt(i) === this.name.charAt(i).toUpperCase()) {
-              initials += this.name.charAt(i);
-
-              if (initials.length == 2) {
-                  break;
-              }
-          }
+      if(this.name.includes("@")){
+        initials = this.name.charAt(0).toUpperCase();
       }
+      else{
+          for (let i = 0; i < this.name.length; i++) {
+            if (this.name.charAt(i) === ' ') {
+                continue;
+            }
 
+            if (this.name.charAt(i) === this.name.charAt(i).toUpperCase()) {
+                initials += this.name.charAt(i);
+
+                if (initials.length == 2) {
+                    break;
+                }
+            }
+        }
+      }
       this.initials = initials;
   }
+
+  private createInititals1(): void {
+    let initials = "";
+
+    for (let i = 0; i < this.name.length; i++) {
+        if (this.name.charAt(i) === ' ') {
+            continue;
+        }
+
+        if (this.name.charAt(i) === this.name.charAt(i).toUpperCase()) {
+            initials += this.name.charAt(i);
+
+            if (initials.length == 2) {
+                break;
+            }
+        }
+    }
+    this.initials = initials;
+}
 
   logout(){
     localStorage.removeItem("jwt");    

@@ -6,16 +6,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './DOM/Account/login/login.component';
 import { RegisterComponent } from './DOM/Account/register/register.component';
-import { UserdetailsComponent } from './DOM/userdetails/userdetails.component';
 import { HeaderComponent } from './DOM/Navigation/header/header.component';
 import { SideMenuComponent } from './DOM/Navigation/side-menu/side-menu.component';
-import { MainComponent } from './DOM/main/main.component';
+import { HomeComponent } from './DOM/Main/home/home.component';
+import { DetailComponent } from './DOM/Main/detail/detail.component';
 import { PostComponent } from './DOM/post/post.component';
 
 /* Angular Material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './DOM/Shared/angular-material.module';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+/* Ngx Bootstrap */
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 /* FormsModule */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,6 +33,8 @@ import { AuthService } from './Services/auth.service';
 import { UserAccountComponent } from './Dom/Account/user-account/user-account.component';
 import { AvatarComponent } from './Helpers/avatar/avatar.component';
 import { UserDetailsComponent } from './DOM/Account/user-details/user-details.component';
+import { AskComponent } from './DOM/ask/ask.component';
+//import { UserdetailsComponent } from './Dom/Accont/userdetails/userdetails.component';
 
 export function tokenGetter(){
   return localStorage.getItem("jwt");
@@ -39,14 +45,16 @@ export function tokenGetter(){
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    UserdetailsComponent,
     HeaderComponent,
     SideMenuComponent,
-    MainComponent,
+    HomeComponent,
+    DetailComponent,
     PostComponent,
     UserAccountComponent,
     AvatarComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    AskComponent
+    //UserdetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +65,9 @@ export function tokenGetter(){
     ReactiveFormsModule,  
     FormsModule, 
     FlexLayoutModule,
+    NgbModule,
     HttpClientModule,
+    CarouselModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

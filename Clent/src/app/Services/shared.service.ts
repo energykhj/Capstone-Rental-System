@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../Models/user';
+// import { User } from '../Models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +24,14 @@ export class SharedService {
   Register(val:any){
     return this.http.post(this.APIUrl+'/Authentication/Register',val)
   }
-
-  GetUserxx(val:string){
-    return this.http.get<User>(`${environment.apiUrl}/UserDetails/GetUser/`+val);
+ 
+  public get GetUserInfo(){   
+    var id = this.isLoginUser.replace(/['"]+/g, ''); 
+    if(!id) return;    
+    return this.http.get<any>(`${environment.apiUrl}/UserDetails/GetUser/`+ id);
   }
-  GetUser(val:any){
+
+  GetUserxxx(val:any){
     return this.http.get<any>(`${environment.apiUrl}/UserDetails/GetUser/`+val);
   }
   GetWeather():Observable<any[]>{
@@ -41,23 +44,32 @@ export class SharedService {
 
   UpdateUser(val:any){
 
-    console.log("id: " + val.id);
-    console.log("first: " + val.firstName);
-console.log("last: " + val.lastName);
-console.log("phone: " + val.phone);
-console.log("address1: " + val.address1);
-console.log("address2: " + val.address2);
-console.log("province: " + val.provinceId);
-console.log("province2: " + val.province2);
-console.log("PostalCode: " + val.postalCode);
-console.log("photoUrl: " + val.photoUrl);
-console.log("val: " + val);
+    console.log("id: " + val.details.id);
+    console.log("email: " + val.details.email);
+    console.log("first: " + val.details.firstName);
+    console.log("last: " + val.details.lastName);
+    console.log("photoUrl: " + val.details.photourl);
+    console.log("phone: " + val.details.phone);
+    console.log("statusId: " + val.details.statusId);
+    console.log("userId: " + val.address.userId);
+    console.log("isDefault: " + val.address.isDefault);
+    console.log("address1: " + val.address.address1);
+    console.log("address2: " + val.address.address2);
+    console.log("city: " + val.address.city);
+    console.log("provinceId: " + val.address.provinceId);
+    console.log("val: " + val);
 
-    return this.http.put<any>(`${environment.apiUrl}/UserDetails/UpdateUser`, val);
+    alert(val.details.statusId);
+    if(val.details.statusId == 0){
+      return this.http.post<any>(`${environment.apiUrl}/UserDetails/CreateUser`, val);
+    }
+    else{
+      return this.http.put<any>(`${environment.apiUrl}/UserDetails/UpdateUser`, val);
+    }
 }
 
   uploadPhoto(val:any){
-    return this.http.post(`${environment.apiUrl}/UserDetails/SavePhoto`, val)
+    return this.http.post(`${environment.apiUrl}/UserDetails/SaveAvatar`, val)
   }
 
   uploadPhoto1(file: FormData):Observable<any>{
