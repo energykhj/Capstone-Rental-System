@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Server.BizLogic;
@@ -16,16 +17,18 @@ namespace Server.Controllers
     public class ItemController : ControllerBase
     {
         private readonly PhoenixContext context;
+        BlobServiceClient blobServiceClient;
         private readonly IMapper mapper;
         private readonly ItemBiz IB;
         private readonly UserBiz UB;
 
-        public ItemController(PhoenixContext _context, IMapper _mapper)
+        public ItemController(PhoenixContext _context, BlobServiceClient _blobServiceClient, IMapper _mapper)
         {
             this.context = _context;
+            this.blobServiceClient = _blobServiceClient;
             this.mapper = _mapper;
             IB = new ItemBiz(context);
-            UB = new UserBiz(context);
+            UB = new UserBiz(context, blobServiceClient);
         }
 
         [HttpPost]

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,14 +21,16 @@ namespace Server.Controllers
     public class UserDetailsController : ControllerBase
     {
         private readonly PhoenixContext context;
+        BlobServiceClient blobServiceClient;
         private readonly IMapper mapper;
         private readonly UserBiz UB;
 
-        public UserDetailsController(PhoenixContext _context, IMapper _mapper)
+        public UserDetailsController(PhoenixContext _context, BlobServiceClient _blobServiceClient, IMapper _mapper)
         {
             this.context = _context;
+            this.blobServiceClient = _blobServiceClient;
             this.mapper = _mapper;
-            UB = new UserBiz(context);
+            UB = new UserBiz(context, blobServiceClient);
         }
 
         [HttpGet("GetUser/{id}")]

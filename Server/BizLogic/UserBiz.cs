@@ -1,4 +1,6 @@
 ﻿
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
@@ -14,15 +16,17 @@ namespace Server.BizLogic
     public partial class UserBiz
     {
         private readonly PhoenixContext context;
+        BlobServiceClient blobServiceClient;
         private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".jpg", ".jpeg", ".png" };
 
         List<int> errorList = new List<int>();
         UserDetails userDetails = new UserDetails();
         Address address = new Address();
 
-        public UserBiz(PhoenixContext _context)
+        public UserBiz(PhoenixContext _context, BlobServiceClient _blobServiceClient)
         {
             this.context = _context;
+            this.blobServiceClient = _blobServiceClient;
         }
 
         public void SetUserDetailsDefaultValues()
@@ -108,7 +112,9 @@ namespace Server.BizLogic
 
                 if (errorList.Count == 0)
                 {
-                    var uploadFilesPath = "Resources" + Path.AltDirectorySeparatorChar + "avatar" + 
+                    // Local Storage
+
+                    var uploadFilesPath = "Resources" + Path.AltDirectorySeparatorChar + "avatar" +
                                                 Path.AltDirectorySeparatorChar + id;
                     if (!Directory.Exists(uploadFilesPath))
                         Directory.CreateDirectory(uploadFilesPath);
@@ -127,8 +133,28 @@ namespace Server.BizLogic
                     {
                         await file.CopyToAsync(stream);
                     }
-
                     return filePath;
+
+                    // Azure Storage
+                    //var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+                    //BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient("photos");
+                    //Stream stream = null;
+
+                    //if (await containerClient.ExistsAsync())
+                    //{
+                    //    BlobClient blobClient = containerClient.GetBlobClient(fileName);
+
+                    //    if (await blobClient.ExistsAsync())
+                    //    {
+                    //        stream = new MemoryStream();
+                    //        BlobDownloadInfo download = await blobClient.DownloadAsync();
+                    //        await download.Content.CopyToAsync(stream);
+                    //        stream.Seek(0, SeekOrigin.Begin);
+                    //    }
+                    //}
+
+                    //return fileName;
                 }
 
                 else
