@@ -39,7 +39,7 @@ namespace Server.Controllers
             Item.AddressId = newAddress.Id;
             var newItem = mapper.Map<ItemDTO>(await IB.InsertItem(Item));
             Photo.ItemId = newItem.Id;
-            //var newPhoto = mapper.Map<PhotoDTO>(await IB.InsertItemPhotos(Item));
+            /*var newPhoto = mapper.Map<PhotoDTO>(await IB.InsertItemPhotos(Item));*/
 
 
             return newItem;
