@@ -7,14 +7,14 @@ namespace Server.Models
     {
         public Province()
         {
-            UserDetails = new HashSet<UserDetails>();
+            Address = new HashSet<Address>();
         }
 
         public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
-        public int? CountryId { get; set; }
+        public int CountryId { get; set; }
 
-        public virtual ICollection<UserDetails> UserDetails { get; set; }
+        public virtual ICollection<Address> Address { get; set; }
     }
 }
