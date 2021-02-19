@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 export class SharedService {
   readonly APIUrl = 'http://localhost:57183/api';
   readonly PhotoUrl = 'http://localhost:57183/';
+  readonly PhotoUrlAvatar = 'http://localhost:57183/api/UserDetails/GetAvatar/';
 
   constructor(private http:HttpClient) { }
 
@@ -48,7 +49,7 @@ export class SharedService {
     console.log("email: " + val.details.email);
     console.log("first: " + val.details.firstName);
     console.log("last: " + val.details.lastName);
-    console.log("photoUrl: " + val.details.photourl);
+    console.log("photoUrl: " + val.details.photoUrl);
     console.log("phone: " + val.details.phone);
     console.log("statusId: " + val.details.statusId);
     console.log("userId: " + val.address.userId);

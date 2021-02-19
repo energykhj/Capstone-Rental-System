@@ -5,7 +5,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SharedService } from 'src/app/Services/shared.service';
 import { ParentErrorStateMatcher} from 'src/app/validators';
 import { UserInfo } from 'src/app/Models/user';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
@@ -95,15 +95,16 @@ export class UserDetailsComponent implements OnInit {
       this.userEmail = this.userAccount.email;
       
       if(this.loginUser.details != null){
-        this.PhotoFileName = data.details.photoUrl;        
-        //this.PhotoFilePath = this.service.PhotoUrl+this.PhotoFileName;
+        this.PhotoFileName = data.details.photoUrl; 
+        //this.PhotoFilePath = environment.PhotoUrl+this.PhotoFileName;
         this.status = data.details.statusId;
       }
       else{
-        this.PhotoFileName = "Resources/Avatar/anonymous.jpg";
+        //this.PhotoFileName = "Resources/Avatar/anonymous.jpg";
+        this.PhotoFileName = "anonymous.jpg";
         this.status = 0;
       } 
-      this.PhotoFilePath = this.service.PhotoUrl + this.PhotoFileName;
+      this.PhotoFilePath = environment.PhotoUrlAvatar + this.PhotoFileName;
       // alert(this.PhotoFilePath);    
     },  error => {
       console.log(error);
@@ -120,7 +121,7 @@ export class UserDetailsComponent implements OnInit {
     this.service.uploadPhoto(formData).subscribe((data:any)=>{
       //alert(data.filePath);
       this.PhotoFileName=data.filePath;//toString();
-      this.PhotoFilePath=this.service.PhotoUrl+this.PhotoFileName;
+      this.PhotoFilePath=environment.PhotoUrlAvatar+this.PhotoFileName;
     })
   }
   
@@ -155,6 +156,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   onSubmitUpdateUserDetails(value){     
+    this.loginUser.details.photourl = this.PhotoFileName;
     this.service.UpdateUser(this.loginUser).subscribe(res=>{
         this.router.navigate(['/home']); 
         //this.dialogRef.close();

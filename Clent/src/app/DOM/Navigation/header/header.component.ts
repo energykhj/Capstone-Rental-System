@@ -56,7 +56,7 @@ export class HeaderComponent implements OnInit {
         this.userName = user.account.email;
         
         this.userName = (this.userDetails.firstName)? this.userDetails.firstName +" "+ this.userDetails.lastName : "";
-        this.photoUrl = (this.userDetails.photoUrl)? this.service.PhotoUrl+this.userDetails.photoUrl : "";
+        this.photoUrl = (this.userDetails.photoUrl)? this.service.PhotoUrlAvatar+this.userDetails.photoUrl : "";
         
          //alert(this.userAccount.email); 
       });

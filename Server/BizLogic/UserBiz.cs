@@ -2,6 +2,7 @@
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
 using Shared.Helpers;
@@ -113,48 +114,35 @@ namespace Server.BizLogic
                 if (errorList.Count == 0)
                 {
                     // Local Storage
-
-                    var uploadFilesPath = "Resources" + Path.AltDirectorySeparatorChar + "avatar" +
-                                                Path.AltDirectorySeparatorChar + id;
-                    if (!Directory.Exists(uploadFilesPath))
-                        Directory.CreateDirectory(uploadFilesPath);
-                    else
-                    {
-                        DirectoryInfo di = new DirectoryInfo(uploadFilesPath);
-                        foreach (FileInfo exfile in di.GetFiles())
-                        {
-                            exfile.Delete();
-                        }
-                    }
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    var filePath = Path.Combine(uploadFilesPath, fileName);
-                    var filePath1 = uploadFilesPath + Path.AltDirectorySeparatorChar + fileName;
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
-                    return filePath;
-
-                    // Azure Storage
-                    //var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-
-                    //BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient("photos");
-                    //Stream stream = null;
-
-                    //if (await containerClient.ExistsAsync())
+                    //var uploadFilesPath = "Resources" + Path.AltDirectorySeparatorChar + "avatar" +
+                    //                            Path.AltDirectorySeparatorChar + id;
+                    //if (!Directory.Exists(uploadFilesPath))
+                    //    Directory.CreateDirectory(uploadFilesPath);
+                    //else
                     //{
-                    //    BlobClient blobClient = containerClient.GetBlobClient(fileName);
-
-                    //    if (await blobClient.ExistsAsync())
+                    //    DirectoryInfo di = new DirectoryInfo(uploadFilesPath);
+                    //    foreach (FileInfo exfile in di.GetFiles())
                     //    {
-                    //        stream = new MemoryStream();
-                    //        BlobDownloadInfo download = await blobClient.DownloadAsync();
-                    //        await download.Content.CopyToAsync(stream);
-                    //        stream.Seek(0, SeekOrigin.Begin);
+                    //        exfile.Delete();
                     //    }
                     //}
+                    //var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    //var filePath = Path.Combine(uploadFilesPath, fileName);
+                    //var filePath1 = uploadFilesPath + Path.AltDirectorySeparatorChar + fileName;
+                    //using (var stream = new FileStream(filePath, FileMode.Create))
+                    //{
+                    //    await file.CopyToAsync(stream);
+                    //}
+                    //return filePath;
 
-                    //return fileName;
+                    // Azure Upload
+                    string filename = file.FileName;
+
+                    BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient("photos");
+                    BlobClient blobClient = containerClient.GetBlobClient(filename);
+                    await blobClient.UploadAsync(file.OpenReadStream(), true);
+
+                    return filename;
                 }
 
                 else
@@ -164,6 +152,27 @@ namespace Server.BizLogic
             {
                 throw ex;
             }
+        }
+
+        public async Task<Stream> GetAvatar(string id)
+        {
+            BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient("photos");
+            Stream stream = null;
+
+            if (await containerClient.ExistsAsync())
+            {
+                BlobClient blobClient = containerClient.GetBlobClient(id);
+
+                if (await blobClient.ExistsAsync())
+                {
+                    stream = new MemoryStream();
+                    BlobDownloadInfo download = await blobClient.DownloadAsync();
+                    await download.Content.CopyToAsync(stream);
+                    stream.Seek(0, SeekOrigin.Begin);
+                }
+            }
+
+            return stream; // returns a FileStreamResult
         }
 
         public async Task<Address> InsertAddress(Address address)

@@ -86,5 +86,17 @@ namespace Server.Controllers
             var filePath = await UB.InsertAvatar(Request.Form.Files[0], userId);
             return Ok(new { filePath });
         }
+
+        [HttpGet("GetAvatar/{id}")]
+        public async Task<IActionResult> GetAvatar(string id)
+        {
+            var stream = await UB.GetAvatar(id);
+            var mimeType = "application/octet-stream";
+
+            if (stream == null)
+                return NotFound(); // returns a NotFoundResult with Status404NotFound response.
+
+            return File(stream, mimeType);
+        }
     }
 }
