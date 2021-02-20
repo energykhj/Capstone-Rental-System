@@ -16,6 +16,7 @@ namespace Server.BizLogic
         private readonly PhoenixContext context;
         private readonly IFileStorageService fileStorageService;
         private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".jpg", ".jpeg", ".png" };
+        private readonly int PAGE_SIZE = 6;
 
         Item item = new Item();
         Photo photo = new Photo();
@@ -33,13 +34,14 @@ namespace Server.BizLogic
             item.StatusId = (int)RecordStatusEnum.New;
         }
 
-        public async Task<List<Item>> GetItems()
+        public async Task<List<Item>> GetItems(int currentPage)
         {
             return await context.Item
-                        .OrderByDescending(c => c.Id)
-                        .Include(c => c.Photo)
-                        .ToListAsync();
+                .OrderByDescending(c => c.Id)
+                .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
+                .ToListAsync();
         }
+
         public async Task<Item> GetItem(int Id)
         {
             return await context.Item.FirstOrDefaultAsync(c => c.Id == Id);
@@ -70,11 +72,13 @@ namespace Server.BizLogic
                                 //.FirstOrDefaultAsync(c => c.IsDefault == true);
         }
 
-        public async Task<List<Item>> GetSearchItem(string strSearch)
+        public async Task<List<Item>> GetSearchItem(string strSearch, int currentPage)
         {
             return await context.Item
                 .OrderByDescending(c => c.Id)
-                .Where(c => Regex.IsMatch(c.Name.ToUpper(), $".*{strSearch}.*"))
+                .Where(c => Regex.IsMatch(c.Name.ToUpper(), $".*{strSearch}.*") ||
+                        Regex.IsMatch(c.Description.ToUpper(), $".*{strSearch}.*"))
+                .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
         }
 

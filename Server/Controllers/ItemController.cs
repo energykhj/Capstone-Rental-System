@@ -34,16 +34,16 @@ namespace Server.Controllers
         }
 
         [HttpGet("GetItemsAndDefaultPhoto")]
-        public async Task<ActionResult<List<ItemDTO>>> GetItemsAndDefaultPhoto()
+        public async Task<ActionResult<List<ItemDTO>>> GetItemsAndDefaultPhoto(int pageSize)
         {
-            var Items = await IB.GetItems();
+            var Items = await IB.GetItems(pageSize);
             return await GetPackedItemWithDefaultPhoto(Items);
         }
 
         [HttpGet("GetItemAndDefaultPhoto/{search}")]
-        public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(string search)
+        public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(string search, int pageSize)
         {
-            var Items = await IB.GetSearchItem(search);
+            var Items = await IB.GetSearchItem(search, pageSize);
             return await GetPackedItemWithDefaultPhoto(Items);
         }
 
