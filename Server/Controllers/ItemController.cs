@@ -37,7 +37,7 @@ namespace Server.Controllers
         public async Task<ActionResult<ItemPkgDTO>> InsertItem([FromBody] ItemPkgDTO dto)
         {
             ItemPkgDTO pDto = new ItemPkgDTO();
-            List<PhotoDTO> listPhoto = new List<PhotoDTO>();
+            //List<PhotoDTO> listPhoto = new List<PhotoDTO>();
 
             var Item = mapper.Map<Item>(dto.Item);
             var Address = mapper.Map<Address>(dto.Address);
@@ -46,12 +46,12 @@ namespace Server.Controllers
             pDto.Address = mapper.Map<AddressDTO>(await UB.InsertAddress(Address));
             Item.AddressId = pDto.Address.Id;
             pDto.Item = mapper.Map<ItemDTO>(await IB.InsertItem(Item));
-            foreach (var photo in Photos)
+            /*foreach (var photo in Photos)
             {
                 photo.ItemId = pDto.Item.Id;
                 listPhoto.Add(mapper.Map<PhotoDTO>(await IB.InsertPhoto(photo)));
             }
-            pDto.Photo = listPhoto;
+            pDto.Photo = listPhoto;*/
 
             return pDto;
         }
