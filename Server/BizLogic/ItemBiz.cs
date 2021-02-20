@@ -14,13 +14,14 @@ namespace Server.BizLogic
     public partial class ItemBiz
     {
         private readonly PhoenixContext context;
+        private readonly IFileStorageService fileStorageService;
         private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".jpg", ".jpeg", ".png" };
 
         Item item = new Item();
         Photo photo = new Photo();
         List<int> errorList = new List<int>();
 
-        public ItemBiz(PhoenixContext _context)
+        public ItemBiz(PhoenixContext _context, IFileStorageService fileStorageService)
         {
             this.context = _context;
         }
@@ -32,6 +33,13 @@ namespace Server.BizLogic
             item.StatusId = (int)RecordStatusEnum.New;
         }
 
+        public async Task<List<Item>> GetItems()
+        {
+            return await context.Item
+                        .OrderByDescending(c => c.Id)
+                        .Include(c => c.Photo)
+                        .ToListAsync();
+        }
         public async Task<Item> GetItem(int Id)
         {
             return await context.Item.FirstOrDefaultAsync(c => c.Id == Id);
@@ -54,9 +62,18 @@ namespace Server.BizLogic
             return await context.Photo.FirstOrDefaultAsync(c => c.Id == Id);
         }
 
+        public async Task<Photo> GetItemDefaultPhoto(int itemId)
+        {
+            return await context.Photo
+                                .Where(c => c.ItemId == itemId)
+                                .FirstOrDefaultAsync();
+                                //.FirstOrDefaultAsync(c => c.IsDefault == true);
+        }
+
         public async Task<List<Item>> GetSearchItem(string strSearch)
         {
             return await context.Item
+                .OrderByDescending(c => c.Id)
                 .Where(c => Regex.IsMatch(c.Name.ToUpper(), $".*{strSearch}.*"))
                 .ToListAsync();
         }
@@ -105,11 +122,11 @@ namespace Server.BizLogic
             }
         }
 
-        public async Task<Photo> InsertPhoto(Photo Photo)
+        public async Task<Photo> InsertPhoto(Photo photo)
         {
             try
             {
-                this.photo = Photo;
+                this.photo = photo;
                 await ValidatePhoto();
                 if (errorList.Count == 0)
                 {
@@ -119,18 +136,44 @@ namespace Server.BizLogic
                 }
                 else
                     throw new Exception(new ErrorManager().ErrorList(errorList));
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public async Task<Item> DeletePhotos(Item item)
+
+        public async Task<Photo> UpdatePhoto(Photo photo)
         {
             try
             {
-                this.item = item;
-                await ValidateItem();
+                this.photo = photo;
+                await ValidatePhoto();
+                if (errorList.Count == 0)
+                {
+                    item.TimeStamp = DateTime.Now;
+                    item.StatusId = (int)RecordStatusEnum.Active;
+                    context.Photo.Update(photo);
+                    await context.SaveChangesAsync();
+                    return await GetItemPhoto(photo.Id);
+                }
+                else
+                    throw new Exception(new ErrorManager().ErrorList(errorList));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // Delete from db
+        public async Task<Item> DeletePhotos(int itemId)
+        {
+            try
+            {
+                await ValidatePhoto();
                 if (errorList.Count == 0)
                 {
                     context.Photo.RemoveRange(context.Photo.Where(x => x.ItemId == item.Id));
@@ -146,102 +189,46 @@ namespace Server.BizLogic
             }
         }
 
-        public async Task<List<Photo>> SavePhotos(IFormFileCollection Photos)
+        //Delete from File server
+        public async Task DeletePhotoFiles(int itemId)
         {
-            try
+            var photos = await GetItemPhotos(itemId);
+            if(photos != null)
             {
-                Photo photo;
-                List<Photo> photos = new List<Photo>();
-
-                var uploadFilesPath = "Resources" + Path.AltDirectorySeparatorChar + "item" + Path.AltDirectorySeparatorChar + item.Id;
-                if (!Directory.Exists(uploadFilesPath))
-                    Directory.CreateDirectory(uploadFilesPath);
-
-                // delete all exist uploaded imem files
-                else 
+                foreach (var photo in photos)
                 {
-                    DirectoryInfo di = new DirectoryInfo(uploadFilesPath);
-                    foreach (FileInfo exFile in di.GetFiles())
-                    {
-                        exFile.Delete();
-                    }
+                    await fileStorageService.DeleteFile(photo.FileName);
                 }
-
-                foreach (var file in Photos)
-                {
-                    if (file == null) errorList.Add(8); // file not found
-                    if (file.Length == 0) errorList.Add(9); // file empty
-                    if (file.Length > 10 * 1024 * 1024) errorList.Add(10);// "Max file size exceeded.Max, 10Mbyte";
-                    if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(file.FileName).ToLower())) errorList.Add(11);// "Invalid file type.";
-
-                    if (errorList.Count == 0)
-                    {
-                        photo = new Photo();
-
-                        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                        var filePath = Path.Combine(uploadFilesPath, fileName);
-                        var filePath1 = uploadFilesPath + Path.AltDirectorySeparatorChar + fileName;
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream);
-                        }
-                        photo.ItemId = item.Id;
-                        photo.FileName = filePath;
-                        photos.Add(photo);
-                    }
-                    else
-                        throw new Exception(new ErrorManager().ErrorList(errorList));
-                }
-                    
-                return photos;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
             }
         }
 
-        public async Task<string> SavePhoto(IFormFile file)
+        // 1. DeletePhotoFiles(): Delete photo from file at Azure
+        // 2. DeletePhotos(): Delete photo from DB with itemId
+        // 3. SaveFile(): Save photo(s) into only Azure file, 
+        // 4. #3 will return it's saved file name list
+        public async Task<List<string>> SavePhotos(IFormCollection photos, int itemId)
         {
-            try
+            var itemPhotos = await GetItemPhotos(itemId);
+            if (itemPhotos.Count > 0)
             {
-                if (file == null) errorList.Add(8); // file not found
-                if (file.Length == 0) errorList.Add(9); // file empty
-                if (file.Length > 10 * 1024 * 1024) errorList.Add(10);// "Max file size exceeded.Max, 10Mbyte";
-                if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(file.FileName).ToLower())) errorList.Add(11);// "Invalid file type.";
-
-                if (errorList.Count == 0)
-                {
-                    var uploadFilesPath = "Resources" + Path.AltDirectorySeparatorChar + "item" + Path.AltDirectorySeparatorChar + item.Id;
-                    if (!Directory.Exists(uploadFilesPath))
-                        Directory.CreateDirectory(uploadFilesPath);
-
-                    // delete all exist uploaded imem files
-                    else
-                    {
-                        DirectoryInfo di = new DirectoryInfo(uploadFilesPath);
-                        foreach (FileInfo exFile in di.GetFiles())
-                        {
-                            exFile.Delete();
-                        }
-                    }
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    var filePath = Path.Combine(uploadFilesPath, fileName);
-                    var filePath1 = uploadFilesPath + Path.AltDirectorySeparatorChar + fileName;
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
-                    return filePath;
-                }
-
-                else
-                    throw new Exception(new ErrorManager().ErrorList(errorList));
+                var itemPhotoId = itemPhotos.FirstOrDefault(c => c.ItemId == itemId).ItemId;
+                await DeletePhotoFiles(itemId);
+                await DeletePhotos(itemPhotoId);
             }
-            catch (Exception ex)
+
+            Photo pt = new Photo();
+            List<string> files = new List<string>();
+            pt.ItemId = itemId;
+            pt.IsDefault = true;           
+            foreach (var photo in photos.Files)
             {
-                throw ex;
+                var savedFileName = await fileStorageService.SaveFile(photo);
+                files.Add(savedFileName);
+                pt.FileName = savedFileName;
+                await InsertPhoto(pt);
             }
+
+            return files;
         }
 
         public async Task ValidateItem()
@@ -258,6 +245,12 @@ namespace Server.BizLogic
         public async Task ValidatePhoto()
         {
             var item = await context.Item.FirstOrDefaultAsync(c => c.Id == photo.ItemId);
+            if (item == null) errorList.Add(12); // Item not found
+        }
+
+        public async Task ValidatePhoto(int itemID)
+        {
+            var item = await context.Item.FirstOrDefaultAsync(c => c.Id == itemID);
             if (item == null) errorList.Add(12); // Item not found
         }
 

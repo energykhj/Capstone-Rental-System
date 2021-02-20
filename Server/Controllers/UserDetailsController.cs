@@ -88,16 +88,16 @@ namespace Server.Controllers
             if (!string.IsNullOrEmpty(userAvatarFile))
                 await fileStorageService.DeleteFile(userAvatarFile);
 
-            // add call function - for file size, empty etc check here
-            
+            // add function to call- to check validation file size, empty etc here
+
             var filePath = await fileStorageService.SaveFile(Request.Form.Files[0]);
             return Ok(new { filePath });
         }
 
-        [HttpGet("GetAvatar/{id}")]
-        public async Task<IActionResult> GetAvatar(string id)
+        [HttpGet("GetAvatar/{fileName}")]
+        public async Task<IActionResult> GetAvatar(string fileName)
         {
-            var file = await fileStorageService.GetFile(id);
+            var file = await fileStorageService.GetFile(fileName);
             return File(file, "application/octet-stream");
         }
     }

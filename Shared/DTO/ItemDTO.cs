@@ -7,8 +7,8 @@ namespace Shared.DTO
     public class ItemPkgDTO
     {
         public ItemDTO Item { get; set; }
-        public PhotoDTO Photo { get; set; }
         public AddressDTO Address { get; set; }
+        //public List<PhotoDTO> Photo { get; set; }
     }
 
 
@@ -20,6 +20,7 @@ namespace Shared.DTO
         public int CategoryName { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string DefaultImageFile { get; set; }
         public float? Deposit { get; set; }
         public float? Fee { get; set; }
         public DateTime StartDate { get; set; }
@@ -35,6 +36,7 @@ namespace Shared.DTO
     {
         public int Id { get; set; }
         public int ItemId { get; set; }
+        public bool isDefault { get; set; }
         public string FileName { get; set; }
     }
 

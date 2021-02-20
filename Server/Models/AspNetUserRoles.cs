@@ -9,6 +9,5 @@ namespace Server.Models
         public string RoleId { get; set; }
 
         public virtual AspNetRoles Role { get; set; }
-        public virtual AspNetUsers User { get; set; }
     }
 }
