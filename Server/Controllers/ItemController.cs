@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Server.BizLogic;
 using Server.Models;
 using Shared.DTO;
+using Shared.Helpers;
 using System;
+//using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,35 +19,117 @@ namespace Server.Controllers
     public class ItemController : ControllerBase
     {
         private readonly PhoenixContext context;
-        BlobServiceClient blobServiceClient;
+        private readonly IFileStorageService fileStorageService;
         private readonly IMapper mapper;
         private readonly ItemBiz IB;
         private readonly UserBiz UB;
 
-        public ItemController(PhoenixContext _context, BlobServiceClient _blobServiceClient, IMapper _mapper)
+        public ItemController(PhoenixContext _context, IFileStorageService fileStorageService, IMapper _mapper)
         {
             this.context = _context;
-            this.blobServiceClient = _blobServiceClient;
+            this.fileStorageService = fileStorageService;
             this.mapper = _mapper;
-            IB = new ItemBiz(context);
-            UB = new UserBiz(context, blobServiceClient);
+            IB = new ItemBiz(context, fileStorageService);
+            UB = new UserBiz(context);
         }
 
         [HttpPost]
-        public async Task<ActionResult<ItemDTO>> Post([FromBody] ItemPkgDTO dto)
+        public async Task<ActionResult<ItemPkgDTO>> InsertItem([FromBody] ItemPkgDTO dto)
         {
+            ItemPkgDTO pDto = new ItemPkgDTO();
+            List<PhotoDTO> listPhoto = new List<PhotoDTO>();
+
             var Item = mapper.Map<Item>(dto.Item);
             var Address = mapper.Map<Address>(dto.Address);
-            var Photo = mapper.Map<Photo>(dto.Photo);
+            //var Photos = mapper.Map<List<Photo>>(dto.Photo);
 
-            var newAddress = mapper.Map<AddressDTO>(await UB.InsertAddress(Address));
-            Item.AddressId = newAddress.Id;
-            var newItem = mapper.Map<ItemDTO>(await IB.InsertItem(Item));
-            Photo.ItemId = newItem.Id;
-            /*var newPhoto = mapper.Map<PhotoDTO>(await IB.InsertItemPhotos(Item));*/
+            pDto.Address = mapper.Map<AddressDTO>(await UB.InsertAddress(Address));
+            Item.AddressId = pDto.Address.Id;
+            pDto.Item = mapper.Map<ItemDTO>(await IB.InsertItem(Item));
+            foreach (var photo in Photos)
+            {
+                photo.ItemId = pDto.Item.Id;
+                listPhoto.Add(mapper.Map<PhotoDTO>(await IB.InsertPhoto(photo)));
+            }
+            pDto.Photo = listPhoto;
 
+            return pDto;
+        }
 
-            return newItem;
+        [HttpPost("SavePhotos")]
+        public async Task<ActionResult<List<string>>> SavePhotos()
+        {
+            try
+            {
+                var requestForm = Request.Form;
+                var itemId = Convert.ToInt32(requestForm.ToArray()[0].Value);
+                if (Request.Form.Files.Count > 0)
+                {                    
+                    var filePathList = await IB.SavePhotos(requestForm, itemId);
+                    return Ok(new { filePathList });
+                }
+                else
+                    return BadRequest("No Item Photo file(s)");
+            }
+            catch (FormatException)
+            {
+                return BadRequest("only integer ItemId is required");
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<ItemPkgDTO>> UpdateItem([FromBody] ItemPkgDTO dto)
+        {
+            ItemPkgDTO pDto = new ItemPkgDTO();
+            List<PhotoDTO> listPhoto = new List<PhotoDTO>();
+
+            var Item = mapper.Map<Item>(dto.Item);
+            var Address = mapper.Map<Address>(dto.Address);
+            var Photos = mapper.Map<List<Photo>>(dto.Photo);
+
+            pDto.Address = mapper.Map<AddressDTO>(await UB.UpdateAddress(Address));
+            pDto.Item = mapper.Map<ItemDTO>(await IB.UpdateItem(Item));
+            foreach (var photo in Photos)
+            {
+                photo.ItemId = pDto.Item.Id;
+                listPhoto.Add(mapper.Map<PhotoDTO>(await IB.InsertPhoto(photo)));
+            }
+            pDto.Photo = listPhoto;
+
+            return pDto;
+        }
+
+        [HttpGet("GetItemsAndDefaultPhoto")]
+        public async Task<ActionResult<List<ItemDTO>>> GetItemsAndDefaultPhoto()
+        {
+            var Items = await IB.GetItems();
+            return await GetPackedItemWithDefaultPhoto(Items);
+        }
+
+        [HttpGet("GetItemAndDefaultPhoto/{search}")]
+        public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(string search)
+        {
+            var Items = await IB.GetSearchItem(search);
+            return await GetPackedItemWithDefaultPhoto(Items);            
+        }
+
+        private async Task<List<ItemDTO>> GetPackedItemWithDefaultPhoto(List<Item> Items)
+        {
+            List<ItemDTO> itemDTO = new List<ItemDTO>();
+            foreach (var item in Items)
+            {
+                var PackedItem = mapper.Map<ItemDTO>(item);
+                var defaultPhoto = await IB.GetItemDefaultPhoto(item.Id);
+                if (defaultPhoto != null)
+                    PackedItem.DefaultImageFile = defaultPhoto.FileName;
+
+                itemDTO.Add(PackedItem);
+            }
+            return itemDTO;
         }
     }
 
