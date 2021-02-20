@@ -33,14 +33,14 @@ namespace Server.Controllers
             UB = new UserBiz(context);
         }
 
-        [HttpGet("GetItemsAndDefaultPhoto")]
+        [HttpGet("GetItemsAndDefaultPhoto/{pageSize}")]
         public async Task<ActionResult<List<ItemDTO>>> GetItemsAndDefaultPhoto(int pageSize)
         {
             var Items = await IB.GetItems(pageSize);
             return await GetPackedItemWithDefaultPhoto(Items);
         }
 
-        [HttpGet("GetItemAndDefaultPhoto/{search}")]
+        [HttpGet("GetItemAndDefaultPhoto/{search}/{pageSize}")]
         public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(string search, int pageSize)
         {
             var Items = await IB.GetSearchItem(search, pageSize);
