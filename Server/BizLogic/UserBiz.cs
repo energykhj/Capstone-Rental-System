@@ -24,12 +24,11 @@ namespace Server.BizLogic
         UserDetails userDetails = new UserDetails();
         Address address = new Address();
 
-        public UserBiz(PhoenixContext _context, BlobServiceClient _blobServiceClient)
+        public UserBiz(PhoenixContext _context)
         {
             this.context = _context;
-            this.blobServiceClient = _blobServiceClient;
         }
-
+        
         public void SetUserDetailsDefaultValues()
         {
             userDetails.CreatedDate = DateTime.UtcNow;
@@ -100,9 +99,10 @@ namespace Server.BizLogic
             {
                 throw ex;
             }
-        }       
+        }
 
-        public async Task<string> InsertAvatar(IFormFile file, string id)
+        #region Insert Avatar - old
+        /*public async Task<string> InsertAvatar(IFormFile file, string id)
         {
             try
             {
@@ -173,6 +173,14 @@ namespace Server.BizLogic
             }
 
             return stream; // returns a FileStreamResult
+        }*/
+        #endregion
+
+        public string GetUserAvatar(string userId)
+        {
+            return context.UserDetails.Where(x => x.Id == userId)
+                                       .Select(x => x.PhotoUrl)
+                                       .SingleOrDefault();
         }
 
         public async Task<Address> InsertAddress(Address address)

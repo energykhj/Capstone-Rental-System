@@ -125,6 +125,16 @@ export class UserDetailsComponent implements OnInit {
     })
   }
   
+  onSubmitUpdateUserDetails(value){     
+    this.loginUser.details.photourl = this.PhotoFileName;
+    this.service.UpdateUser(this.loginUser).subscribe(res=>{
+        this.router.navigate(['/home']); 
+        //this.dialogRef.close();
+        }, error => {
+          console.log(error);
+        })
+  }
+
   createForms() {
     // user links form validations
     this.userDetailsForm = this.fb.group({
@@ -153,16 +163,6 @@ export class UserDetailsComponent implements OnInit {
     this.service.getProvinces().subscribe((data:any)=>{
       this.ProvinceList=data;
     });
-  }
-
-  onSubmitUpdateUserDetails(value){     
-    this.loginUser.details.photourl = this.PhotoFileName;
-    this.service.UpdateUser(this.loginUser).subscribe(res=>{
-        this.router.navigate(['/home']); 
-        //this.dialogRef.close();
-        }, error => {
-          console.log(error);
-        })
   }
 
   formattedPostalCode(){

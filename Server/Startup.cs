@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
@@ -86,6 +87,7 @@ namespace Server
             {
                 builder.AddBlobServiceClient(Configuration["ConnectionStrings:PhoenixFileBlobConnection"], preferMsi: true);
             });
+            services.AddScoped<IFileStorageService, AzureStorageService>();
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -103,7 +105,11 @@ namespace Server
                                   });
             });
 
-            //services.AddScoped<IFileStorageService, StorageService>();
+            services.AddResponseCompression(opts =>
+            {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
+            });
 
             services.Configure<FormOptions>(o =>
             {
@@ -116,6 +122,8 @@ namespace Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseResponseCompression();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -126,11 +134,11 @@ namespace Server
             app.UseCors();
 
             app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions()
+            /*app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
                 RequestPath = new PathString("/Resources")
-            });
+            });*/
             app.UseAuthentication();
             app.UseAuthorization();
             IServiceProvider provider = app.ApplicationServices.GetRequiredService<IServiceProvider>();

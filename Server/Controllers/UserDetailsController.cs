@@ -21,16 +21,16 @@ namespace Server.Controllers
     public class UserDetailsController : ControllerBase
     {
         private readonly PhoenixContext context;
-        BlobServiceClient blobServiceClient;
         private readonly IMapper mapper;
+        private readonly IFileStorageService fileStorageService;
         private readonly UserBiz UB;
 
-        public UserDetailsController(PhoenixContext _context, BlobServiceClient _blobServiceClient, IMapper _mapper)
+        public UserDetailsController(PhoenixContext _context, IMapper _mapper, IFileStorageService fileStorageService)
         {
             this.context = _context;
-            this.blobServiceClient = _blobServiceClient;
+            this.fileStorageService = fileStorageService;
             this.mapper = _mapper;
-            UB = new UserBiz(context, blobServiceClient);
+            UB = new UserBiz(context);
         }
 
         [HttpGet("GetUser/{id}")]
@@ -63,7 +63,7 @@ namespace Server.Controllers
         {
             var userDetails = mapper.Map<UserDetails>(dto.Details);
             var userAddresses = mapper.Map<Address>(dto.Address);
-
+           
             UserPkgDTO pDto = new UserPkgDTO()
             {
                 Details = mapper.Map<UserDetailsDTO>(await UB.UpdateUserDetails(userDetails)),
@@ -83,20 +83,22 @@ namespace Server.Controllers
         public async Task<IActionResult> SaveAvatar()
         {
             var userId = Request.Form.ToArray()[0].Value;
-            var filePath = await UB.InsertAvatar(Request.Form.Files[0], userId);
+            var userAvatarFile = UB.GetUserAvatar(userId);
+
+            if (!string.IsNullOrEmpty(userAvatarFile))
+                await fileStorageService.DeleteFile(userAvatarFile);
+
+            // add call function - for file size, empty etc check here
+            
+            var filePath = await fileStorageService.SaveFile(Request.Form.Files[0]);
             return Ok(new { filePath });
         }
 
         [HttpGet("GetAvatar/{id}")]
         public async Task<IActionResult> GetAvatar(string id)
         {
-            var stream = await UB.GetAvatar(id);
-            var mimeType = "application/octet-stream";
-
-            if (stream == null)
-                return NotFound(); // returns a NotFoundResult with Status404NotFound response.
-
-            return File(stream, mimeType);
+            var file = await fileStorageService.GetFile(id);
+            return File(file, "application/octet-stream");
         }
     }
-}
+}    
