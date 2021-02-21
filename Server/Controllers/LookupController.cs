@@ -32,8 +32,8 @@ namespace Server.Controllers
             return await context.Province.ToListAsync();
         }
 
-        [HttpGet("GetPhoto/{fileName}")]
-        public async Task<IActionResult> GetPhoto(string fileName)
+        [HttpGet("{fileName}")]
+        public async Task<ActionResult> GetPhoto(string fileName)
         {
             var file = await fileStorageService.GetFile(fileName);
             return File(file, "application/octet-stream");
