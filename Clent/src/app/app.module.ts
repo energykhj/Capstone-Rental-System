@@ -11,6 +11,7 @@ import { SideMenuComponent } from './DOM/Navigation/side-menu/side-menu.componen
 import { HomeComponent } from './DOM/Main/home/home.component';
 import { DetailComponent } from './DOM/Main/detail/detail.component';
 import { PostComponent } from './DOM/post/post.component';
+import { AddEditPostComponent } from './DOM/post/add-edit-post/add-edit-post.component';
 
 /* Angular Material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -77,7 +78,8 @@ export function tokenGetter(){
     UserAccountComponent,
     AvatarComponent,
     UserDetailsComponent,
-    AskComponent
+    AskComponent,
+    AddEditPostComponent
     //UserdetailsComponent
   ],
   imports: [

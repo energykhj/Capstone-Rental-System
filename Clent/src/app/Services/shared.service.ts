@@ -103,4 +103,12 @@ export class SharedService {
   uploadItemPhoto(val:any){
     return this.http.post(`${environment.apiUrl}/Item/SavePhotos`, val)
   }
+
+  getItem(val:any):Observable<any>{
+    return this.http.get<any>(`${environment.apiUrl}/Item/GetItem/` + val);
+  }
+
+  updateItem(val:any){
+    return this.http.put<any>(`${environment.apiUrl}/Item`, val);
+  }
 }

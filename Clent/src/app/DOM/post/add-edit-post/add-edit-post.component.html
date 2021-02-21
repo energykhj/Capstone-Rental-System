@@ -1,0 +1,227 @@
+<div class="container" style="margin-top: 70px;">
+    <div class="row mb-5">
+        <div class="col-8 shadow-lg p-0 bg-white">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Item Information</h3>
+                </div>
+
+                <div class="card-body">
+                    <form (ngSubmit)='onSubmit()' [formGroup]="addItemForm">
+                        <div class="tab-panel">
+                            <tabset class="member-tabset" #formTabs>
+                                <tab heading="Basic Info" formGroupName="basicInfo">                
+                                    <div class="form-group col-12">
+                                        <label>Category</label>
+                                        <select class="form-control" formControlName="categoryId" [(ngModel)]="itemPkg.item.categoryId" aria-label=".form-select-lg example">
+                                            <option *ngFor="let category of categoryList" [value]="category.categoryId">{{category.name}}</option>
+                                        </select>
+                                        <!-- <div *ngFor="let validation of validation_messages.categoryId">
+                                            <div class="text-danger"
+                                                *ngIf="basicInfo.get('categoryId').hasError(validation.type) && 
+                                                        (basicInfo.get('categoryId').dirty || basicInfo.get('categoryId').touched)">
+                                                {{validation.message}}</div>
+                                        </div>                                        -->
+                                    </div>
+
+                                    <div class="form-group col-12">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" formControlName="name" [(ngModel)]="itemPkg.item.name">
+                                        <div *ngFor="let validation of validation_messages.name">
+                                            <div class="text-danger"
+                                                *ngIf="basicInfo.get('name').hasError(validation.type) && 
+                                                        (basicInfo.get('name').dirty || basicInfo.get('name').touched)">
+                                                {{validation.message}}</div>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="form-group col-12">
+                                        <label>Description</label>
+                                        <textarea class="form-control" formControlName="description" [(ngModel)]="itemPkg.item.description" rows="7"></textarea>                                         
+                                        <div *ngFor="let validation of validation_messages.description">
+                                            <div class="text-danger"
+                                                *ngIf="basicInfo.get('description').hasError(validation.type) && 
+                                                        (basicInfo.get('description').dirty || basicInfo.get('description').touched)">
+                                                {{validation.message}}</div>
+                                        </div>
+                                    </div>                        
+                    
+                                    <div class="form-group col-12">
+                                        <button type="button" 
+                                        class="btn btn-primary btn-block" 
+                                        (click)="selectTab(1)">Next</button>
+                                    </div>
+                            </tab>
+
+                            <tab heading="Pricing and Condition" formGroupName="priceInfo">
+                                <div class="form-group col-12">
+                                    <label>Deposit</label>
+                                    <input type="text" currencyMask class="form-control" formControlName="deposit" [(ngModel)]="itemPkg.item.deposit">
+                                    <div *ngFor="let validation of validation_messages.deposit">
+                                        <div class="text-danger"
+                                            *ngIf="priceInfo.get('deposit').hasError(validation.type) && 
+                                                    (priceInfo.get('deposit').dirty || priceInfo.get('deposit').touched)">
+                                            {{validation.message}}</div>
+                                    </div>
+                                </div>
+                    
+                                <div class="form-group col-12">
+                                    <label>Rental Fee</label>
+                                    <input type="text" currencyMask class="form-control" formControlName="fee" [(ngModel)]="itemPkg.item.fee">
+                                    <div *ngFor="let validation of validation_messages.fee">
+                                        <div class="text-danger"
+                                            *ngIf="priceInfo.get('fee').hasError(validation.type) && 
+                                                    (priceInfo.get('fee').dirty || priceInfo.get('fee').touched)">
+                                            {{validation.message}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-12">
+                                    <label>Dates and Times</label>
+                                    <input type="text"
+                                            placeholder="Start Date"
+                                            class="form-control"
+                                            formControlName="startDate"
+                                            [(ngModel)]="itemPkg.item.startDate"
+                                            bsDatepicker [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD-MM-YYYY'}">
+                                    <div *ngFor="let validation of validation_messages.startDate">
+                                        <div class="text-danger"
+                                            *ngIf="priceInfo.get('startDate').hasError(validation.type) && 
+                                                    (priceInfo.get('startDate').dirty || priceInfo.get('startDate').touched)">
+                                            {{validation.message}}</div>
+                                    </div>
+
+                                    <label> ~ </label>
+
+                                    <input type="text"
+                                            placeholder="End Date"
+                                            class="form-control"
+                                            formControlName="endDate"
+                                            [(ngModel)]="itemPkg.item.endDate"
+                                            bsDatepicker [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD-MM-YYYY'}">
+                                    <div *ngFor="let validation of validation_messages.endDate">
+                                        <div class="text-danger"
+                                            *ngIf="priceInfo.get('endDate').hasError(validation.type) && 
+                                                    (priceInfo.get('endDate').dirty || priceInfo.get('endDate').touched)">
+                                            {{validation.message}}</div>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" class="btn btn-primary btn-block" 
+                                (click)="selectTab(2)">Next</button>
+
+                                <button type="button" class="btn btn-primary btn-block" 
+                                    (click)="selectTab(0)">Back</button>                        
+                            </tab>
+                            <tab heading="Address" formGroupName="addressInfo">
+
+                                <div class="form-group col-12">
+                                    <label>Prvince</label>
+                                    <select class="form-control" formControlName="provinceId" [(ngModel)]="itemPkg.address.provinceId" aria-label=".form-select-lg example">
+                                        <option *ngFor="let province of provinceList" [value]="province.id">{{province.name}}</option>
+                                    </select>
+                                    <div *ngFor="let validation of validation_messages.provinceId">
+                                        <div class="text-danger"
+                                            *ngIf="addressInfo.get('provinceId').hasError(validation.type) && 
+                                                    (addressInfo.get('provinceId').dirty || addressInfo.get('provinceId').touched)">
+                                            {{validation.message}}</div>
+                                    </div> 
+                                </div>
+
+                                <div class="form-group col-12">
+                                    <label>City</label>
+                                    <input type="text" class="form-control" formControlName="city" [(ngModel)]="itemPkg.address.city">
+                                    <div *ngFor="let validation of validation_messages.city">
+                                        <div class="text-danger"
+                                            *ngIf="addressInfo.get('city').hasError(validation.type) && 
+                                                    (addressInfo.get('city').dirty || addressInfo.get('city').touched)">
+                                            {{validation.message}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-12">
+                                    <label>Address1</label>
+                                    <input type="text" class="form-control" formControlName="address1" [(ngModel)]="itemPkg.address.address1">
+                                    <div *ngFor="let validation of validation_messages.address1">
+                                        <div class="text-danger"
+                                            *ngIf="addressInfo.get('address1').hasError(validation.type) && 
+                                                    (addressInfo.get('address1').dirty || addressInfo.get('address1').touched)">
+                                            {{validation.message}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-12">
+                                    <label>Address2</label>
+                                    <input type="text" class="form-control" [(ngModel)]="itemPkg.address.address2">
+                                </div>
+
+                                <div class="form-group col-12">
+                                    <label>Postal Code</label>
+                                    <input type="text" class="form-control" formControlName="postalCode" [(ngModel)]="itemPkg.address.postalCode">
+                                    <div *ngFor="let validation of validation_messages.postalCode">
+                                        <div class="text-danger"
+                                            *ngIf="addressInfo.get('postalCode').hasError(validation.type) && 
+                                                    (addressInfo.get('postalCode').dirty || addressInfo.get('postalCode').touched)">
+                                            {{validation.message}}</div>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn btn-primary btn-block" 
+                                (click)="selectTab(3)">Next</button>
+            
+                                <button type="button" class="btn btn-primary btn-block" 
+                                    (click)="selectTab(1)">Back</button>     
+                                </tab>                        
+                            <tab heading="Photos" formGroupName="photoInfo">
+                                <div class="center">
+                                    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+                                    (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                                        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                          Please upload photos
+                                          <button type="button" (click)="openFileSelector()">Browse Files</button>
+                                        </ng-template>
+                                    </ngx-file-drop>
+                                    <div class="upload-table">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="upload-name-style">
+                                                <tr *ngFor="let item of files; let i=index">
+                                                    <td>
+                                                        <strong>{{ item.relativePath }}</strong>
+                                                        <img [src] = "photoUrls[i]" height="100">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn btn-primary btn-block" 
+                                    (click)="selectTab(2)">Back</button>   
+
+                                <button type="submit" class="btn btn-primary btn-block">Save</button>     
+                                <button type="reset" class="btn btn-primary btn-block">Cancel</button>   
+                                </tab>
+                            </tabset>
+                        </div>                    
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card-header">
+                <h3>Preview</h3>
+            </div>
+            <div class="shadow-lg p-3 bg-white">
+                <!-- <app-property-card [property]="propertyView" hideIcons="true"></app-property-card> -->
+                <!-- <app-property-card [property]="itemPkg" hideIcons="true"></app-property-card> -->
+                <img [src] = "itemDefaultPhotoUrl" height="200"><br/>
+            </div>
+        </div>
+    </div>
+</div>
