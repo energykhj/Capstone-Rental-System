@@ -1,13 +1,13 @@
 //import { IPropertyBase } from './../../model/ipropertybase';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, Input } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { SharedService } from '../../Services/shared.service';
-
+import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 
 @Component({
-  selector: 'app-add-property',
+  selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
 
@@ -16,79 +16,299 @@ export class PostComponent implements OnInit {
   //@ViewChild('Form') addPropertyForm: NgForm;
   @ViewChild('formTabs') formTabs: TabsetComponent;
 
-  addPropertyForm: FormGroup;
+  addItemForm: FormGroup;
 
-  propertyTypes: Array<string> = ['House','Apartment','Duplex'];
-  furnishTypes: Array<string> = ['Fully','Semi','unfurnished'];
+  categoryList:any=[];
+  provinceList:any=[];
 
-  propertyView:  {
-    Id: null,
-    Name: '',
-    Price: null,
-    SellRent: null,
-    PType: null,
-    FType: null,
-    BHK: null,
-    BuiltArea: null,
-    City: null,
-    RTM: null
+  photoUrls=[];
+  itemDefaultPhotoUrl: any;
+
+  userId: string;
+  
+  @Input() public itemId: string;
+  selectedFiles: any=[];
+
+  // itemPkg: any = {
+  //   item: {
+  //     id: 0,
+  //     userId: "",
+  //     categoryId: 1,
+  //     name: "",
+  //     description: "",
+  //     deposit: 0.00,
+  //     fee: 0.00,
+  //     startDate: new Date(),
+  //     endDate: new Date(),
+  //     //addressId: 0,
+  //   },
+  //   address: {
+  //     id: 0,
+  //     userId: "",
+  //     idDefault: false,
+  //     address1: "",
+  //     address2: "",
+  //     city: "",
+  //     provinceId: 1,
+  //     postalCode: "",
+  //   }
+  // };
+
+  itemPkg: any = {
+    item: {
+      id: 0,
+      userId: "",
+      categoryId: 1,
+      name: "item name 1",
+      description: "item description 1",
+      deposit: 10.00,
+      fee: 1.00,
+      startDate: new Date("01-01-2021"),
+      endDate: new Date("12-12-2021"),
+      //addressId: 0,
+    },
+    address: {
+      id: 0,
+      userId: "",
+      idDefault: false,
+      address1: "addr 1",
+      address2: "addr 2",
+      city: "waterloo",
+      provinceId: 1,
+      postalCode: "N2N2N2",
+    }
   };
 
+  validation_messages = {
+    'categoryId':[
+      { type: 'required', message: 'Category is required' }
+    ],
+    'name': [
+      { type: 'required', message: 'Name is required' }
+    ],
+    'description': [
+      { type: 'required', message: 'Description is required' }
+    ],
+    'deposit': [
+      { type: 'required', message: 'Deposit is required' }
+    ],
+    'fee': [
+      { type: 'required', message: 'Rental Fee is required' }
+    ],
+    'startDate': [
+      { type: 'required', message: 'Start Date is required' }
+    ],
+    'endDate': [
+      { type: 'required', message: 'End Date is required' }
+    ],
+    'provinceId': [
+      { type: 'required', message: 'Province is required' }
+    ],
+    'city': [
+      { type: 'required', message: 'City is required' }
+    ],
+    'address1': [
+      { type: 'required', message: 'Address1 is required' }
+    ],
+    'postalCode': [
+      { type: 'required', message: 'Postal Code is required' },
+      { type: 'pattern', message: 'format: A2A2A2' }
+    ],
+  };
 
-  constructor(private fb:FormBuilder, private router: Router) { }
-
-  ngOnInit(){
-    this.CreateAddPropertyForm();
+  constructor(private fb:FormBuilder, 
+            private router: Router, 
+            private service:SharedService) { 
+    this.userId = this.service.isLoginUser;
+    this.userId = this.userId.replace(/['"]+/g, '');
+    this.itemPkg.item.userId = this.userId;
+    this.itemPkg.address.userId = this.userId;
+    if(this.service.isLoginUser){
+      //this.createForms();
+      //this.getUser();
+      this.loadProvinceList();
+      this.loadCategoryList();
+    }
+    else{
+      this.router.navigate(['/main']);
+    }
   }
 
-  CreateAddPropertyForm(){
-    this.addPropertyForm = this.fb.group({
-      BasicInfo: this.fb.group({
-      ellRent: [null, Validators.required],
-      PType: [null, Validators.required],
-      Name: [null, Validators.required]
+  ngOnInit(){
+    this.createAddEditItemForm();
+
+    if (this.itemId != null){
+      this.loadItem(this.itemId);
+    }
+  }
+
+  createAddEditItemForm(){
+    this.addItemForm = this.fb.group({
+      basicInfo: this.fb.group({
+        categoryId: new FormControl(this.categoryList[0], Validators.required),
+        name: new FormControl('', Validators.required),
+        description: new FormControl('', Validators.required)
       }),
-      PriceInfo: this.fb.group({
-        Price: [null, Validators.required],
-        BuiltArea: [null, Validators.required]
-      })      
+      priceInfo: this.fb.group({
+        deposit: new FormControl('', Validators.required),
+        fee: new FormControl('', Validators.required),
+        startDate: new FormControl('', Validators.required),
+        endDate: new FormControl('', Validators.required)
+      }),
+      addressInfo: this.fb.group({
+        provinceId: new FormControl(this.provinceList[0], Validators.required),
+        city: new FormControl('', Validators.required),
+        address1: new FormControl('', Validators.required),
+        address2: new FormControl(),
+        postalCode: new FormControl('', Validators.compose([
+          Validators.required,
+          Validators.maxLength(6),
+          Validators.pattern('^[ABCEFGHJKLMNPRSTVXYabcefghjklmnprstvxy][0-9][ABCEFGHJKLMNPRSTVWXYZabcefghjklmnprstvwxyz] ?[0-9][ABCEFGHJKLMNPRSTVWXYZabcefghjklmnprstvwxyz][0-9]+$')
+          //Validators.pattern('^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$')
+        ]))
+      }),
+      photoInfo: this.fb.group({
+        photoFiles: new FormControl('', Validators.required)
+      })        
     });
   }
 
-  get BasicInfo(){
-    return this.addPropertyForm.controls.BasicInfo as FormGroup;
+  loadCategoryList(){
+    this.service.getCategories().subscribe((data:any)=>{
+      this.categoryList=data;
+    });
   }
 
-  get SellRent(){
-    return this.BasicInfo.controls.SellRent as FormControl;
+  loadProvinceList(){
+    this.service.getProvinces().subscribe((data:any)=>{
+      this.provinceList=data;
+    });
   }
 
-  get PriceInfo(){
-    return this.addPropertyForm.controls.PriceInfo as FormGroup;
+  loadItem(itemId: string){
+    this.service.getProvinces().subscribe((data:any)=>{
+      this.provinceList=data;
+    });
   }
 
-  get Price(){
-    return this.PriceInfo.controls.Price as FormControl;
+  get basicInfo(){
+    return this.addItemForm.controls.basicInfo as FormGroup;
   }
 
-  onBack(){
-    this.router.navigate(['/']);
+  get priceInfo(){
+    return this.addItemForm.controls.priceInfo as FormGroup;
   }
+
+  get addressInfo(){
+    return this.addItemForm.controls.addressInfo as FormGroup;
+  }  
+  
+  get photoInfo(){
+    return this.addItemForm.controls.photoInfo as FormGroup;
+  }
+
+  public files: NgxFileDropEntry[] = [];
+
+  public dropped(files: NgxFileDropEntry[]) {
+
+    this.selectedFiles = [];
+    this.photoUrls = [];
+    this.files = files;
+    for (const droppedFile of files) {
+
+      // Is it a file?
+      if (droppedFile.fileEntry.isFile) {
+        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+        fileEntry.file((file: File) => {
+
+          // Here you can access the real file
+          console.log(droppedFile.relativePath, file);
+
+          this.selectedFiles.push(file);
+
+          // Display photo
+          var reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload=(events:any)=>{
+            this.photoUrls.push(events.target.result);
+            // To-do: Check default
+            this.itemDefaultPhotoUrl = this.photoUrls[0];
+          }
+        });
+      } else {
+        // It was a directory (empty directories are added, otherwise only files)
+        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
+        console.log(droppedFile.relativePath, fileEntry);
+      }
+    }
+  }
+  
+  public fileOver(event){
+    console.log(event);
+  }
+
+  public fileLeave(event){
+    console.log(event);
+  }
+
+  uploadPhoto(){
+
+    var files = this.selectedFiles;
+    if (files.length == 0) return;
+    if (this.itemId == null) return;
+
+    const formData:FormData=new FormData();
+
+    formData.append("itemId", this.itemId);
+    for (let i = 0; i < files.length; i++)
+    {
+      formData.append(files[i].name, files[i]);
+    }
+
+    this.service.uploadItemPhoto(formData).subscribe((data:any)=>{
+      //this.PhotoFileName=data.toString();
+      //this.PhotoFilePath=this.service.PhotoUrl+this.PhotoFileName;
+
+      console.log(data.filePathList[0]);
+    })
+  }
+
+  // onBack(){
+  //   this.router.navigate(['/']);
+  // }
 
   onSubmit(){
-    if(this.BasicInfo.invalid){
+
+    if(this.basicInfo.invalid){
       this.formTabs.tabs[0].active = true;
       return;
     }
-    console.log('Congrats, form Submitted');
-    console.log('SellRent=' + this.addPropertyForm.value.BasicInfo.SellRent);
-    console.log(this.addPropertyForm);
+
+    if(this.priceInfo.invalid){
+      this.formTabs.tabs[1].active = true;
+      return;
+    }
+
+    if(this.addressInfo.invalid){
+      this.formTabs.tabs[2].active = true;
+      return;
+    }
+
+    this.service.insertItem(this.itemPkg).subscribe((data:any)=>{
+      //this.PhotoFileName=data.toString();
+      //this.PhotoFilePath=this.service.PhotoUrl+this.PhotoFileName;
+
+      //console.log(this.PhotoFileName);
+
+      this.itemId = data.item.id;
+      this.uploadPhoto();
+    });
   }
 
   selectTab(tabId: number) {
    // if(IsCurrentTabValid){
       this.formTabs.tabs[tabId].active = true;
-  //  }    
+  //  }
   }
 
 }

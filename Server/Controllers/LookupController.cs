@@ -28,5 +28,11 @@ namespace Server.Controllers
         {
             return await context.Province.ToListAsync();
         }
+
+        [HttpGet]
+        public async Task<ActionResult<List<Category>>> GetCategories()
+        {
+            return await context.Category.ToListAsync();
+        }
     }
 }

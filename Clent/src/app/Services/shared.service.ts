@@ -91,4 +91,16 @@ export class SharedService {
   private createCompleteRoute = (route: string, envAddress: string) => {
     return `${envAddress}/${route}`;
   }
+
+  getCategories():Observable<any[]>{
+    return this.http.get<any[]>(`${environment.apiUrl}/Lookup/GetCategories`);
+  }
+
+  insertItem(val:any) {
+    return this.http.post<any>(`${environment.apiUrl}/Item`, val);
+  }
+
+  uploadItemPhoto(val:any){
+    return this.http.post(`${environment.apiUrl}/Item/SavePhotos`, val)
+  }
 }

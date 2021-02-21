@@ -40,6 +40,26 @@ import { UserDetailsComponent } from './DOM/Account/user-details/user-details.co
 import { AskComponent } from './DOM/ask/ask.component';
 //import { UserdetailsComponent } from './Dom/Accont/userdetails/userdetails.component';
 
+/* Currency Input */
+import { CurrencyMaskInputMode, NgxCurrencyModule } from "ngx-currency";
+/* Drag & Drop Files */
+import { NgxFileDropModule } from 'ngx-file-drop';
+
+export const customCurrencyMaskConfig = {
+  align: "right",
+  allowNegative: true,
+  allowZero: true,
+  decimal: ".",
+  precision: 2,
+  prefix: "CA$ ",
+  suffix: "",
+  thousands: ",",
+  nullable: true,
+  min: null,
+  max: null,
+  inputMode: CurrencyMaskInputMode.FINANCIAL
+};
+
 export function tokenGetter(){
   return localStorage.getItem("jwt");
 }
@@ -85,6 +105,9 @@ export function tokenGetter(){
         disallowedRoutes: []
       }
     }),
+
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
+    NgxFileDropModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
