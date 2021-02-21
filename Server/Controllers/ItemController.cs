@@ -45,7 +45,14 @@ namespace Server.Controllers
         {
             var Items = await IB.GetSearchItem(search, pageSize);
             return await GetPackedItemWithDefaultPhoto(Items);
-        } 
+        }
+
+        [HttpGet("GetDefaultPhoto/{fileName}")]
+        public async Task<IActionResult> GetDefaultPhoto(string fileName)
+        {
+            var file = await fileStorageService.GetFile(fileName);
+            return File(file, "application/octet-stream");
+        }
 
         [HttpPost]
         public async Task<ActionResult<ItemPkgDTO>> InsertItem([FromBody] ItemPkgDTO dto)
