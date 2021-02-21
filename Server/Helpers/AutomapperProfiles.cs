@@ -16,7 +16,7 @@ namespace Server.Helpers
 
             CreateMap<ItemDTO, Item>();
             CreateMap<Item, ItemDTO>()
-                .ForMember(m => m.CategoryName, opt => opt.MapFrom(x => x.Category.Name))         
+                .ForMember(m => m.CategoryName, opt => opt.MapFrom(x => x.Category.Name))
                 .ForMember(m => m.StatusName, opt => opt.MapFrom(x => x.RecordStatus.Status));           
 
             CreateMap<UserItemDTO, UserItem>();

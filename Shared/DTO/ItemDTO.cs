@@ -17,7 +17,7 @@ namespace Shared.DTO
         public int Id { get; set; }
         public string UserId { get; set; }
         public int CategoryId { get; set; }
-        public int CategoryName { get; set; }
+        public string CategoryName { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string DefaultImageFile { get; set; }
@@ -28,7 +28,7 @@ namespace Shared.DTO
         public int AddressId { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime TimeStamp { get; set; }
-        public bool Status { get; set; }
+        public int? StatusId { get; set; }
         public string StatusName { get; set; }
     }
 

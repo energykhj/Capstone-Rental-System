@@ -24,7 +24,7 @@ namespace Server.BizLogic
         public ItemBiz(PhoenixContext _context, IFileStorageService _fileStorageService)
         {
             this.context = _context;
-            fileStorageService = _fileStorageService;
+            fileStorageService = fileStorageService;
         }
 
         public void SetUserDetailsDefaultValues()
@@ -36,7 +36,9 @@ namespace Server.BizLogic
 
         public async Task<List<Item>> GetItems(int currentPage)
         {
-            return await context.Item 
+            return await context.Item
+                .Include(c => c.Category)
+                .Include(c => c.RecordStatus)
                 .OrderByDescending(c => c.Id)
                 .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
@@ -44,12 +46,18 @@ namespace Server.BizLogic
 
         public async Task<Item> GetItem(int Id)
         {
-            return await context.Item.FirstOrDefaultAsync(c => c.Id == Id);
+            return await context.Item
+                .Include(c => c.Category)
+                .Include(c => c.RecordStatus)
+                .FirstOrDefaultAsync(c => c.Id == Id);
         }
 
         public async Task<Item> GetItem(string userId)
         {
-            return await context.Item.FirstOrDefaultAsync(c => c.UserId == userId);
+            return await context.Item
+                .Include(c => c.Category)
+                .Include(c => c.RecordStatus)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
         }
 
         public async Task<List<Photo>> GetItemPhotos(int itemId)
@@ -75,6 +83,8 @@ namespace Server.BizLogic
         public async Task<List<Item>> GetSearchItem(string strSearch, int currentPage)
         {
             return await context.Item
+                .Include(c => c.Category)
+                .Include(c => c.RecordStatus)
                 .OrderByDescending(c => c.Id)
                 .Where(c => c.Name.ToUpper().Contains(strSearch) ||
                        c.Description.ToUpper().Contains(strSearch))
