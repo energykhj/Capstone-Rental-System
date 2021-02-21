@@ -45,7 +45,7 @@ namespace Server.Controllers
         {
             var Items = await IB.GetSearchItem(search, pageSize);
             return await GetPackedItemWithDefaultPhoto(Items);
-        }
+        } 
 
         [HttpPost]
         public async Task<ActionResult<ItemPkgDTO>> InsertItem([FromBody] ItemPkgDTO dto)

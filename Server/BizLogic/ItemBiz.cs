@@ -36,7 +36,7 @@ namespace Server.BizLogic
 
         public async Task<List<Item>> GetItems(int currentPage)
         {
-            return await context.Item
+            return await context.Item 
                 .OrderByDescending(c => c.Id)
                 .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
