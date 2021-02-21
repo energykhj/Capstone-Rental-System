@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Server.BizLogic
@@ -22,9 +21,10 @@ namespace Server.BizLogic
         Photo photo = new Photo();
         List<int> errorList = new List<int>();
 
-        public ItemBiz(PhoenixContext _context, IFileStorageService fileStorageService)
+        public ItemBiz(PhoenixContext _context, IFileStorageService _fileStorageService)
         {
             this.context = _context;
+            fileStorageService = _fileStorageService;
         }
 
         public void SetUserDetailsDefaultValues()
@@ -76,8 +76,8 @@ namespace Server.BizLogic
         {
             return await context.Item
                 .OrderByDescending(c => c.Id)
-                .Where(c => Regex.IsMatch(c.Name.ToUpper(), $".*{strSearch}.*") ||
-                        Regex.IsMatch(c.Description.ToUpper(), $".*{strSearch}.*"))
+                .Where(c => c.Name.ToUpper().Contains(strSearch) ||
+                       c.Description.ToUpper().Contains(strSearch))
                 .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
         }
