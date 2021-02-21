@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
+using Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,14 @@ namespace Server.Controllers
     public class LookupController : ControllerBase
     {
         private readonly PhoenixContext context;
+        private readonly IFileStorageService fileStorageService;
         private readonly IMapper mapper;
 
-        public LookupController(PhoenixContext context, IMapper mapper)
+        public LookupController(PhoenixContext context, IMapper mapper, IFileStorageService fileStorageService)
         {
             this.context = context;
             this.mapper = mapper;
+            this.fileStorageService = fileStorageService;
         }
 
         [HttpGet]
@@ -28,5 +31,13 @@ namespace Server.Controllers
         {
             return await context.Province.ToListAsync();
         }
+
+        [HttpGet("GetPhoto/{fileName}")]
+        public async Task<IActionResult> GetPhoto(string fileName)
+        {
+            var file = await fileStorageService.GetFile(fileName);
+            return File(file, "application/octet-stream");
+        }
+
     }
 }
