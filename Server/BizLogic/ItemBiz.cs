@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Server.BizLogic
@@ -22,10 +21,10 @@ namespace Server.BizLogic
         Photo photo = new Photo();
         List<int> errorList = new List<int>();
 
-        public ItemBiz(PhoenixContext _context, IFileStorageService fileStorageService)
+        public ItemBiz(PhoenixContext _context, IFileStorageService _fileStorageService)
         {
             this.context = _context;
-            this.fileStorageService = fileStorageService;
+            fileStorageService = _fileStorageService;
         }
 
         public void SetUserDetailsDefaultValues()
@@ -38,6 +37,8 @@ namespace Server.BizLogic
         public async Task<List<Item>> GetItems(int currentPage)
         {
             return await context.Item
+                .Include(c => c.Category)
+                .Include(c => c.RecordStatus)
                 .OrderByDescending(c => c.Id)
                 .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
@@ -45,12 +46,18 @@ namespace Server.BizLogic
 
         public async Task<Item> GetItem(int Id)
         {
-            return await context.Item.FirstOrDefaultAsync(c => c.Id == Id);
+            return await context.Item
+                .Include(c => c.Category)
+                .Include(c => c.RecordStatus)
+                .FirstOrDefaultAsync(c => c.Id == Id);
         }
 
         public async Task<Item> GetItem(string userId)
         {
-            return await context.Item.FirstOrDefaultAsync(c => c.UserId == userId);
+            return await context.Item
+                .Include(c => c.Category)
+                .Include(c => c.RecordStatus)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
         }
 
         public async Task<List<Photo>> GetItemPhotos(int itemId)
@@ -76,9 +83,11 @@ namespace Server.BizLogic
         public async Task<List<Item>> GetSearchItem(string strSearch, int currentPage)
         {
             return await context.Item
+                .Include(c => c.Category)
+                .Include(c => c.RecordStatus)
                 .OrderByDescending(c => c.Id)
-                .Where(c => Regex.IsMatch(c.Name.ToUpper(), $".*{strSearch}.*") ||
-                        Regex.IsMatch(c.Description.ToUpper(), $".*{strSearch}.*"))
+                .Where(c => c.Name.ToUpper().Contains(strSearch) ||
+                       c.Description.ToUpper().Contains(strSearch))
                 .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
         }
@@ -135,7 +144,7 @@ namespace Server.BizLogic
                 await ValidatePhoto();
                 if (errorList.Count == 0)
                 {
-                    photo.Id = 0;
+                    photo.Id = 0; //If not, cannot insert
                     context.Photo.Add(photo);
                     await context.SaveChangesAsync();
                     return await GetItemPhoto(photo.Id);
@@ -179,6 +188,7 @@ namespace Server.BizLogic
         {
             try
             {
+                //cannoot validate
                 //await ValidatePhoto();
                 //if (errorList.Count == 0)
                 //{

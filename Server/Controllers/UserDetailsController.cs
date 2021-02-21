@@ -93,12 +93,12 @@ namespace Server.Controllers
             var filePath = await fileStorageService.SaveFile(Request.Form.Files[0]);
             return Ok(new { filePath });
         }
-
+/*
         [HttpGet("GetAvatar/{fileName}")]
         public async Task<IActionResult> GetAvatar(string fileName)
         {
             var file = await fileStorageService.GetFile(fileName);
             return File(file, "application/octet-stream");
-        }
+        }*/
     }
 }    

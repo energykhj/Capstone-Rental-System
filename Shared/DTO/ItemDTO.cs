@@ -28,7 +28,7 @@ namespace Shared.DTO
         public int AddressId { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime TimeStamp { get; set; }
-        public bool Status { get; set; }
+        public int? StatusId { get; set; }
         public string StatusName { get; set; }
     }
 

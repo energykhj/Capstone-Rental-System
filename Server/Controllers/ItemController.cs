@@ -40,13 +40,13 @@ namespace Server.Controllers
             return await GetPackedItemWithDefaultPhoto(Items);
         }
 
-        [HttpGet("GetItemAndDefaultPhoto/{search}/{pageSize}")]
+        [HttpGet("GetSearchedItemAndDefaultPhoto/{search}/{pageSize}")]
         public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(string search, int pageSize)
         {
             var Items = await IB.GetSearchItem(search, pageSize);
             return await GetPackedItemWithDefaultPhoto(Items);
         }
-
+       
         [HttpPost]
         public async Task<ActionResult<ItemPkgDTO>> InsertItem([FromBody] ItemPkgDTO dto)
         {
