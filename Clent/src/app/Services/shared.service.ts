@@ -91,4 +91,22 @@ export class SharedService {
   private createCompleteRoute = (route: string, envAddress: string) => {
     return `${envAddress}/${route}`;
   }
+
+  // Item List
+GetItem(val:any,page:any){
+  let va = 'http://localhost:49730/api/Item/'+val+'/'+page;
+  console.log(va);
+  return this.http.get<any>('http://localhost:49730/api/Item/'+val+'/'+page);
 }
+
+GetSearchedItemAndDefaultPhoto(val:any,page:any){
+  return this.http.get<any>(`${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/`+ val+'/'+page);
+}
+
+GetItemPhotos(val:any){
+  return this.http.get<any>(`${environment.apiUrl}/Item/GetItemPhotos/`+ val);
+}
+
+}
+
+

@@ -1,4 +1,4 @@
-.example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
-  }
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+   filter: invert(1);
+}
