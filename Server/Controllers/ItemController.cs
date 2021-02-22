@@ -24,10 +24,10 @@ namespace Server.Controllers
         private readonly ItemBiz IB;
         private readonly UserBiz UB;
 
-        public ItemController(PhoenixContext _context, IFileStorageService fileStorageService, IMapper _mapper)
+        public ItemController(PhoenixContext _context, IFileStorageService _fileStorageService, IMapper _mapper)
         {
             this.context = _context;
-            this.fileStorageService = fileStorageService;
+            this.fileStorageService = _fileStorageService;
             this.mapper = _mapper;
             IB = new ItemBiz(context, fileStorageService);
             UB = new UserBiz(context);

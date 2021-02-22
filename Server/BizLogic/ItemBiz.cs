@@ -15,7 +15,7 @@ namespace Server.BizLogic
         private readonly PhoenixContext context;
         private readonly IFileStorageService fileStorageService;
         private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".jpg", ".jpeg", ".png" };
-        private readonly int PAGE_SIZE = 6;
+        private readonly int PAGE_SIZE = 8;
 
         Item item = new Item();
         Photo photo = new Photo();
@@ -24,7 +24,7 @@ namespace Server.BizLogic
         public ItemBiz(PhoenixContext _context, IFileStorageService _fileStorageService)
         {
             this.context = _context;
-            fileStorageService = fileStorageService;
+            fileStorageService = _fileStorageService;
         }
 
         public void SetUserDetailsDefaultValues()
