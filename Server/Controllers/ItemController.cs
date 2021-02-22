@@ -43,7 +43,7 @@ namespace Server.Controllers
         [HttpGet("GetSearchedItemAndDefaultPhoto/{currentPage}/{search?}")]
         public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(int currentPage, string search = null)
         {
-            if (string.IsNullOrEmpty(search)) search = "";
+            if (string.IsNullOrEmpty(search) || search == "null") search = "";
             var Items = await IB.GetSearchItem(search, currentPage);
             return await GetPackedItemWithDefaultPhoto(Items);
         }
@@ -143,7 +143,7 @@ namespace Server.Controllers
             }
             else
             {
-                return BadRequest("Address is not found");
+                return BadRequest("Item is not found");
             }
         }
 
