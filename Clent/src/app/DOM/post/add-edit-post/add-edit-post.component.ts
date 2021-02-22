@@ -26,7 +26,8 @@ export class AddEditPostComponent implements OnInit {
   userId: string;
   
   @Input() public itemId: string;
-  newItemFlag: boolean;
+  isNewItem: boolean;
+  isReadOnly: boolean;
   selectedFiles: any=[];
 
   itemPkg: any = {
@@ -94,13 +95,13 @@ export class AddEditPostComponent implements OnInit {
   constructor(private fb:FormBuilder, 
             private router: Router, 
             private service:SharedService) { 
-    this.userId = this.service.isLoginUser;
-    this.userId = this.userId.replace(/['"]+/g, '');
-    this.itemPkg.item.userId = this.userId;
-    this.itemPkg.address.userId = this.userId;
+    this.isReadOnly = true;
     if(this.service.isLoginUser){
-      //this.createForms();
-      //this.getUser();
+      this.userId = this.service.isLoginUser;
+      this.userId = this.userId.replace(/['"]+/g, '');
+      this.itemPkg.item.userId = this.userId;
+      this.itemPkg.address.userId = this.userId;
+  
       this.loadProvinceList();
       this.loadCategoryList();
     }
@@ -114,10 +115,11 @@ export class AddEditPostComponent implements OnInit {
 
     if (this.itemId != null){
       this.loadItemPkg(this.itemId);
-      this.newItemFlag = false;
+      this.isNewItem = false;
     }
     else{
-      this.newItemFlag = true;
+      this.isNewItem = true;
+      this.isReadOnly = false;
     }
   }
 
@@ -169,6 +171,10 @@ export class AddEditPostComponent implements OnInit {
       this.itemPkg={
         item: data.item,
         address: data.address
+      }
+      
+      if (this.userId == this.itemPkg.item.userId){
+        this.isReadOnly = false;
       }
     });
   }
@@ -255,9 +261,9 @@ export class AddEditPostComponent implements OnInit {
     })
   }
 
-  // onBack(){
-  //   this.router.navigate(['/']);
-  // }
+  onBack(){
+     this.router.navigate(['/']);
+  }
 
   onSubmit(){
 
@@ -276,7 +282,7 @@ export class AddEditPostComponent implements OnInit {
       return;
     }
 
-    if (this.newItemFlag == true){
+    if (this.isNewItem == true){
       this.service.insertItem(this.itemPkg).subscribe((data:any)=>{
         //this.PhotoFileName=data.toString();
         //this.PhotoFilePath=this.service.PhotoUrl+this.PhotoFileName;
@@ -289,11 +295,6 @@ export class AddEditPostComponent implements OnInit {
     }
     else{
       this.service.updateItem(this.itemPkg).subscribe((data:any)=>{
-        //this.PhotoFileName=data.toString();
-        //this.PhotoFilePath=this.service.PhotoUrl+this.PhotoFileName;
-
-        //console.log(this.PhotoFileName);
-
         this.itemId = data.item.id;
         this.uploadPhoto();
       });
@@ -304,6 +305,24 @@ export class AddEditPostComponent implements OnInit {
    // if(IsCurrentTabValid){
       this.formTabs.tabs[tabId].active = true;
   //  }
+  }
+
+  selectNextTab() {    
+    let tabId = this.formTabs.tabs.findIndex(tab => tab.active === true);
+    tabId++;
+    if (tabId > this.formTabs.tabs.length - 1){
+      tabId = 0;
+    }
+    this.formTabs.tabs[tabId].active = true;
+  }
+
+  selectPreviousTab() {
+    let tabId = this.formTabs.tabs.findIndex(tab => tab.active === true);
+    tabId--;
+    if (tabId <= 0){
+      tabId = this.formTabs.tabs.length - 1;
+    }
+    this.formTabs.tabs[tabId].active = true;
   }
 
 }
