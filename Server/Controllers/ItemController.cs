@@ -40,17 +40,18 @@ namespace Server.Controllers
             return await GetPackedItemWithDefaultPhoto(Items);
         }
 
-        [HttpGet("GetSearchedItemAndDefaultPhoto/{search}/{pageSize}")]
-        public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(string search, int pageSize)
+        [HttpGet("GetSearchedItemAndDefaultPhoto/{currentPage}/{search?}")]
+        public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(int currentPage, string search = null)
         {
-            var Items = await IB.GetSearchItem(search, pageSize);
+            if (string.IsNullOrEmpty(search)) search = "";
+            var Items = await IB.GetSearchItem(search, currentPage);
             return await GetPackedItemWithDefaultPhoto(Items);
         }
 
         [HttpGet("GetItemPhotos/{itemId}")]
-        public async Task<ActionResult<List<Photo>>> GetItemPhotos(int itemId)
+        public async Task<ActionResult<List<PhotoDTO>>> GetItemPhotos(int itemId)
         {
-            return await IB.GetItemPhotos(itemId);
+            return mapper.Map<List<PhotoDTO>>(await IB.GetItemPhotos(itemId));
         }
 
         [HttpPost]
@@ -68,7 +69,7 @@ namespace Server.Controllers
             return pDto;
         }
 
-        // incluced delete exist file both db and file server
+        // included delete exist file both db and file server
         [HttpPost("SavePhotos")]
         public async Task<ActionResult<List<string>>> SavePhotos()
         {
