@@ -8,6 +8,7 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 
 import { ActivatedRoute } from '@angular/router';
 import { DetailComponent } from './../../Main/detail/detail.component';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-add-edit-post',
@@ -25,13 +26,14 @@ export class AddEditPostComponent implements OnInit {
 
   photoUrls=[];
   itemDefaultPhotoUrl: any;
+  selectedFiles: any=[];
+//  public files: NgxFileDropEntry[] = [];
 
   userId: string;
   
   @Input() public itemId: string;
   isNewItem: boolean;
   isReadOnly: boolean;
-  selectedFiles: any=[];
 
   itemPkg: any = {
     item: {
@@ -121,6 +123,7 @@ export class AddEditPostComponent implements OnInit {
 
     if (this.itemId != null){
       this.loadItemPkg(this.itemId);
+      this.loadItemPhotos(this.itemId);
       this.isNewItem = false;
     }
     else{
@@ -158,6 +161,55 @@ export class AddEditPostComponent implements OnInit {
         photoFiles: new FormControl('', Validators.required)
       })        
     });
+  }
+
+  loadItemPhotos(itemId: string){
+    this.service.GetItemPhotos(itemId).subscribe(
+      data=>{
+        data.forEach(element => {
+          let photoUrl = environment.PhotoFileUrl + element.fileName;
+          this.photoUrls.push(photoUrl); 
+          this.service.getItemPhotoFile(element.fileName).subscribe((data:any)=>{
+            this.selectedFiles.push(data);  
+            //this.files.push(data);         
+          });
+        });;
+        this.itemDefaultPhotoUrl = this.photoUrls[0];
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
+
+  onChangeDefaultAddress(event){
+    if (event.target.checked) {
+      this.service.GetUserInfo.subscribe((data:any)=>{
+        this.itemPkg.address = {
+          id: 0,//data.address.id,
+          userId: data.address.userId,
+          idDefault: data.address.idDefault,
+          address1: data.address.address1,
+          address2: data.address.address2,
+          city: data.address.city,
+          provinceId: data.address.provinceId,
+          postalCode: data.address.postalCode,
+        }        
+      }, error => {
+        console.log(error);
+      });
+    } else {
+        this.itemPkg.address = {
+          id: 0,
+          userId: "",
+          idDefault: false,
+          address1: "",
+          address2: "",
+          city: "",
+          provinceId: 1,
+          postalCode: "",
+        } 
+    }
   }
 
   loadCategoryList(){
@@ -201,13 +253,11 @@ export class AddEditPostComponent implements OnInit {
     return this.addItemForm.controls.photoInfo as FormGroup;
   }
 
-  public files: NgxFileDropEntry[] = [];
-
   public dropped(files: NgxFileDropEntry[]) {
 
-    this.selectedFiles = [];
-    this.photoUrls = [];
-    this.files = files;
+    //this.selectedFiles = [];
+    //this.photoUrls = [];
+    //this.files = files;
     for (const droppedFile of files) {
 
       // Is it a file?
@@ -248,7 +298,7 @@ export class AddEditPostComponent implements OnInit {
   uploadPhoto(){
 
     var files = this.selectedFiles;
-    if (files.length == 0) return;
+    //if (files.length == 0) return;
     if (this.itemId == null) return;
 
     const formData:FormData=new FormData();
@@ -344,4 +394,10 @@ export class AddEditPostComponent implements OnInit {
     });
   }
 
+  deletePhoto(index:any){
+    this.selectedFiles.splice(index, 1);
+    this.photoUrls.splice(index, 1);
+    //this.files.splice(index, 1);
+    this.itemDefaultPhotoUrl = this.photoUrls[0];
+  }
 }

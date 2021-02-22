@@ -67,7 +67,7 @@ export class SharedService {
     else{
       return this.http.put<any>(`${environment.apiUrl}/UserDetails/UpdateUser`, val);
     }
-}
+  }
 
   uploadPhoto(val:any){
     return this.http.post(`${environment.apiUrl}/UserDetails/SaveAvatar`, val)
@@ -82,7 +82,7 @@ export class SharedService {
     let input = new FormData();
     input.append("filesData", file);
     return this.http.post(`${environment.apiUrl}/UserDetails/SavePhoto`, input)
-}
+  }
 
   get isLoginUser() {
     return localStorage.getItem("userId");
@@ -113,20 +113,23 @@ export class SharedService {
   }
 
   // Item List
-GetItem(val:any,page:any){
-  let va = 'http://localhost:49730/api/Item/'+val+'/'+page;
-  console.log(va);
-  return this.http.get<any>('http://localhost:49730/api/Item/'+val+'/'+page);
-}
+  GetItem(val:any,page:any){
+    let va = 'http://localhost:49730/api/Item/'+val+'/'+page;
+    console.log(va);
+    return this.http.get<any>('http://localhost:49730/api/Item/'+val+'/'+page);
+  }
 
-GetSearchedItemAndDefaultPhoto(page:any,val:any){
-  return this.http.get<any>(`${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/`+ page+'/'+val);
-}
+  GetSearchedItemAndDefaultPhoto(page:any,val:any){
+    return this.http.get<any>(`${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/`+ page+'/'+val);
+  }
 
-GetItemPhotos(val:any){
-  return this.http.get<any>(`${environment.apiUrl}/Item/GetItemPhotos/`+ val);
-}
+  GetItemPhotos(val:any){
+    return this.http.get<any>(`${environment.apiUrl}/Item/GetItemPhotos/`+ val);
+  }
 
+  getItemPhotoFile(val:any):Observable<any>{
+    return this.http.get(`${environment.PhotoFileUrl}`+val, {responseType: 'blob'});
+  }
 }
 
 

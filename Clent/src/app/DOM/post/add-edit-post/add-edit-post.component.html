@@ -107,6 +107,11 @@
                                 <tab heading="Address" formGroupName="addressInfo">
 
                                     <div class="form-group col-12">
+                                        <input class="mr-2" type="checkbox" [attr.disabled]="isReadOnly ? '' : null" (change)="onChangeDefaultAddress($event)">
+                                        <label>Use Default Address</label>                                        
+                                    </div>
+
+                                    <div class="form-group col-12">
                                         <label>Prvince</label>
                                         <select class="form-control" formControlName="provinceId" [attr.disabled]="isReadOnly ? '' : null" [(ngModel)]="itemPkg.address.provinceId" aria-label=".form-select-lg example">
                                             <option *ngFor="let province of provinceList" [ngValue]="province.id">{{province.name}}</option>
@@ -174,10 +179,11 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="upload-name-style">
-                                                    <tr *ngFor="let item of files; let i=index">
+                                                    <tr *ngFor="let item of selectedFiles; let i=index">
                                                         <td>
-                                                            <strong>{{ item.relativePath }}</strong>
+                                                            <!-- <strong>{{ item.relativePath }}</strong> -->
                                                             <img [src] = "photoUrls[i]" height="100">
+                                                            <button type="button" style="margin-left: 32px;" (click)="deletePhoto(i)">Delete</button>
                                                         </td>
                                                     </tr>
                                                 </tbody>

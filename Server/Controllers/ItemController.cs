@@ -77,13 +77,13 @@ namespace Server.Controllers
             {
                 var requestForm = Request.Form;
                 var itemId = Convert.ToInt32(requestForm.ToArray()[0].Value);
-                if (Request.Form.Files.Count > 0)
-                {
+                //if (Request.Form.Files.Count > 0)
+                //{
                     var filePathList = await IB.SavePhotos(requestForm, itemId);
                     return Ok(new { filePathList });
-                }
-                else
-                    return BadRequest("No Item Photo file(s)");
+                //}
+                //else
+                //    return BadRequest("No Item Photo file(s)");
             }
             catch (FormatException)
             {
