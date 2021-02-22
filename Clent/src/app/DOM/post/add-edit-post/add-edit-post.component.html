@@ -203,7 +203,7 @@
             <div class="card-header">
                 <h3>Preview</h3>
             </div>
-            <div class="shadow-lg p-3 bg-white">
+            <div class="shadow-lg p-3 bg-white" (click)="openDetail(itemPkg.item.id)">
                 <!-- <app-property-card [property]="propertyView" hideIcons="true"></app-property-card> -->
                 <!-- <app-property-card [property]="itemPkg" hideIcons="true"></app-property-card> -->
                 <img [src] = "itemDefaultPhotoUrl" height="200"><br/>

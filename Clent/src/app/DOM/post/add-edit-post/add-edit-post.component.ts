@@ -6,6 +6,8 @@ import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { SharedService } from '../../../Services/shared.service';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { ActivatedRoute } from '@angular/router';
+import { DetailComponent } from './../../Main/detail/detail.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-edit-post',
@@ -96,7 +98,8 @@ export class AddEditPostComponent implements OnInit {
   constructor(private fb:FormBuilder, 
             private router: Router, 
             private service:SharedService,
-            private route: ActivatedRoute,) { 
+            private route: ActivatedRoute,
+            public dialog: MatDialog) { 
     this.isReadOnly = true;
     if(this.service.isLoginUser){
       this.userId = this.service.isLoginUser;
@@ -326,6 +329,19 @@ export class AddEditPostComponent implements OnInit {
       tabId = this.formTabs.tabs.length - 1;
     }
     this.formTabs.tabs[tabId].active = true;
+  }
+
+  openDetail(id:any) {
+    const dialogRef = this.dialog.open(DetailComponent, {
+      // height: '500px',
+      width: '600px',
+      data:{
+        dataKey: id
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
 }
