@@ -99,7 +99,7 @@ GetItem(val:any,page:any){
   return this.http.get<any>('http://localhost:49730/api/Item/'+val+'/'+page);
 }
 
-GetSearchedItemAndDefaultPhoto(val:any,page:any){
+GetSearchedItemAndDefaultPhoto(page:any,val:any){
   return this.http.get<any>(`${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/`+ val+'/'+page);
 }
 
