@@ -20,12 +20,31 @@ export class UserDetailsComponent implements OnInit {
   UserData: any=[];
   //loginUser: any=[];
 
-  loginUser: UserInfo = {
-    account: {},
-    details: {},
-    address: {}
+  loginUser: any = {
+    account: {
+      id: "",
+      email: ""
+    },
+    details: {
+      id: "",
+      email: "",
+      firstName: "",
+      lastName: "",
+      photourl: "",
+      phone: "",
+      statusId: 0
+    },
+    address: {
+      userId: "",
+      isDefault: true,
+      address1: "",
+      address2: "",
+      provinceId: 1,
+      city: "",
+      postalCode: ""
+    }
   }
-  
+    
   //loginUser: User;
   id: string;
   status: number;
@@ -88,11 +107,19 @@ export class UserDetailsComponent implements OnInit {
   getUser(){
     this.id = this.id.replace(/['"]+/g, '');
     this.service.GetUserInfo.subscribe((data:any)=>{
-      this.loginUser = data;
-      this.userAccount = data.account;
-      this.userDetails = data.details;
-      this.address = data.address;
-      this.userEmail = this.userAccount.email;
+      if (data.details != null){
+        this.loginUser = data;
+      }
+      else {
+        this.loginUser.account = data.account;
+        this.loginUser.details.id = data.account.id;
+        this.loginUser.address.userId = data.account.id;
+      }
+      // this.loginUser = data;
+      // this.userAccount = data.account;
+      // this.userDetails = data.details;
+      // this.address = data.address;
+      // this.userEmail = this.userAccount.email;
       
       if(this.loginUser.details != null){
         this.PhotoFileName = data.details.photoUrl; 
@@ -104,7 +131,7 @@ export class UserDetailsComponent implements OnInit {
         this.PhotoFileName = "anonymous.jpg";
         this.status = 0;
       } 
-      this.PhotoFilePath = environment.PhotoUrlAvatar + this.PhotoFileName;
+      this.PhotoFilePath = environment.PhotoFileUrl + this.PhotoFileName;
 
       // alert(this.PhotoFilePath);    
     },  error => {
@@ -122,7 +149,8 @@ export class UserDetailsComponent implements OnInit {
     this.service.uploadPhoto(formData).subscribe((data:any)=>{
       //alert(data.filePath);
       this.PhotoFileName=data.filePath;//toString();
-      this.PhotoFilePath=environment.PhotoUrlAvatar+this.PhotoFileName;
+      //this.PhotoFilePath=environment.PhotoUrlAvatar+this.PhotoFileName;
+      this.PhotoFilePath=environment.PhotoFileUrl+this.PhotoFileName;
     })
   }
   
