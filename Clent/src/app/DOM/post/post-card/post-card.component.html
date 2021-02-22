@@ -16,7 +16,7 @@
             </li> -->
         </ul>
     </div>
-    <div class="card-body p-2">
+    <div class="card-body p-2" (click)="onclickDetails(property.id)">
         <h1>Name: {{property.name}}</h1>
         <h2>Deposit : ${{property.deposit}} | Fee: ${{property.fee}}</h2>           
     </div>

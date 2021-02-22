@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { SharedService } from '../../../Services/shared.service';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add-edit-post',
@@ -94,7 +95,8 @@ export class AddEditPostComponent implements OnInit {
 
   constructor(private fb:FormBuilder, 
             private router: Router, 
-            private service:SharedService) { 
+            private service:SharedService,
+            private route: ActivatedRoute,) { 
     this.isReadOnly = true;
     if(this.service.isLoginUser){
       this.userId = this.service.isLoginUser;
@@ -111,6 +113,7 @@ export class AddEditPostComponent implements OnInit {
   }
 
   ngOnInit(){
+    this.itemId = this.route.snapshot.queryParamMap.get('itemId');
     this.createAddEditItemForm();
 
     if (this.itemId != null){

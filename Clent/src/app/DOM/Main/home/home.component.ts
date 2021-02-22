@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
 
   properties:any=[];
   page = 1;
-  value = "t";
+  value = "";
   notEmptyPost = true;
   notScrolly = true;
 
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
       return false;
   }
   ngOnInit(): void {
-    const value = this.route.snapshot.queryParamMap.get('value');
+    this.value = this.route.snapshot.queryParamMap.get('value');
     console.log(this.value+'onInit');
     this.loadInitPost();  
   }

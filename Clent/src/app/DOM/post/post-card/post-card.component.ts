@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Template } from "@angular/compiler/src/render3/r3_ast";
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-card',
@@ -13,7 +14,7 @@ export class PostCardComponent implements OnInit {
   @Input() property : any;
   PhotoFilePath:string="";
   
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private router: Router) {
     this.PhotoFilePath = environment.PhotoFileUrl;
    }
 
@@ -33,6 +34,13 @@ export class PostCardComponent implements OnInit {
     });
   }
 
+  onclickDetails(id:any){
+    this.router.navigate(['/post'],{
+      queryParams: {
+        itemId: id
+      }
+    });
+  }
 }
 
 
