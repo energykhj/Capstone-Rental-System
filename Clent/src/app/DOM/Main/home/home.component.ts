@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
       data=>{
             const newList = data;
 
-            if(newList.length < 6){
+            if(newList.length < 8){
               this.notEmptyPost = false;
             }
 
