@@ -94,6 +94,6 @@ export class HeaderComponent implements OnInit {
       queryParams: {
         value: value
       }
-    });
+    }).then(page => { window.location.reload();})
   }
 }

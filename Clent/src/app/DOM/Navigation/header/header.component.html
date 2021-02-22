@@ -23,18 +23,29 @@
         </form>
     </div> -->
     <!-- Search start -->
-    <div class="nav navbar-nav navbar-center">        
+    <!-- <div class="nav navbar-nav navbar-center">        
         <div class="flex-grow-1 d-flex">
             <form class="form-inline flex-nowrap bg-light mx-0 mx-lg-auto rounded p-1">
                 <input name="value" [(ngModel)]="value" class="form-control"
-                class="form-control mr-sm-1" type="search" style="font-style: italic;width: 350px;" placeholder="Search" aria-label="Search">
+                class="form-control mr-sm-1" type="search" style="font-style: italic;width: 50px;" placeholder="Search" aria-label="Search">
                 <button type="button" class="btn btn-info" (click)="onSearch(value)"><i class="fa fa-search"></i></button>   
                 <span class="mr-4"></span>
                 
                 <button style="font-size:16px; font-style: italic" class="mr-sm-1 btn-outline-info" (click)="openMaps()">Location Search<i class="material-icons">place</i></button>                    
             </form>
         </div>
-    </div>    
+    </div>     -->
+    <div fxFlex fxLayout fxLayoutAlign="center center" fxHide.xs>
+        <form class="form-inline flex-nowrap bg-light mx-0 mx-lg-auto rounded p-1">
+            <input name="value" [(ngModel)]="value" class="form-control"
+            class="form-control mr-sm-1" type="search" style="font-style: italic;width: 350px;" placeholder="Search" aria-label="Search">
+            <button type="button" class="btn btn-info" (click)="onSearch(value)"><i class="fa fa-search"></i></button>   
+            <span class="mr-2"></span>            
+            <button style="font-size:16px; font-style: italic" class="mr-sm-1 btn-outline-info" (click)="openMaps()">Location Search<i class="material-icons">place</i></button>                    
+        </form>
+    </div>
+
+    
     <!-- Search end -->
 
     <span class="example-spacer"></span>
