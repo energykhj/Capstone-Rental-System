@@ -123,6 +123,20 @@ namespace Server.Controllers
             }
             return itemDTO;
         }
+
+        [HttpGet("GetItem/{itemNum}")]
+        public async Task<ActionResult<ItemPkgDTO>> GetItem(int itemNum)
+        {
+            Item item = await IB.GetItem(itemNum);
+
+            ItemPkgDTO itemPkg = new ItemPkgDTO()
+            {
+                Item = mapper.Map<ItemDTO>(await IB.GetItem(itemNum)),
+                Address = mapper.Map<AddressDTO>(await UB.GetAddress(item.AddressId))
+            };
+
+            return itemPkg;
+        }
     }
 
     

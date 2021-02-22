@@ -39,5 +39,10 @@ namespace Server.Controllers
             return File(file, "application/octet-stream");
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<Category>>> GetCategories()
+        {
+            return await context.Category.ToListAsync();
+        }
     }
 }

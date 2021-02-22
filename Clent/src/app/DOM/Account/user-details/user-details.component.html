@@ -11,7 +11,7 @@
                     </td>
                     <td>
                         <mat-form-field class="full-width">
-                            <mat-label>{{userEmail}}</mat-label>
+                            <mat-label>{{loginUser.account.email}}</mat-label>
                             <input matInput disabled value="">
                         </mat-form-field>
                     </td>
@@ -79,7 +79,7 @@
                     <td>                      
                         <mat-form-field class="full-width select-bg" >
                               <mat-label>Province</mat-label>
-                              <mat-select formControlName="province" [(ngModel)]="loginUser.address.provinceId" [(value)]="selectedProvince">
+                              <mat-select formControlName="province" [(ngModel)]="loginUser.address.provinceId">
                                   <mat-option>Select</mat-option>
                                   <mat-option *ngFor="let province of ProvinceList" [value]="province.id">{{province.name}}
                                 </mat-option>

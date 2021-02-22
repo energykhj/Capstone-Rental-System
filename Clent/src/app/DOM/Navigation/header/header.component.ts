@@ -7,7 +7,7 @@ import { UserDetailsComponent } from '../../Account/user-details/user-details.co
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/Services/shared.service';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -60,7 +60,7 @@ export class HeaderComponent implements OnInit {
         this.userName = user.account.email;
         
         this.userName = (this.userDetails.firstName)? this.userDetails.firstName +" "+ this.userDetails.lastName : "";
-        this.photoUrl = (this.userDetails.photoUrl)? this.service.PhotoUrlAvatar+this.userDetails.photoUrl : "";
+        this.photoUrl = (this.userDetails.photoUrl)? environment.PhotoFileUrl+this.userDetails.photoUrl : "";
         
          //alert(this.userAccount.email); 
       });

@@ -144,6 +144,7 @@ namespace Server.BizLogic
                 await ValidatePhoto();
                 if (errorList.Count == 0)
                 {
+                    photo.Id = 0; //If not, cannot insert
                     context.Photo.Add(photo);
                     await context.SaveChangesAsync();
                     return await GetItemPhoto(photo.Id);
@@ -187,15 +188,17 @@ namespace Server.BizLogic
         {
             try
             {
-                await ValidatePhoto();
-                if (errorList.Count == 0)
-                {
-                    context.Photo.RemoveRange(context.Photo.Where(x => x.ItemId == item.Id));
+                //cannoot validate
+                //await ValidatePhoto();
+                //if (errorList.Count == 0)
+                //{
+                    //context.Photo.RemoveRange(context.Photo.Where(x => x.ItemId == item.Id));
+                    context.Photo.RemoveRange(context.Photo.Where(x => x.ItemId == itemId));
                     await context.SaveChangesAsync();
                     return await GetItem(item.Id);
-                }
-                else
-                    throw new Exception(new ErrorManager().ErrorList(errorList));
+                //}
+                //else
+                //    throw new Exception(new ErrorManager().ErrorList(errorList));
             }
             catch (Exception ex)
             {

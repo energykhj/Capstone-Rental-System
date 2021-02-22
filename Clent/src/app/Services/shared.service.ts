@@ -92,6 +92,26 @@ export class SharedService {
     return `${envAddress}/${route}`;
   }
 
+  getCategories():Observable<any[]>{
+    return this.http.get<any[]>(`${environment.apiUrl}/Lookup/GetCategories`);
+  }
+
+  insertItem(val:any) {
+    return this.http.post<any>(`${environment.apiUrl}/Item`, val);
+  }
+
+  uploadItemPhoto(val:any){
+    return this.http.post(`${environment.apiUrl}/Item/SavePhotos`, val)
+  }
+
+  getItem(val:any):Observable<any>{
+    return this.http.get<any>(`${environment.apiUrl}/Item/GetItem/` + val);
+  }
+
+  updateItem(val:any){
+    return this.http.put<any>(`${environment.apiUrl}/Item`, val);
+  }
+
   // Item List
 GetItem(val:any,page:any){
   let va = 'http://localhost:49730/api/Item/'+val+'/'+page;

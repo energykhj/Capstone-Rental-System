@@ -11,6 +11,7 @@ import { SideMenuComponent } from './DOM/Navigation/side-menu/side-menu.componen
 import { HomeComponent } from './DOM/Main/home/home.component';
 import { DetailComponent } from './DOM/Main/detail/detail.component';
 import { PostComponent } from './DOM/post/post.component';
+import { AddEditPostComponent } from './DOM/post/add-edit-post/add-edit-post.component';
 
 /* Angular Material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -42,6 +43,26 @@ import { PostCardComponent } from './DOM/post/post-card/post-card.component';
 import { MapsComponent } from './DOM/Navigation/maps/maps.component';
 //import { UserdetailsComponent } from './Dom/Accont/userdetails/userdetails.component';
 
+/* Currency Input */
+import { CurrencyMaskInputMode, NgxCurrencyModule } from "ngx-currency";
+/* Drag & Drop Files */
+import { NgxFileDropModule } from 'ngx-file-drop';
+
+export const customCurrencyMaskConfig = {
+  align: "right",
+  allowNegative: true,
+  allowZero: true,
+  decimal: ".",
+  precision: 2,
+  prefix: "CA$ ",
+  suffix: "",
+  thousands: ",",
+  nullable: true,
+  min: null,
+  max: null,
+  inputMode: CurrencyMaskInputMode.FINANCIAL
+};
+
 export function tokenGetter(){
   return localStorage.getItem("jwt");
 }
@@ -60,8 +81,9 @@ export function tokenGetter(){
     AvatarComponent,
     UserDetailsComponent,
     AskComponent,
+    AddEditPostComponent,
     PostCardComponent,
-    MapsComponent
+    MapsComponent,
     //UserdetailsComponent
   ],
   imports: [
@@ -89,6 +111,9 @@ export function tokenGetter(){
         disallowedRoutes: []
       }
     }),
+
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
+    NgxFileDropModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],

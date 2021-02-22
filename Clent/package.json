@@ -28,6 +28,8 @@
     "bootstrap": "^4.6.0",
     "google-libphonenumber": "^3.2.16",
     "ngx-bootstrap": "^6.2.0",
+    "ngx-currency": "^2.5.2",
+    "ngx-file-drop": "^11.0.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"

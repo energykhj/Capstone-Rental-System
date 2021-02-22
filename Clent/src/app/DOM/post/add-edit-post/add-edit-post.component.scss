@@ -1,0 +1,19 @@
+.card {
+    min-height: 300px;
+}
+
+.card-body h1{
+    font-family: fantasy;
+    color: #0069d9;
+}
+
+.card-header > h1, .card-header > h2, .card-header > h3 {
+    color: white;
+}
+
+.card-header {
+    height: 42px;
+    padding: 4px 10px !important;
+    background-color : #ACACAC !important;
+    text-align: center;
+}
