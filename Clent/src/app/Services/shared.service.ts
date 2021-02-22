@@ -100,7 +100,7 @@ GetItem(val:any,page:any){
 }
 
 GetSearchedItemAndDefaultPhoto(page:any,val:any){
-  return this.http.get<any>(`${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/`+ val+'/'+page);
+  return this.http.get<any>(`${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/`+ page+'/'+val);
 }
 
 GetItemPhotos(val:any){
