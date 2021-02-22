@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -6,15 +7,27 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./side-menu.component.scss']
 })
 export class SideMenuComponent implements OnInit {
+  value = '';
 
   @Output() sidenavClose = new EventEmitter();
 
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
   }
 
   public onSidenavClose = () => {
     this.sidenavClose.emit();
+  }
+
+  onSearch(value){
+    console.log('header');
+    this.router.navigate(['/home'],{
+      queryParams: {
+        value: value
+      }
+    }).then(page => { window.location.reload();})
   }
 }

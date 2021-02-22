@@ -10,6 +10,13 @@
     <a mat-list-item routerLink="/main" (click)="onSidenavClose()">
         <mat-icon>home</mat-icon><span class="nav-caption">Main</span>
     </a>
+    <div mat-list-item >
+        <form class="form-inline flex-nowrap bg-light mx-0 mx-lg-auto rounded p-1">  
+            <input name="value" [(ngModel)]="value" class="form-control"
+            class="form-control mr-sm-1" type="search" style="font-style: italic;width: 200px;" placeholder="Search" aria-label="Search">
+            <button type="button" class="btn btn-info" (click)="onSearch(value)"><i class="fa fa-search"></i></button>    
+        </form>  
+    </div>
     <a mat-list-item routerLink="/post" (click)="onSidenavClose()">
         <mat-icon>add_circle</mat-icon><span class="nav-caption">Post</span>
     </a>
