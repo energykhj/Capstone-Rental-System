@@ -105,6 +105,7 @@ export class UserDetailsComponent implements OnInit {
         this.status = 0;
       } 
       this.PhotoFilePath = environment.PhotoUrlAvatar + this.PhotoFileName;
+
       // alert(this.PhotoFilePath);    
     },  error => {
       console.log(error);

@@ -1,22 +1,28 @@
 <mat-card class="example-card">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title>Jump shoes</mat-card-title>
-      <mat-card-subtitle>H Ko</mat-card-subtitle>
+      <mat-card-title>Photos Details</mat-card-title>
+      <mat-card-subtitle>Item No : {{data.dataKey}}</mat-card-subtitle>
     </mat-card-header>    
   </mat-card>
+
 <mat-dialog-content class="mat-typography">
-    <carousel>
+    <carousel>        
+      <div *ngFor="let photo of photos">
         <slide>
-          <img src="https://source.unsplash.com/aob0ukAYfuI/400x300" alt="first slide" style="display: block; width: 100%;">
-        </slide>
-        <slide>
-          <img src="https://source.unsplash.com/EUfxH-pze7s/400x300" alt="second slide" style="display: block; width: 100%;">
-        </slide>
-        <slide>
-          <img src="https://source.unsplash.com/M185_qYH8vg/400x300" alt="third slide" style="display: block; width: 100%;">
-        </slide>
-      </carousel>
+        <a class="carousel-control-prev" role="button">
+          <span aria-hidden="true" class="carousel-control-prev-icon" style="color:black"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <img src="{{PhotoFilePath}}{{photo.fileName}}" style="display: block; width: 100%; max-height:300px; margin:0 auto;">
+
+        <a class="carousel-control-next" role="button">
+          <span aria-hidden="true" class="carousel-control-next-icon" style="color:black"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </slide>
+    </div>
+    </carousel>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Close</button>

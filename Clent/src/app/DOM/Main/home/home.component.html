@@ -4,70 +4,26 @@
 
     <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Inventory</h1>
 
-    <hr class="mt-2 mb-5">
+    <hr class="mt-1 mb-0">
 
-    <div class="row text-center text-lg-left">
-
-      <div class="col-lg-3 col-md-4 col-6">
-        <img class="img-fluid img-thumbnail" (click)="openDetail()"
-            src="https://source.unsplash.com/pWkk7iiCoDM/400x300" alt="">
-      </div>
-      <div class="col-lg-3 col-md-4 col-6">
-        <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/aob0ukAYfuI/400x300" alt="">
-      </div>
-      <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-          <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/EUfxH-pze7s/400x300" alt="">
-        </a>
-      </div>
-      <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-          <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/M185_qYH8vg/400x300" alt="">
-        </a>
-      </div>
-      <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-          <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/sesveuG_rNo/400x300" alt="">
-        </a>
-      </div>
-      <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-          <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/AvhMzHwiE_0/400x300" alt="">
-        </a>
-      </div>
-      <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-          <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/2gYsZUmockw/400x300" alt="">
-        </a>
-      </div>
-      <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-          <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/EMSDtjVHdQ8/400x300" alt="">
-        </a>
-      </div>
-      <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-          <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/8mUEy0ABdNE/400x300" alt="">
-        </a>
-      </div>
-      <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-          <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/G9Rfc1qccH4/400x300" alt="">
-        </a>
-      </div>
-      <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-          <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/aJeH0KcFkuc/400x300" alt="">
-        </a>
-      </div>
-      <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-          <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/p2TQ-3Bh3Oo/400x300" alt="">
-        </a>
-      </div>
-    </div>
-
+    <div class="search-result">
+      <div class="row pt-5">
+        <div *ngFor="let property of properties" class="shadow-lg col-sm-4 p-3">
+            <app-post-card [property]="property"></app-post-card>
+        </div>
+    </div>    
   </div>
+  <br><br>
+  <div *ngIf = "notEmptyPost" class="col-md-12 d-flex justify-content-center">
+    <button (click)="onClick()" type="button" class="btn btn-secondary">LOAD MORE</button>
+  </div>
+
+  <div *ngIf = "!notEmptyPost" class="row pb-5">
+    <div class="col-md-12 d-flex justify-content-center">
+        <div class="text-muted h6 alert alert-secondary p-2">No more items to show</div>
+    </div>
+  </div>
+</div> 
 <!-- </ng-template> -->
 
 <!-- <ng-template #notLoggedIn>
@@ -78,3 +34,6 @@
     Just show without Log in
   </div>
 </ng-template> -->
+
+
+

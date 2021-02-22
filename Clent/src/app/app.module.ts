@@ -39,6 +39,8 @@ import { UserAccountComponent } from './Dom/Account/user-account/user-account.co
 import { AvatarComponent } from './Helpers/avatar/avatar.component';
 import { UserDetailsComponent } from './DOM/Account/user-details/user-details.component';
 import { AskComponent } from './DOM/ask/ask.component';
+import { PostCardComponent } from './DOM/post/post-card/post-card.component';
+import { MapsComponent } from './DOM/Navigation/maps/maps.component';
 //import { UserdetailsComponent } from './Dom/Accont/userdetails/userdetails.component';
 
 /* Currency Input */
@@ -79,7 +81,9 @@ export function tokenGetter(){
     AvatarComponent,
     UserDetailsComponent,
     AskComponent,
-    AddEditPostComponent
+    AddEditPostComponent,
+    PostCardComponent,
+    MapsComponent,
     //UserdetailsComponent
   ],
   imports: [

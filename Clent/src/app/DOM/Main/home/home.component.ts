@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SharedService } from 'src/app/Services/shared.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailComponent } from '../detail/detail.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -11,23 +13,20 @@ import { DetailComponent } from '../detail/detail.component';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  
+  //@Input() value: string;
   currentUser: any;
   id: any;
+
+  properties:any=[];
+  page = 1;
+  value = 't';
+  notEmptyPost = true;
+  notScrolly = true;
+
   constructor(private router: Router, 
               private jwtHelper: JwtHelperService,
               private service: SharedService,
               public dialog: MatDialog) { }
-
-  openDetail() {
-    const dialogRef = this.dialog.open(DetailComponent, {
-      // height: '500px',
-      width: '600px',
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
 
   isUserAuthenticated(){
     const token: string = localStorage.getItem("jwt");    
@@ -39,7 +38,41 @@ export class HomeComponent implements OnInit {
       return false;
   }
   ngOnInit(): void {
+    this.loadInitPost();  
   }
 
+  loadInitPost(){
+    console.log(this.value);  
 
+  this.service.GetSearchedItemAndDefaultPhoto(this.value, this.page).subscribe(
+      data=>{
+            this.properties=data;
+            console.log(data);
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
+  onClick(){
+    console.log("click");
+    this.page = this.page + 1;
+
+    this.service.GetSearchedItemAndDefaultPhoto(this.value, this.page).subscribe(
+      data=>{
+            const newList = data;
+
+            if(newList.length < 6){
+              this.notEmptyPost = false;
+            }
+
+            this.properties = this.properties.concat(newList);
+            this.notScrolly = true;
+      });
+  }
 }
+
+
+
+
+

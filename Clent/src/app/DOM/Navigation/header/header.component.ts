@@ -1,3 +1,5 @@
+import { HomeComponent } from './../../Main/home/home.component';
+import { MapsComponent } from '../../Navigation/maps/maps.component';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserAccountComponent } from '../../Account/user-account/user-account.component';
@@ -6,13 +8,15 @@ import { Router } from '@angular/router';
 import { SharedService } from 'src/app/Services/shared.service';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
+  value = '';
+  searchValue: any;
   options: FormGroup;
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto');
@@ -63,6 +67,13 @@ export class HeaderComponent implements OnInit {
     } 
   }
 
+  openMaps(){
+    const dialogRef = this.dialog.open(MapsComponent, {
+      width: '650px',
+      height: '600px'
+    });
+  }
+
   // logout(){
   //   localStorage.removeItem("jwt");    
   //   localStorage.removeItem("userId");    
@@ -76,4 +87,8 @@ export class HeaderComponent implements OnInit {
    public changeName(name: string): void {
     this.userName = name;
   }  
+
+  onSearch(value){
+    this.router.navigate(['/home']);
+  }
 }

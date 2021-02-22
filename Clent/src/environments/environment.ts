@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:57183/api',
   PhotoUrl: 'http://localhost:57183/',
-  PhotoUrlAvatar: 'http://localhost:57183/api/UserDetails/GetAvatar/'
+  PhotoUrlAvatar: 'http://localhost:57183/api/UserDetails/GetAvatar/',
+  PhotoFileUrl: 'http://localhost:57183/api/Lookup/GetPhoto/'
 };
 
 /*

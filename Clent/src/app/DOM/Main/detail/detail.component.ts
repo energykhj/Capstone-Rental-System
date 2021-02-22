@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SharedService } from 'src/app/Services/shared.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-detail',
@@ -7,9 +10,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailComponent implements OnInit {
 
-  constructor() { }
+  photos:any=[];
+  PhotoFilePath:string="";
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data:any,
+    private service: SharedService
+  ) {
+    this.PhotoFilePath = environment.PhotoFileUrl;
+   }
 
   ngOnInit(): void {
+    console.log(this.data.dataKey);
+    this.service.GetItemPhotos(this.data.dataKey).subscribe(
+      data=>{
+            this.photos=data;
+            console.log(this.PhotoFilePath);
+            console.log(data);
+      }, error => {
+        console.log(error);
+      }
+    )
   }
 
 }
