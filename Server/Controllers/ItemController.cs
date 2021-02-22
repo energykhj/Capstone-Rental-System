@@ -24,10 +24,10 @@ namespace Server.Controllers
         private readonly ItemBiz IB;
         private readonly UserBiz UB;
 
-        public ItemController(PhoenixContext _context, IFileStorageService _fileStorageService, IMapper _mapper)
+        public ItemController(PhoenixContext _context, IFileStorageService fileStorageService, IMapper _mapper)
         {
             this.context = _context;
-            this.fileStorageService = _fileStorageService;
+            this.fileStorageService = fileStorageService;
             this.mapper = _mapper;
             IB = new ItemBiz(context, fileStorageService);
             UB = new UserBiz(context);
@@ -47,7 +47,7 @@ namespace Server.Controllers
             var Items = await IB.GetSearchItem(search, currentPage);
             return await GetPackedItemWithDefaultPhoto(Items);
         }
-
+        
         [HttpGet("GetItemPhotos/{itemId}")]
         public async Task<ActionResult<List<PhotoDTO>>> GetItemPhotos(int itemId)
         {
@@ -78,7 +78,7 @@ namespace Server.Controllers
                 var requestForm = Request.Form;
                 var itemId = Convert.ToInt32(requestForm.ToArray()[0].Value);
                 if (Request.Form.Files.Count > 0)
-                {                    
+                {
                     var filePathList = await IB.SavePhotos(requestForm, itemId);
                     return Ok(new { filePathList });
                 }
@@ -98,17 +98,21 @@ namespace Server.Controllers
         [HttpPut]
         public async Task<ActionResult<ItemPkgDTO>> UpdateItem([FromBody] ItemPkgDTO dto)
         {
-            ItemPkgDTO pDto = new ItemPkgDTO();
-
             var Item = mapper.Map<Item>(dto.Item);
             var Address = mapper.Map<Address>(dto.Address);
+            if (Item != null && Address != null)
+            {
+                ItemPkgDTO pDto = new ItemPkgDTO()
+                {
+                    Address = mapper.Map<AddressDTO>(await UB.UpdateAddress(Address)),
+                    Item = mapper.Map<ItemDTO>(await IB.UpdateItem(Item))
+                };
 
-            pDto.Address = mapper.Map<AddressDTO>(await UB.UpdateAddress(Address));
-            pDto.Item = mapper.Map<ItemDTO>(await IB.UpdateItem(Item));
-
-            return pDto;
+                return pDto;
+            }
+            else return BadRequest("No Item and Address details");
         }
-               
+
         private async Task<List<ItemDTO>> GetPackedItemWithDefaultPhoto(List<Item> Items)
         {
             List<ItemDTO> itemDTO = new List<ItemDTO>();
@@ -127,17 +131,23 @@ namespace Server.Controllers
         [HttpGet("GetItem/{itemNum}")]
         public async Task<ActionResult<ItemPkgDTO>> GetItem(int itemNum)
         {
-            Item item = await IB.GetItem(itemNum);
+            ItemPkgDTO pDto = new ItemPkgDTO();
+            var Item = mapper.Map<ItemDTO>(await IB.GetItem(itemNum));
 
-            ItemPkgDTO itemPkg = new ItemPkgDTO()
+            if (Item != null)
             {
-                Item = mapper.Map<ItemDTO>(await IB.GetItem(itemNum)),
-                Address = mapper.Map<AddressDTO>(await UB.GetAddress(item.AddressId))
-            };
-
-            return itemPkg;
+                var Address = mapper.Map<AddressDTO>(await UB.GetAddress(Item.AddressId));
+                pDto.Item = Item;
+                pDto.Address = Address;
+                return pDto;
+            }
+            else
+            {
+                return BadRequest("Address is not found");
+            }
         }
+
     }
 
-    
+
 }
