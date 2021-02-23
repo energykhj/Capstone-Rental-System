@@ -27,8 +27,9 @@ export class AddEditPostComponent implements OnInit {
   photoUrls=[];
   itemDefaultPhotoUrl: any;
   selectedFiles: any=[];
-//  public files: NgxFileDropEntry[] = [];
 
+//  public files: NgxFileDropEntry[] = [];
+  noImagePhotoUrl:string = environment.PhotoFileUrl + 'noImage.png';
   userId: string;
   
   @Input() public itemId: string;
@@ -347,12 +348,14 @@ export class AddEditPostComponent implements OnInit {
 
         this.itemId = data.item.id;
         this.uploadPhoto();
+        alert("Item Created");
       });
     }
     else{
       this.service.updateItem(this.itemPkg).subscribe((data:any)=>{
         this.itemId = data.item.id;
         this.uploadPhoto();
+        alert("Item Modified");
       });
     }
   }

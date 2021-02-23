@@ -178,3 +178,26 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   line-height: 30px;
 
 }
+
+// Responsive Tab
+@media(max-width: 600px) {
+  .nav-item {
+    width: 600px;
+  }
+
+  .member-tabset > .nav-tabs > li > a {
+    border: 0;
+    background: none !important;
+    color: #333333;
+  }
+
+  .member-tabset > .nav-tabs > li {
+    background-color: #dadada;
+  }
+
+  .member-tabset > .nav-tabs > li.active {
+    border-bottom: 0px;
+    position: relative;
+    background-color: #a8d2ff;
+  }
+}

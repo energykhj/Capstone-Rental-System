@@ -88,6 +88,7 @@ export class AvatarComponent implements OnInit {
     localStorage.removeItem("jwt");    
     localStorage.removeItem("userId");    
     this.router.navigate(["/main"]);
+    window.location.reload();
   }
 
   userDetails()
