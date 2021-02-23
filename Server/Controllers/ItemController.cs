@@ -62,8 +62,14 @@ namespace Server.Controllers
             var Item = mapper.Map<Item>(dto.Item);
             var Address = mapper.Map<Address>(dto.Address);
 
-            pDto.Address = mapper.Map<AddressDTO>(await UB.InsertAddress(Address));
-            Item.AddressId = pDto.Address.Id;
+            if (Address.IsDefault)
+                Item.AddressId = Address.Id;
+            else
+            {
+                pDto.Address = mapper.Map<AddressDTO>(await UB.InsertAddress(Address));
+                Item.AddressId = pDto.Address.Id;
+            }
+            
             pDto.Item = mapper.Map<ItemDTO>(await IB.InsertItem(Item));
 
             return pDto;
@@ -77,13 +83,8 @@ namespace Server.Controllers
             {
                 var requestForm = Request.Form;
                 var itemId = Convert.ToInt32(requestForm.ToArray()[0].Value);
-                //if (Request.Form.Files.Count > 0)
-                //{
-                    var filePathList = await IB.SavePhotos(requestForm, itemId);
-                    return Ok(new { filePathList });
-                //}
-                //else
-                //    return BadRequest("No Item Photo file(s)");
+                var filePathList = await IB.SavePhotos(requestForm, itemId);
+                return Ok(new { filePathList });
             }
             catch (FormatException)
             {
