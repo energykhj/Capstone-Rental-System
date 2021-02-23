@@ -233,7 +233,7 @@ export class AddEditPostComponent implements OnInit {
     else {
         this.itemPkg.address = {
           id: 0,
-          userId: "",
+          userId: this.userId,
           isDefault: false,
           address1: "",
           address2: "",

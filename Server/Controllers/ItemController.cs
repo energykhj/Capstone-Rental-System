@@ -103,11 +103,24 @@ namespace Server.Controllers
             var Address = mapper.Map<Address>(dto.Address);
             if (Item != null && Address != null)
             {
-                ItemPkgDTO pDto = new ItemPkgDTO()
+                //----
+                ItemPkgDTO pDto = new ItemPkgDTO();
+
+                if (Address.IsDefault)
+                    Item.AddressId = Address.Id;
+                else
                 {
-                    Address = mapper.Map<AddressDTO>(await UB.UpdateAddress(Address)),
-                    Item = mapper.Map<ItemDTO>(await IB.UpdateItem(Item))
-                };
+                    pDto.Address = mapper.Map<AddressDTO>(await UB.UpdateAddress(Address));
+                    Item.AddressId = pDto.Address.Id;
+                }
+
+                pDto.Item = mapper.Map<ItemDTO>(await IB.UpdateItem(Item));
+                //----
+                //ItemPkgDTO pDto = new ItemPkgDTO()
+                //{
+                //    Address = mapper.Map<AddressDTO>(await UB.UpdateAddress(Address)),
+                //    Item = mapper.Map<ItemDTO>(await IB.UpdateItem(Item))
+                //};
 
                 return pDto;
             }
