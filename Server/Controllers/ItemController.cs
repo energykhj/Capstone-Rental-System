@@ -110,11 +110,12 @@ namespace Server.Controllers
                     Item.AddressId = Address.Id;
                 else
                 {
+                    //TODO: If not exist old address (If use default addr in creation post) 
                     pDto.Address = mapper.Map<AddressDTO>(await UB.UpdateAddress(Address));
                     Item.AddressId = pDto.Address.Id;
                 }
 
-                pDto.Item = mapper.Map<ItemDTO>(await IB.UpdateItem(Item));
+                pDto.Item = mapper.Map<ItemDTO>(await IB.InsertItem(Item));
                 //----
                 //ItemPkgDTO pDto = new ItemPkgDTO()
                 //{

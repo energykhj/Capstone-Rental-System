@@ -78,8 +78,10 @@
                                                 class="form-control"
                                                 formControlName="startDate"
                                                 [readonly]="isReadOnly"
+                                                bsDatepicker
+                                                value="{{ itemPkg.item.startDate | date:'yyyy-MM-dd' }}" 
                                                 [(ngModel)]="itemPkg.item.startDate"
-                                                bsDatepicker [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD-MM-YYYY'}">
+                                                [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD'}">
                                         <div *ngFor="let validation of validation_messages.startDate">
                                             <div class="text-danger"
                                                 *ngIf="priceInfo.get('startDate').hasError(validation.type) && 
@@ -94,8 +96,10 @@
                                                 class="form-control"
                                                 formControlName="endDate"
                                                 [readonly]="isReadOnly"
+                                                bsDatepicker
+                                                value="{{ itemPkg.item.endDate | date:'yyyy-MM-dd' }}" 
                                                 [(ngModel)]="itemPkg.item.endDate"
-                                                bsDatepicker [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD-MM-YYYY'}">
+                                                [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD'}">
                                         <div *ngFor="let validation of validation_messages.endDate">
                                             <div class="text-danger"
                                                 *ngIf="priceInfo.get('endDate').hasError(validation.type) && 
