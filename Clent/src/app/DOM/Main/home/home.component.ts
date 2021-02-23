@@ -48,7 +48,9 @@ export class HomeComponent implements OnInit {
   this.service.GetSearchedItemAndDefaultPhoto(this.page,this.value).subscribe(
       data=>{
             this.properties=data;
-            console.log(data);
+            if(this.properties.length < 8){
+              this.notEmptyPost = false;
+            }
       }, error => {
         console.log(error);
       }
