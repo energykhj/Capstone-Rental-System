@@ -1,4 +1,4 @@
-<!-- Toolbar -->  
+<!-- Toolbar -->
 <mat-toolbar color="primary" class="header-bg">
     <div fxHide.gt-xs>
         <button mat-icon-button (click)="onToggleSidenav()">
@@ -36,17 +36,31 @@
         </div>
     </div>     -->
     <span class="example-spacer"></span>
-    <div fxFlex fxLayout fxLayoutAlign="center center" fxHide.xs>
+    <!-- <div fxFlex fxLayout fxLayoutAlign="center center" fxHide.xs>
         <form class="form-inline flex-nowrap bg-light mx-0 mx-lg-auto rounded p-1">            
             <input name="value" [(ngModel)]="value" class="form-control"
-            class="form-control mr-sm-1" type="search" style="font-style: italic;width: 350px;" placeholder="Search" aria-label="Search">
-            <button type="button" class="btn btn-info" (click)="onSearch(value)"><i class="fa fa-search"></i></button>   
+            class="form-control mr-sm-1" type="search" style="font-style: italic; font-size:14px; width: 350px;" placeholder="Search" aria-label="Search">
+            <button type="button" class="btn btn-info" (click)="onSearch(value)"><i class="fa fa-search fa-xs"></i></button>   
             <span class="mr-2"></span>            
-            <button style="font-size:16px; font-style: italic" class="mr-sm-1 btn-outline-info" (click)="openMaps()">Location Search<i class="material-icons">place</i></button>                    
+            <button mat-stroked-button style="font-style: italic" class="mr-sm-1 btn-outline-info search-color" (click)="openMaps()">Location Search<i class="material-icons">place</i></button>                    
         </form>
+    </div> -->
+    <form class="form-inline col-md-7">
+        <div fxFlex fxLayout fxLayoutAlign="center center" fxHide.xs>
+        <div class="input-group">
+            <input type="text" name="value" [(ngModel)]="value" class="form-control" placeholder="Search"
+                aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" (click)="onSearch(value)"><i
+                        class="fa fa-search fa-xs"></i></button>
+            </div> <span class="mr-2"></span>
+            <button mat-stroked-button style="font-style: italic" class="mr-sm-1 btn-outline-info search-color"
+                (click)="openMaps()">
+                Location Search<i class="material-icons">place</i></button>
+        </div>
     </div>
+    </form>
 
-    
     <!-- Search end -->
 
     <span class="example-spacer"></span>
@@ -63,7 +77,8 @@
             </li>
             <ng-template [ngIf]="userName" [ngIfElse]="logIn">
                 <li>
-                    <mat-icon matBadge="2" matBadgeColor="warn" matBadgeOverlap=false class="no-padding-badge"></mat-icon>
+                    <mat-icon matBadge="2" matBadgeColor="warn" matBadgeOverlap=false class="no-padding-badge">
+                    </mat-icon>
                 </li>
                 <li>
                     <app-avatar [photoUrl]="photoUrl" [name]="userName"></app-avatar>

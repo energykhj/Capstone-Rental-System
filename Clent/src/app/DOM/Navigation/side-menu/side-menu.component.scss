@@ -16,3 +16,15 @@ a:hover, a:active{
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
   }
+
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+  .form-bg{
+    border-color: gray;
+}
+
+mat-toolbar{
+    background-color: rgb(188, 188, 189);
+}
