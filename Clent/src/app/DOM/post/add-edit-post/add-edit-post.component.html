@@ -107,13 +107,13 @@
                                 <tab heading="Address" formGroupName="addressInfo">
 
                                     <div class="form-group col-12">
-                                        <input class="mr-2" type="checkbox" [attr.disabled]="isReadOnly ? '' : null" (change)="onChangeDefaultAddress($event)">
+                                        <input class="mr-2" type="checkbox" [attr.disabled]="isReadOnly ? '' : null" [(ngModel)]="isDefaultAddress" [ngModelOptions]="{standalone: true}" (change)="onChangeDefaultAddress()">
                                         <label>Use Default Address</label>                                        
                                     </div>
 
                                     <div class="form-group col-12">
                                         <label>Prvince</label>
-                                        <select class="form-control" formControlName="provinceId" [attr.disabled]="isReadOnly ? '' : null" [(ngModel)]="itemPkg.address.provinceId" aria-label=".form-select-lg example">
+                                        <select class="form-control" formControlName="provinceId" [attr.disabled]="isReadOnly ? '' : isDefaultAddress ? '' : null" [(ngModel)]="itemPkg.address.provinceId" aria-label=".form-select-lg example">
                                             <option *ngFor="let province of provinceList" [ngValue]="province.id">{{province.name}}</option>
                                         </select>
                                         <div *ngFor="let validation of validation_messages.provinceId">
@@ -126,7 +126,7 @@
 
                                     <div class="form-group col-12">
                                         <label>City</label>
-                                        <input type="text" class="form-control" formControlName="city" [readonly]="isReadOnly" [(ngModel)]="itemPkg.address.city">
+                                        <input type="text" class="form-control" formControlName="city" [readonly]="isReadOnly || isDefaultAddress" [(ngModel)]="itemPkg.address.city">
                                         <div *ngFor="let validation of validation_messages.city">
                                             <div class="text-danger"
                                                 *ngIf="addressInfo.get('city').hasError(validation.type) && 
@@ -137,7 +137,7 @@
 
                                     <div class="form-group col-12">
                                         <label>Address1</label>
-                                        <input type="text" class="form-control" formControlName="address1" [readonly]="isReadOnly" [(ngModel)]="itemPkg.address.address1">
+                                        <input type="text" class="form-control" formControlName="address1" [readonly]="isReadOnly || isDefaultAddress" [(ngModel)]="itemPkg.address.address1">
                                         <div *ngFor="let validation of validation_messages.address1">
                                             <div class="text-danger"
                                                 *ngIf="addressInfo.get('address1').hasError(validation.type) && 
@@ -148,12 +148,12 @@
 
                                     <div class="form-group col-12">
                                         <label>Address2</label>
-                                        <input type="text" class="form-control" [readonly]="isReadOnly" [(ngModel)]="itemPkg.address.address2">
+                                        <input type="text" class="form-control" [readonly]="isReadOnly || isDefaultAddress" [(ngModel)]="itemPkg.address.address2">
                                     </div>
 
                                     <div class="form-group col-12">
                                         <label>Postal Code</label>
-                                        <input type="text" class="form-control" formControlName="postalCode" [readonly]="isReadOnly" [(ngModel)]="itemPkg.address.postalCode">
+                                        <input type="text" class="form-control" formControlName="postalCode" [readonly]="isReadOnly || isDefaultAddress" [(ngModel)]="itemPkg.address.postalCode">
                                         <div *ngFor="let validation of validation_messages.postalCode">
                                             <div class="text-danger"
                                                 *ngIf="addressInfo.get('postalCode').hasError(validation.type) && 
