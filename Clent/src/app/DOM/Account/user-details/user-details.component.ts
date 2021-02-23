@@ -108,26 +108,29 @@ export class UserDetailsComponent implements OnInit {
     this.id = this.id.replace(/['"]+/g, '');
     this.service.GetUserInfo.subscribe((data:any)=>{
       if (data.details != null){
-        this.loginUser = data;
+        this.loginUser.account = data.account;
+        this.loginUser.details = data.details;
       }
       else {
         this.loginUser.account = data.account;
         this.loginUser.details.id = data.account.id;
+      }
+
+      if (data.address != null){
+        this.loginUser.address = data.address;
+      }
+      else {
         this.loginUser.address.userId = data.account.id;
       }
-      // this.loginUser = data;
-      // this.userAccount = data.account;
-      // this.userDetails = data.details;
-      // this.address = data.address;
-      // this.userEmail = this.userAccount.email;
-      
+
       if(this.loginUser.details != null){
-        this.PhotoFileName = data.details.photoUrl; 
-        //this.PhotoFilePath = environment.PhotoUrl+this.PhotoFileName;
+        this.PhotoFileName = data.details.photoUrl;
+        if (this.PhotoFileName == ''){
+          this.PhotoFileName = "anonymous.jpg";
+        }
         this.status = data.details.statusId;
       }
       else{
-        //this.PhotoFileName = "Resources/Avatar/anonymous.jpg";
         this.PhotoFileName = "anonymous.jpg";
         this.status = 0;
       } 
@@ -157,8 +160,9 @@ export class UserDetailsComponent implements OnInit {
   onSubmitUpdateUserDetails(value){     
     this.loginUser.details.photourl = this.PhotoFileName;
     this.service.UpdateUser(this.loginUser).subscribe(res=>{
-        this.router.navigate(['/home']); 
-        //this.dialogRef.close();
+        //this.router.navigate(['/home']); 
+        this.dialogRef.close("complete");
+        //window.location.reload();
         }, error => {
           console.log(error);
         })

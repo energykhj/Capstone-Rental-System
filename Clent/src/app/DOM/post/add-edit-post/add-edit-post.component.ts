@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DetailComponent } from './../../Main/detail/detail.component';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
+import { UserDetailsComponent } from '../../Account/user-details/user-details.component';
 
 @Component({
   selector: 'app-add-edit-post',
@@ -27,7 +28,8 @@ export class AddEditPostComponent implements OnInit {
   photoUrls=[];
   itemDefaultPhotoUrl: any;
   selectedFiles: any=[];
-
+  isDefaultAddress: boolean = false;
+  
 //  public files: NgxFileDropEntry[] = [];
   noImagePhotoUrl:string = environment.PhotoFileUrl + 'noImage.png';
   userId: string;
@@ -164,6 +166,22 @@ export class AddEditPostComponent implements OnInit {
     });
   }
 
+  get basicInfo(){
+    return this.addItemForm.controls.basicInfo as FormGroup;
+  }
+
+  get priceInfo(){
+    return this.addItemForm.controls.priceInfo as FormGroup;
+  }
+
+  get addressInfo(){
+    return this.addItemForm.controls.addressInfo as FormGroup;
+  }  
+  
+  get photoInfo(){
+    return this.addItemForm.controls.photoInfo as FormGroup;
+  }
+
   loadItemPhotos(itemId: string){
     this.service.GetItemPhotos(itemId).subscribe(
       data=>{
@@ -182,28 +200,40 @@ export class AddEditPostComponent implements OnInit {
     )
   }
 
-
-  onChangeDefaultAddress(event){
-    if (event.target.checked) {
+  onChangeDefaultAddress(){
+    if (this.isDefaultAddress) {
       this.service.GetUserInfo.subscribe((data:any)=>{
-        // if addresss?
-        this.itemPkg.address = {
-          id: data.address.id,
-          userId: data.address.userId,
-          isDefault: data.address.isDefault,
-          address1: data.address.address1,
-          address2: data.address.address2,
-          city: data.address.city,
-          provinceId: data.address.provinceId,
-          postalCode: data.address.postalCode,
-        }        
+        if (data.address){
+          this.itemPkg.address = {
+            id: data.address.id,
+            userId: data.address.userId,
+            isDefault: data.address.isDefault,
+            address1: data.address.address1,
+            address2: data.address.address2,
+            city: data.address.city,
+            provinceId: data.address.provinceId,
+            postalCode: data.address.postalCode,
+          }
+          this.isDefaultAddress = data.address.isDefault;    
+        }
+        else{
+          this.dialog.open(UserDetailsComponent).afterClosed().subscribe(result => {
+            if (result == "complete"){
+              this.onChangeDefaultAddress();
+            }
+            else{
+              this.isDefaultAddress = false;
+            }
+          });
+        }
       }, error => {
         console.log(error);
       });
-    } else {
+    } 
+    else {
         this.itemPkg.address = {
           id: 0,
-          userId: "",
+          userId: this.userId,
           isDefault: false,
           address1: "",
           address2: "",
@@ -236,30 +266,13 @@ export class AddEditPostComponent implements OnInit {
       if (this.userId == this.itemPkg.item.userId){
         this.isReadOnly = false;
       }
+
+      this.isDefaultAddress = data.address.isDefault; 
     });
-  }
-
-  get basicInfo(){
-    return this.addItemForm.controls.basicInfo as FormGroup;
-  }
-
-  get priceInfo(){
-    return this.addItemForm.controls.priceInfo as FormGroup;
-  }
-
-  get addressInfo(){
-    return this.addItemForm.controls.addressInfo as FormGroup;
-  }  
-  
-  get photoInfo(){
-    return this.addItemForm.controls.photoInfo as FormGroup;
   }
 
   public dropped(files: NgxFileDropEntry[]) {
 
-    //this.selectedFiles = [];
-    //this.photoUrls = [];
-    //this.files = files;
     for (const droppedFile of files) {
 
       // Is it a file?
@@ -301,7 +314,7 @@ export class AddEditPostComponent implements OnInit {
   uploadPhoto(){
 
     var files = this.selectedFiles;
-    //if (files.length == 0) return;
+
     if (this.itemId == null) return;
 
     const formData:FormData=new FormData();
@@ -343,11 +356,6 @@ export class AddEditPostComponent implements OnInit {
 
     if (this.isNewItem == true){
       this.service.insertItem(this.itemPkg).subscribe((data:any)=>{
-        //this.PhotoFileName=data.toString();
-        //this.PhotoFilePath=this.service.PhotoUrl+this.PhotoFileName;
-
-        //console.log(this.PhotoFileName);
-
         this.itemId = data.item.id;
         this.uploadPhoto();
         alert("Item Created");
