@@ -1,8 +1,8 @@
 <div class="container mt-3">
     <!-- <div class="row mb-5"> -->
     <div class="d-flex flex-row flex-wrap">
-        <div class="col-8 shadow-sm p-0 bg-white" style="min-width: 320px;">
-            <div class="card">
+        <div class="col-md-8 p-0 mb-3">
+            <div class="card item-card shadow-sm bg-white m-1">
                 <div class="card-header">
                     <h3>Item Information</h3>
                 </div>
@@ -168,51 +168,43 @@
                                         (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
                                             <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
                                             Drag and Drop Photos
-                                            <button type="button" style="margin-left: 32px;" (click)="openFileSelector()">Browse Files</button>
+                                            <button type="button" class="btn btn-secondary btn-sm ml-3" (click)="openFileSelector()">Browse Files</button>
                                             </ng-template>
                                         </ngx-file-drop>
-                                        <div class="upload-table">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Photo Name</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="upload-name-style">
-                                                    <tr *ngFor="let item of selectedFiles; let i=index">
-                                                        <td>
-                                                            <!-- <strong>{{ item.relativePath }}</strong> -->
-                                                            <img [src] = "photoUrls[i]" height="100">
-                                                            <button type="button" style="margin-left: 32px;" (click)="deletePhoto(i)">Delete</button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                        <div class="mt-2">
+                                            <div class="d-flex flex-column">
+                                                <div *ngFor="let item of selectedFiles; let i=index">
+                                                    <div class="d-flex flex-row justify-content-center">
+                                                        <img [src] = "photoUrls[i]" width="100">
+                                                        <button type="button" class="btn btn-secondary btn-sm ml-3 mt-1" (click)="deletePhoto(i)">Delete</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </tab>
                             </tabset>
                             <div class="d-flex flex-row flex-wrap justify-content-end mb-1 mr-1">
-                                <div class="ml-2"><button type="button" class="btn btn-primary btn-block" 
+                                <div class="ml-2"><button type="button" class="btn btn-primary" 
                                     (click)="selectPreviousTab()">Back</button></div>
-                                <div class="ml-2"><button type="button" class="btn btn-primary btn-block" 
+                                <div class="ml-2"><button type="button" class="btn btn-primary" 
                                     (click)="selectNextTab()">Next</button></div>
-                                <div *ngIf="isReadOnly == false" class="ml-2"><button type="submit" class="btn btn-primary btn-block">Save</button></div>     
-                                <div class="ml-2 mr-2"><button type="reset" class="btn btn-danger btn-block"
+                                <div *ngIf="isReadOnly == false" class="ml-2"><button type="submit" class="btn btn-primary">Save</button></div>     
+                                <div class="ml-2 mr-2"><button type="reset" class="btn btn-danger"
                                     (click)="onBack()">Cancel</button> </div>
                             </div>                        </div>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="col-4" style="min-width: 160px;">
-            <div class="card-header">
-                <h3>Preview</h3>
-            </div>
-            <div class="shadow-lg p-3 bg-white" (click)="openDetail(itemPkg.item.id)">
-                <!-- <app-property-card [property]="propertyView" hideIcons="true"></app-property-card> -->
-                <!-- <app-property-card [property]="itemPkg" hideIcons="true"></app-property-card> -->
-                <img [src] = "itemDefaultPhotoUrl" height="200"><br/>
+        <div class="col-md-4 p-0">
+            <div class="card m-1 shadow-sm bg-white">
+                <div class="card-header">
+                    <h3>Preview</h3>
+                </div>
+                <div class="shadow-sm p-3 bg-white" style="min-width: 200px; height: 200px" (click)="openDetail(itemPkg.item.id)">
+                    <img class="preview-image" [src]="itemDefaultPhotoUrl == null ? noImagePhotoUrl : itemDefaultPhotoUrl">
+                </div>
             </div>
         </div>
     </div>

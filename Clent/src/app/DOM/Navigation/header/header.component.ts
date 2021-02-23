@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { SharedService } from 'src/app/Services/shared.service';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { LoginComponent } from '../../Account/login/login.component';
 
 @Component({
   selector: 'app-header',
@@ -39,7 +40,8 @@ export class HeaderComponent implements OnInit {
     }
 
   openLogin() {
-    this.dialog.open(UserAccountComponent);
+    //this.dialog.open(UserAccountComponent);
+    this.dialog.open(LoginComponent);
   }
 
   openLoginModal() {

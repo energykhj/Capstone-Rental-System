@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(["/home"]);
       this.loading = false;
       this.dialogRef.close();
+      window.location.reload();
     }, error => {
       this.resetLoginError(true);
       console.log(error.errors);

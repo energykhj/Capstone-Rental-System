@@ -1,5 +1,5 @@
-.card {
-    min-height: 300px;
+.item-card {
+    min-height: 640px;
 }
 
 .card-body h1{
@@ -16,4 +16,10 @@
     padding: 4px 10px !important;
     background-color : #ACACAC !important;
     text-align: center;
+}
+
+.preview-image {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
 }
