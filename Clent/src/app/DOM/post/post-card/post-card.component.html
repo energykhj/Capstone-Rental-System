@@ -8,15 +8,15 @@
                <button class="btn btn-primary" routerLink="/property-detail/{{property.Id}}" routerLinkActive="router-link-active" ><i class="fa fa-edit"></i></button>
             </li> -->
             <li class="list-inline-item">
-                <button class="btn btn-primary" (click)="openDetail(property.id)"><i class="fa fa-info-circle"></i></button>
+                <button class="btn btn-primary" (click)="openDetail(property.id)"><i class="fa fa-image"></i></button>
             </li>
-            
-            <!-- <li class="list-inline-item">
-                <button class="btn btn-primary"><i class="fa fa-address-book"></i></button>
-            </li> -->
+
+            <li class="list-inline-item">
+                <button class="btn btn-primary" (click)="onclickDetails(property.id)"><i class="fa fa-info-circle"></i></button>
+            </li>
         </ul>
     </div>
-    <div class="card-body p-2" (click)="onclickDetails(property.id)">
+    <div class="card-body p-2">
         <h1>Name: {{property.name}}</h1>
         <h2>Deposit : ${{property.deposit}} | Fee: ${{property.fee}}</h2>           
     </div>
