@@ -17,8 +17,11 @@
             </li>
         </ul>
     </div>
-    <div class="card-body p-2">
-        <h1>Name: {{property.name}}</h1>
-        <h2>Deposit : ${{property.deposit}} | Fee: ${{property.fee}}</h2>           
+    <div class="product-block  col-md-12" (click)="onclickDetails(property.id)">
+        <h3 class="text-danger">{{property.name}}</h3>
+        <ul class="list-inline">
+            <li class="list-inline-item" ><i class="fas fa-hand-holding-usd"></i> Deposit : ${{property.deposit}}</li>
+            <li class="list-inline-item"><i class="fa fa-usd"></i> Fee: ${{property.fee}}</li>
+        </ul>
     </div>
 </div>   
