@@ -52,7 +52,7 @@ export class AddEditPostComponent implements OnInit {
     address: {
       id: 0,
       userId: "",
-      idDefault: false,
+      isDefault: false,
       address1: "",
       address2: "",
       city: "",
@@ -186,10 +186,11 @@ export class AddEditPostComponent implements OnInit {
   onChangeDefaultAddress(event){
     if (event.target.checked) {
       this.service.GetUserInfo.subscribe((data:any)=>{
+        // if addresss?
         this.itemPkg.address = {
-          id: 0,//data.address.id,
+          id: data.address.id,
           userId: data.address.userId,
-          idDefault: data.address.idDefault,
+          isDefault: data.address.isDefault,
           address1: data.address.address1,
           address2: data.address.address2,
           city: data.address.city,
@@ -203,7 +204,7 @@ export class AddEditPostComponent implements OnInit {
         this.itemPkg.address = {
           id: 0,
           userId: "",
-          idDefault: false,
+          isDefault: false,
           address1: "",
           address2: "",
           city: "",
@@ -280,7 +281,8 @@ export class AddEditPostComponent implements OnInit {
             this.itemDefaultPhotoUrl = this.photoUrls[0];
           }
         });
-      } else {
+      }
+      else {
         // It was a directory (empty directories are added, otherwise only files)
         const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
         console.log(droppedFile.relativePath, fileEntry);
