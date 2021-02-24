@@ -115,7 +115,7 @@ namespace Server.Controllers
                     Item.AddressId = pDto.Address.Id;
                 }
 
-                pDto.Item = mapper.Map<ItemDTO>(await IB.InsertItem(Item));
+                pDto.Item = mapper.Map<ItemDTO>(await IB.UpdateItem(Item));
                 //----
                 //ItemPkgDTO pDto = new ItemPkgDTO()
                 //{
