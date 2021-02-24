@@ -47,6 +47,8 @@ import { MapsComponent } from './DOM/Navigation/maps/maps.component';
 import { CurrencyMaskInputMode, NgxCurrencyModule } from "ngx-currency";
 /* Drag & Drop Files */
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { AlertsComponent } from './DOM/Shared/alerts/alerts.component';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 export const customCurrencyMaskConfig = {
   align: "right",
@@ -84,6 +86,7 @@ export function tokenGetter(){
     AddEditPostComponent,
     PostCardComponent,
     MapsComponent,
+    AlertsComponent,
     //UserdetailsComponent
   ],
   imports: [
@@ -103,6 +106,7 @@ export function tokenGetter(){
     TabsModule.forRoot(),
     ButtonsModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    AlertModule.forRoot(),
 
     JwtModule.forRoot({
       config: {

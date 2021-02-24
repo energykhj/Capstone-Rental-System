@@ -87,6 +87,7 @@ export class AvatarComponent implements OnInit {
   logout(){
     localStorage.removeItem("jwt");    
     localStorage.removeItem("userId");    
+    localStorage.removeItem("currentUser");    
     this.router.navigate(["/main"]);
     window.location.reload();
   }
