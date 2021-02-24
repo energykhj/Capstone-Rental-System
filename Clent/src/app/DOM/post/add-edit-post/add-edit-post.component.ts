@@ -138,6 +138,8 @@ export class AddEditPostComponent implements OnInit {
       this.isNewItem = true;
       this.isReadOnly = false;
     }
+
+    this.setFormData();
   }
 
   createAddEditItemForm(){
@@ -174,6 +176,39 @@ export class AddEditPostComponent implements OnInit {
         photoFiles: new FormControl('', Validators.required)
       })        
     });
+  }
+
+  getFormData(){
+
+    this.itemPkg.item.categoryId =  this.basicInfo.get("categoryId").value;
+    this.itemPkg.item.name = this.basicInfo.get("name").value;
+    this.itemPkg.item.description =  this.basicInfo.get("description").value;
+    this.itemPkg.item.deposit =  this.priceInfo.get("deposit").value;
+    this.itemPkg.item.fee =  this.priceInfo.get("fee").value;
+    this.itemPkg.item.startDate =  this.priceInfo.get("startDate").value;
+    this.itemPkg.item.endDate =  this.priceInfo.get("endDate").value;
+
+    this.itemPkg.address.address1 = this.addressInfo.get("address1").value;
+    this.itemPkg.address.address2 = this.addressInfo.get("address2").value;
+    this.itemPkg.address.city = this.addressInfo.get("city").value;
+    this.itemPkg.address.provinceId = this.addressInfo.get("provinceId").value;
+    this.itemPkg.address.postalCode = this.addressInfo.get("postalCode").value;
+  }
+
+  setFormData(){
+    this.basicInfo.get("categoryId").setValue(this.itemPkg.item.categoryId);
+    this.basicInfo.get("name").setValue(this.itemPkg.item.name);
+    this.basicInfo.get("description").setValue(this.itemPkg.item.description);
+    this.priceInfo.get("deposit").setValue(this.itemPkg.item.deposit);
+    this.priceInfo.get("fee").setValue(this.itemPkg.item.fee);
+    this.priceInfo.get("startDate").setValue(this.itemPkg.item.startDate);
+    this.priceInfo.get("endDate").setValue(this.itemPkg.item.endDate);
+
+    this.addressInfo.get("address1").setValue(this.itemPkg.address.address1);
+    this.addressInfo.get("address2").setValue(this.itemPkg.address.address2);
+    this.addressInfo.get("city").setValue(this.itemPkg.address.city);
+    this.addressInfo.get("provinceId").setValue(this.itemPkg.address.provinceId);
+    this.addressInfo.get("postalCode").setValue(this.itemPkg.address.postalCode);
   }
 
   get basicInfo(){
@@ -219,6 +254,7 @@ export class AddEditPostComponent implements OnInit {
   }
 
   onChangeDefaultAddress(){
+    this.getFormData();
     if (this.isDefaultAddress) {
       this.service.GetUserInfo.subscribe((data:any)=>{
         if (data.address){
@@ -232,7 +268,8 @@ export class AddEditPostComponent implements OnInit {
             provinceId: data.address.provinceId,
             postalCode: data.address.postalCode,
           }
-          this.isDefaultAddress = data.address.isDefault;    
+          this.isDefaultAddress = data.address.isDefault;  
+          this.setFormData();  
         }
         else{
           this.dialog.open(UserDetailsComponent).afterClosed().subscribe(result => {
@@ -259,6 +296,7 @@ export class AddEditPostComponent implements OnInit {
         provinceId: 1,
         postalCode: "",
       } 
+      this.setFormData();
     }
   }
 
@@ -285,7 +323,9 @@ export class AddEditPostComponent implements OnInit {
         this.isReadOnly = false;
       }
 
-      this.isDefaultAddress = data.address.isDefault; 
+      this.isDefaultAddress = data.address.isDefault;
+      
+      this.setFormData();
     });
   }
 
@@ -368,6 +408,8 @@ export class AddEditPostComponent implements OnInit {
       this.formTabs.tabs[2].active = true;
       return;
     }
+
+    this.getFormData();
 
     if (this.isNewItem == true){
       this.service.insertItem(this.itemPkg).subscribe((data:any)=>{

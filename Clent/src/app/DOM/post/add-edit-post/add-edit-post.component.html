@@ -14,7 +14,7 @@
                                 <tab heading="Basic Info" formGroupName="basicInfo">                
                                     <div class="form-group col-12">
                                         <label>Category</label>
-                                        <select class="form-control" formControlName="categoryId" [attr.disabled]="isReadOnly ? '' : null" [(ngModel)]="itemPkg.item.categoryId" aria-label=".form-select-lg example">
+                                        <select class="form-control" formControlName="categoryId" [attr.disabled]="isReadOnly ? '' : null" aria-label=".form-select-lg example">
                                             <option *ngFor="let category of categoryList" [ngValue]="category.categoryId">{{category.name}}</option>
                                         </select>
                                         <div *ngFor="let validation of validation_messages.categoryId">
@@ -27,7 +27,7 @@
 
                                     <div class="form-group col-12">
                                         <label>Name</label>
-                                        <input type="text" class="form-control" formControlName="name" [readonly]="isReadOnly" [(ngModel)]="itemPkg.item.name">
+                                        <input type="text" class="form-control" formControlName="name" [readonly]="isReadOnly">
                                         <div *ngFor="let validation of validation_messages.name">
                                             <div class="text-danger"
                                                 *ngIf="basicInfo.get('name').hasError(validation.type) && 
@@ -38,7 +38,7 @@
                     
                                     <div class="form-group col-12">
                                         <label>Description</label>
-                                        <textarea class="form-control" formControlName="description" [readonly]="isReadOnly" [(ngModel)]="itemPkg.item.description" rows="7"></textarea>                                         
+                                        <textarea class="form-control" formControlName="description" [readonly]="isReadOnly" rows="7"></textarea>                                         
                                         <div *ngFor="let validation of validation_messages.description">
                                             <div class="text-danger"
                                                 *ngIf="basicInfo.get('description').hasError(validation.type) && 
@@ -51,7 +51,7 @@
                                 <tab heading="Pricing and Condition" formGroupName="priceInfo">
                                     <div class="form-group col-12">
                                         <label>Deposit</label>
-                                        <input type="text" currencyMask class="form-control" formControlName="deposit" [readonly]="isReadOnly" [(ngModel)]="itemPkg.item.deposit">
+                                        <input type="text" currencyMask class="form-control" formControlName="deposit" [readonly]="isReadOnly">
                                         <div *ngFor="let validation of validation_messages.deposit">
                                             <div class="text-danger"
                                                 *ngIf="priceInfo.get('deposit').hasError(validation.type) && 
@@ -62,7 +62,7 @@
                         
                                     <div class="form-group col-12">
                                         <label>Rental Fee</label>
-                                        <input type="text" currencyMask class="form-control" formControlName="fee" [readonly]="isReadOnly" [(ngModel)]="itemPkg.item.fee">
+                                        <input type="text" currencyMask class="form-control" formControlName="fee" [readonly]="isReadOnly">
                                         <div *ngFor="let validation of validation_messages.fee">
                                             <div class="text-danger"
                                                 *ngIf="priceInfo.get('fee').hasError(validation.type) && 
@@ -79,8 +79,7 @@
                                                 formControlName="startDate"
                                                 [readonly]="isReadOnly"
                                                 bsDatepicker
-                                                value="{{ itemPkg.item.startDate | date:'yyyy-MM-dd' }}" 
-                                                [(ngModel)]="itemPkg.item.startDate"
+                                                value="{{ itemPkg.item.startDate | date:'yyyy-MM-dd' }}"
                                                 [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD'}">
                                         <div *ngFor="let validation of validation_messages.startDate">
                                             <div class="text-danger"
@@ -98,8 +97,7 @@
                                                 [errorStateMatcher]="parentErrorStateMatcher"
                                                 [readonly]="isReadOnly"
                                                 bsDatepicker
-                                                value="{{ itemPkg.item.endDate | date:'yyyy-MM-dd' }}" 
-                                                [(ngModel)]="itemPkg.item.endDate"
+                                                value="{{ itemPkg.item.endDate | date:'yyyy-MM-dd' }}"
                                                 [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD'}">
                                         <div *ngFor="let validation of validation_messages.endDate">
                                             <div class="text-danger"
@@ -118,7 +116,7 @@
 
                                     <div class="form-group col-12">
                                         <label>Prvince</label>
-                                        <select class="form-control" formControlName="provinceId" [attr.disabled]="isReadOnly ? '' : isDefaultAddress ? '' : null" [(ngModel)]="itemPkg.address.provinceId" aria-label=".form-select-lg example">
+                                        <select class="form-control" formControlName="provinceId" [attr.disabled]="isReadOnly ? '' : isDefaultAddress ? '' : null" aria-label=".form-select-lg example">
                                             <option *ngFor="let province of provinceList" [ngValue]="province.id">{{province.name}}</option>
                                         </select>
                                         <div *ngFor="let validation of validation_messages.provinceId">
@@ -131,7 +129,7 @@
 
                                     <div class="form-group col-12">
                                         <label>City</label>
-                                        <input type="text" class="form-control" formControlName="city" [readonly]="isReadOnly || isDefaultAddress" [(ngModel)]="itemPkg.address.city">
+                                        <input type="text" class="form-control" formControlName="city" [readonly]="isReadOnly || isDefaultAddress">
                                         <div *ngFor="let validation of validation_messages.city">
                                             <div class="text-danger"
                                                 *ngIf="addressInfo.get('city').hasError(validation.type) && 
@@ -142,7 +140,7 @@
 
                                     <div class="form-group col-12">
                                         <label>Address1</label>
-                                        <input type="text" class="form-control" formControlName="address1" [readonly]="isReadOnly || isDefaultAddress" [(ngModel)]="itemPkg.address.address1">
+                                        <input type="text" class="form-control" formControlName="address1" [readonly]="isReadOnly || isDefaultAddress">
                                         <div *ngFor="let validation of validation_messages.address1">
                                             <div class="text-danger"
                                                 *ngIf="addressInfo.get('address1').hasError(validation.type) && 
@@ -153,12 +151,12 @@
 
                                     <div class="form-group col-12">
                                         <label>Address2</label>
-                                        <input type="text" class="form-control" [readonly]="isReadOnly || isDefaultAddress" [(ngModel)]="itemPkg.address.address2">
+                                        <input type="text" class="form-control" formControlName="address2" [readonly]="isReadOnly || isDefaultAddress">
                                     </div>
 
                                     <div class="form-group col-12">
                                         <label>Postal Code</label>
-                                        <input type="text" class="form-control" formControlName="postalCode" [readonly]="isReadOnly || isDefaultAddress" [(ngModel)]="itemPkg.address.postalCode">
+                                        <input type="text" class="form-control" formControlName="postalCode" [readonly]="isReadOnly || isDefaultAddress">
                                         <div *ngFor="let validation of validation_messages.postalCode">
                                             <div class="text-danger"
                                                 *ngIf="addressInfo.get('postalCode').hasError(validation.type) && 
