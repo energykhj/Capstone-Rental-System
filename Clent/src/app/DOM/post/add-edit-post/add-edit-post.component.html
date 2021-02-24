@@ -177,7 +177,7 @@
                                         </ngx-file-drop>
                                         <div class="mt-2">
                                             <div class="d-flex flex-column">
-                                                <div *ngFor="let item of selectedFiles; let i=index">
+                                                <div *ngFor="let item of photoUrls; let i=index">
                                                     <div class="d-flex flex-row justify-content-center">
                                                         <img [src] = "photoUrls[i]" width="100">
                                                         <button type="button" class="btn btn-secondary btn-sm ml-3 mt-1" (click)="deletePhoto(i)">Delete</button>

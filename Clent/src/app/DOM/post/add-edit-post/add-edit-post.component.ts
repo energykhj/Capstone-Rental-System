@@ -10,6 +10,7 @@ import { DetailComponent } from './../../Main/detail/detail.component';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { UserDetailsComponent } from '../../Account/user-details/user-details.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-edit-post',
@@ -26,11 +27,10 @@ export class AddEditPostComponent implements OnInit {
   provinceList:any=[];
 
   photoUrls=[];
+  photoFiles: any=[];
   itemDefaultPhotoUrl: any;
-  selectedFiles: any=[];
   isDefaultAddress: boolean = false;
   
-//  public files: NgxFileDropEntry[] = [];
   noImagePhotoUrl:string = environment.PhotoFileUrl + 'noImage.png';
   userId: string;
   
@@ -104,7 +104,8 @@ export class AddEditPostComponent implements OnInit {
             private router: Router, 
             private service:SharedService,
             private route: ActivatedRoute,
-            public dialog: MatDialog) { 
+            public dialog: MatDialog,
+            private sanitizer: DomSanitizer) { 
     this.isReadOnly = true;
     if(this.service.isLoginUser){
       this.userId = this.service.isLoginUser;
@@ -186,11 +187,19 @@ export class AddEditPostComponent implements OnInit {
     this.service.GetItemPhotos(itemId).subscribe(
       data=>{
         data.forEach(element => {
-          let photoUrl = environment.PhotoFileUrl + element.fileName;
-          this.photoUrls.push(photoUrl); 
+          //let photoUrl = environment.PhotoFileUrl + element.fileName;
           this.service.getItemPhotoFile(element.fileName).subscribe((data:any)=>{
-            this.selectedFiles.push(data);  
-            //this.files.push(data);         
+            this.photoFiles.push(data);            
+            // Display photo
+            var reader = new FileReader();
+            reader.readAsDataURL(data);
+            reader.onload=(events:any)=>{
+              var url = events.target.result as string;
+              let safeUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+              this.photoUrls.push(safeUrl);
+              // To-do: Check default
+              this.itemDefaultPhotoUrl = this.photoUrls[0];
+            }
           });
         });;
         this.itemDefaultPhotoUrl = this.photoUrls[0];
@@ -231,16 +240,16 @@ export class AddEditPostComponent implements OnInit {
       });
     } 
     else {
-        this.itemPkg.address = {
-          id: 0,
-          userId: this.userId,
-          isDefault: false,
-          address1: "",
-          address2: "",
-          city: "",
-          provinceId: 1,
-          postalCode: "",
-        } 
+      this.itemPkg.address = {
+        id: 0,
+        userId: this.userId,
+        isDefault: false,
+        address1: "",
+        address2: "",
+        city: "",
+        provinceId: 1,
+        postalCode: "",
+      } 
     }
   }
 
@@ -283,7 +292,7 @@ export class AddEditPostComponent implements OnInit {
           // Here you can access the real file
           console.log(droppedFile.relativePath, file);
 
-          this.selectedFiles.push(file);
+          this.photoFiles.push(file);
 
           // Display photo
           var reader = new FileReader();
@@ -313,7 +322,7 @@ export class AddEditPostComponent implements OnInit {
 
   uploadPhoto(){
 
-    var files = this.selectedFiles;
+    var files = this.photoFiles;
 
     if (this.itemId == null) return;
 
@@ -326,9 +335,6 @@ export class AddEditPostComponent implements OnInit {
     }
 
     this.service.uploadItemPhoto(formData).subscribe((data:any)=>{
-      //this.PhotoFileName=data.toString();
-      //this.PhotoFilePath=this.service.PhotoUrl+this.PhotoFileName;
-
       console.log(data.filePathList[0]);
     })
   }
@@ -370,12 +376,6 @@ export class AddEditPostComponent implements OnInit {
     }
   }
 
-  selectTab(tabId: number) {
-   // if(IsCurrentTabValid){
-      this.formTabs.tabs[tabId].active = true;
-  //  }
-  }
-
   selectNextTab() {    
     let tabId = this.formTabs.tabs.findIndex(tab => tab.active === true);
     tabId++;
@@ -408,9 +408,8 @@ export class AddEditPostComponent implements OnInit {
   }
 
   deletePhoto(index:any){
-    this.selectedFiles.splice(index, 1);
+    this.photoFiles.splice(index, 1);
     this.photoUrls.splice(index, 1);
-    //this.files.splice(index, 1);
     this.itemDefaultPhotoUrl = this.photoUrls[0];
   }
 }
