@@ -8,7 +8,7 @@ import { LoginComponent } from './DOM/Account/login/login.component';
 import { RegisterComponent } from './DOM/Account/register/register.component';
 import { HeaderComponent } from './DOM/Navigation/header/header.component';
 import { SideMenuComponent } from './DOM/Navigation/side-menu/side-menu.component';
-import { HomeComponent } from './DOM/Main/home/home.component';
+import { HomeComponent } from './DOM/Main/Home/home.component';
 import { DetailComponent } from './DOM/Main/detail/detail.component';
 import { PostComponent } from './DOM/post/post.component';
 import { AddEditPostComponent } from './DOM/post/add-edit-post/add-edit-post.component';
@@ -35,7 +35,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 /* Authenticate */
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './Services/auth.service';
-import { UserAccountComponent } from './Dom/Account/user-account/user-account.component';
+import { UserAccountComponent } from './DOM/Account/user-account/user-account.component';
 import { AvatarComponent } from './Helpers/avatar/avatar.component';
 import { UserDetailsComponent } from './DOM/Account/user-details/user-details.component';
 import { AskComponent } from './DOM/ask/ask.component';
