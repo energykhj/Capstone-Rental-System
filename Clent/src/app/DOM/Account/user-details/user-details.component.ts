@@ -158,7 +158,7 @@ export class UserDetailsComponent implements OnInit {
 
   onSubmitUpdateUserDetails(value) {
     this.loginUser.details.photourl = this.PhotoFileName;
-    this.service.UpdateUser(this.loginUser).subscribe(res => {
+    this.service.updateUser(this.loginUser).subscribe(res => {
       this.dialogRef.close();
       window.location.reload();
       this.service.Alert("success", "successfully updated!!");

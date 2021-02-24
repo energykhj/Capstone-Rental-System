@@ -44,7 +44,7 @@ export class SharedService {
     return this.http.get<any[]>(`${environment.apiUrl}/Lookup/GetProvinces`);
   }
 
-  UpdateUser(val:any){
+  updateUser(val:any){
     //alert(val.details.statusId);
     if(val.details.statusId == 0){
       return this.http.post<any>(`${environment.apiUrl}/UserDetails/CreateUser`, val);
@@ -92,27 +92,24 @@ export class SharedService {
     return this.http.put<any>(`${environment.apiUrl}/Item`, val);
   }
 
-  // Item List
-  GetItem(val:any,page:any){
-    let va = 'http://localhost:49730/api/Item/'+val+'/'+page;
-    console.log(va);
-    return this.http.get<any>('http://localhost:49730/api/Item/'+val+'/'+page);
-  }
+  // Item List //Need to change Name
+  // GetItem(val:any,page:any){
+  //   let va = 'http://localhost:49730/api/Item/'+val+'/'+page;
+  //   console.log(va);
+  //   return this.http.get<any>('http://localhost:49730/api/Item/'+val+'/'+page);
+  // }
 
-  GetSearchedItemAndDefaultPhoto(page:any,val:any){
+  getSearchedItemAndDefaultPhoto(page:any,val:any){
     return this.http.get<any>(`${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/`+ page+'/'+val);
   }
 
-  GetItemPhotos(val:any){
+  getItemPhotos(val:any){
     return this.http.get<any>(`${environment.apiUrl}/Item/GetItemPhotos/`+ val);
   }
 
   getItemPhotoFile(val:any):Observable<any>{
     return this.http.get(`${environment.PhotoFileUrl}`+val, {responseType: 'blob'});
   }
-
-
-
 
   Alert(t: string, m: string):void{
     const timeout = 2000;

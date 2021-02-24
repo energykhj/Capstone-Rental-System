@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadInitPost(){
-  this.service.GetSearchedItemAndDefaultPhoto(this.page,this.value).subscribe(
+  this.service.getSearchedItemAndDefaultPhoto(this.page,this.value).subscribe(
       data=>{
             this.properties=data;
             if(this.properties.length < 8){
@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
     console.log("click");
     this.page = this.page + 1;
 
-    this.service.GetSearchedItemAndDefaultPhoto(this.page,this.value).subscribe(
+    this.service.getSearchedItemAndDefaultPhoto(this.page,this.value).subscribe(
       data=>{
             const newList = data;
 

@@ -22,7 +22,7 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data.dataKey);
-    this.service.GetItemPhotos(this.data.dataKey).subscribe(
+    this.service.getItemPhotos(this.data.dataKey).subscribe(
       data=>{
             this.photos=data;
             console.log(this.PhotoFilePath);

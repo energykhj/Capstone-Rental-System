@@ -184,7 +184,7 @@ export class AddEditPostComponent implements OnInit {
   }
 
   loadItemPhotos(itemId: string){
-    this.service.GetItemPhotos(itemId).subscribe(
+    this.service.getItemPhotos(itemId).subscribe(
       data=>{
         data.forEach(element => {
           //let photoUrl = environment.PhotoFileUrl + element.fileName;
@@ -364,14 +364,14 @@ export class AddEditPostComponent implements OnInit {
       this.service.insertItem(this.itemPkg).subscribe((data:any)=>{
         this.itemId = data.item.id;
         this.uploadPhoto();
-        alert("Item Created");
+        this.service.Alert("Post", "Item Created");
       });
     }
     else{
       this.service.updateItem(this.itemPkg).subscribe((data:any)=>{
         this.itemId = data.item.id;
         this.uploadPhoto();
-        alert("Item Modified");
+        this.service.Alert("Post", "Item Modified");
       });
     }
   }
