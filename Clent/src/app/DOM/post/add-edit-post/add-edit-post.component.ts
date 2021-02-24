@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { UserDetailsComponent } from '../../Account/user-details/user-details.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DateOrderValidator, ParentErrorStateMatcher} from 'src/app/validators';
 
 @Component({
   selector: 'app-add-edit-post',
@@ -20,6 +21,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class AddEditPostComponent implements OnInit {
   //@ViewChild('Form') addPropertyForm: NgForm;
   @ViewChild('formTabs') formTabs: TabsetComponent;
+  parentErrorStateMatcher = new ParentErrorStateMatcher();
 
   addItemForm: FormGroup;
 
@@ -80,10 +82,11 @@ export class AddEditPostComponent implements OnInit {
       { type: 'required', message: 'Rental Fee is required' }
     ],
     'startDate': [
-      { type: 'required', message: 'Start Date is required' }
+      { type: 'required', message: 'Start Date is required' },
     ],
     'endDate': [
-      { type: 'required', message: 'End Date is required' }
+      { type: 'required', message: 'End Date is required' },
+      { type: 'dateOrder', message: 'End Date should be greater than or equal Start Date' }
     ],
     'provinceId': [
       { type: 'required', message: 'Province is required' }
@@ -106,6 +109,7 @@ export class AddEditPostComponent implements OnInit {
             private route: ActivatedRoute,
             public dialog: MatDialog,
             private sanitizer: DomSanitizer) { 
+
     this.isReadOnly = true;
     if(this.service.isLoginUser){
       this.userId = this.service.isLoginUser;
@@ -143,12 +147,17 @@ export class AddEditPostComponent implements OnInit {
         name: new FormControl('', Validators.required),
         description: new FormControl('', Validators.required)
       }),
-      priceInfo: this.fb.group({
+//      priceInfo: this.fb.group({
+      priceInfo: new FormGroup({
         deposit: new FormControl('', Validators.required),
         fee: new FormControl('', Validators.required),
         startDate: new FormControl('', Validators.required),
-        endDate: new FormControl('', Validators.required)
-      }),
+        endDate: new FormControl('', Validators.required)},
+        
+        (formGroup: FormGroup) => {
+          var ret = DateOrderValidator.checkDateOrder(formGroup, "startDate", "endDate");
+          return ret;
+        }),
       addressInfo: this.fb.group({
         provinceId: new FormControl(this.provinceList[0], Validators.required),
         city: new FormControl('', Validators.required),
@@ -364,14 +373,14 @@ export class AddEditPostComponent implements OnInit {
       this.service.insertItem(this.itemPkg).subscribe((data:any)=>{
         this.itemId = data.item.id;
         this.uploadPhoto();
-        this.service.Alert("Post", "Item Created");
+        this.service.Alert("success", "Item Created");
       });
     }
     else{
       this.service.updateItem(this.itemPkg).subscribe((data:any)=>{
         this.itemId = data.item.id;
         this.uploadPhoto();
-        this.service.Alert("Post", "Item Modified");
+        this.service.Alert("success", "Item Modified");
       });
     }
   }

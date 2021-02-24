@@ -72,7 +72,7 @@
                                     </div>
 
                                     <div class="form-group col-12">
-                                        <label>Dates and Times</label>
+                                        <label>Start Date</label>
                                         <input type="text"
                                                 placeholder="Start Date"
                                                 class="form-control"
@@ -88,13 +88,14 @@
                                                         (priceInfo.get('startDate').dirty || priceInfo.get('startDate').touched)">
                                                 {{validation.message}}</div>
                                         </div>
-
-                                        <label> ~ </label>
-
-                                        <input type="text"
+                                    </div>
+                                    <div class="form-group col-12">
+                                        <label>End Date</label>
+                                        <input type="text" matInput
                                                 placeholder="End Date"
                                                 class="form-control"
                                                 formControlName="endDate"
+                                                [errorStateMatcher]="parentErrorStateMatcher"
                                                 [readonly]="isReadOnly"
                                                 bsDatepicker
                                                 value="{{ itemPkg.item.endDate | date:'yyyy-MM-dd' }}" 
@@ -102,7 +103,7 @@
                                                 [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD'}">
                                         <div *ngFor="let validation of validation_messages.endDate">
                                             <div class="text-danger"
-                                                *ngIf="priceInfo.get('endDate').hasError(validation.type) && 
+                                                *ngIf="priceInfo.hasError(validation.type) || priceInfo.get('endDate').hasError(validation.type) && 
                                                         (priceInfo.get('endDate').dirty || priceInfo.get('endDate').touched)">
                                                 {{validation.message}}</div>
                                         </div>
