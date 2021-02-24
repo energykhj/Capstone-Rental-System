@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AlertsComponent } from 'src/app/DOM/Shared/alerts/alerts.component';
+import { MatDialog } from '@angular/material/dialog';
 // import { User } from '../Models/user';
 
 @Injectable({
@@ -12,7 +14,9 @@ export class SharedService {
   readonly PhotoUrl = 'http://localhost:57183/';
   readonly PhotoUrlAvatar = 'http://localhost:57183/api/UserDetails/GetAvatar/';
 
-  constructor(private http:HttpClient) { }
+  constructor(
+    private http:HttpClient,    
+    public dialog: MatDialog) { }
 
   Login(val:any){
     return this.http.post(this.APIUrl+'/Authentication/Login',val)
@@ -32,9 +36,6 @@ export class SharedService {
     return this.http.get<any>(`${environment.apiUrl}/UserDetails/GetUser/`+ id);
   }
 
-  GetUserxxx(val:any){
-    return this.http.get<any>(`${environment.apiUrl}/UserDetails/GetUser/`+val);
-  }
   GetWeather():Observable<any[]>{
     return this.http.get<any>(`${environment.apiUrl}/weatherforecast`);
   }
@@ -56,12 +57,7 @@ export class SharedService {
   uploadPhoto(val:any){
     return this.http.post(`${environment.apiUrl}/UserDetails/SaveAvatar`, val)
   }
-
-  uploadPhoto1(file: FormData):Observable<any>{
-    const url = `${environment.apiUrl}/UserDetails/SavePhoto`
-    return this.http.post(`${environment.apiUrl}/UserDetails/SavePhoto`, file)
-  }
-
+  
   upload(file: any) {
     let input = new FormData();
     input.append("filesData", file);
@@ -113,6 +109,22 @@ export class SharedService {
 
   getItemPhotoFile(val:any):Observable<any>{
     return this.http.get(`${environment.PhotoFileUrl}`+val, {responseType: 'blob'});
+  }
+
+
+
+
+  Alert(t: string, m: string):void{
+    const timeout = 2000;
+    const dialogRef = this.dialog.open(AlertsComponent, {
+      width: '300px',
+      data: {type: t, msg: m}
+    });
+    dialogRef.afterOpened().subscribe(_ => {
+      setTimeout(() => {
+         dialogRef.close();
+      }, timeout)
+    })
   }
 }
 

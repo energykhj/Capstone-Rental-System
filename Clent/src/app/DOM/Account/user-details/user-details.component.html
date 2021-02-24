@@ -1,6 +1,7 @@
 <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
     <div mat-dialog-content>
         <h1 mat-dialog-title>User Details</h1>
+       
         <form class="userdetails-form" [formGroup]="userDetailsForm"
             (ngSubmit)="onSubmitUpdateUserDetails(userDetailsForm.value)">            
             <table class="full-width" cellspacing="0">
@@ -118,8 +119,10 @@
                     </td>
                 </tr>
             </table>
+            <div class="col-md-3">
             <button mat-raised-button color="warn" type="submit" class="login-button"
-                [disabled]="!userDetailsForm.valid">Update</button>
+                [disabled]="!userDetailsForm.valid">Update</button> 
+            </div>
         </form>
     </div>
 </div>

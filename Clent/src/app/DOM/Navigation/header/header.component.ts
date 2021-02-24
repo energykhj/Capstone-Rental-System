@@ -65,6 +65,9 @@ export class HeaderComponent implements OnInit {
         this.photoUrl = (this.userDetails.photoUrl)? environment.PhotoFileUrl+this.userDetails.photoUrl : "";
         
          //alert(this.userAccount.email); 
+      },
+      error =>{
+       
       });
     } 
   }
