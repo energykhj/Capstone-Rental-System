@@ -10,3 +10,46 @@ mat-sidenav{
 main{
   padding: 10px;
 }
+
+.unique-color-dark{
+  background-color: #1c2331 !important;
+}
+.page-footer .footer-copyright {
+  overflow: hidden;
+  color: rgba(255,255,255,0.6);
+  background-color: rgba(0,0,0,0.2);
+}
+
+.page-footer a {
+  color: #fff;
+}
+
+.font-weight-bold {
+  font-weight: 700 !important;
+  color: #fff;
+  font-size: 14px;
+}
+
+.text-uppercase {  
+  text-transform: uppercase !important;
+}
+
+.pb-4, .py-4 {
+  padding-bottom: 1.5rem !important;
+}
+.deep-purple {
+  background-color: #4A148C !important;
+}
+
+.ml-auto, .mx-auto {
+  margin-left: auto !important;
+}
+
+p {
+  color: #fff;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
