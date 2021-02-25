@@ -27,7 +27,8 @@ describe('PostCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PostCardComponent);
     component = fixture.componentInstance;
-    component.property = {name:'Bike', defaultImageFile:'0457e040-445c-4bcb-b201-6123335b2e62.jpg', deposit:50, fee: 2};
+    component.property = {name:'Bike', defaultImageFile:'11b5bd7e-24fb-4d69-b035-f3feccbaca50', deposit:50, fee: 2};
+    component.PhotoFilePath = 'http://localhost:57183/api/Lookup/GetPhoto/';
     fixture.detectChanges();
   });
 
@@ -36,11 +37,16 @@ describe('PostCardComponent', () => {
   });
   
   it('should have the correct property values', () =>{
-    //component.property={name:'Bike',defaultImageFile:'bike.jpg', deposit: 50, fee: 2};
+    expect(component.PhotoFilePath).toEqual('http://localhost:57183/api/Lookup/GetPhoto/')
     expect(component.property.name).toEqual('Bike');
-    expect(component.property.defaultImageFile).toEqual('0457e040-445c-4bcb-b201-6123335b2e62.jpg');
+    expect(component.property.defaultImageFile).toEqual('11b5bd7e-24fb-4d69-b035-f3feccbaca50');
     expect(component.property.deposit).toEqual(50);
     expect(component.property.fee).toEqual(2);
+  })
+
+  it('should set image item path as expected', () => {    
+    const ele = fixture.debugElement.nativeElement.querySelectorAll('img');
+    expect(ele[0]['src']).toContain('http://localhost:57183/api/Lookup/GetPhoto/11b5bd7e-24fb-4d69-b035-f3feccbaca50');
   })
 
 });

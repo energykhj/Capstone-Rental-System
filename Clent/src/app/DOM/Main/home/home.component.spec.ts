@@ -1,6 +1,6 @@
 import 'zone.js/dist/zone-testing';
 import { AuthService } from './../../../Services/auth.service';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -34,7 +34,7 @@ describe('HomeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
-    component.properties=[{name:'',defaultImageFile:'', deposit: 0, fee: 0}];
+    component.properties=[{name:'Bike',defaultImageFile:'', deposit: 50, fee: 2}];
     fixture.detectChanges();
   });
 
@@ -43,12 +43,23 @@ describe('HomeComponent', () => {
   });
 
   it('should have the correct properties values', () =>{
-    component.properties={name:'Bike',defaultImageFile:'0457e040-445c-4bcb-b201-6123335b2e62.jpg', deposit: 50, fee: 2};
+    component.properties={name:'Bike',defaultImageFile:'11b5bd7e-24fb-4d69-b035-f3feccbaca50', deposit: 50, fee: 2};
     expect(component.properties.name).toEqual('Bike');
-    expect(component.properties.defaultImageFile).toEqual('0457e040-445c-4bcb-b201-6123335b2e62.jpg');
+    expect(component.properties.defaultImageFile).toEqual('11b5bd7e-24fb-4d69-b035-f3feccbaca50');
     expect(component.properties.deposit).toEqual(50);
     expect(component.properties.fee).toEqual(2);
   })
 
+  it('LOAD MORE Button method should be called', fakeAsync(() => {
+    spyOn(component, 'onClick');
+  
+    let button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    tick();
+  
+    fixture.whenStable().then(() => {
+      expect(component.onClick).toHaveBeenCalled();
+    });
+  }));
 
 });
