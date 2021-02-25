@@ -1,4 +1,3 @@
-//import { IPropertyBase } from './../../model/ipropertybase';
 import { Component, HostListener, OnInit, ViewChild, Input } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -167,7 +166,7 @@ export class AddEditPostComponent implements OnInit {
         address2: new FormControl(),
         postalCode: new FormControl('', Validators.compose([
           Validators.required,
-          Validators.maxLength(6),
+          //Validators.maxLength(6),
           Validators.pattern('^[ABCEFGHJKLMNPRSTVXYabcefghjklmnprstvxy][0-9][ABCEFGHJKLMNPRSTVWXYZabcefghjklmnprstvwxyz] ?[0-9][ABCEFGHJKLMNPRSTVWXYZabcefghjklmnprstvwxyz][0-9]+$')
           //Validators.pattern('^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$')
         ]))
