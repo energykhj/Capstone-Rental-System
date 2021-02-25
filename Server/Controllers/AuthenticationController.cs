@@ -52,7 +52,7 @@ namespace Server.Controllers
             }
             else
             {
-                return BadRequest("Username or password invalid");
+                return BadRequest(result.Errors.ToList()[0].Code);
             }
         }
 
