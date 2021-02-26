@@ -20,7 +20,7 @@
                                         <div *ngFor="let validation of validation_messages.categoryId">
                                             <div class="text-danger"
                                                 *ngIf="basicInfo.get('categoryId').hasError(validation.type) && 
-                                                        (basicInfo.get('categoryId').dirty || basicInfo.get('categoryId').touched)">
+                                                        (basicInfo.get('categoryId').dirty || basicInfo.get('categoryId').touched || isSubmitPressed)">
                                                 {{validation.message}}</div>
                                         </div>                                       
                                     </div>
@@ -31,7 +31,7 @@
                                         <div *ngFor="let validation of validation_messages.name">
                                             <div class="text-danger"
                                                 *ngIf="basicInfo.get('name').hasError(validation.type) && 
-                                                        (basicInfo.get('name').dirty || basicInfo.get('name').touched)">
+                                                (basicInfo.get('name').dirty || basicInfo.get('name').touched || isSubmitPressed)">
                                                 {{validation.message}}</div>
                                         </div>
                                     </div>
@@ -42,7 +42,7 @@
                                         <div *ngFor="let validation of validation_messages.description">
                                             <div class="text-danger"
                                                 *ngIf="basicInfo.get('description').hasError(validation.type) && 
-                                                        (basicInfo.get('description').dirty || basicInfo.get('description').touched)">
+                                                        (basicInfo.get('description').dirty || basicInfo.get('description').touched || isSubmitPressed)">
                                                 {{validation.message}}</div>
                                         </div>
                                     </div>                        
@@ -55,7 +55,7 @@
                                         <div *ngFor="let validation of validation_messages.deposit">
                                             <div class="text-danger"
                                                 *ngIf="priceInfo.get('deposit').hasError(validation.type) && 
-                                                        (priceInfo.get('deposit').dirty || priceInfo.get('deposit').touched)">
+                                                        (priceInfo.get('deposit').dirty || priceInfo.get('deposit').touched || isSubmitPressed)">
                                                 {{validation.message}}</div>
                                         </div>
                                     </div>
@@ -66,7 +66,7 @@
                                         <div *ngFor="let validation of validation_messages.fee">
                                             <div class="text-danger"
                                                 *ngIf="priceInfo.get('fee').hasError(validation.type) && 
-                                                        (priceInfo.get('fee').dirty || priceInfo.get('fee').touched)">
+                                                        (priceInfo.get('fee').dirty || priceInfo.get('fee').touched || isSubmitPressed)">
                                                 {{validation.message}}</div>
                                         </div>
                                     </div>
@@ -84,7 +84,7 @@
                                         <div *ngFor="let validation of validation_messages.startDate">
                                             <div class="text-danger"
                                                 *ngIf="priceInfo.get('startDate').hasError(validation.type) && 
-                                                        (priceInfo.get('startDate').dirty || priceInfo.get('startDate').touched)">
+                                                        (priceInfo.get('startDate').dirty || priceInfo.get('startDate').touched || isSubmitPressed)">
                                                 {{validation.message}}</div>
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@
                                         <div *ngFor="let validation of validation_messages.endDate">
                                             <div class="text-danger"
                                                 *ngIf="priceInfo.hasError(validation.type) || priceInfo.get('endDate').hasError(validation.type) && 
-                                                        (priceInfo.get('endDate').dirty || priceInfo.get('endDate').touched)">
+                                                        (priceInfo.get('endDate').dirty || priceInfo.get('endDate').touched || isSubmitPressed)">
                                                 {{validation.message}}</div>
                                         </div>
                                     </div>
@@ -122,7 +122,7 @@
                                         <div *ngFor="let validation of validation_messages.provinceId">
                                             <div class="text-danger"
                                                 *ngIf="addressInfo.get('provinceId').hasError(validation.type) && 
-                                                        (addressInfo.get('provinceId').dirty || addressInfo.get('provinceId').touched)">
+                                                        (addressInfo.get('provinceId').dirty || addressInfo.get('provinceId').touched || isSubmitPressed)">
                                                 {{validation.message}}</div>
                                         </div> 
                                     </div>
@@ -133,7 +133,7 @@
                                         <div *ngFor="let validation of validation_messages.city">
                                             <div class="text-danger"
                                                 *ngIf="addressInfo.get('city').hasError(validation.type) && 
-                                                        (addressInfo.get('city').dirty || addressInfo.get('city').touched)">
+                                                        (addressInfo.get('city').dirty || addressInfo.get('city').touched || isSubmitPressed)">
                                                 {{validation.message}}</div>
                                         </div>
                                     </div>
@@ -144,7 +144,7 @@
                                         <div *ngFor="let validation of validation_messages.address1">
                                             <div class="text-danger"
                                                 *ngIf="addressInfo.get('address1').hasError(validation.type) && 
-                                                        (addressInfo.get('address1').dirty || addressInfo.get('address1').touched)">
+                                                        (addressInfo.get('address1').dirty || addressInfo.get('address1').touched || isSubmitPressed)">
                                                 {{validation.message}}</div>
                                         </div>
                                     </div>
@@ -160,7 +160,7 @@
                                         <div *ngFor="let validation of validation_messages.postalCode">
                                             <div class="text-danger"
                                                 *ngIf="addressInfo.get('postalCode').hasError(validation.type) && 
-                                                        (addressInfo.get('postalCode').dirty || addressInfo.get('postalCode').touched)">
+                                                        (addressInfo.get('postalCode').dirty || addressInfo.get('postalCode').touched || isSubmitPressed)">
                                                 {{validation.message}}</div>
                                         </div>
                                     </div>

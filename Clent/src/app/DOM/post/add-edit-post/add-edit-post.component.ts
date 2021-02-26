@@ -38,6 +38,7 @@ export class AddEditPostComponent implements OnInit {
   @Input() public itemId: string;
   isNewItem: boolean;
   isReadOnly: boolean;
+  isSubmitPressed: boolean;
 
   itemPkg: any = {
     item: {
@@ -110,6 +111,7 @@ export class AddEditPostComponent implements OnInit {
             private sanitizer: DomSanitizer) { 
 
     this.isReadOnly = true;
+    this.isSubmitPressed = false;
     if(this.service.isLoginUser){
       this.userId = this.service.isLoginUser;
       this.userId = this.userId.replace(/['"]+/g, '');
@@ -395,6 +397,8 @@ export class AddEditPostComponent implements OnInit {
   }
 
   onSubmit(){
+
+    this.isSubmitPressed = true;
 
     if(this.basicInfo.invalid){
       this.formTabs.tabs[0].active = true;
