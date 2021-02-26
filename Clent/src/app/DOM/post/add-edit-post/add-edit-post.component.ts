@@ -127,6 +127,7 @@ export class AddEditPostComponent implements OnInit {
   ngOnInit(){
     this.itemId = this.route.snapshot.queryParamMap.get('itemId');
     this.createAddEditItemForm();
+    this.priceInfo.get("endDate").disable();
 
     if (this.itemId != null){
       this.loadItemPkg(this.itemId);
@@ -136,6 +137,7 @@ export class AddEditPostComponent implements OnInit {
     else{
       this.isNewItem = true;
       this.isReadOnly = false;
+      this.priceInfo.get("endDate").enable();
     }
 
     this.setFormData();
@@ -320,6 +322,7 @@ export class AddEditPostComponent implements OnInit {
       
       if (this.userId == this.itemPkg.item.userId){
         this.isReadOnly = false;
+        this.priceInfo.get("endDate").enable();
       }
 
       this.isDefaultAddress = data.address.isDefault;
@@ -438,7 +441,7 @@ export class AddEditPostComponent implements OnInit {
   selectPreviousTab() {
     let tabId = this.formTabs.tabs.findIndex(tab => tab.active === true);
     tabId--;
-    if (tabId <= 0){
+    if (tabId < 0){
       tabId = this.formTabs.tabs.length - 1;
     }
     this.formTabs.tabs[tabId].active = true;

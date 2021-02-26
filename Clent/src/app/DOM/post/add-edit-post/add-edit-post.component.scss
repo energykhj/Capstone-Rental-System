@@ -23,3 +23,8 @@
     width: 100%;
     object-fit: contain;
 }
+
+input:disabled, select:disabled, textarea:disabled {
+    color: black;
+    background-color: white;
+}
