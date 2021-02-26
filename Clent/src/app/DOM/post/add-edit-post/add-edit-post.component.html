@@ -61,7 +61,7 @@
                                     </div>
                         
                                     <div class="form-group col-12">
-                                        <label>Rental Fee *</label>
+                                        <label>Rental Fee (per day) *</label>
                                         <input type="text" currencyMask class="form-control" formControlName="fee" [attr.disabled]="isReadOnly ? '' : null">
                                         <div *ngFor="let validation of validation_messages.fee">
                                             <div class="text-danger"

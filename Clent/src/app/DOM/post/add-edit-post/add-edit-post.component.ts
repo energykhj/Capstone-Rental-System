@@ -235,7 +235,9 @@ export class AddEditPostComponent implements OnInit {
       data=>{
         data.forEach(element => {
           //let photoUrl = environment.PhotoFileUrl + element.fileName;
-          this.service.getItemPhotoFile(element.fileName).subscribe((data:any)=>{
+          this.service.getItemPhotoFile(element.fileName).subscribe( function (fileName:string, data:any) {
+            //fileName
+            data.name = fileName;
             this.photoFiles.push(data);            
             // Display photo
             var reader = new FileReader();
@@ -247,7 +249,7 @@ export class AddEditPostComponent implements OnInit {
               // To-do: Check default
               this.itemDefaultPhotoUrl = this.photoUrls[0];
             }
-          });
+          }.bind(this, element.fileName));
         });;
         this.itemDefaultPhotoUrl = this.photoUrls[0];
       }, error => {
