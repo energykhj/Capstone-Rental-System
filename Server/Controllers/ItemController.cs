@@ -103,25 +103,17 @@ namespace Server.Controllers
             var Address = mapper.Map<Address>(dto.Address);
             if (Item != null && Address != null)
             {
-                //----
                 ItemPkgDTO pDto = new ItemPkgDTO();
 
                 if (Address.IsDefault)
                     Item.AddressId = Address.Id;
                 else
                 {
-                    //TODO: If not exist old address (If use default addr in creation post) 
                     pDto.Address = mapper.Map<AddressDTO>(await UB.UpdateAddress(Address));
                     Item.AddressId = pDto.Address.Id;
                 }
 
                 pDto.Item = mapper.Map<ItemDTO>(await IB.UpdateItem(Item));
-                //----
-                //ItemPkgDTO pDto = new ItemPkgDTO()
-                //{
-                //    Address = mapper.Map<AddressDTO>(await UB.UpdateAddress(Address)),
-                //    Item = mapper.Map<ItemDTO>(await IB.UpdateItem(Item))
-                //};
 
                 return pDto;
             }
