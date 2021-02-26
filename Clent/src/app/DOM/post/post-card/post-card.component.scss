@@ -22,6 +22,7 @@
     transition-timing-function: ease-out;
     height: 250px;
     opacity: .7;
+    object-fit: contain;
 }
 
 .card img{
@@ -34,7 +35,7 @@
 
 .member-icons{
     position: absolute;
-    bottom: -10;
+    bottom: 0;
     left: 0;
     right: 0;
     margin-left: auto;
