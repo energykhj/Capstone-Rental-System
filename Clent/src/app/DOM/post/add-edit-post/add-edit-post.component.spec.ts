@@ -56,7 +56,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DateOrderValidator, ParentErrorStateMatcher} from 'src/app/validators';
+import { DateValidator, ParentErrorStateMatcher} from 'src/app/validators';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -88,7 +88,7 @@ describe('AddEditPostComponent', () => {
     snapshot: {
       queryParamMap: {
             get(): string {
-                return "32";
+                return null;// "32";
             },
         },
     },
@@ -164,7 +164,7 @@ describe('AddEditPostComponent', () => {
   });
 
   // Form Rendering: FormControl
-  it('should render input elements', () => {
+  it('should render input 12 elements', () => {
     const compiled = fixture.debugElement.nativeElement;
     const categoryIdInput = compiled.querySelector('select[formControlName="categoryId"]');
     const nameInput = compiled.querySelector('input[formControlName="name"]');
@@ -198,7 +198,7 @@ describe('AddEditPostComponent', () => {
   });
 
   // Form Validity
-  it('should test form validity', () => {
+  it('should test form validity (12 inputs)', () => {
     component.basicInfo.get("name").setValue(null);
     
     expect(component.addItemForm.controls.basicInfo.valid).toBeFalsy();
@@ -223,7 +223,7 @@ describe('AddEditPostComponent', () => {
 
 
   // Input Validity: required
-  it('should test input validity', () => {
+  it('should test input validity (12 inputs)', () => {
     component.basicInfo.get("categoryId").setValue(null);
     component.basicInfo.get("name").setValue(null);
     component.basicInfo.get("description").setValue(null);
@@ -286,7 +286,7 @@ describe('AddEditPostComponent', () => {
   })
 
   // Input Errors
-  it('should test input errors', () => {
+  it('should test input errors (12 inputs)', () => {
     component.basicInfo.get("categoryId").setValue(null);
     component.basicInfo.get("name").setValue(null);
     component.basicInfo.get("description").setValue(null);
@@ -378,27 +378,20 @@ describe('AddEditPostComponent', () => {
     expect(component.addressInfo.get("postalCode").valid).toBeTruthy();
   })
 
-  // Start / End Date Validity
-  // it('should start/end date validity', () => {
-  //   component.priceInfo.get("startDate").setValue("2021-02-02");
-  //   component.priceInfo.get("endDate").setValue("2021-02-01");
-  //   console.log(component.priceInfo.get("startDate").value);
-  //   console.log(component.priceInfo.get("endDate").value);
-  //   //expect(component.priceInfo.get("endDate").errors).toBeTruthy();
-  //   console.log(component.priceInfo.get('endDate').hasError("dateOrder"));
-  //   fixture.detectChanges();
-  //   const compiled = fixture.debugElement.nativeElement;
-  //   expect(compiled.innerHTML).toContain("End Date should be greater than or equal Start Date");
+  //Start / End Date Validity
+  it('should start date less than or equal end date', () => {
+    component.priceInfo.get("startDate").setValue(new Date("2021-02-02"));
+    component.priceInfo.get("endDate").setValue(new Date("2021-02-01"));
+    expect(component.priceInfo.errors.dateOrder).toBeTruthy();
 
-  //     //.toBeNull();
-  //   // component.priceInfo.get("startDate").setValue(new Date("2021-02-01"));
-  //   // component.priceInfo.get("endDate").setValue(new Date("2021-02-01"));
-  //   // expect(component.priceInfo.get("endDate").valid).toBeTruthy();
+    component.priceInfo.get("startDate").setValue(new Date("2021-02-01"));
+    component.priceInfo.get("endDate").setValue(new Date("2021-02-02"));
+    expect(component.priceInfo.errors).toBeNull();
 
-  //   // component.priceInfo.get("startDate").setValue(new Date("2021-02-01"));
-  //   // component.priceInfo.get("endDate").setValue(new Date("2021-02-02"));
-  //   // expect(component.priceInfo.get("endDate").valid).toBeTruthy();
-  // })
+    component.priceInfo.get("startDate").setValue(new Date("2021-02-01"));
+    component.priceInfo.get("endDate").setValue(new Date("2021-02-01"));
+    expect(component.priceInfo.errors).toBeNull();
+  })
 
   // it('load itemId', () => {
   //   //component.itemId = "2";

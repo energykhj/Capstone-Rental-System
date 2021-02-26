@@ -174,7 +174,7 @@ export class UserDetailsComponent implements OnInit {
       lastName: new FormControl('', Validators.required),
       postalCode: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.maxLength(6),
+        Validators.maxLength(7),
         Validators.pattern('^[ABCEFGHJKLMNPRSTVXYabcefghjklmnprstvxy][0-9][ABCEFGHJKLMNPRSTVWXYZabcefghjklmnprstvwxyz] ?[0-9][ABCEFGHJKLMNPRSTVWXYZabcefghjklmnprstvwxyz][0-9]+$')
         //Validators.pattern('^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$')
       ])),

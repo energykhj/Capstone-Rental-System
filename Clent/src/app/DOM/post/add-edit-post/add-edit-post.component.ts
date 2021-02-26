@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { UserDetailsComponent } from '../../Account/user-details/user-details.component';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DateOrderValidator, ParentErrorStateMatcher} from 'src/app/validators';
+import { DateValidator, ParentErrorStateMatcher} from 'src/app/validators';
 
 @Component({
   selector: 'app-add-edit-post',
@@ -156,7 +156,7 @@ export class AddEditPostComponent implements OnInit {
         endDate: new FormControl('', Validators.required)},
         
         (formGroup: FormGroup) => {
-          var ret = DateOrderValidator.checkDateOrder(formGroup, "startDate", "endDate");
+          var ret = DateValidator.compareDate(formGroup, "startDate", "endDate");
           return ret;
         }),
       addressInfo: this.fb.group({
@@ -166,7 +166,7 @@ export class AddEditPostComponent implements OnInit {
         address2: new FormControl(),
         postalCode: new FormControl('', Validators.compose([
           Validators.required,
-          //Validators.maxLength(6),
+          Validators.maxLength(7),
           Validators.pattern('^[ABCEFGHJKLMNPRSTVXYabcefghjklmnprstvxy][0-9][ABCEFGHJKLMNPRSTVWXYZabcefghjklmnprstvwxyz] ?[0-9][ABCEFGHJKLMNPRSTVWXYZabcefghjklmnprstvwxyz][0-9]+$')
           //Validators.pattern('^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$')
         ]))
@@ -191,7 +191,7 @@ export class AddEditPostComponent implements OnInit {
     this.itemPkg.address.address2 = this.addressInfo.get("address2").value;
     this.itemPkg.address.city = this.addressInfo.get("city").value;
     this.itemPkg.address.provinceId = this.addressInfo.get("provinceId").value;
-    this.itemPkg.address.postalCode = this.addressInfo.get("postalCode").value;
+    this.itemPkg.address.postalCode = this.addressInfo.get("postalCode").value.toUpperCase();
   }
 
   setFormData(){
