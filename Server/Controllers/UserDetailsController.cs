@@ -46,16 +46,19 @@ namespace Server.Controllers
             return userPkg; 
         }
 
-        [HttpPost("CreateUser")]
-        public async Task<ActionResult<UserDetailsDTO>> CreateUser([FromBody] UserPkgDTO dto)
+        [HttpPost("InsertUser")]
+        public async Task<ActionResult<UserPkgDTO>> InsertUser([FromBody] UserPkgDTO dto)
         {
             var userDetails = mapper.Map<UserDetails>(dto.Details);
             var userAddresses = mapper.Map<Address>(dto.Address);
 
-            var User = mapper.Map<UserDetailsDTO>(await UB.InsertUserDetails(userDetails));
-            var Address = mapper.Map<UserDetailsDTO>(await UB.InsertAddress(userAddresses));
+            UserPkgDTO pDto = new UserPkgDTO()
+            {
+                Details = mapper.Map<UserDetailsDTO>(await UB.InsertUserDetails(userDetails)),
+                Address = mapper.Map<AddressDTO>(await UB.InsertAddress(userAddresses))
+            };
 
-            return User;
+            return pDto;
         }
                 
         [HttpPut("UpdateUser")]
@@ -89,9 +92,17 @@ namespace Server.Controllers
                 await fileStorageService.DeleteFile(userAvatarFile);
 
             // add function to call- to check validation file size, empty etc here
-
-            var filePath = await fileStorageService.SaveFile(Request.Form.Files[0]);
-            return Ok(new { filePath });
+            //var fileValidate = fileStorageService.CheckFile(Request.Form.Files[0]);
+            var fileValidate = fileStorageService.CheckFile(Request.Form);
+            if (string.IsNullOrEmpty(fileValidate))
+            {
+                var filePath = await fileStorageService.SaveFile(Request.Form.Files[0]);
+                return Ok(new { filePath });
+            }
+            else
+            {
+                return BadRequest(fileValidate);
+            }
         }
 /*
         [HttpGet("GetAvatar/{fileName}")]

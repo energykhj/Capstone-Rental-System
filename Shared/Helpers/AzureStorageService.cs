@@ -5,6 +5,7 @@ using Azure.Storage.Blobs;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Azure.Storage.Blobs.Models;
+using System.Collections.Generic;
 
 namespace Shared.Helpers
 {
@@ -62,6 +63,18 @@ namespace Shared.Helpers
             }
             
             return stream; // returns a FileStreamResult
+        }
+
+        public string CheckFile(IFormCollection fileContent)
+        {
+            string[] ACCEPTED_FILE_TYPES = { ".jpg", ".jpeg", ".png", "gif" };
+            var file = fileContent.Files;
+
+            if (file[0] == null) return "Null File";
+            if (file[0].Length == 0) return "Empty File";
+            if (file[0].Length > 10 * 1024 * 1024) return "Max file size exceeded(Max: 10MB)";
+            if (Array.IndexOf(ACCEPTED_FILE_TYPES, Path.GetExtension(file[0].FileName).ToLower()) == -1) return "Invalid file type.";
+            return null;
         }
 
 

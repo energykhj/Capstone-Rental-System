@@ -248,6 +248,7 @@ namespace Server.BizLogic
         {
             var user = await context.AspNetUsers.FirstOrDefaultAsync(c => c.Id == userDetails.Id);
             if (user == null) errorList.Add(4); // user not found
+            //else errorList.Add(5);
         }
        
         public async Task ValidateAddress()
@@ -255,6 +256,15 @@ namespace Server.BizLogic
             var user = await context.UserDetails.FirstOrDefaultAsync(c => c.Id == address.UserId);
             if (user == null) 
                 errorList.Add(4);   //user not found
+        }
+        public async Task ValidateUpdateAddress()
+        {
+            var user = await context.UserDetails.FirstOrDefaultAsync(c => c.Id == address.UserId);
+            if (user == null)
+                errorList.Add(4);   //user not found
+            var add = await context.Address.FirstOrDefaultAsync(c => c.Id == address.Id);
+            if (add == null)
+                errorList.Add(14);  //Address not found
         }
     }
 }
