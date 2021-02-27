@@ -91,25 +91,28 @@ namespace Server.Controllers
             if (!string.IsNullOrEmpty(userAvatarFile))
                 await fileStorageService.DeleteFile(userAvatarFile);
 
-            // add function to call- to check validation file size, empty etc here
-            //var fileValidate = fileStorageService.CheckFile(Request.Form.Files[0]);
-            var fileValidate = fileStorageService.CheckFile(Request.Form);
-            if (string.IsNullOrEmpty(fileValidate))
+            try
             {
-                var filePath = await fileStorageService.SaveFile(Request.Form.Files[0]);
-                return Ok(new { filePath });
+                var fileValidate = fileStorageService.CheckFile(Request.Form.Files[0]);
+                if (string.IsNullOrEmpty(fileValidate))
+                {
+                    var filePath = await fileStorageService.SaveFile(Request.Form.Files[0]);
+                    return Ok(new { filePath });
+                }
+                else
+                {
+                    return BadRequest(fileValidate);
+                }
             }
-            else
+            catch (ArgumentOutOfRangeException)
             {
-                return BadRequest(fileValidate);
+                return BadRequest("Err:File not found");
             }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
-/*
-        [HttpGet("GetAvatar/{fileName}")]
-        public async Task<IActionResult> GetAvatar(string fileName)
-        {
-            var file = await fileStorageService.GetFile(fileName);
-            return File(file, "application/octet-stream");
-        }*/
     }
 }    

@@ -239,10 +239,15 @@ namespace Server.BizLogic
             pt.IsDefault = true;           
             foreach (var photo in photos.Files)
             {
-                var savedFileName = await fileStorageService.SaveFile(photo);
-                files.Add(savedFileName);
-                pt.FileName = savedFileName;
-                await InsertPhoto(pt);
+                var fileValidate = fileStorageService.CheckFile(photo);
+                if (string.IsNullOrEmpty(fileValidate))
+                {
+                    var savedFileName = await fileStorageService.SaveFile(photo);
+                    files.Add(savedFileName);
+                    pt.FileName = savedFileName;
+                    await InsertPhoto(pt);
+                }
+                else files.Add(fileValidate);
             }
 
             return files;
