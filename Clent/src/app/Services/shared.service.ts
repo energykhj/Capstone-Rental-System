@@ -114,13 +114,15 @@ export class SharedService {
   Alert(t: string, m: string):void{
     const timeout = 2000;
     const dialogRef = this.dialog.open(AlertsComponent, {
-      width: '300px',
+      width: '360px',
       data: {type: t, msg: m}
     });
     dialogRef.afterOpened().subscribe(_ => {
-      setTimeout(() => {
-         dialogRef.close();
-      }, timeout)
+      if (t != "danger") {
+        setTimeout(() => {
+          dialogRef.close();
+       }, timeout)
+      }
     })
   }
 }
