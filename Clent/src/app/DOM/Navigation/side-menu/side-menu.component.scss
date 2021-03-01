@@ -4,7 +4,7 @@ a{
 }
 
 a:hover, a:active{
-    color: lightgray;
+    color: rgb(34, 33, 33);
 }
 
 .nav-caption{
@@ -13,7 +13,6 @@ a:hover, a:active{
 }
 
 .example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
   }
 

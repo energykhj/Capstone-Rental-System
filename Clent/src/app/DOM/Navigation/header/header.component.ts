@@ -16,6 +16,7 @@ import { LoginComponent } from '../../Account/login/login.component';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  @Output() public sidenavToggle = new EventEmitter();
   value = '';
   searchValue: any;
   options: FormGroup;
@@ -27,7 +28,8 @@ export class HeaderComponent implements OnInit {
   address: any=[];
   photoUrl: string;
   userName: string="";
-  @Output() public sidenavToggle = new EventEmitter();
+  itemCount = 1;
+  borrowCount = 1;
   
   constructor(public dialog: MatDialog,
     private router: Router,

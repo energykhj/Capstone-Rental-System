@@ -8,13 +8,13 @@
 }
 
 .card-header > h1, .card-header > h2, .card-header > h3 {
-    color: white;
+    color: #00296B;
 }
 
 .card-header {
     height: 42px;
     padding: 4px 10px !important;
-    background-color : #ACACAC !important;
+    background-color : #e8e9eb !important;
     text-align: center;
 }
 
@@ -27,4 +27,12 @@
 input:disabled, select:disabled, textarea:disabled {
     color: black;
     background-color: white;
+}
+
+.text-red{
+    color: red;
+}
+
+label{
+    font-size: 14px;
 }

@@ -88,6 +88,10 @@ export class SharedService {
     return this.http.get<any>(`${environment.apiUrl}/Item/GetItem/` + val);
   }
 
+  getUserItem(page:any,val:any){
+    return this.http.get<any>(`${environment.apiUrl}/Item/GetUserItemsAndDefaultPhoto/`+ page+'/'+val);
+  }
+
   updateItem(val:any){
     return this.http.put<any>(`${environment.apiUrl}/Item`, val);
   }

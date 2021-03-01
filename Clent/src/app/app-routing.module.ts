@@ -7,6 +7,9 @@ import { UserAccountComponent } from '../app/DOM/Account/user-account/user-accou
 import { HomeComponent } from './DOM/Main/Home/home.component';
 import { PostComponent } from '../app/DOM/post/post.component';
 import { AskComponent } from 'src/app/DOM/ask/ask.component';
+import { MyListComponent } from 'src/app/DOM/Myspace/my-list/my-list.component';
+import { MyBorrowComponent } from 'src/app/DOM/Myspace/my-borrow/my-borrow.component';
+import { EditorComponent } from 'src/app/DOM/Shared/editor/editor.component';
 import { AuthService } from '../app/Services/auth.service';
 
 const routes: Routes = [
@@ -16,7 +19,11 @@ const routes: Routes = [
   {path: 'register', component:RegisterComponent},
   {path: 'user-account', component:UserAccountComponent},
   {path: 'post', component:PostComponent, canActivate: [AuthService]},
-  {path: 'ask', component:AskComponent, canActivate: [AuthService]},];
+  {path: 'my-list', component:MyListComponent, canActivate: [AuthService]},
+  {path: 'my-borrow', component:MyBorrowComponent, canActivate: [AuthService]},
+  {path: 'ask', component:AskComponent, canActivate: [AuthService]},
+  {path: 'editor', component:EditorComponent},];
+  
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

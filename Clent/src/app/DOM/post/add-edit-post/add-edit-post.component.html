@@ -11,7 +11,7 @@
                     <form (ngSubmit)='onSubmit()' [formGroup]="addItemForm">
                         <div class="tab-panel d-flex flex-column justify-content-between">
                             <tabset class="member-tabset" #formTabs>
-                                <tab heading="Basic Info" formGroupName="basicInfo">                
+                                <tab heading="Basic Info" formGroupName="basicInfo" class="tab_heading"> 
                                     <div class="form-group col-12">
                                         <label>Category *</label>
                                         <select class="form-control" formControlName="categoryId" [attr.disabled]="isReadOnly ? '' : null" aria-label=".form-select-lg example">

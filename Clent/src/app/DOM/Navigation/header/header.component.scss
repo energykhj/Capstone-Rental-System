@@ -1,14 +1,15 @@
 a{
     text-decoration: none;
-    color: #b9bac4;
+    color: #FFD500;
    // font-size: 16px;
 }
 .logo{
-    color: white;
+    color: #FAD02C;
 }
 
 .header-bg{
-    background-color: #4a148c;
+    background-color: #00296B;
+    // background-color1: #4a148c;
 }
 .font-blue{
     color: #3f51b5 !important;
@@ -20,7 +21,8 @@ a{
 }
 
 a:hover, a:active{
-    color: lightgray;
+    color: rgb(241, 237, 237);
+    text-shadow: rgb(209, 248, 118);
 }
 
 .navigation-items{
@@ -40,12 +42,24 @@ a:hover, a:active{
     font-weight: 500;
 }
 .fab-color-ask{
-  background-color: rgb(118, 248, 242);
+  // background-color: rgb(118, 248, 242);
+  background-color: #ffe5ec;
   color:black;
   width: 43px;
   height: 40px;
   font-weight: 500;
 }
+
+.mat-mini-fab.fab-color-post:hover  {
+  color:  #070344;  
+  background-color: #ffbc0a;
+}
+
+.mat-mini-fab.fab-color-ask:hover  {
+  color:  #f8f8f8;  
+  background-color: #d6138c;
+}
+
 .mat-badge-content{
     color : yellow
   }
@@ -55,7 +69,7 @@ mat-toolbar{
 }
   
 mat-button{
-    background-color: lightgreen !important;
+    background-color: rgb(16, 122, 16) !important;
 }
   
 /* Search */

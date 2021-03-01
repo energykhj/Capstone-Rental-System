@@ -52,12 +52,17 @@ namespace Server.BizLogic
                 .FirstOrDefaultAsync(c => c.Id == Id);
         }
 
-        public async Task<Item> GetItem(string userId)
+        public async Task<List<Item>> GetItem(int currentPage, string userId)
         {
             return await context.Item
                 .Include(c => c.Category)
+                .Include(c => c.Address)
                 .Include(c => c.RecordStatus)
-                .FirstOrDefaultAsync(c => c.UserId == userId);
+                .Where(c => c.UserId == userId)
+                .OrderByDescending(c => c.Id)
+                .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
+                .ToListAsync();
+
         }
 
         public async Task<List<Photo>> GetItemPhotos(int itemId)

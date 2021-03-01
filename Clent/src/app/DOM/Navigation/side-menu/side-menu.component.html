@@ -1,14 +1,13 @@
 <mat-toolbar>
     <span>PRS</span>
     <span class="example-spacer"></span>
-    <img class="rounded-circle z-depth-2" width="40px" height="40px" src={{photoUrl}}
-            data-holder-rendered="true">
+    <img class="rounded-circle z-depth-2" width="40px" height="40px" src={{photoUrl}} data-holder-rendered="true">
     <!-- <app-avatar [photoUrl]="photoUrl" [name]="userName"></app-avatar>     -->
 </mat-toolbar>
 <mat-nav-list>
 
     <h2 matSubheader>
-       Hello, {{userName}}
+        <div *ngIf="userName">Hello, {{userName}}</div>
     </h2>
     <div mat-list-item>
         <form class="form-inline flex-nowrap form-bg rounded p-1">
@@ -30,15 +29,15 @@
     <a mat-list-item routerLink="/post" (click)="onSidenavClose()">
         <mat-icon>add_circle</mat-icon><span class="nav-caption">Post</span>
     </a>
-    <a mat-list-item routerLink="#" (click)="onSidenavClose()">
-        <mat-icon>account_balance</mat-icon><span class="nav-caption">Account Actions</span>
+    <a mat-list-item routerLink="/my-list" (click)="onSidenavClose()">
+        <mat-icon>face</mat-icon><span class="nav-caption">My Space</span>
     </a>
     <mat-list-item [matMenuTriggerFor]="menu">
-        <mat-icon>unfold_more</mat-icon>
-        <a matline>Login/Register</a>
+        <mat-icon>account_balance</mat-icon>
+        <a matline><span class="nav-caption">Account Actions</span></a>
     </mat-list-item>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="onSidenavClose()">Losgin</button>
-        <button mat-menu-item (click)="onSidenavClose()">Register</button>
+    <mat-menu #menu="matMenu" yPosition="below">
+        <button mat-menu-item (click)="onLogInAndSideClose()">Login</button>
+        <button mat-menu-item (click)="onLogOutAndSideClose()">Logout</button>
     </mat-menu>
 </mat-nav-list>

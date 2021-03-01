@@ -25,6 +25,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgxEditorModule } from 'ngx-editor';
 
 /* FormsModule */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -49,6 +50,10 @@ import { CurrencyMaskInputMode, NgxCurrencyModule } from "ngx-currency";
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { AlertsComponent } from './DOM/Shared/alerts/alerts.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { MyListComponent } from './DOM/Myspace/my-list/my-list.component';
+import { MyBorrowComponent } from './DOM/Myspace/my-borrow/my-borrow.component';
+import { AskDetailComponent } from './DOM/Ask/ask-detail/ask-detail.component';
+import { EditorComponent } from './DOM/Shared/editor/editor.component';
 
 export const customCurrencyMaskConfig = {
   align: "right",
@@ -87,6 +92,11 @@ export function tokenGetter(){
     PostCardComponent,
     MapsComponent,
     AlertsComponent,
+    MyListComponent,
+    MyBorrowComponent,
+    AskDetailComponent,
+    EditorComponent,
+    
     //UserdetailsComponent
   ],
   imports: [
@@ -100,6 +110,7 @@ export function tokenGetter(){
     FlexLayoutModule,
     NgbModule,
     HttpClientModule,
+    NgxEditorModule,
     
     CarouselModule.forRoot(),
     BsDropdownModule.forRoot(),

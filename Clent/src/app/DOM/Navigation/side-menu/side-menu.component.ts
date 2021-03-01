@@ -2,6 +2,8 @@ import { Router } from '@angular/router';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SharedService } from 'src/app/Services/shared.service';
 import { environment } from 'src/environments/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from 'src/app/DOM/Account/login/login.component';
 
 @Component({
   selector: 'app-side-menu',
@@ -18,6 +20,7 @@ export class SideMenuComponent implements OnInit {
   constructor(
     private router: Router,
     private service: SharedService,
+    public dialog: MatDialog
   ) { this.getUser();}
 
   getUser(){
@@ -35,8 +38,21 @@ export class SideMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   public onSidenavClose = () => {
+    this.sidenavClose.emit();
+  }
+  
+  public onLogInAndSideClose = () => {
+    this.dialog.open(LoginComponent);
+    this.sidenavClose.emit();
+  }
+  
+  public onLogOutAndSideClose = () => { 
+    localStorage.removeItem("jwt");    
+    localStorage.removeItem("userId");    
+    localStorage.removeItem("currentUser");    
+    //this.router.navigate(["/home"]);
+    window.location.reload();
     this.sidenavClose.emit();
   }
 

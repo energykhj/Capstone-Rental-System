@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, ViewChild, Input } from '@angular/core
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
-import { SharedService } from '../../../Services/shared.service';
+import { SharedService } from 'src/app/Services/shared.service';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { ActivatedRoute } from '@angular/router';
 import { DetailComponent } from './../../Main/detail/detail.component';
@@ -10,7 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { UserDetailsComponent } from '../../Account/user-details/user-details.component';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DateValidator, ParentErrorStateMatcher} from 'src/app/validators';
+import { ParentErrorStateMatcher} from 'src/app/validators';
+import { DateValidator} from 'src/app/Validators/date.validator';
 
 @Component({
   selector: 'app-add-edit-post',
