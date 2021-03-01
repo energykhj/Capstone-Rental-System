@@ -40,6 +40,13 @@ namespace Server.BizLogic
         {
             return await context.UserDetails.FirstOrDefaultAsync(c => c.Id == UserId);
         }
+        public async Task<AspNetUsers> GetUserAccDetails(string UserId)
+        {
+            return await context.AspNetUsers
+                .Where(c => c.Id == UserId)
+                .Include(c => c.UserDetails)
+                .FirstOrDefaultAsync(c => c.Id == UserId);
+        }
 
         public async Task<AspNetUsers> GetUserAccount(string UserId)
         {

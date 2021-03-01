@@ -25,7 +25,7 @@ namespace Shared.DTO
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string MiddleNames { get; set; }
+        public string UserName { get; set; }
         public string PhotoUrl { get; set; }
         public string Phone { get; set; }
        /* public bool isDefault { get; set; }

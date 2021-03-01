@@ -33,6 +33,9 @@ namespace Server.Helpers
 
             CreateMap<UserAccountDTO, AspNetUsers>();
             CreateMap<AspNetUsers, UserAccountDTO>();
+
+            CreateMap<AskBoardDTO, AskBoard>();
+            CreateMap<AskBoard, AskBoardDTO>();
         }
     }
 }

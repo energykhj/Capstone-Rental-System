@@ -10,6 +10,8 @@ namespace Server.Models
             Address = new HashSet<Address>();
             AskBoard = new HashSet<AskBoard>();
             Item = new HashSet<Item>();
+            NotificationFromUser = new HashSet<Notification>();
+            NotificationToUser = new HashSet<Notification>();
             Transaction = new HashSet<Transaction>();
         }
 
@@ -27,6 +29,8 @@ namespace Server.Models
         public virtual ICollection<Address> Address { get; set; }
         public virtual ICollection<AskBoard> AskBoard { get; set; }
         public virtual ICollection<Item> Item { get; set; }
+        public virtual ICollection<Notification> NotificationFromUser { get; set; }
+        public virtual ICollection<Notification> NotificationToUser { get; set; }
         public virtual ICollection<Transaction> Transaction { get; set; }
     }
 }

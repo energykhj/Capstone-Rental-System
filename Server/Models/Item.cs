@@ -7,6 +7,7 @@ namespace Server.Models
     {
         public Item()
         {
+            Notification = new HashSet<Notification>();
             Photo = new HashSet<Photo>();
             Review = new HashSet<Review>();
             Transaction = new HashSet<Transaction>();
@@ -30,6 +31,7 @@ namespace Server.Models
         public virtual Category Category { get; set; }
         public virtual RecordStatus RecordStatus { get; set; }
         public virtual UserDetails User { get; set; }
+        public virtual ICollection<Notification> Notification { get; set; }
         public virtual ICollection<Photo> Photo { get; set; }
         public virtual ICollection<Review> Review { get; set; }
         public virtual ICollection<Transaction> Transaction { get; set; }

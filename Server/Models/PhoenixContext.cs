@@ -26,6 +26,8 @@ namespace Server.Models
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Item> Item { get; set; }
+        public virtual DbSet<Notification> Notification { get; set; }
+        public virtual DbSet<NotificationType> NotificationType { get; set; }
         public virtual DbSet<Photo> Photo { get; set; }
         public virtual DbSet<Province> Province { get; set; }
         public virtual DbSet<RecordStatus> RecordStatus { get; set; }
@@ -119,7 +121,6 @@ namespace Server.Models
                 entity.HasOne(d => d.Parent)
                     .WithMany(p => p.InverseParent)
                     .HasForeignKey(d => d.ParentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AskBoard_AskBoard");
 
                 entity.HasOne(d => d.User)
@@ -264,6 +265,56 @@ namespace Server.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Item_UserDetails");
+            });
+
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.FromUserId)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.ItemId).HasColumnName("itemID");
+
+                entity.Property(e => e.SendDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ToUserId)
+                    .IsRequired()
+                    .HasColumnName("toUserId")
+                    .HasMaxLength(450);
+
+                entity.HasOne(d => d.FromUser)
+                    .WithMany(p => p.NotificationFromUser)
+                    .HasForeignKey(d => d.FromUserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Noti_User_FromID");
+
+                entity.HasOne(d => d.Item)
+                    .WithMany(p => p.Notification)
+                    .HasForeignKey(d => d.ItemId)
+                    .HasConstraintName("FK_Noti_Item");
+
+                entity.HasOne(d => d.NotiTypeNavigation)
+                    .WithMany(p => p.Notification)
+                    .HasForeignKey(d => d.NotiType)
+                    .HasConstraintName("FK_Notification_NotificationType");
+
+                entity.HasOne(d => d.ToUser)
+                    .WithMany(p => p.NotificationToUser)
+                    .HasForeignKey(d => d.ToUserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Noti_User_ToID");
+            });
+
+            modelBuilder.Entity<NotificationType>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Type)
+                    .IsRequired()
+                    .HasColumnName("type")
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Photo>(entity =>
