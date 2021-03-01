@@ -1,4 +1,4 @@
-import { DetailComponent } from '../../detail/detail.component';
+import { DetailComponent } from 'src/app/DOM/Main/detail/detail.component';
 import { Component, Input, OnInit } from '@angular/core';
 import { Template } from '@angular/compiler/src/render3/r3_ast';
 import { MatDialog } from '@angular/material/dialog';
