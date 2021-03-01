@@ -36,7 +36,8 @@ namespace Shared.Helpers
 
         public async Task<string> SaveFile(IFormFile fileContent)
         {
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(fileContent.FileName);
+            //var fileName = Guid.NewGuid().ToString() + Path.GetExtension(fileContent.FileName);
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(fileContent.Name);
 
             var blobClient = blobContainer.GetBlobClient(fileName);
             await blobClient.UploadAsync(fileContent.OpenReadStream(), true);
@@ -69,10 +70,12 @@ namespace Shared.Helpers
         {
             string[] ACCEPTED_FILE_TYPES = { ".jpg", ".jpeg", ".png", ".gif" };
 
-            if (fileContent.FileName == "") return "Err:Null File";
+            //if (fileContent.FileName == "") return "Err:Null File";
+            if (fileContent.Name == "") return "Err:Null File";
             if (fileContent.Length == 0) return "Err:Empty File";
             if (fileContent.Length > 10 * 1024 * 1024) return "Err:Max file size exceeded(Max: 10MB)";
-            if (Array.IndexOf(ACCEPTED_FILE_TYPES, Path.GetExtension(fileContent.FileName).ToLower()) == -1) return "Err:Invalid file type.";
+            //if (Array.IndexOf(ACCEPTED_FILE_TYPES, Path.GetExtension(fileContent.FileName).ToLower()) == -1) return "Err:Invalid file type.";
+            if (Array.IndexOf(ACCEPTED_FILE_TYPES, Path.GetExtension(fileContent.Name).ToLower()) == -1) return "Err:Invalid file type.";
             return null;
         }
 

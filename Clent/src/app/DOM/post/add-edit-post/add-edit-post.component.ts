@@ -391,8 +391,29 @@ export class AddEditPostComponent implements OnInit {
     }
 
     this.service.uploadItemPhoto(formData).subscribe((data:any)=>{
-      console.log(data.filePathList[0]);
-    })
+      let errorMsg: string = "";
+      data.filePathList.forEach(element => {
+        if (element.indexOf("Err:") != -1) {
+          errorMsg = errorMsg + element.substring(4) + "<br/>";
+        }
+      });
+      if (errorMsg != null) {
+        if (this.isNewItem == true){
+          this.service.Alert("danger", "Item Created, but some photos lost<br/> Please, check error(s):<br/>" + errorMsg);
+        }
+        else {
+          this.service.Alert("danger", "Item Modified, but some photos lost<br/> Please, check error(s):<br/>" + errorMsg);
+        }        
+      }
+      else {
+        if (this.isNewItem == true){
+          this.service.Alert("success", "Item Created");
+        }
+        else {
+          this.service.Alert("success", "Item Modified");
+        }
+      }
+    });
   }
 
   onBack(){
@@ -424,14 +445,12 @@ export class AddEditPostComponent implements OnInit {
       this.service.insertItem(this.itemPkg).subscribe((data:any)=>{
         this.itemId = data.item.id;
         this.uploadPhoto();
-        this.service.Alert("success", "Item Created");
       });
     }
     else{
       this.service.updateItem(this.itemPkg).subscribe((data:any)=>{
         this.itemId = data.item.id;
         this.uploadPhoto();
-        this.service.Alert("success", "Item Modified");
       });
     }
   }

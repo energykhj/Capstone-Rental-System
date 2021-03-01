@@ -1,3 +1,4 @@
 <alert *ngIf="isOpen" type={{data.type}} (onClosed)="isOpen = false">
-    {{data.msg}}
+    <p [innerHTML]="data.msg"></p>
+    <!-- {{data.msg}} -->
 </alert>
