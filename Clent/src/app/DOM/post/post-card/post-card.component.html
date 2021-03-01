@@ -1,27 +1,31 @@
 <div class="card">
-    <div class="card-img-wrapper">
-        <img *ngIf="property.defaultImageFile" class="card-img-top" src="{{PhotoFilePath}}{{property.defaultImageFile}}">
-        <!-- <img *ngIf="!property.defaultImageFile" class="card-img-top" src="assets/images/house_default.png"> -->
-        <img *ngIf="!property.defaultImageFile" class="card-img-top" src="{{PhotoFilePath}}noImage.png">
-        <ul class="list-inline text-center member-icons animate">
-            <!-- <li class="list-inline-item">
+  <div class="card-img-wrapper">
+    <img
+      *ngIf="property.defaultImageFile"
+      class="card-img-top"
+      src="{{ PhotoFilePath }}{{ property.defaultImageFile }}"
+    />
+    <!-- <img *ngIf="!property.defaultImageFile" class="card-img-top" src="assets/images/house_default.png"> -->
+    <img *ngIf="!property.defaultImageFile" class="card-img-top" src="{{ PhotoFilePath }}noImage.png" />
+    <ul class="list-inline text-center member-icons animate">
+      <!-- <li class="list-inline-item">
                 <button class="btn btn-primary"><i class="fa fa-edit"></i></button>
                <button class="btn btn-primary" routerLink="/property-detail/{{property.Id}}" routerLinkActive="router-link-active" ><i class="fa fa-edit"></i></button>
             </li> -->
-            <li class="list-inline-item">
-                <button class="btn btn-primary" (click)="openDetail(property.id)"><i class="fa fa-image"></i></button>
-            </li>
+      <li class="list-inline-item">
+        <button class="btn btn-primary" (click)="openDetail(property.id)"><i class="fa fa-image"></i></button>
+      </li>
 
-            <li class="list-inline-item">
-                <button class="btn btn-primary" (click)="onclickDetails(property.id)"><i class="fa fa-info-circle"></i></button>
-            </li>
-        </ul>
-    </div>
-    <div class="product-block  col-md-12" (click)="onclickDetails(property.id)">
-        <h3 class="text-danger">{{property.name}}</h3>
-        <ul class="list-inline">
-            <li class="list-inline-item" ><i class="fas fa-hand-holding-usd"></i> Deposit : ${{property.deposit}}</li>
-            <li class="list-inline-item"><i class="fa fa-usd"></i> Fee: ${{property.fee}}</li>
-        </ul>
-    </div>
-</div>   
+      <li class="list-inline-item">
+        <button class="btn btn-primary" (click)="onclickDetails(property.id)"><i class="fa fa-info-circle"></i></button>
+      </li>
+    </ul>
+  </div>
+  <div class="product-block col-md-12" (click)="onclickDetails(property.id)">
+    <h3 class="text-danger">{{ property.name }}</h3>
+    <ul class="list-inline">
+      <li class="list-inline-item"><i class="fas fa-hand-holding-usd"></i> Deposit : ${{ property.deposit }}</li>
+      <li class="list-inline-item"><i class="fa fa-usd"></i> Fee: ${{ property.fee }}</li>
+    </ul>
+  </div>
+</div>
