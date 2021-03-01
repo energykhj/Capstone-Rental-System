@@ -43,7 +43,9 @@
 
   <span class="example-spacer"></span>
   <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-    <button mat-button [routerLink]="itemCount > 0 ? ['/my-list'] : ['/my-borrow']">My Space</button>
+    <ng-template [ngIf]="userName">
+      <button mat-button [routerLink]="itemCount > 0 ? ['/my-list'] : ['/my-borrow']">My Space</button>
+    </ng-template>
     <ul fxLayout fxLayoutGap="10px" class="navigation-items">
       <li>
         <a mat-mini-fab routerLink="/post" class="fab-color-post">Post</a>
