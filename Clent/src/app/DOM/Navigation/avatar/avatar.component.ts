@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserDetailsComponent } from '../../DOM/Account/user-details/user-details.component';
+import { UserDetailsComponent } from '../../Account/user-details/user-details.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

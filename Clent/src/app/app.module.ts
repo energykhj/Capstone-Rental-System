@@ -10,8 +10,8 @@ import { HeaderComponent } from './DOM/Navigation/header/header.component';
 import { SideMenuComponent } from './DOM/Navigation/side-menu/side-menu.component';
 import { HomeComponent } from './DOM/Main/Home/home.component';
 import { DetailComponent } from './DOM/Main/detail/detail.component';
-import { PostComponent } from './DOM/post/post.component';
-import { AddEditPostComponent } from './DOM/post/add-edit-post/add-edit-post.component';
+import { PostComponent } from './DOM/Main/Post/post.component';
+import { AddEditPostComponent } from './DOM/Main/Post/add-edit-post/add-edit-post.component';
 
 /* Angular Material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -37,10 +37,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './Services/auth.service';
 import { UserAccountComponent } from './DOM/Account/user-account/user-account.component';
-import { AvatarComponent } from './Helpers/avatar/avatar.component';
+import { AvatarComponent } from './DOM/Navigation/avatar/avatar.component';
 import { UserDetailsComponent } from './DOM/Account/user-details/user-details.component';
-import { AskComponent } from './DOM/ask/ask.component';
-import { PostCardComponent } from './DOM/post/post-card/post-card.component';
+import { AskComponent } from './DOM/Ask/ask.component';
+import { PostCardComponent } from './DOM/Post/post-card/post-card.component';
 import { MapsComponent } from './DOM/Navigation/maps/maps.component';
 //import { UserdetailsComponent } from './Dom/Accont/userdetails/userdetails.component';
 

@@ -74,27 +74,6 @@
 
                         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
                     </div>
-
-                    <div class="card-body">
-
-                        <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs">
-                            <li [ngbNavItem]="1" [destroyOnHide]="true">
-                                <a ngbNavLink>Write</a>
-                                <ng-template ngbNavContent>
-                                    <div class="col-md-12 p-0 mb-3">
-                                        <mat-form-field>
-                                            <mat-label>Title</mat-label>
-                                            <input matInput>
-                                        </mat-form-field>
-                                        <app-editor height="100px" minHeight="50px"></app-editor>
-                                    </div>
-                                </ng-template>
-                            </li>
-                        </ul>
-
-                        <div [ngbNavOutlet]="nav" class="mt-2"></div>
-                    </div>
-
                     <div class="col-md-12 p-0 mb-3">
                         <mat-card class="example-card">
                             <mat-card-content>
