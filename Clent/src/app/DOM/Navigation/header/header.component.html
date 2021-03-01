@@ -1,60 +1,72 @@
 <!-- Toolbar -->
 <mat-toolbar color="primary" class="header-bg">
-    <div fxHide.gt-xs>
-        <button mat-icon-button (click)="onToggleSidenav()">
-            <mat-icon>menu</mat-icon>
-        </button>
-    </div>
-    <div><a href="/home" class="logo">PRS</a></div>
+  <div fxHide.gt-xs>
+    <button mat-icon-button (click)="onToggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <div><a href="/home" class="logo">PRS</a></div>
 
-    <span class="example-spacer"></span>
+  <span class="example-spacer"></span>
 
-    <!-- Search start -->
-    <form class="form-inline col-md-7">
-        <div fxFlex fxLayout fxLayoutAlign="center center" fxHide.xs>
-            <div class="input-group">
-                <input type="text" name="value" [(ngModel)]="value" class="form-control" placeholder="Search"
-                    aria-label="Search" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" (click)="onSearch(value)"><i
-                            class="fa fa-search fa-xs"></i></button>
-                </div> <span class="mr-2"></span>
-                <button mat-stroked-button style="font-style: italic" class="mr-sm-1 btn-outline-info search-color"
-                    (click)="openMaps()">
-                    Location Search<i class="material-icons">place</i></button>
-            </div>
+  <!-- Search start -->
+  <form class="form-inline col-md-7">
+    <div fxFlex fxLayout fxLayoutAlign="center center" fxHide.xs>
+      <div class="input-group">
+        <input
+          type="text"
+          name="value"
+          [(ngModel)]="value"
+          class="form-control"
+          placeholder="Search"
+          aria-label="Search"
+          aria-describedby="basic-addon2"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" (click)="onSearch(value)">
+            <i class="fa fa-search fa-xs"></i>
+          </button>
         </div>
-    </form>
-    <!-- Search end -->
-
-    <span class="example-spacer"></span>
-    <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-        <button mat-button [routerLink]="itemCount > 0 ? ['/my-list'] : ['/my-borrow']">My Space</button>
-        <ul fxLayout fxLayoutGap="10px" class="navigation-items">
-            <li>
-                <a mat-mini-fab routerLink="/post" class="fab-color-post">Post</a>
-            </li>
-            <li>
-                <a mat-mini-fab routerLink="/ask" class="fab-color-ask">Ask</a>
-            </li>
-            <ng-template [ngIf]="userName" [ngIfElse]="logIn">
-                <li>
-                    <mat-icon matBadge="2" matBadgeColor="warn" matBadgeOverlap=false class="no-padding-badge">
-                    </mat-icon>
-                </li>
-                <li>
-                    <app-avatar [photoUrl]="photoUrl" [name]="userName"></app-avatar>
-                </li>
-            </ng-template>
-            <ng-template #logIn>
-                <li>
-                    <button mat-button color="accent" (click)="openLogin()">Login/Register</button>
-                </li>
-            </ng-template>
-        </ul>
+        <span class="mr-2"></span>
+        <button
+          mat-stroked-button
+          style="font-style: italic"
+          class="mr-sm-1 btn-outline-info search-color"
+          (click)="openMaps()"
+        >
+          Location Search<i class="material-icons">place</i>
+        </button>
+      </div>
     </div>
-</mat-toolbar>
+  </form>
+  <!-- Search end -->
 
+  <span class="example-spacer"></span>
+  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+    <button mat-button [routerLink]="itemCount > 0 ? ['/my-list'] : ['/my-borrow']">My Space</button>
+    <ul fxLayout fxLayoutGap="10px" class="navigation-items">
+      <li>
+        <a mat-mini-fab routerLink="/post" class="fab-color-post">Post</a>
+      </li>
+      <li>
+        <a mat-mini-fab routerLink="/ask" class="fab-color-ask">Ask</a>
+      </li>
+      <ng-template [ngIf]="userName" [ngIfElse]="logIn">
+        <li>
+          <mat-icon matBadge="2" matBadgeColor="warn" matBadgeOverlap="false" class="no-padding-badge"> </mat-icon>
+        </li>
+        <li>
+          <app-avatar [photoUrl]="photoUrl" [name]="userName"></app-avatar>
+        </li>
+      </ng-template>
+      <ng-template #logIn>
+        <li>
+          <button mat-button color="accent" (click)="openLogin()">Login/Register</button>
+        </li>
+      </ng-template>
+    </ul>
+  </div>
+</mat-toolbar>
 
 <!-- Toolbar -->
 <!-- <mat-toolbar color="primary" class="app-header">

@@ -11,71 +11,66 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   currentUser: any;
   id: any;
 
-  properties:any=[];
+  properties: any = [];
   page = 1;
-  value = "";
+  value = '';
   notEmptyPost = true;
   notScrolly = true;
 
-  constructor(private router: Router, 
-              private jwtHelper: JwtHelperService,
-              private service: SharedService,
-              private route: ActivatedRoute,
-              public dialog: MatDialog) { }
+  constructor(
+    private router: Router,
+    private jwtHelper: JwtHelperService,
+    private service: SharedService,
+    private route: ActivatedRoute,
+    public dialog: MatDialog
+  ) {}
 
-  isUserAuthenticated(){
-    const token: string = localStorage.getItem("jwt");    
-    this.id = "5aab855c-c644-45c7-b798-159b1f78d640";//localStorage.getItem("id");
-    if(token && !this.jwtHelper.isTokenExpired(token)){
-        return true;
-    }
-    else
-      return false;
+  isUserAuthenticated() {
+    const token: string = localStorage.getItem('jwt');
+    this.id = '5aab855c-c644-45c7-b798-159b1f78d640'; //localStorage.getItem("id");
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      return true;
+    } else return false;
   }
   ngOnInit(): void {
     this.value = this.route.snapshot.queryParamMap.get('value');
-    console.log(this.value+'onInit');
-    this.loadInitPost();  
+    console.log(this.value + 'onInit');
+    this.loadInitPost();
   }
 
-  loadInitPost(){
-  this.service.getSearchedItemAndDefaultPhoto(this.page,this.value).subscribe(
-      data=>{
-            this.properties=data;
-            if(this.properties.length < 8){
-              this.notEmptyPost = false;
-            }
-      }, error => {
+  loadInitPost() {
+    this.service.getSearchedItemAndDefaultPhoto(this.page, this.value).subscribe(
+      (data) => {
+        this.properties = data;
+        if (this.properties.length < 8) {
+          this.notEmptyPost = false;
+        }
+      },
+      (error) => {
         console.log(error);
       }
-    )
+    );
   }
 
-  onClick(){
-    console.log("click");
+  onClick() {
+    console.log('click');
     this.page = this.page + 1;
 
-    this.service.getSearchedItemAndDefaultPhoto(this.page,this.value).subscribe(
-      data=>{
-            const newList = data;
+    this.service.getSearchedItemAndDefaultPhoto(this.page, this.value).subscribe((data) => {
+      const newList = data;
 
-            if(newList.length < 8){
-              this.notEmptyPost = false;
-            }
+      if (newList.length < 8) {
+        this.notEmptyPost = false;
+      }
 
-            this.properties = this.properties.concat(newList);
-            this.notScrolly = true;
-      });
+      this.properties = this.properties.concat(newList);
+      this.notScrolly = true;
+    });
   }
 }
-
-
-
-
-
