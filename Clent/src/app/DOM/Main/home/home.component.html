@@ -1,29 +1,28 @@
 <!-- <ng-template [ngIf]="isUserAuthenticated()" [ngIfElse]="notLoggedIn"> -->
 <!-- <ng-template> -->
-  <div class="container-fluid">
+<div class="container-fluid">
+  <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Inventory</h1>
 
-    <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Inventory</h1>
+  <hr class="mt-1 mb-0" />
 
-    <hr class="mt-1 mb-0">
-
-    <div class="search-result">
-      <div class="row pt-5">
-        <div *ngFor="let property of properties" class="shadow-lg col-sm-3 p-3">
-            <app-post-card [property]="property"></app-post-card>
-        </div>
-    </div>    
+  <div class="search-result">
+    <div class="row pt-5">
+      <div *ngFor="let property of properties" class="shadow-lg col-sm-3 p-3">
+        <app-post-card [property]="property"></app-post-card>
+      </div>
+    </div>
   </div>
-  <br><br>
-  <div *ngIf = "notEmptyPost" class="col-md-12 d-flex justify-content-center">
+  <br /><br />
+  <div *ngIf="notEmptyPost" class="col-md-12 d-flex justify-content-center">
     <button (click)="onClick()" type="button" class="btn btn-secondary">LOAD MORE</button>
   </div>
 
-  <div *ngIf = "!notEmptyPost" class="row pb-5">
+  <div *ngIf="!notEmptyPost" class="row pb-5">
     <div class="col-md-12 d-flex justify-content-center">
-        <div class="text-muted h6 alert alert-secondary p-2">No more items to show</div>
+      <div class="text-muted h6 alert alert-secondary p-2">No more items to show</div>
     </div>
   </div>
-</div> 
+</div>
 <!-- </ng-template> -->
 
 <!-- <ng-template #notLoggedIn>
@@ -34,6 +33,3 @@
     Just show without Log in
   </div>
 </ng-template> -->
-
-
-
