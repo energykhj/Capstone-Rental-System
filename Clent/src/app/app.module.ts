@@ -10,16 +10,16 @@ import { HeaderComponent } from './DOM/Navigation/header/header.component';
 import { SideMenuComponent } from './DOM/Navigation/side-menu/side-menu.component';
 import { HomeComponent } from './DOM/Main/Home/home.component';
 import { DetailComponent } from './DOM/Main/detail/detail.component';
-import { PostComponent } from './DOM/Main/Post/post.component';
-import { AddEditPostComponent } from './DOM/Main/Post/add-edit-post/add-edit-post.component';
+import { PostComponent } from './DOM/Post/post.component';
+import { AddEditPostComponent } from './DOM/Post/add-edit-post/add-edit-post.component';
 
 /* Angular Material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularMaterialModule } from './DOM/Shared/angular-material.module';
+import { AngularMaterialModule } from '../app/Helpers/angular-material.module';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 /* Ngx Bootstrap */
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -45,7 +45,7 @@ import { MapsComponent } from './DOM/Navigation/maps/maps.component';
 //import { UserdetailsComponent } from './Dom/Accont/userdetails/userdetails.component';
 
 /* Currency Input */
-import { CurrencyMaskInputMode, NgxCurrencyModule } from "ngx-currency";
+import { CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
 /* Drag & Drop Files */
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { AlertsComponent } from './DOM/Shared/alerts/alerts.component';
@@ -56,22 +56,22 @@ import { AskDetailComponent } from './DOM/Ask/ask-detail/ask-detail.component';
 import { EditorComponent } from './DOM/Shared/editor/editor.component';
 
 export const customCurrencyMaskConfig = {
-  align: "right",
+  align: 'right',
   allowNegative: true,
   allowZero: true,
-  decimal: ".",
+  decimal: '.',
   precision: 2,
-  prefix: "CA$ ",
-  suffix: "",
-  thousands: ",",
+  prefix: 'CA$ ',
+  suffix: '',
+  thousands: ',',
   nullable: true,
   min: null,
   max: null,
-  inputMode: CurrencyMaskInputMode.FINANCIAL
+  inputMode: CurrencyMaskInputMode.FINANCIAL,
 };
 
-export function tokenGetter(){
-  return localStorage.getItem("jwt");
+export function tokenGetter() {
+  return localStorage.getItem('jwt');
 }
 
 @NgModule({
@@ -96,7 +96,7 @@ export function tokenGetter(){
     MyBorrowComponent,
     AskDetailComponent,
     EditorComponent,
-    
+
     //UserdetailsComponent
   ],
   imports: [
@@ -105,13 +105,13 @@ export function tokenGetter(){
     BrowserAnimationsModule,
     AngularMaterialModule,
 
-    ReactiveFormsModule,  
-    FormsModule, 
+    ReactiveFormsModule,
+    FormsModule,
     FlexLayoutModule,
     NgbModule,
     HttpClientModule,
     NgxEditorModule,
-    
+
     CarouselModule.forRoot(),
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
@@ -122,9 +122,9 @@ export function tokenGetter(){
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:4200"],
-        disallowedRoutes: []
-      }
+        allowedDomains: ['localhost:4200'],
+        disallowedRoutes: [],
+      },
     }),
 
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
@@ -132,6 +132,6 @@ export function tokenGetter(){
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}
