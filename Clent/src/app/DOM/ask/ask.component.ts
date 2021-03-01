@@ -6,13 +6,16 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import { SharedService } from 'src/app/Services/shared.service';
 import { environment } from 'src/environments/environment';
 
-export interface UserData {
+export interface Article {
   id: number;
-  name: string;
-  category: string;
-  Title: string;
-  link: string;
+  userId: string;
+  date: any;
+  title: string;
   description: string;
+  userName: string;
+  email: string;  
+  phone: string;
+  photoUrl: string;
 }
 
 @Component({
@@ -30,18 +33,17 @@ export interface UserData {
 
 export class AskComponent implements AfterViewInit{
   active = 1;
-
-  displayedColumns : string[] = ['#', 'name', 'Title', 'Link'];  
-  dataSource: MatTableDataSource<UserData>;
-  expandedElement: UserData | null;
-
+  displayedColumns : string[] = ['id', 'userName', 'title', 'date'];  
+  dataSource: MatTableDataSource<Article>;
+  expandedElement: Article | null;
+  
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   userId = "";
   showMore: boolean;
   filePath = environment.PhotoFileUrl;
-  userItems: any = [];  
+  articles: any = [];  
   page = 1;
 
   constructor(private service: SharedService) {
@@ -53,15 +55,9 @@ export class AskComponent implements AfterViewInit{
   }
 
   loadUserItem(){
-    this.userId = "51afd4fa-7b65-47fd-b62a-a4a42ff10979";
-    this.service.getUserItem(this.page, this.userId).subscribe((userItem:any)=>{
-      this.userItems = userItem;
-      this.showMore = false;
-      this.userItems.defaultImageFile = 
-        (this.userItems.defaultImageFile)? 
-        environment.PhotoFileUrl + this.userItems.defaultImageFile : "";
-
-        this.dataSource = new MatTableDataSource(userItem);
+    this.service.getAllBoardArticles().subscribe((data:any)=>{
+      this.articles = data;
+      this.dataSource = new MatTableDataSource(data);
     });
   }
 
@@ -78,20 +74,4 @@ export class AskComponent implements AfterViewInit{
       this.dataSource.paginator.firstPage();
     }
   }
-
-
-  
 }
-
-/** Builds and returns a new User. */
-// function createNewUser(id: number): UserData {
-//   const name = NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-//       NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-//   return {
-//     id: id,
-//     name: name,
-//     Title: title,
-//     Link: Link
-//   };
-// }

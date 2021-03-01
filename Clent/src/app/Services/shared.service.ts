@@ -115,6 +115,10 @@ export class SharedService {
     return this.http.get(`${environment.PhotoFileUrl}`+val, {responseType: 'blob'});
   }
 
+  getAllBoardArticles(){
+    return this.http.get<any>(`${environment.apiUrl}/AskBoard`);
+  }
+
   Alert(t: string, m: string):void{
     const timeout = 2000;
     const dialogRef = this.dialog.open(AlertsComponent, {
