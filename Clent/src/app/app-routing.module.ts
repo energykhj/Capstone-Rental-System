@@ -14,21 +14,21 @@ import { EditorComponent } from 'src/app/DOM/Shared/editor/editor.component';
 import { AuthService } from '../app/Services/auth.service';
 
 const routes: Routes = [
-  {path: 'home', component:HomeComponent},
-  {path: '', redirectTo: '/home', pathMatch:'full'},
-  {path: 'login', component:LoginComponent},
-  {path: 'register', component:RegisterComponent},
-  {path: 'user-account', component:UserAccountComponent},
-  {path: 'post', component:PostComponent, canActivate: [AuthService]},
-  {path: 'my-list', component:MyListComponent, canActivate: [AuthService]},
-  {path: 'my-borrow', component:MyBorrowComponent, canActivate: [AuthService]},
-  {path: 'ask', component:AskComponent, canActivate: [AuthService]},
-  {path: 'ask-detail', component:AskDetailComponent, canActivate: [AuthService]},
-  {path: 'editor', component:EditorComponent},];
-  
+  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'user-account', component: UserAccountComponent },
+  { path: 'post', component: PostComponent, canActivate: [AuthService] },
+  { path: 'my-list', component: MyListComponent, canActivate: [AuthService] },
+  { path: 'my-borrow', component: MyBorrowComponent, canActivate: [AuthService] },
+  { path: 'ask', component: AskComponent, canActivate: [AuthService] },
+  { path: 'ask-detail', component: AskDetailComponent, canActivate: [AuthService] },
+  { path: 'editor', component: EditorComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
