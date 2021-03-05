@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 import { UserDetailsComponent } from 'src/app/DOM/Account/user-details/user-details.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
-import { DateValidator } from 'src/app/DOM/Shared/Validators/date.validator';
+import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 
 @Component({
   selector: 'app-add-edit-post',

@@ -1,0 +1,144 @@
+.item-card {
+  min-height: 640px;
+}
+
+.card-body h1 {
+  font-family: fantasy;
+  color: #0069d9;
+}
+
+.card-header > h1,
+.card-header > h2,
+.card-header > h3 {
+  color: #00296b;
+}
+
+.card-header {
+  height: 42px;
+  padding: 4px 10px !important;
+  background-color: #e8e9eb !important;
+  text-align: center;
+}
+
+.preview-image {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+  color: black;
+  background-color: white;
+}
+
+.text-red {
+  color: red;
+}
+
+label {
+  font-size: 14px;
+}
+
+// ----- Item Post -----
+.tab-panel {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 4px;
+  min-height: 600px;
+  background-color: white;
+}
+
+.nav-tabs > li.open,
+.member-tabset > .nav-tabs > li:hober {
+  border-bottom: 4px solid #e1e2eb;
+}
+
+.member-tabset > .nav-tabs > li.open > a,
+.member-tabset > .nav-tabs > li:hover > a {
+  border: 0;
+  background: none !important;
+  color: #333333;
+}
+
+.member-tabset {
+  font-weight: 400;
+  font-size: 16px;
+}
+.member-tabset > .nav-tabs > li.open > a > i,
+.member-tabset > .nav-tabs > li:hover > a > i {
+  color: #a6a6a6;
+}
+
+.member-tabset > .nav-tabs > li.open .dropdown-menu,
+.member-tabset > .nav-tabs > li:hover .dropdown-menu {
+  margin-top: 0px;
+}
+
+.member-tabset > .nav-tabs > li.active {
+  border-bottom: 4px solid #db3a34;
+  position: relative;
+  font-size: 16px;
+}
+
+.member-tabset > .nav-tabs > li.active > a {
+  border: 0 !important;
+  color: black !important;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.member-tabset > .nav-tabs > li.active > a > i {
+  color: #404040;
+}
+
+.member-tabset > .tab-content {
+  margin-top: -3px;
+  background-color: #fff;
+  border: 0;
+  border-top: 1px solid #eee;
+  padding: 15px 0;
+}
+
+.ng-invalid.ng-touched {
+  border-color: red;
+}
+
+.error-block {
+  color: red;
+}
+
+.btn-group > label[ng-reflect-btn-radio] {
+  border-radius: 44px;
+  padding: 0 15px;
+  line-height: 30px;
+}
+
+// Responsive Tab
+@media (max-width: 600px) {
+  .nav-item {
+    width: 600px;
+  }
+
+  .member-tabset > .nav-tabs > li > a {
+    border: 0;
+    background: none !important;
+    color: #333333;
+  }
+
+  .member-tabset > .nav-tabs > li {
+    background-color: #e8e9eb;
+  }
+
+  .member-tabset > .nav-tabs > li.active {
+    border-bottom: 0px;
+    position: relative;
+    background-color: #00509d;
+  }
+
+  .member-tabset > .nav-tabs > li.active > a {
+    border: 0 !important;
+    color: #fad02c;
+  }
+}
