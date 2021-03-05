@@ -116,7 +116,7 @@ label {
 }
 
 // Responsive Tab
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
   .nav-item {
     width: 600px;
   }
@@ -141,4 +141,8 @@ label {
     border: 0 !important;
     color: #fad02c;
   }
+}
+
+.form-group {
+  margin-top: 16px;
 }
