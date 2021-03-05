@@ -20,8 +20,11 @@ import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 })
 export class AddEditPostComponent implements OnInit {
   //@ViewChild('Form') addPropertyForm: NgForm;
-  @ViewChild('formTabs') formTabs: TabsetComponent;
+  //@ViewChild('formTabs') formTabs: TabsetComponent;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
+
+  activeTabId = 0;
+  maxTabNum = 4;
 
   addItemForm: FormGroup;
 
@@ -385,7 +388,7 @@ export class AddEditPostComponent implements OnInit {
           errorMsg = errorMsg + element.substring(4) + '<br/>';
         }
       });
-      if (errorMsg != null) {
+      if (errorMsg != '') {
         if (this.isNewItem == true) {
           this.service.Alert(
             'danger',
@@ -415,17 +418,17 @@ export class AddEditPostComponent implements OnInit {
     this.isSubmitPressed = true;
 
     if (this.basicInfo.invalid) {
-      this.formTabs.tabs[0].active = true;
+      this.activeTabId = 0;
       return;
     }
 
     if (this.priceInfo.invalid) {
-      this.formTabs.tabs[1].active = true;
+      this.activeTabId = 1;
       return;
     }
 
     if (this.addressInfo.invalid) {
-      this.formTabs.tabs[2].active = true;
+      this.activeTabId = 2;
       return;
     }
 
@@ -445,21 +448,17 @@ export class AddEditPostComponent implements OnInit {
   }
 
   selectNextTab() {
-    let tabId = this.formTabs.tabs.findIndex((tab) => tab.active === true);
-    tabId++;
-    if (tabId > this.formTabs.tabs.length - 1) {
-      tabId = 0;
+    this.activeTabId++;
+    if (this.activeTabId > this.maxTabNum - 1 - (this.isReadOnly ? 1 : 0)) {
+      this.activeTabId = 0;
     }
-    this.formTabs.tabs[tabId].active = true;
   }
 
   selectPreviousTab() {
-    let tabId = this.formTabs.tabs.findIndex((tab) => tab.active === true);
-    tabId--;
-    if (tabId < 0) {
-      tabId = this.formTabs.tabs.length - 1;
+    this.activeTabId--;
+    if (this.activeTabId < 0) {
+      this.activeTabId = this.maxTabNum - 1 - (this.isReadOnly ? 1 : 0);
     }
-    this.formTabs.tabs[tabId].active = true;
   }
 
   openDetail(id: any) {

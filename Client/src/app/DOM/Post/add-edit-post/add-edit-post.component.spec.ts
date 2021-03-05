@@ -30,33 +30,33 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 /* Authenticate */
 import { JwtModule } from '@auth0/angular-jwt';
-import { AuthService } from '../../../../Services/auth.service';
-import { UserAccountComponent } from '../../../Account/user-account/user-account.component';
-import { AvatarComponent } from '../../../../Helpers/avatar/avatar.component';
-import { UserDetailsComponent } from '../../../Account/user-details/user-details.component';
-import { AskComponent } from '../../../ask/ask.component';
+import { AuthService } from '../../../Services/auth.service';
+import { UserAccountComponent } from '../../Account/user-account/user-account.component';
+import { AvatarComponent } from '../../Navigation/avatar/avatar.component';
+import { UserDetailsComponent } from '../../Account/user-details/user-details.component';
+import { AskComponent } from '../../Ask/ask.component';
 import { PostCardComponent } from '../post-card/post-card.component';
-import { MapsComponent } from '../../../Navigation/maps/maps.component';
+import { MapsComponent } from '../../Navigation/maps/maps.component';
 //import { UserdetailsComponent } from './Dom/Accont/userdetails/userdetails.component';
 
 /* Currency Input */
 import { CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
 /* Drag & Drop Files */
 import { NgxFileDropModule } from 'ngx-file-drop';
-import { AlertsComponent } from '../../../Shared/alerts/alerts.component';
+import { AlertsComponent } from '../../Shared/alerts/alerts.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
 
 import { Component, HostListener, OnInit, ViewChild, Input } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
-import { SharedService } from '../../../../Services/shared.service';
+import { SharedService } from '../../../Services/shared.service';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DateValidator, ParentErrorStateMatcher } from 'src/app/validators';
+import { DateValidator, ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 

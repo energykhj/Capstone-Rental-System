@@ -1,343 +1,363 @@
 <div class="container mt-3">
-  <!-- <div class="row mb-5"> -->
   <div class="d-flex flex-row flex-wrap">
     <div class="col-md-8 p-0 mb-3">
       <div class="card item-card shadow-sm bg-white m-1">
         <div class="card-header">
           <h3>Item Information</h3>
         </div>
-
         <div class="card-body">
           <form (ngSubmit)="onSubmit()" [formGroup]="addItemForm">
             <div class="tab-panel d-flex flex-column justify-content-between">
-              <tabset class="member-tabset" #formTabs>
-                <tab heading="Basic Info" formGroupName="basicInfo" class="tab_heading">
-                  <div class="form-group col-12">
-                    <label>Category *</label>
-                    <select
-                      class="form-control"
-                      formControlName="categoryId"
-                      [attr.disabled]="isReadOnly ? '' : null"
-                      aria-label=".form-select-lg example"
-                    >
-                      <option *ngFor="let category of categoryList" [ngValue]="category.categoryId">
-                        {{ category.name }}
-                      </option>
-                    </select>
-                    <div *ngFor="let validation of validation_messages.categoryId">
-                      <div
-                        class="text-danger"
-                        *ngIf="
-                          basicInfo.get('categoryId').hasError(validation.type) &&
-                          (basicInfo.get('categoryId').dirty || basicInfo.get('categoryId').touched || isSubmitPressed)
-                        "
+              <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" [destroyOnHide]="false" class="nav-tabs">
+                <li [ngbNavItem]="0" [destroyOnHide]="true" formGroupName="basicInfo">
+                  <a ngbNavLink>Basic Info</a>
+                  <ng-template ngbNavContent>
+                    <div class="form-group col-12">
+                      <label>Category *</label>
+                      <select
+                        class="form-control"
+                        formControlName="categoryId"
+                        [attr.disabled]="isReadOnly ? '' : null"
+                        aria-label=".form-select-lg example"
                       >
-                        {{ validation.message }}
+                        <option *ngFor="let category of categoryList" [ngValue]="category.categoryId">
+                          {{ category.name }}
+                        </option>
+                      </select>
+                      <div *ngFor="let validation of validation_messages.categoryId">
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            basicInfo.get('categoryId').hasError(validation.type) &&
+                            (basicInfo.get('categoryId').dirty ||
+                              basicInfo.get('categoryId').touched ||
+                              isSubmitPressed)
+                          "
+                        >
+                          {{ validation.message }}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="form-group col-12">
-                    <label>Name *</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="name"
-                      [attr.disabled]="isReadOnly ? '' : null"
-                    />
-                    <div *ngFor="let validation of validation_messages.name">
-                      <div
-                        class="text-danger"
-                        *ngIf="
-                          basicInfo.get('name').hasError(validation.type) &&
-                          (basicInfo.get('name').dirty || basicInfo.get('name').touched || isSubmitPressed)
-                        "
-                      >
-                        {{ validation.message }}
+                    <div class="form-group col-12">
+                      <label>Name *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="name"
+                        [attr.disabled]="isReadOnly ? '' : null"
+                      />
+                      <div *ngFor="let validation of validation_messages.name">
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            basicInfo.get('name').hasError(validation.type) &&
+                            (basicInfo.get('name').dirty || basicInfo.get('name').touched || isSubmitPressed)
+                          "
+                        >
+                          {{ validation.message }}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="form-group col-12">
-                    <label>Description *</label>
-                    <textarea
-                      class="form-control"
-                      formControlName="description"
-                      [attr.disabled]="isReadOnly ? '' : null"
-                      rows="7"
-                    ></textarea>
-                    <div *ngFor="let validation of validation_messages.description">
-                      <div
-                        class="text-danger"
-                        *ngIf="
-                          basicInfo.get('description').hasError(validation.type) &&
-                          (basicInfo.get('description').dirty ||
-                            basicInfo.get('description').touched ||
-                            isSubmitPressed)
-                        "
-                      >
-                        {{ validation.message }}
+                    <div class="form-group col-12">
+                      <label>Description *</label>
+                      <textarea
+                        class="form-control"
+                        formControlName="description"
+                        [attr.disabled]="isReadOnly ? '' : null"
+                        rows="7"
+                      ></textarea>
+                      <div *ngFor="let validation of validation_messages.description">
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            basicInfo.get('description').hasError(validation.type) &&
+                            (basicInfo.get('description').dirty ||
+                              basicInfo.get('description').touched ||
+                              isSubmitPressed)
+                          "
+                        >
+                          {{ validation.message }}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </tab>
+                  </ng-template>
+                </li>
 
-                <tab heading="Pricing and Condition" formGroupName="priceInfo">
-                  <div class="form-group col-12">
-                    <label>Deposit *</label>
-                    <input
-                      type="text"
-                      currencyMask
-                      class="form-control"
-                      formControlName="deposit"
-                      [attr.disabled]="isReadOnly ? '' : null"
-                    />
-                    <div *ngFor="let validation of validation_messages.deposit">
-                      <div
-                        class="text-danger"
-                        *ngIf="
-                          priceInfo.get('deposit').hasError(validation.type) &&
-                          (priceInfo.get('deposit').dirty || priceInfo.get('deposit').touched || isSubmitPressed)
-                        "
-                      >
-                        {{ validation.message }}
+                <li [ngbNavItem]="1" formGroupName="priceInfo">
+                  <a ngbNavLink>Pricing and Condition</a>
+                  <ng-template ngbNavContent>
+                    <div class="form-group col-12">
+                      <label>Deposit *</label>
+                      <input
+                        type="text"
+                        currencyMask
+                        class="form-control"
+                        formControlName="deposit"
+                        [attr.disabled]="isReadOnly ? '' : null"
+                      />
+                      <div *ngFor="let validation of validation_messages.deposit">
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            priceInfo.get('deposit').hasError(validation.type) &&
+                            (priceInfo.get('deposit').dirty || priceInfo.get('deposit').touched || isSubmitPressed)
+                          "
+                        >
+                          {{ validation.message }}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="form-group col-12">
-                    <label>Rental Fee (per day) *</label>
-                    <input
-                      type="text"
-                      currencyMask
-                      class="form-control"
-                      formControlName="fee"
-                      [attr.disabled]="isReadOnly ? '' : null"
-                    />
-                    <div *ngFor="let validation of validation_messages.fee">
-                      <div
-                        class="text-danger"
-                        *ngIf="
-                          priceInfo.get('fee').hasError(validation.type) &&
-                          (priceInfo.get('fee').dirty || priceInfo.get('fee').touched || isSubmitPressed)
-                        "
-                      >
-                        {{ validation.message }}
+                    <div class="form-group col-12">
+                      <label>Rental Fee (per day) *</label>
+                      <input
+                        type="text"
+                        currencyMask
+                        class="form-control"
+                        formControlName="fee"
+                        [attr.disabled]="isReadOnly ? '' : null"
+                      />
+                      <div *ngFor="let validation of validation_messages.fee">
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            priceInfo.get('fee').hasError(validation.type) &&
+                            (priceInfo.get('fee').dirty || priceInfo.get('fee').touched || isSubmitPressed)
+                          "
+                        >
+                          {{ validation.message }}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="form-group col-12">
-                    <label>Start Date *</label>
-                    <input
-                      type="text"
-                      placeholder="Start Date"
-                      class="form-control"
-                      formControlName="startDate"
-                      [attr.disabled]="isReadOnly ? '' : null"
-                      bsDatepicker
-                      value="{{ itemPkg.item.startDate | date: 'yyyy-MM-dd' }}"
-                      [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
-                    />
-                    <div *ngFor="let validation of validation_messages.startDate">
-                      <div
-                        class="text-danger"
-                        *ngIf="
-                          priceInfo.get('startDate').hasError(validation.type) &&
-                          (priceInfo.get('startDate').dirty || priceInfo.get('startDate').touched || isSubmitPressed)
-                        "
-                      >
-                        {{ validation.message }}
+                    <div class="form-group col-12">
+                      <label>Start Date *</label>
+                      <input
+                        type="text"
+                        placeholder="Start Date"
+                        class="form-control"
+                        formControlName="startDate"
+                        [attr.disabled]="isReadOnly ? '' : null"
+                        bsDatepicker
+                        value="{{ itemPkg.item.startDate | date: 'yyyy-MM-dd' }}"
+                        [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
+                      />
+                      <div *ngFor="let validation of validation_messages.startDate">
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            priceInfo.get('startDate').hasError(validation.type) &&
+                            (priceInfo.get('startDate').dirty || priceInfo.get('startDate').touched || isSubmitPressed)
+                          "
+                        >
+                          {{ validation.message }}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="form-group col-12">
-                    <label>End Date *</label>
-                    <input
-                      type="text"
-                      matInput
-                      placeholder="End Date"
-                      class="form-control"
-                      formControlName="endDate"
-                      [errorStateMatcher]="parentErrorStateMatcher"
-                      [attr.disabled]="isReadOnly ? '' : null"
-                      bsDatepicker
-                      value="{{ itemPkg.item.endDate | date: 'yyyy-MM-dd' }}"
-                      [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
-                    />
-                    <div *ngFor="let validation of validation_messages.endDate">
-                      <div
-                        class="text-danger"
-                        *ngIf="
-                          priceInfo.hasError(validation.type) ||
-                          (priceInfo.get('endDate').hasError(validation.type) &&
-                            (priceInfo.get('endDate').dirty || priceInfo.get('endDate').touched || isSubmitPressed))
-                        "
-                      >
-                        {{ validation.message }}
+                    <div class="form-group col-12">
+                      <label>End Date *</label>
+                      <input
+                        type="text"
+                        matInput
+                        placeholder="End Date"
+                        class="form-control"
+                        formControlName="endDate"
+                        [errorStateMatcher]="parentErrorStateMatcher"
+                        [attr.disabled]="isReadOnly ? '' : null"
+                        bsDatepicker
+                        value="{{ itemPkg.item.endDate | date: 'yyyy-MM-dd' }}"
+                        [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
+                      />
+                      <div *ngFor="let validation of validation_messages.endDate">
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            priceInfo.hasError(validation.type) ||
+                            (priceInfo.get('endDate').hasError(validation.type) &&
+                              (priceInfo.get('endDate').dirty || priceInfo.get('endDate').touched || isSubmitPressed))
+                          "
+                        >
+                          {{ validation.message }}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </tab>
-                <tab heading="Address" formGroupName="addressInfo">
-                  <div *ngIf="isReadOnly == false" class="form-group col-12">
-                    <input
-                      class="mr-2"
-                      type="checkbox"
-                      [attr.disabled]="isReadOnly ? '' : null"
-                      [(ngModel)]="isDefaultAddress"
-                      [ngModelOptions]="{ standalone: true }"
-                      (change)="onChangeDefaultAddress()"
-                    />
-                    <label>Use Default Address</label>
-                  </div>
+                  </ng-template>
+                </li>
 
-                  <div class="form-group col-12">
-                    <label>Prvince *</label>
-                    <select
-                      class="form-control"
-                      formControlName="provinceId"
-                      [attr.disabled]="isReadOnly ? '' : isDefaultAddress ? '' : null"
-                      aria-label=".form-select-lg example"
-                    >
-                      <option *ngFor="let province of provinceList" [ngValue]="province.id">{{ province.name }}</option>
-                    </select>
-                    <div *ngFor="let validation of validation_messages.provinceId">
-                      <div
-                        class="text-danger"
-                        *ngIf="
-                          addressInfo.get('provinceId').hasError(validation.type) &&
-                          (addressInfo.get('provinceId').dirty ||
-                            addressInfo.get('provinceId').touched ||
-                            isSubmitPressed)
-                        "
+                <li [ngbNavItem]="2" formGroupName="addressInfo">
+                  <a ngbNavLink>Address</a>
+                  <ng-template ngbNavContent>
+                    <div *ngIf="isReadOnly == false" class="form-group col-12">
+                      <input
+                        class="mr-2"
+                        type="checkbox"
+                        [attr.disabled]="isReadOnly ? '' : null"
+                        [(ngModel)]="isDefaultAddress"
+                        [ngModelOptions]="{ standalone: true }"
+                        (change)="onChangeDefaultAddress()"
+                      />
+                      <label>Use Default Address</label>
+                    </div>
+
+                    <div class="form-group col-12">
+                      <label>Prvince *</label>
+                      <select
+                        class="form-control"
+                        formControlName="provinceId"
+                        [attr.disabled]="isReadOnly ? '' : isDefaultAddress ? '' : null"
+                        aria-label=".form-select-lg example"
                       >
-                        {{ validation.message }}
+                        <option *ngFor="let province of provinceList" [ngValue]="province.id">
+                          {{ province.name }}
+                        </option>
+                      </select>
+                      <div *ngFor="let validation of validation_messages.provinceId">
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            addressInfo.get('provinceId').hasError(validation.type) &&
+                            (addressInfo.get('provinceId').dirty ||
+                              addressInfo.get('provinceId').touched ||
+                              isSubmitPressed)
+                          "
+                        >
+                          {{ validation.message }}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="form-group col-12">
-                    <label>City *</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="city"
-                      [attr.disabled]="isReadOnly ? '' : null"
-                      [readonly]="isDefaultAddress"
-                    />
-                    <div *ngFor="let validation of validation_messages.city">
-                      <div
-                        class="text-danger"
-                        *ngIf="
-                          addressInfo.get('city').hasError(validation.type) &&
-                          (addressInfo.get('city').dirty || addressInfo.get('city').touched || isSubmitPressed)
-                        "
-                      >
-                        {{ validation.message }}
+                    <div class="form-group col-12">
+                      <label>City *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="city"
+                        [attr.disabled]="isReadOnly ? '' : null"
+                        [readonly]="isDefaultAddress"
+                      />
+                      <div *ngFor="let validation of validation_messages.city">
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            addressInfo.get('city').hasError(validation.type) &&
+                            (addressInfo.get('city').dirty || addressInfo.get('city').touched || isSubmitPressed)
+                          "
+                        >
+                          {{ validation.message }}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="form-group col-12">
-                    <label>Address1 *</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="address1"
-                      [attr.disabled]="isReadOnly ? '' : null"
-                      [readonly]="isDefaultAddress"
-                    />
-                    <div *ngFor="let validation of validation_messages.address1">
-                      <div
-                        class="text-danger"
-                        *ngIf="
-                          addressInfo.get('address1').hasError(validation.type) &&
-                          (addressInfo.get('address1').dirty || addressInfo.get('address1').touched || isSubmitPressed)
-                        "
-                      >
-                        {{ validation.message }}
+                    <div class="form-group col-12">
+                      <label>Address1 *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="address1"
+                        [attr.disabled]="isReadOnly ? '' : null"
+                        [readonly]="isDefaultAddress"
+                      />
+                      <div *ngFor="let validation of validation_messages.address1">
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            addressInfo.get('address1').hasError(validation.type) &&
+                            (addressInfo.get('address1').dirty ||
+                              addressInfo.get('address1').touched ||
+                              isSubmitPressed)
+                          "
+                        >
+                          {{ validation.message }}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="form-group col-12">
-                    <label>Address2</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="address2"
-                      [attr.disabled]="isReadOnly ? '' : null"
-                      [readonly]="isDefaultAddress"
-                    />
-                  </div>
+                    <div class="form-group col-12">
+                      <label>Address2</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="address2"
+                        [attr.disabled]="isReadOnly ? '' : null"
+                        [readonly]="isDefaultAddress"
+                      />
+                    </div>
 
-                  <div class="form-group col-12">
-                    <label>Postal Code *</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="postalCode"
-                      [attr.disabled]="isReadOnly ? '' : null"
-                      [readonly]="isDefaultAddress"
-                    />
-                    <div *ngFor="let validation of validation_messages.postalCode">
-                      <div
-                        class="text-danger"
-                        *ngIf="
-                          addressInfo.get('postalCode').hasError(validation.type) &&
-                          (addressInfo.get('postalCode').dirty ||
-                            addressInfo.get('postalCode').touched ||
-                            isSubmitPressed)
-                        "
-                      >
-                        {{ validation.message }}
+                    <div class="form-group col-12">
+                      <label>Postal Code *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="postalCode"
+                        [attr.disabled]="isReadOnly ? '' : null"
+                        [readonly]="isDefaultAddress"
+                      />
+                      <div *ngFor="let validation of validation_messages.postalCode">
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            addressInfo.get('postalCode').hasError(validation.type) &&
+                            (addressInfo.get('postalCode').dirty ||
+                              addressInfo.get('postalCode').touched ||
+                              isSubmitPressed)
+                          "
+                        >
+                          {{ validation.message }}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </tab>
-                <tab *ngIf="isReadOnly == false" heading="Photos" formGroupName="photoInfo">
-                  <div class="center mt-3">
-                    <ngx-file-drop
-                      dropZoneLabel="Drop files here"
-                      (onFileDrop)="dropped($event)"
-                      (onFileOver)="fileOver($event)"
-                      (onFileLeave)="fileLeave($event)"
-                    >
-                      <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                        Drag and Drop Photos
-                        <button type="button" class="btn btn-secondary btn-sm ml-3" (click)="openFileSelector()">
-                          Browse Files
-                        </button>
-                      </ng-template>
-                    </ngx-file-drop>
-                    <div class="mt-2">
-                      <div class="d-flex flex-column">
-                        <div *ngFor="let item of photoUrls; let i = index">
-                          <div class="d-flex flex-row justify-content-center">
-                            <img [src]="photoUrls[i]" width="100" />
-                            <button type="button" class="btn btn-secondary btn-sm ml-3 mt-1" (click)="deletePhoto(i)">
-                              Delete
-                            </button>
+                  </ng-template>
+                </li>
+
+                <li *ngIf="isReadOnly == false" [ngbNavItem]="3">
+                  <a ngbNavLink>Photos</a>
+                  <ng-template ngbNavContent>
+                    <div class="center mt-3">
+                      <ngx-file-drop
+                        dropZoneLabel="Drop files here"
+                        (onFileDrop)="dropped($event)"
+                        (onFileOver)="fileOver($event)"
+                        (onFileLeave)="fileLeave($event)"
+                      >
+                        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                          Drag and Drop Photos
+                          <button type="button" class="btn btn-secondary btn-sm ml-3" (click)="openFileSelector()">
+                            Browse Files
+                          </button>
+                        </ng-template>
+                      </ngx-file-drop>
+                      <div class="mt-2">
+                        <div class="d-flex flex-column">
+                          <div *ngFor="let item of photoUrls; let i = index">
+                            <div class="d-flex flex-row justify-content-center">
+                              <img [src]="photoUrls[i]" width="100" />
+                              <button type="button" class="btn btn-secondary btn-sm ml-3 mt-1" (click)="deletePhoto(i)">
+                                Delete
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </tab>
-              </tabset>
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div [ngbNavOutlet]="nav" class="mt-2"></div>
               <div class="d-flex flex-row flex-wrap justify-content-end mb-1 mr-1">
                 <div class="ml-2">
-                  <button type="button" class="btn btn-primary" (click)="selectPreviousTab()">Back</button>
+                  <button mat-stroked-button type="button" color="primary" (click)="selectPreviousTab()">Back</button>
                 </div>
                 <div class="ml-2">
-                  <button type="button" class="btn btn-primary" (click)="selectNextTab()">Next</button>
+                  <button mat-stroked-button type="button" color="primary" (click)="selectNextTab()">Next</button>
                 </div>
                 <div *ngIf="isReadOnly == false" class="ml-2">
-                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button mat-stroked-button type="submit" color="primary">Save</button>
                 </div>
                 <div class="ml-2 mr-2">
-                  <button type="reset" class="btn btn-danger" (click)="onBack()">Cancel</button>
+                  <button mat-stroked-button type="reset" color="warn">Cancel</button>
                 </div>
               </div>
             </div>
