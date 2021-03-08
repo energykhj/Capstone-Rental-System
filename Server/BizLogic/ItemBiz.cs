@@ -56,13 +56,13 @@ namespace Server.BizLogic
         {
             return await context.Item
                 .Include(c => c.Category)
+                .Include(c => c.Photo)
                 .Include(c => c.Address)
                 .Include(c => c.RecordStatus)
                 .Where(c => c.UserId == userId)
                 .OrderByDescending(c => c.Id)
                 .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
-
         }
 
         public async Task<List<Photo>> GetItemPhotos(int itemId)
@@ -95,6 +95,14 @@ namespace Server.BizLogic
                        c.Description.ToUpper().Contains(strSearch))
                 .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
+        }
+
+        public async Task<Address> GetItemAddress(int addId)
+        {
+            return await context.Address
+                                .Where(c => c.Id == addId)
+                                .FirstOrDefaultAsync();
+            //.FirstOrDefaultAsync(c => c.IsDefault == true);
         }
 
         public async Task<Item> InsertItem(Item item)

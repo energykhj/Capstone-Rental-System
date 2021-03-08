@@ -34,34 +34,23 @@ namespace Server.Controllers
         }
 
         [HttpGet("GetUserItemsAndDefaultPhoto/{currentPage}/{userId}")]
-        public async Task<ActionResult<List<ItemDTO>>> GetUserItemsAndDefaultPhoto(int currentPage, string userId)
+        public async Task<ActionResult<List<ItemPkgDTO>>> GetUserItemsAndDefaultPhoto(int currentPage, string userId)
         {
-            List<ItemDTO> itemDTOList = new List<ItemDTO>();
+            List<ItemPkgDTO> dtoPkgList = new List<ItemPkgDTO>();
+
             var Items = await IB.GetItem(currentPage, userId);
-
-            foreach (var item in Items)
+            foreach (Item item in Items)
             {
+                ItemPkgDTO dto = new ItemPkgDTO();
+                var Add = await IB.GetItemAddress(item.AddressId);
                 var Photo = await IB.GetItemDefaultPhoto(item.Id);
-                var defaultPhoto = (Photo == null) ? null: Photo.FileName;
-                var Address = mapper.Map<AddressDTO>(item.Address);
-                //var Pro = new LookupController(context).GetProvinces();
-                var Pro = context.Province.ToList();
-                var provinces = mapper.Map<List<Province>>(Pro);
-                var provinceName = provinces.Where(c => c.Id == Address.ProvinceId).FirstOrDefault().Name;
-                var provinceCode = provinces.Where(c => c.Id == Address.ProvinceId).FirstOrDefault().Code;
+                dto.Item = mapper.Map<ItemDTO>(item);
+                dto.Item.DefaultImageFile = (Photo == null) ? null : Photo.FileName;
+                dto.Address = mapper.Map<AddressDTO>(Add);
 
-                ItemDTO dto = new ItemDTO();
-                dto = mapper.Map<ItemDTO>(item);
-                dto.Address1 = Address.Address1;
-                dto.Address2 = Address.Address2;
-                dto.City = Address.City;
-                dto.ProvinceName = provinceName;
-                dto.ProvinceCode = provinceCode;
-                dto.PostalCode = Address.PostalCode;
-                dto.DefaultImageFile = defaultPhoto;
-                itemDTOList.Add(dto);
+                dtoPkgList.Add(dto);
             }
-            return itemDTOList;
+            return dtoPkgList;
         }
 
         [HttpGet("GetSearchedItemAndDefaultPhoto/{currentPage}/{search?}")]
