@@ -68,7 +68,6 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<TransactionItemPkgDTO>>> GetItemByStatus(string userId, TransactionStatusListDTO dtoStatus)
         {
-            userId = "51afd4fa-7b65-47fd-b62a-a4a42ff10979";
             List<TransactionItemPkgDTO> dtoPkgList = new List<TransactionItemPkgDTO>();
 
             var Items = mapper.Map<List<ItemDTO>>(await IB.GetItem(userId));            
@@ -84,7 +83,7 @@ namespace Server.Controllers
                         var Photo = await IB.GetItemDefaultPhoto(item.Id);
                         var statusName = await TB.GetTransactionStatusName((int)trans.CurrentStatus);
                         var user = await UB.GetUserDetails(trans.BorrowerId);
-                        var td = trans.TransactionDetail.Where(c => c.Id == trans.Id);
+                        var td = trans.TransactionDetail.Where(c => c.Id == trans.Id).FirstOrDefault();
 
                         TransactionItemPkgDTO dto = new TransactionItemPkgDTO()
                         {
@@ -93,6 +92,7 @@ namespace Server.Controllers
                         };
                         dto.Trans.StatusName = statusName;
                         dto.Trans.BorrowerName = user.FirstName + " " + user.LastName;
+                        dto.Trans.requestDate = td.Date;
                         dto.Item.DefaultImageFile = (Photo == null) ? null : Photo.FileName;
 
                         dtoPkgList.Add(dto);
