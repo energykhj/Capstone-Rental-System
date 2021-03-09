@@ -479,4 +479,8 @@ export class AddEditPostComponent implements OnInit {
     this.photoUrls.splice(index, 1);
     this.itemDefaultPhotoUrl = this.photoUrls[0];
   }
+
+  requestBorrow() {
+    this.router.navigate(['/request-borrow'], { queryParams: { itemId: this.itemId } });
+  }
 }

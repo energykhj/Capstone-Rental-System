@@ -11,6 +11,7 @@ import { AskDetailComponent } from 'src/app/DOM/Ask/ask-detail/ask-detail.compon
 import { MyListComponent } from 'src/app/DOM/Myspace/my-list/my-list.component';
 import { MyBorrowComponent } from 'src/app/DOM/Myspace/my-borrow/my-borrow.component';
 import { EditorComponent } from 'src/app/DOM/Shared/editor/editor.component';
+import { RequestBorrowComponent } from './DOM/Post/request-borrow/request-borrow.component';
 import { AuthService } from '../app/Services/auth.service';
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'ask', component: AskComponent, canActivate: [AuthService] },
   { path: 'ask-detail', component: AskDetailComponent, canActivate: [AuthService] },
   { path: 'editor', component: EditorComponent },
+  { path: 'request-borrow', component: RequestBorrowComponent },
 ];
 
 @NgModule({

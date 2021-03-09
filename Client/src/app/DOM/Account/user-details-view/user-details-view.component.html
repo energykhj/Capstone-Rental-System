@@ -1,0 +1,11 @@
+<div class="d-flex flex-row flex-wrap">
+  <div class="d-flex flex-column justify-content-between">
+    <img class="rounded z-depth-2" [src]="PhotoFilePath" height="80px;" width="80px;" />
+  </div>
+  <div class="ml-3 d-flex flex-column justify-content-between">
+    <ngb-rating class="mb-3" [(rate)]="currentRate" [readonly]="true" [max]="5"></ngb-rating>
+    <p class="text-primary">{{ ownerDetails.lastName }} {{ ownerDetails.firstName }}</p>
+    <p class="text-primary">{{ ownerDetails.phone }}</p>
+  </div>
+</div>
+<div class="rounded border p-2">5 Borrow histories since 2020</div>

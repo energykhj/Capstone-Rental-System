@@ -46,6 +46,8 @@ import { MapsComponent } from './DOM/Navigation/maps/maps.component';
 
 /* Currency Input */
 import { CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
+import { customCurrencyMaskConfig } from 'src/environments/environment';
+
 /* Drag & Drop Files */
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { AlertsComponent } from './DOM/Shared/alerts/alerts.component';
@@ -54,21 +56,8 @@ import { MyListComponent } from './DOM/Myspace/my-list/my-list.component';
 import { MyBorrowComponent } from './DOM/Myspace/my-borrow/my-borrow.component';
 import { AskDetailComponent } from './DOM/Ask/ask-detail/ask-detail.component';
 import { EditorComponent } from './DOM/Shared/editor/editor.component';
-
-export const customCurrencyMaskConfig = {
-  align: 'right',
-  allowNegative: true,
-  allowZero: true,
-  decimal: '.',
-  precision: 2,
-  prefix: 'CA$ ',
-  suffix: '',
-  thousands: ',',
-  nullable: true,
-  min: null,
-  max: null,
-  inputMode: CurrencyMaskInputMode.FINANCIAL,
-};
+import { RequestBorrowComponent } from './DOM/Post/request-borrow/request-borrow.component';
+import { UserDetailsViewComponent } from './DOM/Account/user-details-view/user-details-view.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -96,6 +85,8 @@ export function tokenGetter() {
     MyBorrowComponent,
     AskDetailComponent,
     EditorComponent,
+    RequestBorrowComponent,
+    UserDetailsViewComponent,
 
     //UserdetailsComponent
   ],
