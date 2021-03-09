@@ -1,219 +1,326 @@
 <div class="container mt-3">
-    <div class="d-flex flex-row flex-wrap">
-      <div class="col-md-9 p-0 mb-3">
-        <div class="card item-card shadow-sm bg-white m-1">
-          <div class="card-header">
-            <h3>My Items</h3>
-          </div>
-          <div class="card-body">
-            <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs">
-              <li [ngbNavItem]="1" [destroyOnHide]="true">
-                <a ngbNavLink>My Items</a>
-                <ng-template ngbNavContent>
-                  <div class="input-group mt-3 mb-3">
-                    <input
-                      [(ngModel)]="NameFilter"
-                      class="form-control"
-                      style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
-                      (keyup)="FilterFn()"
-                      placeholder="Filter by Name"
-                    />
-                    <div class="input-group-append">
-                      <span class="input-group-text" id="basic-addon2"> <i class="fa fa-search fa-xs"></i></span>
-                    </div>
+  <div class="d-flex flex-row flex-wrap">
+    <div class="col-md-9 p-0 mb-3">
+      <div class="card item-card shadow-sm bg-white m-1">
+        <div class="card-header">
+          <h3>My Items</h3>
+        </div>
+        <div class="card-body">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs">
+            <li [ngbNavItem]="1" [destroyOnHide]="true">
+              <a ngbNavLink>My Items</a>
+              <ng-template ngbNavContent>
+                <div class="input-group mt-3 mb-3">
+                  <input
+                    [(ngModel)]="NameFilter"
+                    class="form-control"
+                    style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
+                    (keyup)="FilterFn1()"
+                    placeholder="Filter by Name"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"> <i class="fa fa-search fa-xs"></i></span>
                   </div>
-                  <div class="row mb-3" *ngFor="let userItem of userItems">
-                    <div class="col-md-12">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col-md-3">
-                              <img
-                                *ngIf="userItem.item.defaultImageFile"
-                                src="{{ filePath }}{{ userItem.item.defaultImageFile }}"
-                              />
-                            </div>
-                            <div class="col-md-6">
-                              <h4>{{ userItem.item.name }}</h4>
-                              <small>Category: {{ userItem.item.categoryName }}</small>
-                              <p>
-                                <small
-                                  ><span *ngIf="!showMore"> {{ trimString(userItem.item.description, 50) }}</span>
-                                  <span *ngIf="showMore"> {{ userItem.item.description }}</span>
-                                  <div *ngIf="userItem.item.description.length > 50" (click)="showMore = !showMore">
-                                    <span class="showmore">Show {{ showMore ? 'less' : 'More' }}...</span>
-                                  </div>
-                                </small>
-                              </p>
-                              <small>Start: {{ userItem.item.startDate | date: 'yyyy-MM-dd' }}</small
-                              ><br />
-                              <p>
-                                <small>End: {{ userItem.item.endDate | date: 'yyyy-MM-dd' }}</small>
-                              </p>
-                            </div>
-                            <div class="col-md-3">
-                              <small><span>Deposit:</span> ${{ userItem.item.deposit }}</small
-                              ><br class="mb-1" />
-                              <p>
-                                <small><span>Fee: </span>${{ userItem.item.fee }}</small>
-                              </p>
-                              <small>Address: </small><br />
-                              <p>
-                                <small
-                                  >{{ userItem.address.address1 }}, {{ userItem.address.city }},
-                                  {{ userItem.address.provinceCode }},
-                                  {{ userItem.address.postalCode }}
-                                </small>
-                              </p>
-                              <small>Posted on: {{ userItem.item.createdDate | date: 'yyyy-MM-dd' }}</small>
-                            </div>
+                </div>
+                <div class="row mb-3" *ngFor="let userItem of userItems">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <img
+                              *ngIf="userItem.item.defaultImageFile"
+                              src="{{ filePath }}{{ userItem.item.defaultImageFile }}"
+                            />
+                          </div>
+                          <div class="col-md-6">
+                            <h4>{{ userItem.item.name }}</h4>
+                            <small>Category: {{ userItem.item.categoryName }}</small>
+                            <p>
+                              <small
+                                ><span *ngIf="!showMore"> {{ trimString(userItem.item.description, 50) }}</span>
+                                <span *ngIf="showMore"> {{ userItem.item.description }}</span>
+                                <div *ngIf="userItem.item.description.length > 50" (click)="showMore = !showMore">
+                                  <span class="showmore">Show {{ showMore ? 'less' : 'More' }}...</span>
+                                </div>
+                              </small>
+                            </p>
+                            <small>Start: {{ userItem.item.startDate | date: 'yyyy-MM-dd' }}</small
+                            ><br />
+                            <p>
+                              <small>End: {{ userItem.item.endDate | date: 'yyyy-MM-dd' }}</small>
+                            </p>
+                          </div>
+                          <div class="col-md-3">
+                            <small><span>Deposit:</span> ${{ userItem.item.deposit }}</small
+                            ><br class="mb-1" />
+                            <p>
+                              <small><span>Fee: </span>${{ userItem.item.fee }}</small>
+                            </p>
+                            <small>Address: </small><br />
+                            <p>
+                              <small
+                                >{{ userItem.address.address1 }}, {{ userItem.address.city }},
+                                {{ userItem.address.provinceCode }},
+                                {{ userItem.address.postalCode }}
+                              </small>
+                            </p>
+                            <small>Posted on: {{ userItem.item.createdDate | date: 'yyyy-MM-dd' }}</small>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div *ngIf="notEmptyPost" class="col-md-12 d-flex justify-content-center">
-                    <button (click)="onClick()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                </div>
+                <div *ngIf="notEmptyPost1" class="col-md-12 d-flex justify-content-center">
+                  <button (click)="onClick1()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                </div>
+              </ng-template>
+            </li>
+
+            <!-- Request Start -->
+            <li [ngbNavItem]="2">
+              <a ngbNavLink>Request</a>
+              <ng-template ngbNavContent>
+                <div class="input-group mt-3 mb-3">
+                  <input
+                    [(ngModel)]="NameFilter"
+                    class="form-control"
+                    style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
+                    (keyup)="FilterFn2()"
+                    placeholder="Filter by Name"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"> <i class="fa fa-search fa-xs"></i></span>
                   </div>
-                </ng-template>
-              </li>
-  
-              <!-- Request Start -->
-              <li [ngbNavItem]="2">
-                <a ngbNavLink>Request</a>
-                <ng-template ngbNavContent>
-                  <div class="input-group mt-3 mb-3">
-                    <input
-                      [(ngModel)]="NameFilter"
-                      class="form-control"
-                      style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
-                      (keyup)="FilterFn()"
-                      placeholder="Filter by Name"
-                    />
-                    <div class="input-group-append">
-                      <span class="input-group-text" id="basic-addon2"> <i class="fa fa-search fa-xs"></i></span>
-                    </div>
-                  </div>
-                  <div class="row mb-3" *ngFor="let userItem of userItems">
-                    <div class="col-md-12">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col-md-3">
-                              <img
-                                *ngIf="userItem.item.defaultImageFile"
-                                src="{{ filePath }}{{ userItem.item.defaultImageFile }}"
-                              />
-                            </div>
-                            <div class="request col-md-6">
-                              <h4 mb-3>{{ userItem.item.name }}</h4>
-                              <h4 class="title">Request from <a href="#" alt="open dialog">Will Smith</a></h4>
-                              <p class="date" mb-3>Request date: {{ userItem.item.endDate | date: 'yyyy-MM-dd' }}</p>
-                              <h4>
-                                <span class="when">When: </span
-                                ><a href="#" alt="open dialog"
-                                  >{{ userItem.item.startDate | date: 'yyyy-MM-dd' }} ~
-                                  {{ userItem.item.endDate | date: 'yyyy-MM-dd' }}</a
-                                >
-                              </h4>
-                            </div>
-                            <div class="col-md-3">
-                              <small><span>Deposit:</span> ${{ userItem.item.deposit }}</small
-                              ><br class="mb-1" />
-                              <p>
-                                <small><span>Fee: </span>${{ userItem.item.fee }}</small>
-                              </p>
-                              <button mat-stroked-button color="primary">Confirm Borrow</button>
-                              <button mat-stroked-button color="warn">Reject Borrow</button>
-                            </div>
+                </div>
+                <div class="row mb-3" *ngFor="let requestItem of requestItems">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <img
+                              *ngIf="requestItem.item.defaultImageFile"
+                              src="{{ filePath }}{{ requestItem.item.defaultImageFile }}"
+                            />
+                          </div>
+                          <div class="request col-md-6">
+                            <h4 mb-3>{{ requestItem.item.name }}</h4>
+                            <h4 class="title">Request from <a href="#" alt="open dialog">Will Smith</a></h4>
+                            <p class="date" mb-3>Request date: {{ requestItem.item.endDate | date: 'yyyy-MM-dd' }}</p>
+                            <h4>
+                              <span class="when">When: </span
+                              ><a href="#" alt="open dialog"
+                                >{{ requestItem.item.startDate | date: 'yyyy-MM-dd' }} ~
+                                {{ requestItem.item.endDate | date: 'yyyy-MM-dd' }}</a
+                              >
+                            </h4>
+                          </div>
+                          <div class="col-md-3">
+                            <small><span>Deposit:</span> ${{ requestItem.item.deposit }}</small
+                            ><br class="mb-1" />
+                            <p>
+                              <small><span>Fee: </span>${{ requestItem.item.fee }}</small>
+                            </p>
+                            <button mat-stroked-button color="primary">Confirm Borrow</button>
+                            <button mat-stroked-button color="warn">Reject Borrow</button>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div *ngIf="notEmptyPost" class="col-md-12 d-flex justify-content-center">
-                    <button (click)="onClick()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                </div>
+                <div *ngIf="notEmptyPost2" class="col-md-12 d-flex justify-content-center">
+                  <button (click)="onClick2()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                </div>
+              </ng-template>
+            </li>
+            <!-- Request end -->
+
+            <!-- Request Return Start -->
+            <li [ngbNavItem]="3">
+              <a ngbNavLink>Request Return</a>
+              <!-- <ng-template ngbNavContent let-active>
+                <ngb-alert *ngIf="active" [dismissible]="false" class="d-block mt-3">
+                  While tab content DOM is never destroyed, this alert exists only when current tab is active
+                </ngb-alert> -->
+
+              <ng-template ngbNavContent>
+                <div class="input-group mt-3 mb-3">
+                  <input
+                    [(ngModel)]="NameFilter"
+                    class="form-control"
+                    style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
+                    (keyup)="FilterFn3()"
+                    placeholder="Filter by Name"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"> <i class="fa fa-search fa-xs"></i></span>
                   </div>
-                </ng-template>
-              </li>
-              <!-- Request end -->
-  
-              <!-- Request Return Start -->
-              <li [ngbNavItem]="3">
-                <a ngbNavLink>Request Return</a>
-                <ng-template ngbNavContent let-active>
-                  <ngb-alert *ngIf="active" [dismissible]="false" class="d-block mt-3">
-                    While tab content DOM is never destroyed, this alert exists only when current tab is active
-                  </ngb-alert>
-                </ng-template>
-              </li>
-              <li [ngbNavItem]="4">
-                <a ngbNavLink>Completed Return</a>
-                <ng-template ngbNavContent>
-                  <ngb-alert [dismissible]="false" class="d-block mt-3" type="success">
-                    This tab content DOM will always stay in DOM
-                  </ngb-alert>
-                </ng-template>
-              </li>
-              <li ngbNavItem class="ml-auto">
-                <a ngbNavLink routerLink="/my-borrow" style="color: rgb(197, 13, 13)">My Borrows</a>
-              </li>
-            </ul>
-  
-            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+                </div>
+                <div class="row mb-3" *ngFor="let returnItem of returnItems">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <img
+                              *ngIf="returnItem.item.defaultImageFile"
+                              src="{{ filePath }}{{ returnItem.item.defaultImageFile }}"
+                            />
+                          </div>
+                          <div class="request col-md-6">
+                            <h4 mb-3>{{ returnItem.item.name }}</h4>
+                            <h4 class="title">Request from <a href="#" alt="open dialog">Will Smith</a></h4>
+                            <p class="date" mb-3>Request date: {{ returnItem.item.endDate | date: 'yyyy-MM-dd' }}</p>
+                            <h4>
+                              <span class="when">When: </span
+                              ><a href="#" alt="open dialog"
+                                >{{ returnItem.item.startDate | date: 'yyyy-MM-dd' }} ~
+                                {{ returnItem.item.endDate | date: 'yyyy-MM-dd' }}</a
+                              >
+                            </h4>
+                          </div>
+                          <div class="col-md-3">
+                            <small><span>Deposit:</span> ${{ returnItem.item.deposit }}</small
+                            ><br class="mb-1" />
+                            <p>
+                              <small><span>Fee: </span>${{ returnItem.item.fee }}</small>
+                            </p>
+                            <button mat-stroked-button color="primary">Return Complete</button>
+                            <!-- <button mat-stroked-button color="warn">Reject Borrow</button> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="notEmptyPost3" class="col-md-12 d-flex justify-content-center">
+                  <button (click)="onClick3()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="4">
+              <a ngbNavLink>Completed Return</a>
+              <!-- <ng-template ngbNavContent>
+                <ngb-alert [dismissible]="false" class="d-block mt-3" type="success">
+                  This tab content DOM will always stay in DOM
+                </ngb-alert> -->
+
+              <ng-template ngbNavContent>
+                <div class="input-group mt-3 mb-3">
+                  <input
+                    [(ngModel)]="NameFilter"
+                    class="form-control"
+                    style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
+                    (keyup)="FilterFn4()"
+                    placeholder="Filter by Name"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"> <i class="fa fa-search fa-xs"></i></span>
+                  </div>
+                </div>
+                <div class="row mb-3" *ngFor="let completedItem of completedItems">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <img
+                              *ngIf="completedItem.item.defaultImageFile"
+                              src="{{ filePath }}{{ completedItem.item.defaultImageFile }}"
+                            />
+                          </div>
+                          <div class="request col-md-6">
+                            <h4 mb-3>{{ completedItem.item.name }}</h4>
+                            <h4 class="title">Request from <a href="#" alt="open dialog">Will Smith</a></h4>
+                            <p class="date" mb-3>Request date: {{ completedItem.item.endDate | date: 'yyyy-MM-dd' }}</p>
+                            <h4>
+                              <span class="when">When: </span
+                              ><a href="#" alt="open dialog"
+                                >{{ completedItem.item.startDate | date: 'yyyy-MM-dd' }} ~
+                                {{ completedItem.item.endDate | date: 'yyyy-MM-dd' }}</a
+                              >
+                            </h4>
+                          </div>
+                          <div class="col-md-3">
+                            <small><span>Deposit:</span> ${{ completedItem.item.deposit }}</small
+                            ><br class="mb-1" />
+                            <p>
+                              <small><span>Fee: </span>${{ completedItem.item.fee }}</small>
+                            </p>
+                            <!-- <button mat-stroked-button color="primary">Return Complete</button> -->
+                            <!-- <button mat-stroked-button color="warn">Reject Borrow</button> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="notEmptyPost4" class="col-md-12 d-flex justify-content-center">
+                  <button (click)="onClick4()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                </div>
+              </ng-template>
+            </li>
+            <li ngbNavItem class="ml-auto">
+              <a ngbNavLink routerLink="/my-borrow" style="color: rgb(197, 13, 13)">My Borrows</a>
+            </li>
+          </ul>
+
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <strong>
+                <p>Hot</p>
+              </strong>
+              <div class="hot">
+                <ul>
+                  <a href="#">
+                    <li>Want a this..</li>
+                  </a>
+                  <a href="#">
+                    <li>Does anyone have this?</li>
+                  </a>
+                  <a href="#">
+                    <li>New article</li>
+                  </a>
+                  <a href="#">
+                    <li>New article</li>
+                  </a>
+                  <a href="#">
+                    <li>New article</li>
+                  </a>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="row mb-3">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-body">
-                <strong>
-                  <p>Hot</p>
-                </strong>
-                <div class="hot">
-                  <ul>
-                    <a href="#">
-                      <li>Want a this..</li>
-                    </a>
-                    <a href="#">
-                      <li>Does anyone have this?</li>
-                    </a>
-                    <a href="#">
-                      <li>New article</li>
-                    </a>
-                    <a href="#">
-                      <li>New article</li>
-                    </a>
-                    <a href="#">
-                      <li>New article</li>
-                    </a>
-                  </ul>
-                </div>
-              </div>
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <button type="button" class="btn btn-outline bg-orange btn-block">Contat Now</button>
             </div>
           </div>
         </div>
-        <div class="row mb-3">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-body">
-                <button type="button" class="btn btn-outline bg-orange btn-block">Contat Now</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-body">
-                <button type="button" class="btn btn-outline bg-orange btn-block">Contat Now</button>
-              </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <button type="button" class="btn btn-outline bg-orange btn-block">Contat Now</button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>
