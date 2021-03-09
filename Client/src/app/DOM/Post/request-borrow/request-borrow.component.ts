@@ -22,6 +22,7 @@ export class RequestBorrowComponent implements OnInit {
   isPreview: boolean;
   isSubmitPressed: boolean;
   currencyPrefix: string = customCurrencyMaskConfig.prefix;
+  currencyPrecision: number = customCurrencyMaskConfig.precision;
 
   itemDefaultPhotoUrl: any;
   noImagePhotoUrl: string = environment.PhotoFileUrl + 'noImage.png';

@@ -6,8 +6,8 @@
           <h3>Request Borrow</h3>
         </div>
         <div class="card-body">
-          <div class="itemInfo">
-            <h3>Item Information</h3>
+          <div class="itemInfo border p-2 mb-2">
+            <h3 class="text-primary">Item Information</h3>
             <table class="table">
               <tbody>
                 <tr>
@@ -24,11 +24,11 @@
                 </tr>
                 <tr>
                   <td>Deposit</td>
-                  <td>{{ currencyPrefix }}{{ itemPkg.item.deposit }}</td>
+                  <td class="text-danger">{{ currencyPrefix }}{{ itemPkg.item.deposit.toFixed(currencyPrecision) }}</td>
                 </tr>
                 <tr>
                   <td>Fee (per day)</td>
-                  <td>{{ currencyPrefix }}{{ itemPkg.item.fee }}</td>
+                  <td class="text-danger">{{ currencyPrefix }}{{ itemPkg.item.fee.toFixed(currencyPrecision) }}</td>
                 </tr>
                 <tr>
                   <td>Available Dates</td>
@@ -50,11 +50,11 @@
               </tbody>
             </table>
           </div>
-          <div class="borrowInfo">
+          <div class="borrowInfo border p-2">
             <form (ngSubmit)="onSubmit()" [formGroup]="borrowItemForm">
               <div class="d-flex flex-column justify-content-between" formGroupName="borrowInfo">
                 <div *ngIf="isPreview == false">
-                  <h3>Borrow Date</h3>
+                  <h3 class="text-primary">Borrow Date</h3>
                   <div class="form-group col-12">
                     <label>Start Date *</label>
                     <input
@@ -111,7 +111,7 @@
                 </div>
 
                 <div *ngIf="isPreview == true">
-                  <h3>Borrow Summary</h3>
+                  <h3 class="text-primary">Borrow Summary</h3>
                   <table class="table">
                     <tbody>
                       <tr>
@@ -123,16 +123,26 @@
                         <td>{{ transactionPkg.endDate.toISOString().split('T')[0] }}</td>
                       </tr>
                       <tr>
-                        <td>Fee</td>
-                        <td>{{ currencyPrefix }}{{ itemPkg.item.fee }}</td>
+                        <td>Fee (per day)</td>
+                        <td class="text-danger">
+                          {{ currencyPrefix }}{{ itemPkg.item.fee.toFixed(currencyPrecision) }}
+                        </td>
                       </tr>
                       <tr>
-                        <td>Total</td>
-                        <td>{{ currencyPrefix }}{{ transactionPkg.total }} ({{ diffDays }} days)</td>
+                        <td>Days</td>
+                        <td class="text-danger">{{ diffDays }} day(s)</td>
+                      </tr>
+                      <tr>
+                        <td>Total fee</td>
+                        <td class="text-danger font-weight-bold">
+                          {{ currencyPrefix }}{{ transactionPkg.total.toFixed(currencyPrecision) }}
+                        </td>
                       </tr>
                       <tr>
                         <td>Deposit</td>
-                        <td>{{ currencyPrefix }}{{ transactionPkg.refundDeposit }}</td>
+                        <td class="text-danger font-weight-bold">
+                          {{ currencyPrefix }}{{ transactionPkg.refundDeposit.toFixed(currencyPrecision) }}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
