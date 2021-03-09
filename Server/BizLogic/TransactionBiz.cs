@@ -56,6 +56,7 @@ namespace Server.BizLogic
         public async Task<Transaction> GetItemByStatus(int itemId, int status)
         {
             return await context.Transaction
+                .Include(c => c.TransactionDetail)
                 .Where(c => c.ItemId == itemId &&
                         c.CurrentStatus == status)
                 .FirstOrDefaultAsync();

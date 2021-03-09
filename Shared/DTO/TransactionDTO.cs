@@ -15,13 +15,20 @@ namespace Shared.DTO
         public ItemDTO Item { get; set; }
     }
 
+    public class TransactionStatusListDTO
+    {
+        public List<TransactionStatusDTO> statusList { get; set; }
+    }
+
     public class TransactionDTO
     {
         public int Id { get; set; }
         public int ItemId { get; set; }
         public string BorrowerId { get; set; }
+        public string BorrowerName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public DateTime requestDate { get; set; }
         public float? RefundDeposit { get; set; }
         public int? CurrentStatus { get; set; }
         public string StatusName{ get; set; }
