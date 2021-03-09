@@ -26,11 +26,32 @@ namespace Shared.DTO
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int AddressId { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public int? StatusId { get; set; }
+        public string StatusName { get; set; }
+    }
+
+
+    public class ItemAddressDTO
+    {
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string DefaultImageFile { get; set; }
+        public float? Deposit { get; set; }
+        public float? Fee { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public int AddressId { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string City { get; set; }
         public string ProvinceName { get; set; }
-        public string ProvinceCode{ get; set; }
+        public string ProvinceCode { get; set; }
         public string PostalCode { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime TimeStamp { get; set; }
