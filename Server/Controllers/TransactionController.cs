@@ -232,6 +232,8 @@ namespace Server.Controllers
                 4 => 없음
                 5 => 없음
                 6 => 7
+
+                1차적으로 Clent에서 체크되어야함. - 서버 왔다갔다 하면 속도가...
            */
 
             if (curStatus == (int)TransactionStatusEnum.CanceledByLender ||
