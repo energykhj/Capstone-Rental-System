@@ -21,6 +21,11 @@ namespace Server.BizLogic
         Photo photo = new Photo();
         List<int> errorList = new List<int>();
 
+        public ItemBiz(PhoenixContext _context)
+        {
+            this.context = _context;
+        }
+
         public ItemBiz(PhoenixContext _context, IFileStorageService _fileStorageService)
         {
             this.context = _context;
@@ -47,20 +52,22 @@ namespace Server.BizLogic
         public async Task<Item> GetItem(int Id)
         {
             return await context.Item
+                .Include(c => c.Photo)
                 .Include(c => c.Category)
                 .Include(c => c.RecordStatus)
                 .FirstOrDefaultAsync(c => c.Id == Id);
         }
 
-        public async Task<List<Item>> GetItem(int currentPage, string userId)
+        public async Task<List<Item>> GetItem(string userId, int currentPage = 1)
         {
+            if (currentPage == 0) currentPage = 999;
             return await context.Item
                 .Include(c => c.Category)
                 .Include(c => c.Photo)
                 .Include(c => c.Address)
                 .Include(c => c.RecordStatus)
                 .Where(c => c.UserId == userId)
-                .OrderByDescending(c => c.Id)
+                .OrderByDescending(c => c.Id)                
                 .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
         }

@@ -21,16 +21,36 @@ namespace Server.BizLogic
             this.context = _context;
         }
 
-        public async Task<Transaction> GetTransactionByItem(int Id)
+        public async Task<Transaction> GetTransactionByID(int Id)
         {
             return await context.Transaction
                 .FirstOrDefaultAsync(c => c.Id == Id);
         }
 
-        public async Task<Transaction> GetTransactionByBorrower(string userId)
+        public async Task<List<Transaction>> GetTransactionByBorrower(string userId)
         {
             return await context.Transaction
-                .FirstOrDefaultAsync(c => c.BorrowerId == userId);
+                .Where(c => c.BorrowerId == userId && 
+                        (c.CurrentStatus == (int)TransactionStatusEnum.Request ||   // for cancel 
+                        c.CurrentStatus == (int)TransactionStatusEnum.Confirmed ||
+                        c.CurrentStatus == (int)TransactionStatusEnum.RequestReturn))
+                .ToListAsync();
+        }
+
+        public async Task<List<Transaction>> GetReturnedItem(string userId)
+        {
+            return await context.Transaction
+                .Where(c => c.BorrowerId == userId &&
+                        (c.CurrentStatus == (int)TransactionStatusEnum.ReturnComplete))
+                .ToListAsync();
+        }
+
+        public async Task<Transaction> GetRequestedItem(int itemId)
+        {
+            return await context.Transaction
+                .Where(c => c.ItemId == itemId &&
+                        c.CurrentStatus == (int)TransactionStatusEnum.Request)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<List<TransactionDetail>> GetTransactionDetails(int Id)
@@ -40,24 +60,42 @@ namespace Server.BizLogic
                 .ToListAsync();
         }
 
-       /* public async Task<Transaction> GetTransaction(int Id)
+        public async Task<TransactionStatus> GetTransactionStatus(int statusId)
+        {
+            return await context.TransactionStatus
+                .Where(c => c.Id == statusId)
+                .OrderByDescending(c => c.Id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Transaction> GetTransaction(int Id)
         {
             return await context.Transaction
                 .Include(c => c.TransactionDetail)
                 .FirstOrDefaultAsync(c => c.Id == Id);
-        }*/
+        }
 
-        public async Task<int> GetTransactionStatus(int Id)
+        public async Task<String> GetTransactionStatusName(int Id)
         {
             var status = await context.TransactionStatus
                 .FirstOrDefaultAsync(c => c.Id == Id);
+            return status.Status;
+        }
+
+        public async Task<int> GetTransactionStatusID(string name)
+        {
+            var status = await context.TransactionStatus
+                .FirstOrDefaultAsync(c => c.Status == name);
             return status.Id;
         }
 
-        public void UpdateTransactionDetail(TransactionDetail td)
+        public async Task<int> GetCurrentStatus(int tId)
         {
-            // No need Transaction detail's update, only insert 
+            var status = await context.Transaction
+                .FirstOrDefaultAsync(c => c.Id == tId);
+            return status.Id;
         }
+
         public void UpdateTransactionStatus(int itemId, int status)
         {
             // must add code after made table field for currentStatus
@@ -73,7 +111,7 @@ namespace Server.BizLogic
                 {
                     context.Transaction.Add(transaction);
                     await context.SaveChangesAsync();
-                    return await GetTransactionByItem(transaction.Id);
+                    return await GetTransactionByID(transaction.Id);
                 }
                 else
                     throw new Exception(new ErrorManager().ErrorList(errorList));
@@ -94,7 +132,8 @@ namespace Server.BizLogic
                 {
                     context.Transaction.Update(transaction);
                     await context.SaveChangesAsync();
-                    return await GetTransactionByItem(transaction.Id);
+                    return await GetTransactionByID(transaction.Id);
+                    //return await GetTransactionStatus((int)transaction.CurrentStatus);
                 }
                 else
                     throw new Exception(new ErrorManager().ErrorList(errorList));
@@ -104,7 +143,7 @@ namespace Server.BizLogic
                 throw ex;
             }
         }
-
+/*
         public async Task<List<TransactionDetail>> InsertTransactionDetail(TransactionDetail td)
         {
             try
@@ -116,6 +155,27 @@ namespace Server.BizLogic
                     context.TransactionDetail.Add(td);
                     await context.SaveChangesAsync();
                     return await GetTransactionDetails(td.Id);
+                }
+                else
+                    throw new Exception(new ErrorManager().ErrorList(errorList));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }*/
+
+        public async Task<TransactionStatus> InsertTransactionDetail(TransactionDetail td)
+        {
+            try
+            {
+                this.td = td;
+                await ValidateTransactionDetails();
+                if (errorList.Count == 0)
+                {
+                    context.TransactionDetail.Add(td);
+                    await context.SaveChangesAsync();
+                    return await GetTransactionStatus(td.StatusId);
                 }
                 else
                     throw new Exception(new ErrorManager().ErrorList(errorList));

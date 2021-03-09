@@ -38,15 +38,18 @@ namespace Server.Controllers
         {
             List<ItemPkgDTO> dtoPkgList = new List<ItemPkgDTO>();
 
-            var Items = await IB.GetItem(currentPage, userId);
+            var Items = await IB.GetItem(userId, currentPage);
             foreach (Item item in Items)
             {
-                ItemPkgDTO dto = new ItemPkgDTO();
                 var Add = await IB.GetItemAddress(item.AddressId);
                 var Photo = await IB.GetItemDefaultPhoto(item.Id);
-                dto.Item = mapper.Map<ItemDTO>(item);
+
+                ItemPkgDTO dto = new ItemPkgDTO()
+                {
+                    Item = mapper.Map<ItemDTO>(item),
+                    Address = mapper.Map<AddressDTO>(Add)
+                };               
                 dto.Item.DefaultImageFile = (Photo == null) ? null : Photo.FileName;
-                dto.Address = mapper.Map<AddressDTO>(Add);
 
                 dtoPkgList.Add(dto);
             }

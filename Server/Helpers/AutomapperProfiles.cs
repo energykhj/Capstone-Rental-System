@@ -21,7 +21,7 @@ namespace Server.Helpers
 
             CreateMap<UserItemDTO, UserItem>();
             CreateMap<UserItem, UserItemDTO>()
-                .ForMember(m => m.StatusName, opt => opt.MapFrom(x => x.Status));
+                .ForMember(m => m.StatusName, opt => opt.MapFrom(x => x.Status.Status));
 
             CreateMap<PhotoDTO, Photo>();
             CreateMap<Photo, PhotoDTO>();
@@ -36,6 +36,17 @@ namespace Server.Helpers
 
             CreateMap<AskBoardDTO, AskBoard>();
             CreateMap<AskBoard, AskBoardDTO>();
+
+            CreateMap<TransactionDTO, Transaction>();
+            CreateMap<Transaction, TransactionDTO>();
+            
+            CreateMap<TransactionDetailsDTO, TransactionDetail>();
+            CreateMap<TransactionDetail, TransactionDetailsDTO>()
+                .ForMember(m => m.StatusName, opt => opt.MapFrom(x => x.Status.Status));
+
+            CreateMap<TransactionStatusDTO, TransactionStatus>();
+            CreateMap<TransactionStatus, TransactionStatusDTO>();
+
         }
     }
 }
