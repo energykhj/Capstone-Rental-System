@@ -53,6 +53,32 @@ namespace Server.BizLogic
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<Transaction> GetItemByStatus(int itemId, int status)
+        {
+            return await context.Transaction
+                .Where(c => c.ItemId == itemId &&
+                        c.CurrentStatus == status)
+                .FirstOrDefaultAsync();
+        }
+
+
+        public async Task<Transaction> GetCompletedItem(int itemId)
+        {
+            return await context.Transaction
+                .Where(c => c.ItemId == itemId &&
+                        c.CurrentStatus == (int)TransactionStatusEnum.ReturnComplete)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Transaction> GetRequestReturnItem(int itemId)
+        {
+            return await context.Transaction
+                .Where(c => c.ItemId == itemId &&
+                        c.CurrentStatus == (int)TransactionStatusEnum.RequestReturn)
+                .FirstOrDefaultAsync();
+        }
+
+
         public async Task<List<TransactionDetail>> GetTransactionDetails(int Id)
         {
             return await context.TransactionDetail
