@@ -1,0 +1,115 @@
+.container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000000;
+  text-align: left;
+  background-color: #fafafa;
+}
+
+small.color_red {
+  font-size: 87.5%;
+  color: #e00c0c;
+  word-break: break-word;
+}
+
+.btn_custom {
+  background: #169cb1;
+  color: #fff !important;
+  width: 200px !important;
+  font-size: 15px;
+  vertical-align: middle;
+  padding-top: 0px;
+  height: 28px;
+}
+
+.card-header {
+  height: 42px;
+  padding: 4px 10px !important;
+  background-color: #fcf7e4 !important;
+  color: #000000;
+  text-align: center;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #ffffff !important;
+  color: black !important;
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 5px;
+  position: relative;
+  background-color: #00509d;
+  border-bottom: 4px solid #db3a34;
+  position: relative;
+  font-size: 16px;
+}
+.nav-tabs .nav-link {
+  border: 0px solid transparent;
+  border-bottom: 5px;
+}
+
+.hot {
+  background: #fff;
+  position: relative;
+}
+.hot ul {
+  font-size: 14px;
+  list-style-position: inside;
+  padding: 0;
+  list-style-type: none;
+}
+.hot ul li a:hover:not(.active) {
+  background-color: #b0b0b0;
+  color: black;
+  text-decoration: none;
+}
+
+.mat-stroked-button {
+  margin-bottom: 5px;
+  width: 100%;
+  height: 30px;
+  vertical-align: top !important;
+  padding-top: 0px !important;
+}
+.mat-stroked-button.mat-primary {
+  background-color: #fddf73;
+  color: #212529;
+  font-size: 14px;
+}
+.mat-stroked-button.mat-primary:hover {
+  color: rgb(13, 13, 14);
+  background-color: #fdc500;
+}
+.mat-stroked-button.mat-warn {
+  background-color: #fbdade;
+  color: #212529;
+  font-size: 14px;
+}
+.mat-stroked-button.mat-stroked-button.mat-warn:hover {
+  color: rgb(13, 13, 14);
+  background-color: #fa6a7b;
+}
+
+@media (max-width: 600px) {
+  .nav-item {
+    width: 600px;
+  }
+}
+
+.preview-image {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+span.showmore {
+  color: blue;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+a:hover {
+  cursor: pointer;
+}

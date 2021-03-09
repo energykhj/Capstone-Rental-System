@@ -359,6 +359,9 @@
                 <div class="ml-2 mr-2">
                   <button mat-stroked-button type="reset" color="warn">Cancel</button>
                 </div>
+                <div *ngIf="isReadOnly == true" class="ml-2">
+                  <button mat-stroked-button type="button" color="primary" (click)="requestBorrow()">Borrow</button>
+                </div>
               </div>
             </div>
           </form>
