@@ -29,6 +29,8 @@ namespace Shared.DTO
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime requestDate { get; set; }
+        public float? Total { get; set; }
+        public float? Deposit { get; set; }
         public float? RefundDeposit { get; set; }
         public int? CurrentStatus { get; set; }
         public string StatusName{ get; set; }
