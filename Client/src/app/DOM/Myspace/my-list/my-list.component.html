@@ -12,7 +12,7 @@
               <ng-template ngbNavContent>
                 <div class="input-group mt-3 mb-3">
                   <input
-                    [(ngModel)]="NameFilter"
+                    [(ngModel)]="NameFilter1"
                     class="form-control"
                     style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
                     (keyup)="FilterFn1()"
@@ -84,7 +84,7 @@
               <ng-template ngbNavContent>
                 <div class="input-group mt-3 mb-3">
                   <input
-                    [(ngModel)]="NameFilter"
+                    [(ngModel)]="NameFilter2"
                     class="form-control"
                     style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
                     (keyup)="FilterFn2()"
@@ -112,8 +112,8 @@
                             <h4>
                               <span class="when">When: </span
                               ><a href="#" alt="open dialog"
-                                >{{ requestItem.item.startDate | date: 'yyyy-MM-dd' }} ~
-                                {{ requestItem.item.endDate | date: 'yyyy-MM-dd' }}</a
+                                >{{ requestItem.trans.startDate | date: 'yyyy-MM-dd' }} ~
+                                {{ requestItem.trans.endDate | date: 'yyyy-MM-dd' }}</a
                               >
                             </h4>
                           </div>
@@ -123,6 +123,9 @@
                             <p>
                               <small><span>Fee: </span>${{ requestItem.item.fee }}</small>
                             </p>
+                            <p>
+                              <small><span>Refund Deposit: </span>${{ requestItem.trans.refundDeposit }}</small>
+                            </p>
                             <button mat-stroked-button color="primary">Confirm Borrow</button>
                             <button mat-stroked-button color="warn">Reject Borrow</button>
                           </div>
@@ -131,15 +134,91 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="notEmptyPost2" class="col-md-12 d-flex justify-content-center">
+                <!-- <div *ngIf="notEmptyPost2" class="col-md-12 d-flex justify-content-center">
                   <button (click)="onClick2()" type="button" class="btn btn-secondary">LOAD MORE</button>
-                </div>
+                </div> -->
               </ng-template>
             </li>
             <!-- Request end -->
 
             <!-- Request Return Start -->
             <li [ngbNavItem]="3">
+              <a ngbNavLink>Processing Items</a>
+              <!-- <ng-template ngbNavContent let-active>
+                <ngb-alert *ngIf="active" [dismissible]="false" class="d-block mt-3">
+                  While tab content DOM is never destroyed, this alert exists only when current tab is active
+                </ngb-alert> -->
+
+              <ng-template ngbNavContent>
+                <div class="input-group mt-3 mb-3">
+                  <input
+                    [(ngModel)]="NameFilter3"
+                    class="form-control"
+                    style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
+                    (keyup)="FilterFn3()"
+                    placeholder="Filter by Name"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"> <i class="fa fa-search fa-xs"></i></span>
+                  </div>
+                </div>
+                <div class="row mb-3" *ngFor="let processingItem of processingItems">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <img
+                              *ngIf="processingItem.item.defaultImageFile"
+                              src="{{ filePath }}{{ processingItem.item.defaultImageFile }}"
+                            />
+                          </div>
+                          <div class="request col-md-6">
+                            <h4 mb-3>{{ processingItem.item.name }}</h4>
+                            <h4 class="title">Request from <a href="#" alt="open dialog">Will Smith</a></h4>
+                            <p class="date" mb-3>
+                              Request date: {{ processingItem.item.endDate | date: 'yyyy-MM-dd' }}
+                            </p>
+                            <h4>
+                              <span class="when">When: </span
+                              ><a href="#" alt="open dialog"
+                                >{{ processingItem.trans.startDate | date: 'yyyy-MM-dd' }} ~
+                                {{ processingItem.trans.endDate | date: 'yyyy-MM-dd' }}</a
+                              >
+                            </h4>
+                          </div>
+                          <div class="col-md-3">
+                            <small><span>Deposit:</span> ${{ processingItem.item.deposit }}</small
+                            ><br class="mb-1" />
+                            <p>
+                              <small><span>Fee: </span>${{ processingItem.item.fee }}</small
+                              ><br />
+                              <small><span>Refund Deposit: </span>${{ processingItem.trans.refundDeposit }}</small>
+                            </p>
+                            <p>
+                              <small><span>Current Status: </span>{{ processingItem.trans.statusName }}</small>
+                            </p>
+                            <div
+                              *ngIf="processingItem.trans.currentStatus === 2"
+                              class="col-md-12 d-flex justify-content-center"
+                            >
+                              <button mat-stroked-button color="primary">Cancel Item</button>
+                            </div>
+                            <!-- <button mat-stroked-button color="warn">Reject Borrow</button> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="notEmptyPost3" class="col-md-12 d-flex justify-content-center">
+                  <button (click)="onClick3()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                </div>
+              </ng-template>
+            </li>
+
+            <!-- Request Return Start -->
+            <li [ngbNavItem]="4">
               <a ngbNavLink>Request Return</a>
               <!-- <ng-template ngbNavContent let-active>
                 <ngb-alert *ngIf="active" [dismissible]="false" class="d-block mt-3">
@@ -149,10 +228,10 @@
               <ng-template ngbNavContent>
                 <div class="input-group mt-3 mb-3">
                   <input
-                    [(ngModel)]="NameFilter"
+                    [(ngModel)]="NameFilter4"
                     class="form-control"
                     style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
-                    (keyup)="FilterFn3()"
+                    (keyup)="FilterFn4()"
                     placeholder="Filter by Name"
                   />
                   <div class="input-group-append">
@@ -197,11 +276,12 @@
                   </div>
                 </div>
                 <div *ngIf="notEmptyPost3" class="col-md-12 d-flex justify-content-center">
-                  <button (click)="onClick3()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                  <button (click)="onClick4()" type="button" class="btn btn-secondary">LOAD MORE</button>
                 </div>
               </ng-template>
             </li>
-            <li [ngbNavItem]="4">
+
+            <li [ngbNavItem]="5">
               <a ngbNavLink>Completed Return</a>
               <!-- <ng-template ngbNavContent>
                 <ngb-alert [dismissible]="false" class="d-block mt-3" type="success">
@@ -211,10 +291,10 @@
               <ng-template ngbNavContent>
                 <div class="input-group mt-3 mb-3">
                   <input
-                    [(ngModel)]="NameFilter"
+                    [(ngModel)]="NameFilter5"
                     class="form-control"
                     style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
-                    (keyup)="FilterFn4()"
+                    (keyup)="FilterFn5()"
                     placeholder="Filter by Name"
                   />
                   <div class="input-group-append">
@@ -259,7 +339,7 @@
                   </div>
                 </div>
                 <div *ngIf="notEmptyPost4" class="col-md-12 d-flex justify-content-center">
-                  <button (click)="onClick4()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                  <button (click)="onClick5()" type="button" class="btn btn-secondary">LOAD MORE</button>
                 </div>
               </ng-template>
             </li>

@@ -135,4 +135,8 @@ export class SharedService {
       }
     });
   }
+
+  GetItemByStatus(val: any, status: any) {
+    return this.http.get<any>(`${environment.apiUrl}/Transaction/GetItemByStatus/` + val + '/' + status);
+  }
 }
