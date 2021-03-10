@@ -31,64 +31,48 @@ namespace Server.Controllers
             UB = new UserBiz(context);
         }
 
-        [HttpGet("GetTransactionByUser/{userId}")]
-        public async Task<ActionResult<List<TransactionItemPkgDTO>>> GetTransactionByUser(string userId)
+        [HttpGet("GetTransactionByUser")]
+        public async Task<ActionResult<List<TransactionItemPkgDTO>>> GetTransactionByUser([FromQuery] string userId, [FromQuery] string statusIds)
         {
             List<TransactionItemPkgDTO> dtoPkgList = new List<TransactionItemPkgDTO>();
+            List<int> statusList = GetStatusList(statusIds);
 
-            /* Retrieved for CurrentStatus below only
-             * CurrentStatus == (int)TransactionStatusEnum.Request ||   // for cancel 
-             * CurrentStatus == (int)TransactionStatusEnum.Confirmed ||
-             * CurrentStatus == (int)TransactionStatusEnum.RequestReturn))
-             * 
-             * may want? about reject or returned transaction 
-            */
-            var Transactions = mapper.Map<List<TransactionDTO>>(await TB.GetTransactionByBorrower(userId));
-
-            foreach (var trans in Transactions)
+            foreach (var status in statusList)
             {
-                var Item = await IB.GetItem(trans.ItemId);
-                var Photo = await IB.GetItemDefaultPhoto(Item.Id);
-                var status = await TB.GetTransactionStatusName((int)trans.CurrentStatus);
-
-                TransactionItemPkgDTO dto = new TransactionItemPkgDTO()
+                var Transactions = mapper.Map<List<TransactionDTO>>(await TB.GetTransactionByBorrower(userId));
+                foreach (var trans in Transactions)
                 {
-                    Trans = mapper.Map<TransactionDTO>(trans),
-                    Item = mapper.Map<ItemDTO>(Item),
-                };
-                dto.Trans.StatusName = status;
-                dto.Item.DefaultImageFile = (Photo == null) ? null : Photo.FileName;
+                    var Item = await IB.GetItem(trans.ItemId);
+                    var Photo = await IB.GetItemDefaultPhoto(Item.Id);
+                    var statusName = await TB.GetTransactionStatusName((int)trans.CurrentStatus);
 
-                dtoPkgList.Add(dto);
+                    TransactionItemPkgDTO dto = new TransactionItemPkgDTO()
+                    {
+                        Trans = mapper.Map<TransactionDTO>(trans),
+                        Item = mapper.Map<ItemDTO>(Item),
+                    };
+                    dto.Trans.StatusName = statusName;
+                    dto.Item.DefaultImageFile = (Photo == null) ? null : Photo.FileName;
+
+                    dtoPkgList.Add(dto);
+                }
             }
+            
             return dtoPkgList;
         }
 
 
         [HttpGet]
-        //public async Task<ActionResult<List<TransactionItemPkgDTO>>> GetItemByStatus(string userId, TransactionStatusListDTO statusList)
         public async Task<ActionResult<List<TransactionItemPkgDTO>>> GetItemByStatus([FromQuery] string userId, [FromQuery] string statusIds)
         {
             List<TransactionItemPkgDTO> dtoPkgList = new List<TransactionItemPkgDTO>();
-
-            string[] statusIdList = statusIds.Split(",");
-            List<int> statusList = new List<int>();
-            int result;
-            foreach (var statusId in statusIdList)
-            {
-                if (int.TryParse(statusId, out result))
-                {
-                    statusList.Add(result);
-                }
-            }
+            List<int> statusList = GetStatusList(statusIds);
             var Items = mapper.Map<List<ItemDTO>>(await IB.GetItem(userId));            
-            //var statusList = mapper.Map<List<TransactionStatusDTO>>(dtoStatus.statusList);
 
             foreach (var item in Items)
             {
                 foreach (var status in statusList)
                 {
-                    //var trans = await TB.GetItemByStatus(item.Id, status.Id);
                     var trans = await TB.GetItemByStatus(item.Id, status);
                     if (trans != null)
                     {
@@ -144,18 +128,12 @@ namespace Server.Controllers
             return BadRequest();
         }
 
-        private async Task<string> UpdateStatus(Transaction trans)
-        {
-            var newTH = await TB.UpdateTransaction(trans);
-            return await TB.GetTransactionStatusName((int)newTH.CurrentStatus);
-        }
-
         /*
          * when status either 'request' or 'rejected', can only be updated
          * 'Confirmed' means that the date has been fixed so, can't be updated.
          * Transaction Detail can't be updated. -- add transaction detail? for header update??
          */
-        [HttpPut]
+        [HttpPut("UpdateTransaction")]
         public async Task<ActionResult<TransactionDTO>> UpdateTransaction([FromBody] TransactionDTO trans)
         {
             var oldTrans = await TB.GetTransaction(trans.Id);
@@ -179,7 +157,7 @@ namespace Server.Controllers
             else return BadRequest($"Current status is {curStatus}, can't be updated");
         }
 
-        [HttpPut]
+        [HttpPut("InsertTransactionDetails")]
         public async Task<ActionResult<TransactionStatusDTO>> InsertTransactionDetails([FromBody] TransactionDetailsDTO td)
         {
             var curTrans = await TB.GetTransaction(td.TransactionId);
@@ -254,5 +232,22 @@ namespace Server.Controllers
 
             return false;
         }
+
+        private List<int> GetStatusList(string statusIds)
+        {
+            string[] statusIdList = statusIds.Split(",");
+            List<int> statusList = new List<int>();
+            int result;
+            foreach (var statusId in statusIdList)
+            {
+                if (int.TryParse(statusId, out result))
+                {
+                    statusList.Add(result);
+                }
+            }
+
+            return statusList;
+        }
+
     }
 }

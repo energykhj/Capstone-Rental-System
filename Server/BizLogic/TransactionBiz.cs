@@ -37,6 +37,16 @@ namespace Server.BizLogic
                 .ToListAsync();
         }
 
+
+        public async Task<List<Transaction>> GetTransactionByBorrower(string userId, int status)
+        {
+            return await context.Transaction
+                .Where(c => c.BorrowerId == userId &&
+                        (c.CurrentStatus == status))
+                .ToListAsync();
+        }
+
+
         public async Task<List<Transaction>> GetReturnedItem(string userId)
         {
             return await context.Transaction
