@@ -8,7 +8,7 @@ import { DetailComponent } from 'src/app/DOM/Main/detail/detail.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SharedService } from 'src/app/Services/shared.service';
 import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/user-details-view.component';
-
+import { TransactionStatusEnum } from 'src/app/Helpers/enum';
 @Component({
   selector: 'app-request-borrow',
   templateUrl: './request-borrow.component.html',
@@ -67,14 +67,28 @@ export class RequestBorrowComponent implements OnInit {
   };
 
   transactionPkg: any = {
-    id: 0,
-    itemId: 0,
-    borrowerId: '',
-    startDate: new Date(),
-    endDate: new Date(),
-    refundDeposit: 0,
-    statusId: 1, //1 = Request
-    total: 0,
+    trans: {
+      id: 0,
+      itemId: 0,
+      borrowerId: '',
+      borrowerName: '',
+      startDate: new Date(),
+      endDate: new Date(),
+      requestDate: new Date(),
+      refundDeposit: 0,
+      currentStatus: TransactionStatusEnum.Request,
+      statusName: '',
+      total: 0,
+      deposit: 0,
+    },
+    tranDetails: {
+      id: 0,
+      transactionId: 0,
+      statusId: 1,
+      statusName: '',
+      reason: '',
+      date: new Date(),
+    },
   };
 
   validation_messages = {
@@ -137,13 +151,13 @@ export class RequestBorrowComponent implements OnInit {
   }
 
   getFormData() {
-    this.transactionPkg.startDate = this.borrowInfo.get('startDate').value;
-    this.transactionPkg.endDate = this.borrowInfo.get('endDate').value;
+    this.transactionPkg.trans.startDate = this.borrowInfo.get('startDate').value;
+    this.transactionPkg.trans.endDate = this.borrowInfo.get('endDate').value;
   }
 
   setFormData() {
-    this.borrowInfo.get('startDate').setValue(this.transactionPkg.startDate);
-    this.borrowInfo.get('endDate').setValue(this.transactionPkg.endDate);
+    this.borrowInfo.get('startDate').setValue(this.transactionPkg.trans.startDate);
+    this.borrowInfo.get('endDate').setValue(this.transactionPkg.trans.endDate);
   }
 
   loadItemPkg(itemId: string) {
@@ -156,8 +170,8 @@ export class RequestBorrowComponent implements OnInit {
       this.itemPkg.item.startDate = new Date(data.item.startDate);
       this.itemPkg.item.endDate = new Date(data.item.endDate);
 
-      this.transactionPkg.startDate = this.itemPkg.item.startDate;
-      this.transactionPkg.endDate = this.itemPkg.item.endDate;
+      this.transactionPkg.trans.startDate = this.itemPkg.item.startDate;
+      this.transactionPkg.trans.endDate = this.itemPkg.item.endDate;
 
       if (this.itemPkg.item.userId) {
         this.getOwnerDetails();
@@ -237,24 +251,36 @@ export class RequestBorrowComponent implements OnInit {
 
     // TODO: Check other reservations of same item
 
-    this.transactionPkg.itemId = this.itemId;
-    this.transactionPkg.borrowerId = this.userId;
-    this.transactionPkg.refundDeposit = this.itemPkg.item.deposit;
-    this.transactionPkg.statusId = 1;
+    this.transactionPkg.trans.itemId = parseInt(this.itemId);
+    this.transactionPkg.trans.borrowerId = this.userId;
+    this.transactionPkg.trans.deposit = this.itemPkg.item.deposit;
+    this.transactionPkg.trans.currentStatus = 1;
     this.getFormData();
 
-    var date1 = new Date(this.transactionPkg.startDate);
-    var date2 = new Date(this.transactionPkg.endDate);
+    var date1 = new Date(this.transactionPkg.trans.startDate);
+    var date2 = new Date(this.transactionPkg.trans.endDate);
     this.diffDays = this.dateDiffInDays(date1, date2) + 1;
 
-    this.transactionPkg.total = this.diffDays * this.itemPkg.item.fee;
+    this.transactionPkg.trans.total = this.diffDays * this.itemPkg.item.fee;
 
     this.isPreview = true;
   }
 
   onBorrow() {
-    if (this.borrowItemForm.invalid) {
-      return;
+    if (this.borrowInfo.invalid == false) {
+      this.service.insertTransaction(this.transactionPkg).subscribe((data: any) => {
+        console.log(data);
+        this.service.Alert('success', 'Send Request Borrow');
+        //this.router.navigate(['/main']);
+
+        // this.transactionPkg.tranDetails.transactionId = data;
+        // this.transactionPkg.tranDetails.statusId = TransactionStatusEnum.Confirmed;
+        // this.service.putTransactionDetail(this.transactionPkg.tranDetails).subscribe((data: any) => {
+        //   console.log(data);
+        //   this.service.Alert('success', 'Send Request Borrow');
+        //   this.router.navigate(['/main']);
+        // });
+      });
     }
   }
 

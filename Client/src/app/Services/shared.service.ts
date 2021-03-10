@@ -122,9 +122,13 @@ export class SharedService {
   }
 
   GetItemByStatus(val: any, status: any) {
-    //let head = new Headers({ 'Content-Type': 'application/json' });
     const params = new HttpParams().set('userId', val).set('statusIds', status.join(','));
     return this.http.get<any>(`${environment.apiUrl}/Transaction`, { params: params });
+  }
+
+  getTransactionByUser(val: any, status: any) {
+    const params = new HttpParams().set('userId', val).set('statusIds', status.join(','));
+    return this.http.get<any>(`${environment.apiUrl}/Transaction/GetTransactionByUser`, { params: params });
   }
 
   insertTransaction(transPkg: any) {

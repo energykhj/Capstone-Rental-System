@@ -116,11 +116,11 @@
                     <tbody>
                       <tr>
                         <td>Start Date</td>
-                        <td>{{ transactionPkg.startDate.toISOString().split('T')[0] }}</td>
+                        <td>{{ transactionPkg.trans.startDate.toISOString().split('T')[0] }}</td>
                       </tr>
                       <tr>
                         <td>End Date</td>
-                        <td>{{ transactionPkg.endDate.toISOString().split('T')[0] }}</td>
+                        <td>{{ transactionPkg.trans.endDate.toISOString().split('T')[0] }}</td>
                       </tr>
                       <tr>
                         <td>Fee (per day)</td>
@@ -135,13 +135,13 @@
                       <tr>
                         <td>Total fee</td>
                         <td class="text-danger font-weight-bold">
-                          {{ currencyPrefix }}{{ transactionPkg.total.toFixed(currencyPrecision) }}
+                          {{ currencyPrefix }}{{ transactionPkg.trans.total.toFixed(currencyPrecision) }}
                         </td>
                       </tr>
                       <tr>
                         <td>Deposit</td>
                         <td class="text-danger font-weight-bold">
-                          {{ currencyPrefix }}{{ transactionPkg.refundDeposit.toFixed(currencyPrecision) }}
+                          {{ currencyPrefix }}{{ transactionPkg.trans.deposit.toFixed(currencyPrecision) }}
                         </td>
                       </tr>
                     </tbody>
