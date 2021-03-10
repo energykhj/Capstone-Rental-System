@@ -40,7 +40,7 @@ namespace Server.Controllers
 
             foreach (var status in statusList)
             {
-                var Transactions = mapper.Map<List<TransactionDTO>>(await TB.GetTransactionByBorrower(userId));
+                var Transactions = mapper.Map<List<TransactionDTO>>(await TB.GetTransactionByBorrower(userId, status));
                 foreach (var trans in Transactions)
                 {
                     var Item = await IB.GetItem(trans.ItemId);
