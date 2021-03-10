@@ -31,7 +31,8 @@ namespace Server.Controllers
             UB = new UserBiz(context);
         }
 
-        [HttpGet("GetTransactionByUser/{userId}/{statusIds}")]
+        //[HttpGet("GetTransactionByUser/{userId}/{statusIds}")]
+        [HttpGet("GetTransactionByUser")]
         public async Task<ActionResult<List<TransactionItemPkgDTO>>> GetTransactionByUser([FromQuery] string userId, [FromQuery] string statusIds)
         {
             List<TransactionItemPkgDTO> dtoPkgList = new List<TransactionItemPkgDTO>();
