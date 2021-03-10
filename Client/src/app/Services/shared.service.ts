@@ -121,6 +121,20 @@ export class SharedService {
     return this.http.get<any>(`${environment.apiUrl}/AskBoard`);
   }
 
+  GetItemByStatus(val: any, status: any) {
+    //let head = new Headers({ 'Content-Type': 'application/json' });
+    const params = new HttpParams().set('userId', val).set('statusIds', status.join(','));
+    return this.http.get<any>(`${environment.apiUrl}/Transaction`, { params: params });
+  }
+
+  insertTransaction(transPkg: any) {
+    return this.http.post<any>(`${environment.apiUrl}/Transaction`, transPkg);
+  }
+
+  putTransactionDetail(tDetail: any) {
+    return this.http.put<any>(`${environment.apiUrl}/Transaction`, tDetail);
+  }
+
   Alert(t: string, m: string): void {
     const timeout = 2000;
     const dialogRef = this.dialog.open(AlertsComponent, {
@@ -134,11 +148,5 @@ export class SharedService {
         }, timeout);
       }
     });
-  }
-
-  GetItemByStatus(val: any, status: any) {
-    let head = new Headers({ 'Content-Type': 'application/json' });
-    const params = new HttpParams().set('userId', val).set('statusIds', status.join(','));
-    return this.http.get<any>(`${environment.apiUrl}/Transaction`, { params: params });
   }
 }
