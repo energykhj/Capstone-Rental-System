@@ -132,7 +132,7 @@ export class SharedService {
   }
 
   putTransactionDetail(tDetail: any) {
-    return this.http.put<any>(`${environment.apiUrl}/Transaction`, tDetail);
+    return this.http.put<any>(`${environment.apiUrl}/Transaction/InsertTransactionDetails`, tDetail);
   }
 
   Alert(t: string, m: string): void {
