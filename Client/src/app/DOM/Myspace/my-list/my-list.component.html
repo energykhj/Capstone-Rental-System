@@ -107,8 +107,12 @@
                           </div>
                           <div class="request col-md-6">
                             <h4 mb-3>{{ requestItem.item.name }}</h4>
-                            <h4 class="title">Request from <a href="#" alt="open dialog">Will Smith</a></h4>
-                            <p class="date" mb-3>Request date: {{ requestItem.item.endDate | date: 'yyyy-MM-dd' }}</p>
+                            <h4 class="title">
+                              Request from <a href="#" alt="open dialog">{{ requestItem.trans.borrowerName }}</a>
+                            </h4>
+                            <p class="date" mb-3>
+                              Request date: {{ requestItem.trans.requestDate | date: 'yyyy-MM-dd' }}
+                            </p>
                             <h4>
                               <span class="when">When: </span
                               ><a href="#" alt="open dialog"
@@ -175,9 +179,11 @@
                           </div>
                           <div class="request col-md-6">
                             <h4 mb-3>{{ processingItem.item.name }}</h4>
-                            <h4 class="title">Request from <a href="#" alt="open dialog">Will Smith</a></h4>
+                            <h4 class="title">
+                              Request from <a href="#" alt="open dialog">{{ processingItem.trans.borrowerName }}</a>
+                            </h4>
                             <p class="date" mb-3>
-                              Request date: {{ processingItem.item.endDate | date: 'yyyy-MM-dd' }}
+                              Request date: {{ processingItem.trans.requestDate | date: 'yyyy-MM-dd' }}
                             </p>
                             <h4>
                               <span class="when">When: </span
@@ -251,8 +257,12 @@
                           </div>
                           <div class="request col-md-6">
                             <h4 mb-3>{{ returnItem.item.name }}</h4>
-                            <h4 class="title">Request from <a href="#" alt="open dialog">Will Smith</a></h4>
-                            <p class="date" mb-3>Request date: {{ returnItem.item.endDate | date: 'yyyy-MM-dd' }}</p>
+                            <h4 class="title">
+                              Request from <a href="#" alt="open dialog">{{ returnItem.trans.borrowerName }}</a>
+                            </h4>
+                            <p class="date" mb-3>
+                              Request date: {{ returnItem.trans.requestDate | date: 'yyyy-MM-dd' }}
+                            </p>
                             <h4>
                               <span class="when">When: </span
                               ><a href="#" alt="open dialog"
@@ -314,8 +324,12 @@
                           </div>
                           <div class="request col-md-6">
                             <h4 mb-3>{{ completedItem.item.name }}</h4>
-                            <h4 class="title">Request from <a href="#" alt="open dialog">Will Smith</a></h4>
-                            <p class="date" mb-3>Request date: {{ completedItem.item.endDate | date: 'yyyy-MM-dd' }}</p>
+                            <h4 class="title">
+                              Request from <a href="#" alt="open dialog">{{ completedItem.trans.borrowerName }}</a>
+                            </h4>
+                            <p class="date" mb-3>
+                              Request date: {{ completedItem.trans.requestDate | date: 'yyyy-MM-dd' }}
+                            </p>
                             <h4>
                               <span class="when">When: </span
                               ><a href="#" alt="open dialog"

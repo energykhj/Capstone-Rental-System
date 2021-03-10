@@ -43,7 +43,10 @@ export class MyListComponent implements OnInit {
   processingItems: any = [];
   returnItems: any = [];
   completedItems: any = [];
-  requestStatus: any = [1, 2];
+  requestStatus: any = [1];
+  processingStatus: any = [2, 3, 4, 5];
+  returnStatus: any = [6];
+  completedStatus: any = [7];
 
   constructor(private service: SharedService) {}
 
@@ -80,7 +83,7 @@ export class MyListComponent implements OnInit {
       this.NameListWithoutFilter2 = requestItem;
     });
 
-    this.service.GetItemByStatus(this.userId, this.requestStatus).subscribe((processingItem: any) => {
+    this.service.GetItemByStatus(this.userId, this.processingStatus).subscribe((processingItem: any) => {
       this.processingItems = processingItem;
       if (processingItem.length < 8) {
         this.notEmptyPost3 = false;
@@ -92,7 +95,7 @@ export class MyListComponent implements OnInit {
       this.NameListWithoutFilter3 = processingItem;
     });
 
-    this.service.GetItemByStatus(this.userId, this.requestStatus).subscribe((returnItem: any) => {
+    this.service.GetItemByStatus(this.userId, this.returnStatus).subscribe((returnItem: any) => {
       this.returnItems = returnItem;
       if (returnItem.length < 8) {
         this.notEmptyPost4 = false;
@@ -104,7 +107,7 @@ export class MyListComponent implements OnInit {
       this.NameListWithoutFilter4 = returnItem;
     });
 
-    this.service.GetItemByStatus(this.userId, this.requestStatus).subscribe((completedItem: any) => {
+    this.service.GetItemByStatus(this.userId, this.completedStatus).subscribe((completedItem: any) => {
       this.completedItems = completedItem;
       if (completedItem.length < 8) {
         this.notEmptyPost5 = false;
@@ -153,7 +156,7 @@ export class MyListComponent implements OnInit {
     console.log('click2');
     this.page3 = this.page3 + 1;
     //  this.userId = '51afd4fa-7b65-47fd-b62a-a4a42ff10979';
-    this.service.GetItemByStatus(this.userId, this.requestStatus).subscribe((processingItem) => {
+    this.service.GetItemByStatus(this.userId, this.processingStatus).subscribe((processingItem) => {
       const processingList = processingItem;
 
       if (processingList.length < 8) {
@@ -169,7 +172,7 @@ export class MyListComponent implements OnInit {
     console.log('click3');
     this.page4 = this.page4 + 1;
     //  this.userId = '51afd4fa-7b65-47fd-b62a-a4a42ff10979';
-    this.service.GetItemByStatus(this.userId, this.requestStatus).subscribe((returnItem) => {
+    this.service.GetItemByStatus(this.userId, this.returnStatus).subscribe((returnItem) => {
       const returnList = returnItem;
 
       if (returnList.length < 8) {
@@ -185,7 +188,7 @@ export class MyListComponent implements OnInit {
     console.log('click4');
     this.page5 = this.page5 + 1;
     //  this.userId = '51afd4fa-7b65-47fd-b62a-a4a42ff10979';
-    this.service.GetItemByStatus(this.userId, this.requestStatus).subscribe((completedItem) => {
+    this.service.GetItemByStatus(this.userId, this.completedStatus).subscribe((completedItem) => {
       const completedList = completedItem;
 
       if (completedList.length < 8) {
