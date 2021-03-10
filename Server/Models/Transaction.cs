@@ -17,6 +17,8 @@ namespace Server.Models
         public DateTime EndDate { get; set; }
         public float? RefundDeposit { get; set; }
         public int? CurrentStatus { get; set; }
+        public float? Total { get; set; }
+        public float? Deposit { get; set; }
 
         public virtual UserDetails Borrower { get; set; }
         public virtual Item Item { get; set; }
