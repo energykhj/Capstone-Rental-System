@@ -43,9 +43,7 @@ export class MyListComponent implements OnInit {
   processingItems: any = [];
   returnItems: any = [];
   completedItems: any = [];
-  requestStatus: any = {
-    statusList: [1],
-  };
+  requestStatus: any = [1, 2];
 
   constructor(private service: SharedService) {}
 
@@ -57,7 +55,7 @@ export class MyListComponent implements OnInit {
   }
 
   loadUserItem() {
-    // this.userId = "51afd4fa-7b65-47fd-b62a-a4a42ff10979";
+    //this.userId = '51afd4fa-7b65-47fd-b62a-a4a42ff10979';
     this.service.getUserItem(this.page1, this.userId).subscribe((userItem: any) => {
       this.userItems = userItem;
       if (userItem.length < 8) {

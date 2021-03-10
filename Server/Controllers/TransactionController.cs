@@ -66,18 +66,30 @@ namespace Server.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<TransactionItemPkgDTO>>> GetItemByStatus(string userId, TransactionStatusListDTO dtoStatus)
+        //public async Task<ActionResult<List<TransactionItemPkgDTO>>> GetItemByStatus(string userId, TransactionStatusListDTO statusList)
+        public async Task<ActionResult<List<TransactionItemPkgDTO>>> GetItemByStatus([FromQuery] string userId, [FromQuery] string statusIds)
         {
             List<TransactionItemPkgDTO> dtoPkgList = new List<TransactionItemPkgDTO>();
 
+            string[] statusIdList = statusIds.Split(",");
+            List<int> statusList = new List<int>();
+            int result;
+            foreach (var statusId in statusIdList)
+            {
+                if (int.TryParse(statusId, out result))
+                {
+                    statusList.Add(result);
+                }
+            }
             var Items = mapper.Map<List<ItemDTO>>(await IB.GetItem(userId));            
-            var statusList = mapper.Map<List<TransactionStatusDTO>>(dtoStatus.statusList);
+            //var statusList = mapper.Map<List<TransactionStatusDTO>>(dtoStatus.statusList);
 
             foreach (var item in Items)
             {
                 foreach (var status in statusList)
                 {
-                    var trans = await TB.GetItemByStatus(item.Id, status.Id);
+                    //var trans = await TB.GetItemByStatus(item.Id, status.Id);
+                    var trans = await TB.GetItemByStatus(item.Id, status);
                     if (trans != null)
                     {
                         var Photo = await IB.GetItemDefaultPhoto(item.Id);

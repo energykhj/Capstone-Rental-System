@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AlertsComponent } from 'src/app/DOM/Shared/alerts/alerts.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -137,6 +137,8 @@ export class SharedService {
   }
 
   GetItemByStatus(val: any, status: any) {
-    return this.http.get<any>(`${environment.apiUrl}/Transaction/GetItemByStatus/` + val + '/' + status);
+    let head = new Headers({ 'Content-Type': 'application/json' });
+    const params = new HttpParams().set('userId', val).set('statusIds', status.join(','));
+    return this.http.get<any>(`${environment.apiUrl}/Transaction`, { params: params });
   }
 }
