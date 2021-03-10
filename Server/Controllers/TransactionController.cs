@@ -95,7 +95,7 @@ namespace Server.Controllers
                         var Photo = await IB.GetItemDefaultPhoto(item.Id);
                         var statusName = await TB.GetTransactionStatusName((int)trans.CurrentStatus);
                         var user = await UB.GetUserDetails(trans.BorrowerId);
-                        var td = trans.TransactionDetail.Where(c => c.Id == trans.Id).FirstOrDefault();
+                        var td = trans.TransactionDetail.Where(c => c.TransactionId == trans.Id).FirstOrDefault();
 
                         TransactionItemPkgDTO dto = new TransactionItemPkgDTO()
                         {
@@ -116,7 +116,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> InsertTransaction([FromBody] TransactionPkgDTO dto)
+        public async Task<ActionResult> InsertTransaction([FromBody] TransactionPkgDTO dto)
         {
             /*
              * double check - date, first check in Client.
@@ -124,7 +124,6 @@ namespace Server.Controllers
              */
             var Trans = mapper.Map<Transaction>(dto.Trans);
             var TransDetails = mapper.Map<TransactionDetail>(dto.TranDetails);
-            string status = "";
 
             try
             {
@@ -133,9 +132,8 @@ namespace Server.Controllers
                 {
                     TransDetails.TransactionId = TH.Id;
                     var TDS = await TB.InsertTransactionDetail(TransDetails);
-                    TH.CurrentStatus = TDS.Id;
 
-                    status = await UpdateStatus(TH);
+                    if (TDS.Id > 0) return Ok(TH.Id);
                 }
             }
             catch (Exception ex)
@@ -143,7 +141,7 @@ namespace Server.Controllers
                 return BadRequest(ex.Message);
             }
 
-            return status;
+            return BadRequest();
         }
 
         private async Task<string> UpdateStatus(Transaction trans)
