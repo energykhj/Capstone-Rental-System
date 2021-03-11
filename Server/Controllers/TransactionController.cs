@@ -170,6 +170,8 @@ namespace Server.Controllers
             {
                 try
                 {
+                    curTrans.CurrentStatus = transDetails.StatusId;
+                    await UpdateStatus(curTrans);
                     return Ok(mapper.Map<TransactionStatusDTO>(await TB.InsertTransactionDetail(transDetails)));
                 }
                 catch (Exception ex)
@@ -179,7 +181,11 @@ namespace Server.Controllers
             }
             else return BadRequest($"Current status is {curStatus}, can't be added or updateed to {nextStatus}");
         }
-
+        private async Task<string> UpdateStatus(Transaction trans)
+        {
+            var newTH = await TB.UpdateTransaction(trans);
+            return await TB.GetTransactionStatusName((int)newTH.CurrentStatus);
+        }
         private bool CanNextStatus(int curStatus, int nextStatus)
         {
             /* Request = 1,
