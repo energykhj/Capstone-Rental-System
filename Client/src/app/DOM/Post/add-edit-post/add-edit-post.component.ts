@@ -180,8 +180,8 @@ export class AddEditPostComponent implements OnInit {
     this.itemPkg.item.description = this.basicInfo.get('description').value;
     this.itemPkg.item.deposit = this.priceInfo.get('deposit').value;
     this.itemPkg.item.fee = this.priceInfo.get('fee').value;
-    this.itemPkg.item.startDate = this.priceInfo.get('startDate').value;
-    this.itemPkg.item.endDate = this.priceInfo.get('endDate').value;
+    this.itemPkg.item.startDate = new Date(this.priceInfo.get('startDate').value);
+    this.itemPkg.item.endDate = new Date(this.priceInfo.get('endDate').value);
 
     this.itemPkg.address.address1 = this.addressInfo.get('address1').value;
     this.itemPkg.address.address2 = this.addressInfo.get('address2').value;
@@ -329,6 +329,8 @@ export class AddEditPostComponent implements OnInit {
 
       this.isDefaultAddress = data.address.isDefault;
 
+      this.itemPkg.item.startDate = new Date(data.item.startDate);
+      this.itemPkg.item.endDate = new Date(data.item.endDate);
       this.setFormData();
     });
   }
