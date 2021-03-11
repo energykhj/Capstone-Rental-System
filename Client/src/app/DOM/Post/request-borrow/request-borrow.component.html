@@ -63,9 +63,10 @@
                       class="form-control"
                       formControlName="startDate"
                       bsDatepicker
+                      placement="top"
                       [minDate]="itemPkg.item.startDate"
                       [maxDate]="itemPkg.item.endDate"
-                      value="{{ itemPkg.item.startDate | date: 'yyyy-MM-dd' }}"
+                      [bsValue]="transactionPkg.trans.startDate"
                       [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
                     />
                     <div *ngFor="let validation of validation_messages.startDate">
@@ -90,9 +91,10 @@
                       formControlName="endDate"
                       [errorStateMatcher]="parentErrorStateMatcher"
                       bsDatepicker
+                      placement="top"
                       [minDate]="itemPkg.item.startDate"
                       [maxDate]="itemPkg.item.endDate"
-                      value="{{ itemPkg.item.endDate | date: 'yyyy-MM-dd' }}"
+                      [bsValue]="transactionPkg.trans.endDate"
                       [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
                     />
                     <div *ngFor="let validation of validation_messages.endDate">

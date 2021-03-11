@@ -141,7 +141,8 @@
                         formControlName="startDate"
                         [attr.disabled]="isReadOnly ? '' : null"
                         bsDatepicker
-                        value="{{ itemPkg.item.startDate | date: 'yyyy-MM-dd' }}"
+                        placement="top"
+                        [bsValue]="itemPkg.item.startDate"
                         [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
                       />
                       <div *ngFor="let validation of validation_messages.startDate">
@@ -167,7 +168,8 @@
                         [errorStateMatcher]="parentErrorStateMatcher"
                         [attr.disabled]="isReadOnly ? '' : null"
                         bsDatepicker
-                        value="{{ itemPkg.item.endDate | date: 'yyyy-MM-dd' }}"
+                        placement="top"
+                        [bsValue]="itemPkg.item.endDate"
                         [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
                       />
                       <div *ngFor="let validation of validation_messages.endDate">

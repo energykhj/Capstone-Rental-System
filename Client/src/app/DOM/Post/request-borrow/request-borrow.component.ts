@@ -33,7 +33,7 @@ export class RequestBorrowComponent implements OnInit {
   formatDate = FormatUtils.formatDate;
   formatCurrency = FormatUtils.formatCurrency;
 
-  ownerDetails:any = {
+  ownerDetails: any = {
     id: '',
     email: '',
     firstName: '',
@@ -122,7 +122,7 @@ export class RequestBorrowComponent implements OnInit {
 
   ngOnInit(): void {
     this.itemId = this.route.snapshot.queryParamMap.get('itemId');
-    this.createborrowItemForm();
+    this.createBorrowItemForm();
     this.setFormData();
 
     if (this.itemId != null) {
@@ -131,7 +131,7 @@ export class RequestBorrowComponent implements OnInit {
     }
   }
 
-  createborrowItemForm() {
+  createBorrowItemForm() {
     this.borrowItemForm = this.fb.group({
       //      priceInfo: this.fb.group({
       borrowInfo: new FormGroup(
