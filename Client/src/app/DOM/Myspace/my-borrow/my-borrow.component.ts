@@ -16,17 +16,18 @@ export class MyBorrowComponent implements OnInit {
   active = 0;
   showMore: boolean;
   userId: string = '';
-  filePath = environment.PhotoFileUrl + 'd82ace94-4987-4b1e-8283-8c5dbb2ca927.jpg';
-  filePath1 = environment.PhotoFileUrl + '04a0db75-8e40-4a54-a728-59c4e8c5ec7a.jpg';
+
   requestItemPkgs: any[];
   filteredRequestItemPkgs: any[];
   borrowingItemPkgs: any[];
   filteredBorrowingItemPkgs: any[];
   compledtedItemPkgs: any[];
   filteredCompledtedItemPkgs: any[];
+
   NameFilter: string = '';
   currentDate: Date = new Date();
   ownerNames = {};
+  notEmptyPost = true;
 
   tranDetails = {
     id: 0,
@@ -65,7 +66,7 @@ export class MyBorrowComponent implements OnInit {
     this.service.getTransactionByUser(this.userId, [TransactionStatusEnum.Request]).subscribe((transItemPkgs: any) => {
       this.requestItemPkgs = transItemPkgs;
       if (transItemPkgs.length < 8) {
-        //this.notEmptyPost2 = false;
+        this.notEmptyPost = false;
       }
       this.showMore = false;
 
@@ -86,7 +87,7 @@ export class MyBorrowComponent implements OnInit {
       .subscribe((transItemPkgs: any) => {
         this.borrowingItemPkgs = transItemPkgs;
         if (transItemPkgs.length < 8) {
-          //this.notEmptyPost2 = false;
+          this.notEmptyPost = false;
         }
         this.showMore = false;
 
@@ -112,7 +113,7 @@ export class MyBorrowComponent implements OnInit {
       .subscribe((transItemPkgs: any) => {
         this.compledtedItemPkgs = transItemPkgs;
         if (transItemPkgs.length < 8) {
-          //this.notEmptyPost2 = false;
+          this.notEmptyPost = false;
         }
         this.showMore = false;
 
@@ -272,4 +273,6 @@ export class MyBorrowComponent implements OnInit {
       return false;
     }
   }
+
+  onLoadMore() {}
 }

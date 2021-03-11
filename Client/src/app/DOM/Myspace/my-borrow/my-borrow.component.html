@@ -41,7 +41,7 @@
                             <img [src]="requestItemPkg.item.defaultImageFile | authImg | async" />
                           </div>
                           <div class="borrow col-md-6">
-                            <h4 mb-3>{{ requestItemPkg.item.name }}</h4>
+                            <h3 mb-3>{{ requestItemPkg.item.name }}</h3>
                             <h4 class="title">
                               Borrow from
                               <a class="text-primary" (click)="openOwnerDetails(requestItemPkg.item.userId)">{{
@@ -110,7 +110,7 @@
                             <img [src]="borrowingItemPkg.item.defaultImageFile | authImg | async" />
                           </div>
                           <div class="borrow col-md-6">
-                            <h4 mb-2>{{ borrowingItemPkg.item.name }}</h4>
+                            <h3 mb-2>{{ borrowingItemPkg.item.name }}</h3>
                             <h4 class="title">
                               Borrow from
                               <a class="text-primary" (click)="openOwnerDetails(borrowingItemPkg.item.userId)">{{
@@ -203,7 +203,7 @@
                             <img [src]="compledtedItemPkg.item.defaultImageFile | authImg | async" />
                           </div>
                           <div class="borrow col-md-6">
-                            <h4 mb-3>{{ compledtedItemPkg.item.name }}</h4>
+                            <h3 mb-3>{{ compledtedItemPkg.item.name }}</h3>
                             <h4 class="title">
                               Borrow from
                               <a class="text-primary" (click)="openOwnerDetails(compledtedItemPkg.item.userId)">{{

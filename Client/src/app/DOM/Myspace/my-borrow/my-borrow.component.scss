@@ -9,20 +9,22 @@
   background-color: #fafafa;
 }
 
-.img-fluid {
-  max-height: 150px !important;
-}
-.img_div {
-  position: relative;
-  overflow: visible;
-  zoom: 1;
-  min-height: 1px;
-  text-align: center !important;
-}
+// .img-fluid {
+//   max-height: 150px !important;
+// }
+// .img_div {
+//   position: relative;
+//   overflow: visible;
+//   zoom: 1;
+//   min-height: 1px;
+//   text-align: center !important;
+// }
 
 img {
-  width: 150px;
-  height: 150px;
+  // max-width: 150px;
+  // max-height: 150px;
+  width: 100%;
+  max-width: 600px;
   object-fit: contain;
 }
 
