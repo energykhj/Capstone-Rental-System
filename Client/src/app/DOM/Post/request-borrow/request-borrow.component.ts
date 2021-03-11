@@ -3,12 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 import { ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
-import { environment, customCurrencyMaskConfig } from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
 import { DetailComponent } from 'src/app/DOM/Main/detail/detail.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SharedService } from 'src/app/Services/shared.service';
 import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/user-details-view.component';
 import { TransactionStatusEnum } from 'src/app/Helpers/enum';
+import { FormatUtils } from 'src/app/Helpers/format-utils';
 @Component({
   selector: 'app-request-borrow',
   templateUrl: './request-borrow.component.html',
@@ -21,8 +22,6 @@ export class RequestBorrowComponent implements OnInit {
   borrowItemForm: FormGroup;
   isPreview: boolean;
   isSubmitPressed: boolean;
-  currencyPrefix: string = customCurrencyMaskConfig.prefix;
-  currencyPrecision: number = customCurrencyMaskConfig.precision;
 
   itemDefaultPhotoUrl: any;
   noImagePhotoUrl: string = environment.PhotoFileUrl + 'noImage.png';
@@ -30,6 +29,9 @@ export class RequestBorrowComponent implements OnInit {
   diffDays: number = 0;
   showMore: boolean;
   maxTextViewLen: number = 50;
+
+  formatDate = FormatUtils.formatDate;
+  formatCurrency = FormatUtils.formatCurrency;
 
   ownerDetails: {
     id: '';
@@ -233,15 +235,6 @@ export class RequestBorrowComponent implements OnInit {
     });
   }
 
-  // a and b are javascript Date objects
-  dateDiffInDays(a, b) {
-    // Discard the time and time-zone information.
-    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-
-    return Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24));
-  }
-
   onSubmit() {
     this.isSubmitPressed = true;
 
@@ -257,9 +250,8 @@ export class RequestBorrowComponent implements OnInit {
     this.transactionPkg.trans.currentStatus = 1;
     this.getFormData();
 
-    var date1 = new Date(this.transactionPkg.trans.startDate);
-    var date2 = new Date(this.transactionPkg.trans.endDate);
-    this.diffDays = this.dateDiffInDays(date1, date2) + 1;
+    this.diffDays =
+      FormatUtils.dateDiffInDays(this.transactionPkg.trans.startDate, this.transactionPkg.trans.endDate) + 1;
 
     this.transactionPkg.trans.total = this.diffDays * this.itemPkg.item.fee;
 

@@ -24,17 +24,17 @@
                 </tr>
                 <tr>
                   <td>Deposit</td>
-                  <td class="text-danger">{{ currencyPrefix }}{{ itemPkg.item.deposit.toFixed(currencyPrecision) }}</td>
+                  <td class="text-danger">{{ formatCurrency(itemPkg.item.deposit) }}</td>
                 </tr>
                 <tr>
                   <td>Fee (per day)</td>
-                  <td class="text-danger">{{ currencyPrefix }}{{ itemPkg.item.fee.toFixed(currencyPrecision) }}</td>
+                  <td class="text-danger">{{ formatCurrency(itemPkg.item.fee) }}</td>
                 </tr>
                 <tr>
                   <td>Available Dates</td>
                   <td>
-                    {{ itemPkg.item.startDate.toISOString().split('T')[0] }} ~
-                    {{ itemPkg.item.endDate.toISOString().split('T')[0] }}
+                    {{ formatDate(itemPkg.item.startDate) }} ~
+                    {{ formatDate(itemPkg.item.endDate) }}
                   </td>
                 </tr>
                 <tr>
@@ -116,16 +116,16 @@
                     <tbody>
                       <tr>
                         <td>Start Date</td>
-                        <td>{{ transactionPkg.trans.startDate.toISOString().split('T')[0] }}</td>
+                        <td>{{ formatDate(transactionPkg.trans.startDate) }}</td>
                       </tr>
                       <tr>
                         <td>End Date</td>
-                        <td>{{ transactionPkg.trans.endDate.toISOString().split('T')[0] }}</td>
+                        <td>{{ formatDate(transactionPkg.trans.endDate) }}</td>
                       </tr>
                       <tr>
                         <td>Fee (per day)</td>
                         <td class="text-danger">
-                          {{ currencyPrefix }}{{ itemPkg.item.fee.toFixed(currencyPrecision) }}
+                          {{ formatCurrency(itemPkg.item.fee) }}
                         </td>
                       </tr>
                       <tr>
@@ -135,13 +135,13 @@
                       <tr>
                         <td>Total fee</td>
                         <td class="text-danger font-weight-bold">
-                          {{ currencyPrefix }}{{ transactionPkg.trans.total.toFixed(currencyPrecision) }}
+                          {{ formatCurrency(transactionPkg.trans.total) }}
                         </td>
                       </tr>
                       <tr>
                         <td>Deposit</td>
                         <td class="text-danger font-weight-bold">
-                          {{ currencyPrefix }}{{ transactionPkg.trans.deposit.toFixed(currencyPrecision) }}
+                          {{ formatCurrency(transactionPkg.trans.deposit) }}
                         </td>
                       </tr>
                     </tbody>
