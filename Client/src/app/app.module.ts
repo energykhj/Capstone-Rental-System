@@ -1,3 +1,4 @@
+import { ReasonComponent } from './DOM/Myspace/my-list/reason/reason.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -87,6 +88,7 @@ export function tokenGetter() {
     EditorComponent,
     RequestBorrowComponent,
     UserDetailsViewComponent,
+    ReasonComponent,
 
     //UserdetailsComponent
   ],

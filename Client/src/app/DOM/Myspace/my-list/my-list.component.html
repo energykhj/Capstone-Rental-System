@@ -108,7 +108,10 @@
                           <div class="request col-md-6">
                             <h4 mb-3>{{ requestItem.item.name }}</h4>
                             <h4 class="title">
-                              Request from <a href="#" alt="open dialog">{{ requestItem.trans.borrowerName }}</a>
+                              Request from
+                              <a class="text-primary" (click)="openBorrowerDetails(requestItem.trans.borrowerId)">{{
+                                requestItem.trans.borrowerName
+                              }}</a>
                             </h4>
                             <p class="date" mb-3>
                               Request date: {{ requestItem.trans.requestDate | date: 'yyyy-MM-dd' }}
@@ -130,8 +133,12 @@
                             <p>
                               <small><span>Refund Deposit: </span>${{ requestItem.trans.refundDeposit }}</small>
                             </p>
-                            <button mat-stroked-button color="primary">Confirm Borrow</button>
-                            <button mat-stroked-button color="warn">Reject Borrow</button>
+                            <button mat-stroked-button color="primary" (click)="confirmBorrow(requestItem.trans.id)">
+                              Confirm Borrow
+                            </button>
+                            <button mat-stroked-button color="warn" (click)="rejectBorrow(requestItem.trans.id)">
+                              Reject Borrow
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -180,7 +187,10 @@
                           <div class="request col-md-6">
                             <h4 mb-3>{{ processingItem.item.name }}</h4>
                             <h4 class="title">
-                              Request from <a href="#" alt="open dialog">{{ processingItem.trans.borrowerName }}</a>
+                              Request from
+                              <a class="text-primary" (click)="openBorrowerDetails(processingItem.trans.borrowerId)">{{
+                                processingItem.trans.borrowerName
+                              }}</a>
                             </h4>
                             <p class="date" mb-3>
                               Request date: {{ processingItem.trans.requestDate | date: 'yyyy-MM-dd' }}
@@ -202,14 +212,17 @@
                               <small><span>Refund Deposit: </span>${{ processingItem.trans.refundDeposit }}</small>
                             </p>
                             <p>
-                              <small><span>Current Status: </span>{{ processingItem.trans.statusName }}</small>
+                              <span class="status">Status: </span>
+                              <span class="statusName">{{ processingItem.trans.statusName }}</span>
                             </p>
-                            <div
+                            <!-- <div
                               *ngIf="processingItem.trans.currentStatus === 2"
                               class="col-md-12 d-flex justify-content-center"
-                            >
-                              <button mat-stroked-button color="primary">Cancel Item</button>
-                            </div>
+                            > -->
+                            <button mat-stroked-button color="primary" (click)="cancelBorrow(processingItem.trans.id)">
+                              Cancel Item
+                            </button>
+                            <!-- </div> -->
                             <!-- <button mat-stroked-button color="warn">Reject Borrow</button> -->
                           </div>
                         </div>
@@ -258,7 +271,10 @@
                           <div class="request col-md-6">
                             <h4 mb-3>{{ returnItem.item.name }}</h4>
                             <h4 class="title">
-                              Request from <a href="#" alt="open dialog">{{ returnItem.trans.borrowerName }}</a>
+                              Request from
+                              <a class="text-primary" (click)="openBorrowerDetails(returnItem.trans.borrowerId)">{{
+                                returnItem.trans.borrowerName
+                              }}</a>
                             </h4>
                             <p class="date" mb-3>
                               Request date: {{ returnItem.trans.requestDate | date: 'yyyy-MM-dd' }}
@@ -277,7 +293,12 @@
                             <p>
                               <small><span>Fee: </span>${{ returnItem.item.fee }}</small>
                             </p>
-                            <button mat-stroked-button color="primary">Return Complete</button>
+                            <p>
+                              <small><span>Refund Deposit: </span>${{ returnItem.trans.refundDeposit }}</small>
+                            </p>
+                            <button mat-stroked-button color="primary" (click)="returnComplete(returnItem.trans.id)">
+                              Return Complete
+                            </button>
                             <!-- <button mat-stroked-button color="warn">Reject Borrow</button> -->
                           </div>
                         </div>
@@ -325,7 +346,10 @@
                           <div class="request col-md-6">
                             <h4 mb-3>{{ completedItem.item.name }}</h4>
                             <h4 class="title">
-                              Request from <a href="#" alt="open dialog">{{ completedItem.trans.borrowerName }}</a>
+                              Request from
+                              <a class="text-primary" (click)="openBorrowerDetails(completedItem.trans.borrowerId)">{{
+                                completedItem.trans.borrowerName
+                              }}</a>
                             </h4>
                             <p class="date" mb-3>
                               Request date: {{ completedItem.trans.requestDate | date: 'yyyy-MM-dd' }}
@@ -343,6 +367,12 @@
                             ><br class="mb-1" />
                             <p>
                               <small><span>Fee: </span>${{ completedItem.item.fee }}</small>
+                            </p>
+                            <p>
+                              <!-- <small> -->
+                              <span class="status">Status: </span>
+                              <span class="statusName">{{ completedItem.trans.statusName }}</span>
+                              <!-- </small> -->
                             </p>
                             <!-- <button mat-stroked-button color="primary">Return Complete</button> -->
                             <!-- <button mat-stroked-button color="warn">Reject Borrow</button> -->
