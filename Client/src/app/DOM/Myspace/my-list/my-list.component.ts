@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/Services/shared.service';
 import { environment } from 'src/environments/environment';
+import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/user-details-view.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { TransactionStatusEnum } from 'src/app/Helpers/enum';
+import { ReasonComponent } from './reason/reason.component';
+import { FormatUtils } from 'src/app/Helpers/format-utils';
 
 @Component({
   selector: 'app-my-list',
@@ -43,12 +48,30 @@ export class MyListComponent implements OnInit {
   processingItems: any = [];
   returnItems: any = [];
   completedItems: any = [];
-  requestStatus: any = [1];
-  processingStatus: any = [2, 3, 4, 5];
-  returnStatus: any = [6];
-  completedStatus: any = [7];
+  requestStatus: any = [TransactionStatusEnum.Request];
+  processingStatus: any = [TransactionStatusEnum.Confirmed];
+  returnStatus: any = [TransactionStatusEnum.RequestReturn];
+  completedStatus: any = [
+    TransactionStatusEnum.Rejected,
+    TransactionStatusEnum.CanceledByBorrower,
+    TransactionStatusEnum.CanceledByLender,
+    TransactionStatusEnum.ReturnComplete,
+  ];
 
-  constructor(private service: SharedService) {}
+  transDetailPkg: any = {
+    id: 0,
+    transactionId: 0,
+    statusId: 0,
+    statusName: '',
+    reason: '',
+    date: new Date(),
+  };
+
+  formatDate = FormatUtils.formatDate;
+  formatCurrency = FormatUtils.formatCurrency;
+  dateDiffInDays = FormatUtils.dateDiffInDays;
+
+  constructor(private service: SharedService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.userId = this.service.isLoginUser;
@@ -121,9 +144,7 @@ export class MyListComponent implements OnInit {
   }
 
   onClick1() {
-    console.log('click1');
     this.page1 = this.page1 + 1;
-    //  this.userId = '51afd4fa-7b65-47fd-b62a-a4a42ff10979';
     this.service.getUserItem(this.page1, this.userId).subscribe((userItem) => {
       const newList = userItem;
 
@@ -137,9 +158,7 @@ export class MyListComponent implements OnInit {
   }
 
   onClick2() {
-    console.log('click2');
     this.page2 = this.page2 + 1;
-    //  this.userId = '51afd4fa-7b65-47fd-b62a-a4a42ff10979';
     this.service.GetItemByStatus(this.userId, this.requestStatus).subscribe((requestItem) => {
       const requestList = requestItem;
 
@@ -153,9 +172,7 @@ export class MyListComponent implements OnInit {
   }
 
   onClick3() {
-    console.log('click2');
     this.page3 = this.page3 + 1;
-    //  this.userId = '51afd4fa-7b65-47fd-b62a-a4a42ff10979';
     this.service.GetItemByStatus(this.userId, this.processingStatus).subscribe((processingItem) => {
       const processingList = processingItem;
 
@@ -169,9 +186,7 @@ export class MyListComponent implements OnInit {
   }
 
   onClick4() {
-    console.log('click3');
     this.page4 = this.page4 + 1;
-    //  this.userId = '51afd4fa-7b65-47fd-b62a-a4a42ff10979';
     this.service.GetItemByStatus(this.userId, this.returnStatus).subscribe((returnItem) => {
       const returnList = returnItem;
 
@@ -185,9 +200,7 @@ export class MyListComponent implements OnInit {
   }
 
   onClick5() {
-    console.log('click4');
     this.page5 = this.page5 + 1;
-    //  this.userId = '51afd4fa-7b65-47fd-b62a-a4a42ff10979';
     this.service.GetItemByStatus(this.userId, this.completedStatus).subscribe((completedItem) => {
       const completedList = completedItem;
 
@@ -246,6 +259,72 @@ export class MyListComponent implements OnInit {
 
     this.completedItems = this.NameListWithoutFilter5.filter(function (el: any) {
       return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
+    });
+  }
+
+  openBorrowerDetails(id: any) {
+    const dialogRef = this.dialog.open(UserDetailsViewComponent, {
+      // height: '500px',
+      width: '300px',
+      data: {
+        dataKey: id,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  confirmBorrow(transId: any) {
+    this.transDetailPkg.transactionId = transId;
+    this.transDetailPkg.statusId = TransactionStatusEnum.Confirmed;
+
+    this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
+      console.log(data.status);
+      this.ngOnInit();
+    });
+  }
+
+  rejectBorrow(transId: any) {
+    this.transDetailPkg.transactionId = transId;
+    this.transDetailPkg.statusId = TransactionStatusEnum.Rejected;
+
+    this.rejectAndCancel('Rejection');
+  }
+
+  rejectAndCancel(text: any) {
+    const dialogRef = this.dialog.open(ReasonComponent, {
+      height: '300px',
+      width: '400px',
+      data: {
+        title: text,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((data: any) => {
+      if (data) {
+        this.transDetailPkg.reason = data;
+        this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
+          this.ngOnInit();
+        });
+      }
+    });
+  }
+
+  cancelBorrow(transId: any) {
+    this.transDetailPkg.transactionId = transId;
+    this.transDetailPkg.statusId = TransactionStatusEnum.CanceledByLender;
+
+    this.rejectAndCancel('Cancellation');
+  }
+
+  returnComplete(transId: any) {
+    this.transDetailPkg.transactionId = transId;
+    this.transDetailPkg.statusId = TransactionStatusEnum.ReturnComplete;
+
+    this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
+      console.log(data.status);
+      this.ngOnInit();
     });
   }
 }
