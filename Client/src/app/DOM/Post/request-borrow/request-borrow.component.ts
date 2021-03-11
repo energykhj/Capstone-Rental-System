@@ -33,14 +33,14 @@ export class RequestBorrowComponent implements OnInit {
   formatDate = FormatUtils.formatDate;
   formatCurrency = FormatUtils.formatCurrency;
 
-  ownerDetails: {
-    id: '';
-    email: '';
-    firstName: '';
-    lastName: '';
-    photourl: '';
-    phone: '';
-    statusId: 0;
+  ownerDetails:any = {
+    id: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    photourl: '',
+    phone: '',
+    statusId: 0,
   };
 
   itemPkg: any = {
@@ -264,14 +264,6 @@ export class RequestBorrowComponent implements OnInit {
         console.log(data);
         this.service.Alert('success', 'Send Request Borrow');
         //this.router.navigate(['/main']);
-
-        // this.transactionPkg.tranDetails.transactionId = data;
-        // this.transactionPkg.tranDetails.statusId = TransactionStatusEnum.Confirmed;
-        // this.service.putTransactionDetail(this.transactionPkg.tranDetails).subscribe((data: any) => {
-        //   console.log(data);
-        //   this.service.Alert('success', 'Send Request Borrow');
-        //   this.router.navigate(['/main']);
-        // });
       });
     }
   }

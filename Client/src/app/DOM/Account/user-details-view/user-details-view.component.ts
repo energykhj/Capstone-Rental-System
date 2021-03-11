@@ -13,14 +13,14 @@ export class UserDetailsViewComponent implements OnInit {
   PhotoFilePath: string = '';
   currentRate: number = 4;
 
-  ownerDetails: {
-    id: '';
-    email: '';
-    firstName: '';
-    lastName: '';
-    photourl: '';
-    phone: '';
-    statusId: 0;
+  ownerDetails: any = {
+    id: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    photourl: '',
+    phone: '',
+    statusId: 0,
   };
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private service: SharedService) {}

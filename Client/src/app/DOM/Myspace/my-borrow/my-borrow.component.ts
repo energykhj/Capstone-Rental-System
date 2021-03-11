@@ -3,6 +3,9 @@ import { SharedService } from 'src/app/Services/shared.service';
 import { environment } from 'src/environments/environment';
 import { TransactionStatusEnum } from 'src/app/Helpers/enum';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
+import { MatDialog } from '@angular/material/dialog';
+import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/user-details-view.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-borrow',
@@ -10,7 +13,7 @@ import { FormatUtils } from 'src/app/Helpers/format-utils';
   styleUrls: ['./my-borrow.component.scss'],
 })
 export class MyBorrowComponent implements OnInit {
-  active = 1;
+  active = 0;
   showMore: boolean;
   userId: string = '';
   filePath = environment.PhotoFileUrl + 'd82ace94-4987-4b1e-8283-8c5dbb2ca927.jpg';
@@ -25,11 +28,31 @@ export class MyBorrowComponent implements OnInit {
   currentDate: Date = new Date();
   ownerNames = {};
 
+  tranDetails = {
+    id: 0,
+    transactionId: 0,
+    statusId: 1,
+    statusName: '',
+    reason: '',
+    date: new Date(),
+  };
+
+ statusText: string[] = [
+  "",
+  "Wait Confirmation",
+  "Request Rejected", 
+  "Request Confirmed", 
+  "Canceled By Lender", 
+  "Canceled By Borrower", 
+  "Wait Return Confirmation", 
+  "Return Completed"
+  ];
+
   formatDate = FormatUtils.formatDate;
   formatCurrency = FormatUtils.formatCurrency;
   dateDiffInDays = FormatUtils.dateDiffInDays;
 
-  constructor(private service: SharedService) {}
+  constructor(private service: SharedService, public dialog: MatDialog, private router: Router) {}
 
   ngOnInit(): void {
     this.userId = this.service.isLoginUser;
@@ -52,6 +75,7 @@ export class MyBorrowComponent implements OnInit {
           : '';
         this.getOwnerNames(transItemPkg.item.userId);
       });
+      this.requestItemPkgs.sort((a,b) => {return b.trans.id - a.trans.id});
       this.filteredRequestItemPkgs = this.requestItemPkgs;
     });
 
@@ -70,6 +94,7 @@ export class MyBorrowComponent implements OnInit {
             : '';
           this.getOwnerNames(transItemPkg.item.userId);
         });
+        this.borrowingItemPkgs.sort((a,b) => {return b.trans.id - a.trans.id});
         this.filteredBorrowingItemPkgs = this.borrowingItemPkgs;
       });
 
@@ -93,6 +118,7 @@ export class MyBorrowComponent implements OnInit {
             : '';
           this.getOwnerNames(transItemPkg.item.userId);
         });
+        this.compledtedItemPkgs.sort((a,b) => {return b.trans.id - a.trans.id});
         this.filteredCompledtedItemPkgs = this.compledtedItemPkgs;
       });
   }
@@ -149,5 +175,48 @@ export class MyBorrowComponent implements OnInit {
   onNavChange() {
     this.NameFilter = '';
     this.Filter(this.active);
+  }
+
+  openOwnerDetails(id: any) {
+    const dialogRef = this.dialog.open(UserDetailsViewComponent, {
+      // height: '500px',
+      width: '300px',
+      data: {
+        dataKey: id,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  onCancel(transactionId) {
+    this.tranDetails.transactionId = transactionId;
+    this.tranDetails.statusId = TransactionStatusEnum.CanceledByBorrower;
+    this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
+      //console.log(data);
+      this.loadTransaction();
+      this.service.Alert('success', 'Canceled Request');
+      //this.router.navigate(['/main']);
+    });
+  }
+
+  onRequestReturn(transactionId) {
+    this.tranDetails.transactionId = transactionId;
+    this.tranDetails.statusId = TransactionStatusEnum.RequestReturn;
+    this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
+      //console.log(data);
+      this.loadTransaction();
+      this.service.Alert('success', 'Requested Return');
+      //this.router.navigate(['/main']);
+    });
+  }
+
+  checkRequestReturn(statusId) {
+    if (statusId == TransactionStatusEnum.RequestReturn) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
