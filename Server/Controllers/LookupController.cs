@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Server.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class LookupController : ControllerBase
@@ -32,6 +34,7 @@ namespace Server.Controllers
             return await context.Province.ToListAsync();
         }
 
+        [AllowAnonymous]
         [HttpGet("{fileName}")]
         public async Task<ActionResult> GetPhoto(string fileName)
         {

@@ -9,6 +9,8 @@ export const environment = {
   PhotoUrl: 'http://localhost:57183/',
   PhotoUrlAvatar: 'http://localhost:57183/api/UserDetails/GetAvatar/',
   PhotoFileUrl: 'http://localhost:57183/api/Lookup/GetPhoto/',
+  allowedDomains: ['localhost:57183'],
+  disallowedRoutes: ['localhost:57183/api/Authentication/'],
 };
 
 export const customCurrencyMaskConfig = {

@@ -42,7 +42,6 @@ import { UserDetailsComponent } from './DOM/Account/user-details/user-details.co
 import { AskComponent } from './DOM/Ask/ask.component';
 import { PostCardComponent } from './DOM/Post/post-card/post-card.component';
 import { MapsComponent } from './DOM/Navigation/maps/maps.component';
-//import { UserdetailsComponent } from './Dom/Accont/userdetails/userdetails.component';
 
 /* Currency Input */
 import { CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
@@ -59,9 +58,14 @@ import { EditorComponent } from './DOM/Shared/editor/editor.component';
 import { RequestBorrowComponent } from './DOM/Post/request-borrow/request-borrow.component';
 import { UserDetailsViewComponent } from './DOM/Account/user-details-view/user-details-view.component';
 
-export function tokenGetter() {
-  return localStorage.getItem('jwt');
-}
+/* Services */
+import { SharedService } from 'src/app/Services/shared.service';
+import { AuthenticationService } from 'src/app/Services/authentication.service';
+
+/* Pipes */
+import { AuthImgPipe } from '../app/Helpers/auth-img.pipe';
+
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -87,8 +91,7 @@ export function tokenGetter() {
     EditorComponent,
     RequestBorrowComponent,
     UserDetailsViewComponent,
-
-    //UserdetailsComponent
+    AuthImgPipe,
   ],
   imports: [
     BrowserModule,
@@ -112,16 +115,18 @@ export function tokenGetter() {
 
     JwtModule.forRoot({
       config: {
-        tokenGetter: tokenGetter,
-        allowedDomains: ['localhost:4200'],
-        disallowedRoutes: [],
+        tokenGetter: () => {
+          return localStorage.getItem('jwt');
+        },
+        allowedDomains: environment.allowedDomains,
+        disallowedRoutes: environment.disallowedRoutes,
       },
     }),
 
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
     NgxFileDropModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, SharedService, AuthenticationService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

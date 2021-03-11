@@ -10,22 +10,18 @@ import { MatDialog } from '@angular/material/dialog';
   providedIn: 'root',
 })
 export class SharedService {
-  readonly APIUrl = 'http://localhost:57183/api';
-  readonly PhotoUrl = 'http://localhost:57183/';
-  readonly PhotoUrlAvatar = 'http://localhost:57183/api/UserDetails/GetAvatar/';
-
   constructor(private http: HttpClient, public dialog: MatDialog) {}
 
   Login(val: any) {
-    return this.http.post(this.APIUrl + '/Authentication/Login', val);
+    return this.http.post(`${environment.apiUrl}/Authentication/Login`, val);
   }
 
   CreateUser(val: any) {
-    return this.http.post(this.APIUrl + '/Authentication/CreateUser', val);
+    return this.http.post(`${environment.apiUrl}/Authentication/CreateUser`, val);
   }
 
   Register(val: any) {
-    return this.http.post(this.APIUrl + '/Authentication/Register', val);
+    return this.http.post(`${environment.apiUrl}/Authentication/Register`, val);
   }
 
   public get GetUserInfo() {
