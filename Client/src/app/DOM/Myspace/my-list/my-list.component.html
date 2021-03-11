@@ -45,17 +45,17 @@
                                 </div>
                               </small>
                             </p>
-                            <small>Start: {{ userItem.item.startDate | date: 'yyyy-MM-dd' }}</small
+                            <small>Start: {{ formatDate(userItem.item.startDate) }}</small
                             ><br />
                             <p>
-                              <small>End: {{ userItem.item.endDate | date: 'yyyy-MM-dd' }}</small>
+                              <small>End: {{ formatDate(userItem.item.endDate) }}</small>
                             </p>
                           </div>
                           <div class="col-md-3">
-                            <small><span>Deposit:</span> ${{ userItem.item.deposit }}</small
+                            <small><span>Deposit:</span> {{ formatCurrency(userItem.item.deposit) }}</small
                             ><br class="mb-1" />
                             <p>
-                              <small><span>Fee: </span>${{ userItem.item.fee }}</small>
+                              <small><span>Fee: </span>{{ formatCurrency(userItem.item.fee) }}</small>
                             </p>
                             <small>Address: </small><br />
                             <p>
@@ -65,7 +65,7 @@
                                 {{ userItem.address.postalCode }}
                               </small>
                             </p>
-                            <small>Posted on: {{ userItem.item.createdDate | date: 'yyyy-MM-dd' }}</small>
+                            <small>Posted on: {{ formatDate(userItem.item.createdDate) }}</small>
                           </div>
                         </div>
                       </div>
@@ -113,25 +113,26 @@
                                 requestItem.trans.borrowerName
                               }}</a>
                             </h4>
-                            <p class="date" mb-3>
-                              Request date: {{ requestItem.trans.requestDate | date: 'yyyy-MM-dd' }}
-                            </p>
+                            <p class="date" mb-3>Request date: {{ formatDate(requestItem.trans.requestDate) }}</p>
                             <h4>
                               <span class="when">When: </span
                               ><a href="#" alt="open dialog"
-                                >{{ requestItem.trans.startDate | date: 'yyyy-MM-dd' }} ~
-                                {{ requestItem.trans.endDate | date: 'yyyy-MM-dd' }}</a
+                                >{{ formatDate(requestItem.trans.startDate) }} ~
+                                {{ formatDate(requestItem.trans.endDate) }}</a
                               >
                             </h4>
                           </div>
                           <div class="col-md-3">
-                            <small><span>Deposit:</span> ${{ requestItem.item.deposit }}</small
+                            <small><span>Deposit:</span> {{ formatCurrency(requestItem.item.deposit) }}</small
                             ><br class="mb-1" />
                             <p>
-                              <small><span>Fee: </span>${{ requestItem.item.fee }}</small>
+                              <small><span>Fee: </span>${{ formatCurrency(requestItem.item.fee) }}</small>
                             </p>
                             <p>
-                              <small><span>Refund Deposit: </span>${{ requestItem.trans.refundDeposit }}</small>
+                              <small
+                                ><span>Refund Deposit: </span
+                                >{{ formatCurrency(requestItem.trans.refundDeposit) }}</small
+                              >
                             </p>
                             <button mat-stroked-button color="primary" (click)="confirmBorrow(requestItem.trans.id)">
                               Confirm Borrow
@@ -192,24 +193,25 @@
                                 processingItem.trans.borrowerName
                               }}</a>
                             </h4>
-                            <p class="date" mb-3>
-                              Request date: {{ processingItem.trans.requestDate | date: 'yyyy-MM-dd' }}
-                            </p>
+                            <p class="date" mb-3>Request date: {{ formatDate(processingItem.trans.requestDate) }}</p>
                             <h4>
                               <span class="when">When: </span
                               ><a href="#" alt="open dialog"
-                                >{{ processingItem.trans.startDate | date: 'yyyy-MM-dd' }} ~
-                                {{ processingItem.trans.endDate | date: 'yyyy-MM-dd' }}</a
+                                >{{ formatDate(processingItem.trans.startDate) }} ~
+                                {{ formatDate(processingItem.trans.endDate) }}</a
                               >
                             </h4>
                           </div>
                           <div class="col-md-3">
-                            <small><span>Deposit:</span> ${{ processingItem.item.deposit }}</small
+                            <small><span>Deposit:</span> {{ formatCurrency(processingItem.item.deposit) }}</small
                             ><br class="mb-1" />
                             <p>
-                              <small><span>Fee: </span>${{ processingItem.item.fee }}</small
+                              <small><span>Fee: </span>{{ formatCurrency(processingItem.item.fee) }}</small
                               ><br />
-                              <small><span>Refund Deposit: </span>${{ processingItem.trans.refundDeposit }}</small>
+                              <small
+                                ><span>Refund Deposit: </span
+                                >{{ formatCurrency(processingItem.trans.refundDeposit) }}</small
+                              >
                             </p>
                             <p>
                               <span class="status">Status: </span>
@@ -276,25 +278,26 @@
                                 returnItem.trans.borrowerName
                               }}</a>
                             </h4>
-                            <p class="date" mb-3>
-                              Request date: {{ returnItem.trans.requestDate | date: 'yyyy-MM-dd' }}
-                            </p>
+                            <p class="date" mb-3>Request date: {{ formatDate(returnItem.trans.requestDate) }}</p>
                             <h4>
                               <span class="when">When: </span
                               ><a href="#" alt="open dialog"
-                                >{{ returnItem.item.startDate | date: 'yyyy-MM-dd' }} ~
-                                {{ returnItem.item.endDate | date: 'yyyy-MM-dd' }}</a
+                                >{{ formatDate(returnItem.item.startDate) }} ~
+                                {{ formatDate(returnItem.item.endDate) }}</a
                               >
                             </h4>
                           </div>
                           <div class="col-md-3">
-                            <small><span>Deposit:</span> ${{ returnItem.item.deposit }}</small
+                            <small><span>Deposit:</span> {{ formatCurrency(returnItem.item.deposit) }}</small
                             ><br class="mb-1" />
                             <p>
-                              <small><span>Fee: </span>${{ returnItem.item.fee }}</small>
+                              <small><span>Fee: </span>{{ formatCurrency(returnItem.item.fee) }}</small>
                             </p>
                             <p>
-                              <small><span>Refund Deposit: </span>${{ returnItem.trans.refundDeposit }}</small>
+                              <small
+                                ><span>Refund Deposit: </span
+                                >{{ formatCurrency(returnItem.trans.refundDeposit) }}</small
+                              >
                             </p>
                             <button mat-stroked-button color="primary" (click)="returnComplete(returnItem.trans.id)">
                               Return Complete
@@ -351,22 +354,20 @@
                                 completedItem.trans.borrowerName
                               }}</a>
                             </h4>
-                            <p class="date" mb-3>
-                              Request date: {{ completedItem.trans.requestDate | date: 'yyyy-MM-dd' }}
-                            </p>
+                            <p class="date" mb-3>Request date: {{ formatDate(completedItem.trans.requestDate) }}</p>
                             <h4>
                               <span class="when">When: </span
-                              ><a href="#" alt="open dialog"
-                                >{{ completedItem.item.startDate | date: 'yyyy-MM-dd' }} ~
-                                {{ completedItem.item.endDate | date: 'yyyy-MM-dd' }}</a
+                              ><a href="#" alt="open dialog">
+                                {{ formatDate(completedItem.item.startDate) }} ~
+                                {{ formatDate(completedItem.item.endDate) }}</a
                               >
                             </h4>
                           </div>
                           <div class="col-md-3">
-                            <small><span>Deposit:</span> ${{ completedItem.item.deposit }}</small
+                            <small><span>Deposit:</span> {{ formatCurrency(completedItem.item.deposit) }}</small
                             ><br class="mb-1" />
                             <p>
-                              <small><span>Fee: </span>${{ completedItem.item.fee }}</small>
+                              <small><span>Fee: </span>{{ formatCurrency(completedItem.item.fee) }}</small>
                             </p>
                             <p>
                               <!-- <small> -->

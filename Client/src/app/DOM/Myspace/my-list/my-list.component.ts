@@ -5,6 +5,7 @@ import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TransactionStatusEnum } from 'src/app/Helpers/enum';
 import { ReasonComponent } from './reason/reason.component';
+import { FormatUtils } from 'src/app/Helpers/format-utils';
 
 @Component({
   selector: 'app-my-list',
@@ -65,6 +66,10 @@ export class MyListComponent implements OnInit {
     reason: '',
     date: new Date(),
   };
+
+  formatDate = FormatUtils.formatDate;
+  formatCurrency = FormatUtils.formatCurrency;
+  dateDiffInDays = FormatUtils.dateDiffInDays;
 
   constructor(private service: SharedService, public dialog: MatDialog) {}
 
