@@ -63,8 +63,8 @@
                       class="form-control"
                       formControlName="startDate"
                       bsDatepicker
-                      [minDate]="this.itemPkg.item.startDate"
-                      [maxDate]="this.itemPkg.item.endDate"
+                      [minDate]="itemPkg.item.startDate"
+                      [maxDate]="itemPkg.item.endDate"
                       value="{{ itemPkg.item.startDate | date: 'yyyy-MM-dd' }}"
                       [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
                     />
@@ -90,8 +90,8 @@
                       formControlName="endDate"
                       [errorStateMatcher]="parentErrorStateMatcher"
                       bsDatepicker
-                      [minDate]="this.itemPkg.item.startDate"
-                      [maxDate]="this.itemPkg.item.endDate"
+                      [minDate]="itemPkg.item.startDate"
+                      [maxDate]="itemPkg.item.endDate"
                       value="{{ itemPkg.item.endDate | date: 'yyyy-MM-dd' }}"
                       [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
                     />

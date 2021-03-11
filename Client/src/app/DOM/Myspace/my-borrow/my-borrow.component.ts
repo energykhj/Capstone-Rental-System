@@ -6,7 +6,7 @@ import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/user-details-view.component';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
 @Component({
   selector: 'app-my-borrow',
   templateUrl: './my-borrow.component.html',
@@ -37,15 +37,15 @@ export class MyBorrowComponent implements OnInit {
     date: new Date(),
   };
 
- statusText: string[] = [
-  "",
-  "Wait Confirmation",
-  "Request Rejected", 
-  "Request Confirmed", 
-  "Canceled By Lender", 
-  "Canceled By Borrower", 
-  "Wait Return Confirmation", 
-  "Return Completed"
+  statusText: string[] = [
+    '',
+    'Wait Confirmation',
+    'Request Rejected',
+    'Request Confirmed',
+    'Canceled By Lender',
+    'Canceled By Borrower',
+    'Wait Return Confirmation',
+    'Return Completed',
   ];
 
   formatDate = FormatUtils.formatDate;
@@ -75,7 +75,9 @@ export class MyBorrowComponent implements OnInit {
           : '';
         this.getOwnerNames(transItemPkg.item.userId);
       });
-      this.requestItemPkgs.sort((a,b) => {return b.trans.id - a.trans.id});
+      this.requestItemPkgs.sort((a, b) => {
+        return b.trans.id - a.trans.id;
+      });
       this.filteredRequestItemPkgs = this.requestItemPkgs;
     });
 
@@ -94,7 +96,9 @@ export class MyBorrowComponent implements OnInit {
             : '';
           this.getOwnerNames(transItemPkg.item.userId);
         });
-        this.borrowingItemPkgs.sort((a,b) => {return b.trans.id - a.trans.id});
+        this.borrowingItemPkgs.sort((a, b) => {
+          return b.trans.id - a.trans.id;
+        });
         this.filteredBorrowingItemPkgs = this.borrowingItemPkgs;
       });
 
@@ -118,7 +122,9 @@ export class MyBorrowComponent implements OnInit {
             : '';
           this.getOwnerNames(transItemPkg.item.userId);
         });
-        this.compledtedItemPkgs.sort((a,b) => {return b.trans.id - a.trans.id});
+        this.compledtedItemPkgs.sort((a, b) => {
+          return b.trans.id - a.trans.id;
+        });
         this.filteredCompledtedItemPkgs = this.compledtedItemPkgs;
       });
   }
@@ -190,25 +196,72 @@ export class MyBorrowComponent implements OnInit {
     });
   }
 
-  onCancel(transactionId) {
-    this.tranDetails.transactionId = transactionId;
-    this.tranDetails.statusId = TransactionStatusEnum.CanceledByBorrower;
-    this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
-      //console.log(data);
-      this.loadTransaction();
-      this.service.Alert('success', 'Canceled Request');
-      //this.router.navigate(['/main']);
+  onCancelRequest(transactionId) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Cancel Request',
+        message: 'Want to cancel the request?',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Cancel Request
+        this.tranDetails.transactionId = transactionId;
+        this.tranDetails.statusId = TransactionStatusEnum.CanceledByBorrower;
+        this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
+          //console.log(data);
+          this.loadTransaction();
+          this.service.Alert('success', 'Canceled Request');
+          //this.router.navigate(['/main']);
+        });
+      }
+    });
+  }
+
+  onCancelReservation(transactionId) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Cancel Reservation',
+        message: 'Want to cancel the reservation?',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Cancel Reservation
+        this.tranDetails.transactionId = transactionId;
+        this.tranDetails.statusId = TransactionStatusEnum.CanceledByBorrower;
+        this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
+          //console.log(data);
+          this.loadTransaction();
+          this.service.Alert('success', 'Canceled Reservation');
+          //this.router.navigate(['/main']);
+        });
+      }
     });
   }
 
   onRequestReturn(transactionId) {
-    this.tranDetails.transactionId = transactionId;
-    this.tranDetails.statusId = TransactionStatusEnum.RequestReturn;
-    this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
-      //console.log(data);
-      this.loadTransaction();
-      this.service.Alert('success', 'Requested Return');
-      //this.router.navigate(['/main']);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Request Return',
+        message: 'Want to complete the return?<br/> Click Yes, a message is sent to owner',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Send Request Return
+        this.tranDetails.transactionId = transactionId;
+        this.tranDetails.statusId = TransactionStatusEnum.RequestReturn;
+        this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
+          //console.log(data);
+          this.loadTransaction();
+          this.service.Alert('success', 'Requested Return');
+          //this.router.navigate(['/main']);
+        });
+      }
     });
   }
 

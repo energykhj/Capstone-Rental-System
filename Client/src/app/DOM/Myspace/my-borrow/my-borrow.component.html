@@ -66,7 +66,7 @@
                             <p class="text-danger">{{ statusText[requestItemPkg.trans.currentStatus] }}</p>
 
                             <!-- {{ requestItemPkg.trans.statusName }} -->
-                            <button mat-stroked-button (click)="onCancel(requestItemPkg.trans.id)" color="warn">
+                            <button mat-stroked-button (click)="onCancelRequest(requestItemPkg.trans.id)" color="warn">
                               Cancel Request
                             </button>
                           </div>
@@ -157,7 +157,7 @@
                             <button
                               *ngIf="!checkRequestReturn(borrowingItemPkg.trans.currentStatus)"
                               mat-stroked-button
-                              (click)="onCancel(borrowingItemPkg.trans.id)"
+                              (click)="onCancelReservation(borrowingItemPkg.trans.id)"
                               color="warn"
                             >
                               Cancel Borrow

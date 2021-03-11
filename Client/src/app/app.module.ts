@@ -67,6 +67,7 @@ import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { AuthImgPipe } from '../app/Helpers/auth-img.pipe';
 
 import { environment } from 'src/environments/environment';
+import { ConfirmDialogComponent } from './DOM/Shared/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { environment } from 'src/environments/environment';
     UserDetailsViewComponent,
     ReasonComponent,
     AuthImgPipe,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
