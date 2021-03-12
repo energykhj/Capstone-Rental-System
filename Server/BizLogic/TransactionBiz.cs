@@ -39,8 +39,8 @@ namespace Server.BizLogic
 
         public async Task<List<Transaction>> GetTransactionByItemId(int itemId)
         {
-            var status = await context.Transaction
-                .FirstOrDefaultAsync(c => c.ItemId == itemId &&
+            return await context.Transaction
+                .Where(c => c.ItemId == itemId &&
                         (c.CurrentStatus == (int)TransactionStatusEnum.Request ||   // for cancel 
                         c.CurrentStatus == (int)TransactionStatusEnum.Confirmed ||
                         c.CurrentStatus == (int)TransactionStatusEnum.RequestReturn))
