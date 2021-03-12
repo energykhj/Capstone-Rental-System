@@ -48,7 +48,7 @@
                                 ownerNames[requestItemPkg.item.userId]
                               }}</a>
                             </h4>
-                            <h4 class="date" mb-2>Borrow date: {{ formatDate(requestItemPkg.trans.startDate) }}</h4>
+                            <h4 class="date" mb-2>Request date: {{ formatDate(requestItemPkg.trans.startDate) }}</h4>
                             <h4>
                               <span class="when">When: </span
                               ><span class="text-primary"
@@ -63,7 +63,9 @@
                             <p>
                               <small><span>Total Fee: </span>{{ formatCurrency(requestItemPkg.trans.total) }}</small>
                             </p>
-                            <p class="text-danger">{{ statusText[requestItemPkg.trans.currentStatus] }}</p>
+                            <p class="text-danger">
+                              <span>Status: </span>{{ statusText[requestItemPkg.trans.currentStatus] }}
+                            </p>
 
                             <!-- {{ requestItemPkg.trans.statusName }} -->
                             <button mat-stroked-button (click)="onCancelRequest(requestItemPkg.trans.id)" color="warn">
@@ -117,7 +119,7 @@
                                 ownerNames[borrowingItemPkg.item.userId]
                               }}</a>
                             </h4>
-                            <h4 class="date" mb-3>Borrow date: {{ formatDate(borrowingItemPkg.trans.startDate) }}</h4>
+                            <h4 class="date" mb-3>Request date: {{ formatDate(borrowingItemPkg.trans.startDate) }}</h4>
                             <h4>
                               <span class="when">When: </span
                               ><span class="text-primary"
@@ -144,7 +146,9 @@
                             <p>
                               <small><span>Total Fee: </span>{{ formatCurrency(borrowingItemPkg.trans.total) }}</small>
                             </p>
-                            <p class="text-danger">{{ statusText[borrowingItemPkg.trans.currentStatus] }}</p>
+                            <p class="text-danger">
+                              <span>Status: </span>{{ statusText[borrowingItemPkg.trans.currentStatus] }}
+                            </p>
 
                             <button
                               *ngIf="!checkRequestReturn(borrowingItemPkg.trans.currentStatus)"
@@ -210,7 +214,7 @@
                                 ownerNames[compledtedItemPkg.item.userId]
                               }}</a>
                             </h4>
-                            <h4 class="date" mb-3>Borrow date: {{ formatDate(compledtedItemPkg.trans.startDate) }}</h4>
+                            <h4 class="date" mb-3>Request date: {{ formatDate(compledtedItemPkg.trans.startDate) }}</h4>
                             <h4>
                               <span class="when">When: </span
                               ><span class="text-primary"
@@ -225,7 +229,12 @@
                             <p>
                               <small><span>Total Fee: </span>{{ formatCurrency(compledtedItemPkg.trans.total) }}</small>
                             </p>
-                            <p class="text-danger">{{ statusText[compledtedItemPkg.trans.currentStatus] }}</p>
+                            <p class="text-danger">
+                              <span>Status: </span>{{ statusText[compledtedItemPkg.trans.currentStatus] }}
+                            </p>
+                            <p *ngIf="compledtedItemPkg.trans.reason" class="text-danger">
+                              Reason: {{ compledtedItemPkg.trans.reason }}
+                            </p>
                           </div>
                         </div>
                       </div>

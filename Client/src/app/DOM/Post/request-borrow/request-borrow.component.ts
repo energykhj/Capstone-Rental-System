@@ -33,6 +33,8 @@ export class RequestBorrowComponent implements OnInit {
   formatDate = FormatUtils.formatDate;
   formatCurrency = FormatUtils.formatCurrency;
 
+  currentDate: Date = new Date();
+
   ownerDetails: any = {
     id: '',
     email: '',

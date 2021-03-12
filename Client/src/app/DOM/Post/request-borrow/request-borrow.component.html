@@ -66,7 +66,7 @@
                       placement="top"
                       [minDate]="itemPkg.item.startDate"
                       [maxDate]="itemPkg.item.endDate"
-                      [bsValue]="transactionPkg.trans.startDate"
+                      [bsValue]="currentDate"
                       [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
                     />
                     <div *ngFor="let validation of validation_messages.startDate">

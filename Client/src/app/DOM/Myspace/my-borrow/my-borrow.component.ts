@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/user-details-view.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
+import { ReasonComponent } from '../my-list/reason/reason.component';
+
 @Component({
   selector: 'app-my-borrow',
   templateUrl: './my-borrow.component.html',
@@ -198,46 +200,43 @@ export class MyBorrowComponent implements OnInit {
   }
 
   onCancelRequest(transactionId) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '350px',
+    const dialogRef = this.dialog.open(ReasonComponent, {
+      height: '300px',
+      width: '400px',
       data: {
         title: 'Cancel Request',
-        message: 'Want to cancel the request?',
       },
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        // Cancel Request
+
+    dialogRef.afterClosed().subscribe((data: any) => {
+      if (data) {
         this.tranDetails.transactionId = transactionId;
         this.tranDetails.statusId = TransactionStatusEnum.CanceledByBorrower;
+        this.tranDetails.reason = data;
         this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
-          //console.log(data);
-          this.loadTransaction();
-          this.service.Alert('success', 'Canceled Request');
-          //this.router.navigate(['/main']);
+          this.ngOnInit();
         });
       }
     });
   }
 
   onCancelReservation(transactionId) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '350px',
+    // TODO: Check start date (-1)
+    const dialogRef = this.dialog.open(ReasonComponent, {
+      height: '300px',
+      width: '400px',
       data: {
         title: 'Cancel Reservation',
-        message: 'Want to cancel the reservation?',
       },
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        // Cancel Reservation
+
+    dialogRef.afterClosed().subscribe((data: any) => {
+      if (data) {
         this.tranDetails.transactionId = transactionId;
         this.tranDetails.statusId = TransactionStatusEnum.CanceledByBorrower;
+        this.tranDetails.reason = data;
         this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
-          //console.log(data);
-          this.loadTransaction();
-          this.service.Alert('success', 'Canceled Reservation');
-          //this.router.navigate(['/main']);
+          this.ngOnInit();
         });
       }
     });
