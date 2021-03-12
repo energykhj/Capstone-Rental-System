@@ -57,7 +57,8 @@ namespace Server.Controllers
                     };
                     dto.Trans.StatusName = statusName;
                     dto.Trans.BorrowerName = user.FirstName + " " + user.LastName;
-                    dto.Trans.requestDate = td.Date;
+                    //dto.Trans.requestDate = td.Date;
+                    dto.Trans.requestDate = (td != null) ? td.Date : new DateTime(0);
                     dto.Trans.Reason = (td != null)? td.Reason : "";
                     dto.Item.DefaultImageFile = (Photo == null) ? null : Photo.FileName;
 
