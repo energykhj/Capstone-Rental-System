@@ -34,10 +34,6 @@ namespace Server.Controllers
         }
 
         [HttpGet("GetTransactionByUser")]
-
-
-
-
         public async Task<ActionResult<List<TransactionItemPkgDTO>>> GetTransactionByUser([FromQuery] string userId, [FromQuery] string statusIds)
         {
             List<TransactionItemPkgDTO> dtoPkgList = new List<TransactionItemPkgDTO>();
@@ -96,14 +92,21 @@ namespace Server.Controllers
                         dto.Trans.StatusName = statusName;
                         dto.Trans.BorrowerName = user.FirstName + " " + user.LastName;
                         dto.Trans.requestDate = td.Date;
+                        dto.Trans.Reason = td.Reason;
                         dto.Item.DefaultImageFile = (Photo == null) ? null : Photo.FileName;
 
                         dtoPkgList.Add(dto);
                     }
                 }
-                
             }
             return dtoPkgList;
+        }
+
+
+        [HttpGet("GetItemBorrowedDate")]
+        public async Task<ActionResult<List<TransactionDTO>>> GetItemBorrowedDate(int itemId)
+        {
+            return mapper.Map<List<TransactionDTO>>(await TB.GetTransactionByItemId(itemId));
         }
 
         [HttpPost]

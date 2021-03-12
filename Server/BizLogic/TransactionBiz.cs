@@ -37,6 +37,16 @@ namespace Server.BizLogic
                 .ToListAsync();
         }
 
+        public async Task<List<Transaction>> GetTransactionByItemId(int itemId)
+        {
+            var status = await context.Transaction
+                .FirstOrDefaultAsync(c => c.ItemId == itemId &&
+                        (c.CurrentStatus == (int)TransactionStatusEnum.Request ||   // for cancel 
+                        c.CurrentStatus == (int)TransactionStatusEnum.Confirmed ||
+                        c.CurrentStatus == (int)TransactionStatusEnum.RequestReturn))
+                .ToListAsync();
+        }
+
 
         public async Task<List<Transaction>> GetTransactionByBorrower(string userId, int status)
         {
@@ -133,6 +143,7 @@ namespace Server.BizLogic
             return status.Id;
         }
 
+       
         public void UpdateTransactionStatus(int itemId, int status)
         {
             // must add code after made table field for currentStatus
