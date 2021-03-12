@@ -375,6 +375,18 @@
                               <span class="statusName">{{ completedItem.trans.statusName }}</span>
                               <!-- </small> -->
                             </p>
+                            <p
+                              *ngIf="
+                                completedItem.trans.currentStatus === 3 ||
+                                completedItem.trans.currentStatus === 4 ||
+                                completedItem.trans.currentStatus === 5
+                              "
+                            >
+                              <!-- <small> -->
+                              <span class="reasonLabel">Reason: </span>
+                              <span class="reason">{{ completedItem.trans.reason }}</span>
+                              <!-- </small> -->
+                            </p>
                             <!-- <button mat-stroked-button color="primary">Return Complete</button> -->
                             <!-- <button mat-stroked-button color="warn">Reject Borrow</button> -->
                           </div>
