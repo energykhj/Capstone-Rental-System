@@ -31,8 +31,11 @@ namespace Server.Controllers
             UB = new UserBiz(context);
         }
 
-        //[HttpGet("GetTransactionByUser/{userId}/{statusIds}")]
         [HttpGet("GetTransactionByUser")]
+
+
+
+
         public async Task<ActionResult<List<TransactionItemPkgDTO>>> GetTransactionByUser([FromQuery] string userId, [FromQuery] string statusIds)
         {
             List<TransactionItemPkgDTO> dtoPkgList = new List<TransactionItemPkgDTO>();
@@ -80,6 +83,7 @@ namespace Server.Controllers
                         var Photo = await IB.GetItemDefaultPhoto(item.Id);
                         var statusName = await TB.GetTransactionStatusName((int)trans.CurrentStatus);
                         var user = await UB.GetUserDetails(trans.BorrowerId);
+                        
                         var td = trans.TransactionDetail.Where(c => c.TransactionId == trans.Id).FirstOrDefault();
 
                         TransactionItemPkgDTO dto = new TransactionItemPkgDTO()
@@ -171,7 +175,7 @@ namespace Server.Controllers
                 try
                 {
                     curTrans.CurrentStatus = transDetails.StatusId;
-                    await UpdateStatus(curTrans);
+                    var updatedTH = await UpdateStatus(curTrans);
                     return Ok(mapper.Map<TransactionStatusDTO>(await TB.InsertTransactionDetail(transDetails)));
                 }
                 catch (Exception ex)
