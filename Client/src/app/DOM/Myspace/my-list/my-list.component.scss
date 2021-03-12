@@ -143,3 +143,11 @@ span.showmore {
 a:hover {
   cursor: pointer;
 }
+
+img {
+  // max-width: 150px;
+  // max-height: 150px;
+  width: 100%;
+  max-width: 600px;
+  object-fit: contain;
+}
