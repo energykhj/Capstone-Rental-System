@@ -1,0 +1,23 @@
+<div class="center-content">
+  <h2 mat-dialog-title>Resaon for {{ title }}</h2>
+  <mat-dialog-content>
+    <mat-form-field style="width: 350px" appearance="outline">
+      <textarea
+        [(ngModel)]="reason"
+        matInput
+        rows="6"
+        cols="40"
+        placeholder="Please enter a reason"
+        maxlength="250"
+        required
+      ></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <div class="col text-center">
+      <button class="mat-raised-button mr-2" (click)="onCancel()">Cancel</button>
+      <button class="mat-raised-button mat-primary" [disabled]="!reason" (click)="onSubmit()">Submit</button>
+    </div>
+  </mat-dialog-actions>
+</div>

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Server.BizLogic;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Server.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ItemController : ControllerBase
@@ -56,6 +58,7 @@ namespace Server.Controllers
             return dtoPkgList;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetSearchedItemAndDefaultPhoto/{currentPage}/{search?}")]
         public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(int currentPage, string search = null)
         {
@@ -63,7 +66,7 @@ namespace Server.Controllers
             var Items = await IB.GetSearchItem(search, currentPage);
             return await GetPackedItemWithDefaultPhoto(Items);
         }
-        
+
         [HttpGet("GetItemPhotos/{itemId}")]
         public async Task<ActionResult<List<PhotoDTO>>> GetItemPhotos(int itemId)
         {
