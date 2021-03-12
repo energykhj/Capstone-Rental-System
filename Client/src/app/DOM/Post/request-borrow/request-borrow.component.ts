@@ -243,6 +243,7 @@ export class RequestBorrowComponent implements OnInit {
     }
 
     // TODO: Check other reservations of same item
+    // 1. ItemId -> reserved [{start,end}, {start,end},..]
 
     this.transactionPkg.trans.itemId = parseInt(this.itemId);
     this.transactionPkg.trans.borrowerId = this.userId;

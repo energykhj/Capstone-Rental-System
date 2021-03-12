@@ -41,8 +41,8 @@ export class MyBorrowComponent implements OnInit {
   statusText: string[] = [
     '',
     'Wait Confirmation',
-    'Request Rejected',
     'Request Confirmed',
+    'Request Rejected',
     'Canceled By Lender',
     'Canceled By Borrower',
     'Wait Return Confirmation',
