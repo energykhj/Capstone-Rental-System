@@ -275,6 +275,8 @@ namespace Server.Models
                     .IsRequired()
                     .HasMaxLength(450);
 
+                entity.Property(e => e.IsRead).HasColumnName("isRead");
+
                 entity.Property(e => e.ItemId).HasColumnName("itemID");
 
                 entity.Property(e => e.SendDate).HasColumnType("datetime");

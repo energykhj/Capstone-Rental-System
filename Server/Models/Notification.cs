@@ -12,6 +12,7 @@ namespace Server.Models
         public int? NotiType { get; set; }
         public string Message { get; set; }
         public DateTime? SendDate { get; set; }
+        public bool? IsRead { get; set; }
 
         public virtual UserDetails FromUser { get; set; }
         public virtual Item Item { get; set; }
