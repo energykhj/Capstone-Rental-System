@@ -485,4 +485,13 @@ export class AddEditPostComponent implements OnInit {
   requestBorrow() {
     this.router.navigate(['/request-borrow'], { queryParams: { itemId: this.itemId } });
   }
+
+  checkAllowBorrow() {
+    var currentDate = new Date();
+    if (this.itemPkg.item.endDate < currentDate && this.itemPkg.item.endDate.getDate() != currentDate.getDate()) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

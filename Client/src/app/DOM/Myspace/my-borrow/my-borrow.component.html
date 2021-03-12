@@ -48,7 +48,7 @@
                                 ownerNames[requestItemPkg.item.userId]
                               }}</a>
                             </h4>
-                            <h4 class="date" mb-2>Request date: {{ formatDate(requestItemPkg.trans.startDate) }}</h4>
+                            <h4 class="date" mb-2>Request date: {{ formatDate(requestItemPkg.trans.requestDate) }}</h4>
                             <h4>
                               <span class="when">When: </span
                               ><span class="text-primary"
@@ -119,7 +119,9 @@
                                 ownerNames[borrowingItemPkg.item.userId]
                               }}</a>
                             </h4>
-                            <h4 class="date" mb-3>Request date: {{ formatDate(borrowingItemPkg.trans.startDate) }}</h4>
+                            <h4 class="date" mb-3>
+                              Request date: {{ formatDate(borrowingItemPkg.trans.requestDate) }}
+                            </h4>
                             <h4>
                               <span class="when">When: </span
                               ><span class="text-primary"
@@ -214,7 +216,9 @@
                                 ownerNames[compledtedItemPkg.item.userId]
                               }}</a>
                             </h4>
-                            <h4 class="date" mb-3>Request date: {{ formatDate(compledtedItemPkg.trans.startDate) }}</h4>
+                            <h4 class="date" mb-3>
+                              Request date: {{ formatDate(compledtedItemPkg.trans.requestDate) }}
+                            </h4>
                             <h4>
                               <span class="when">When: </span
                               ><span class="text-primary"

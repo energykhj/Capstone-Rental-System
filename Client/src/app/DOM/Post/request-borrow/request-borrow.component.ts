@@ -33,7 +33,8 @@ export class RequestBorrowComponent implements OnInit {
   formatDate = FormatUtils.formatDate;
   formatCurrency = FormatUtils.formatCurrency;
 
-  currentDate: Date = new Date();
+  minDate: Date;
+  maxDate: Date;
 
   ownerDetails: any = {
     id: '',
@@ -176,6 +177,19 @@ export class RequestBorrowComponent implements OnInit {
 
       this.transactionPkg.trans.startDate = this.itemPkg.item.startDate;
       this.transactionPkg.trans.endDate = this.itemPkg.item.endDate;
+
+      this.minDate = this.itemPkg.item.startDate;
+      this.maxDate = this.itemPkg.item.endDate;
+
+      var currentDate: Date = new Date();
+
+      if (
+        this.transactionPkg.trans.startDate < currentDate &&
+        this.transactionPkg.trans.startDate.getDate() != currentDate.getDate()
+      ) {
+        this.transactionPkg.trans.startDate = currentDate;
+        this.minDate = currentDate;
+      }
 
       if (this.itemPkg.item.userId) {
         this.getOwnerDetails();
