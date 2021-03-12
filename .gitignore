@@ -364,3 +364,5 @@ FodyWeavers.xsd
 /Server/appsettings.json
 /Clent/.gitignore
 /Clent/.vscode
+/Client/dist
+/Client/.vscode
