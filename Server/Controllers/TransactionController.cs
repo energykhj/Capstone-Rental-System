@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Server.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TransactionController : ControllerBase
@@ -41,12 +41,14 @@ namespace Server.Controllers
 
             foreach (var status in statusList)
             {
-                var Transactions = mapper.Map<List<TransactionDTO>>(await TB.GetTransactionByBorrower(userId, status));
+                //var Transactions = mapper.Map<List<TransactionDTO>>(await TB.GetTransactionByBorrower(userId, status));
+                var Transactions = await TB.GetTransactionByBorrower(userId, status);
                 foreach (var trans in Transactions)
                 {
                     var Item = await IB.GetItem(trans.ItemId);
                     var Photo = await IB.GetItemDefaultPhoto(Item.Id);
                     var statusName = await TB.GetTransactionStatusName((int)trans.CurrentStatus);
+                    var td = trans.TransactionDetail.Where(c => c.TransactionId == trans.Id && c.StatusId == status).FirstOrDefault();
 
                     TransactionItemPkgDTO dto = new TransactionItemPkgDTO()
                     {
@@ -54,6 +56,7 @@ namespace Server.Controllers
                         Item = mapper.Map<ItemDTO>(Item),
                     };
                     dto.Trans.StatusName = statusName;
+                    dto.Trans.Reason = (td != null)? td.Reason : "";
                     dto.Item.DefaultImageFile = (Photo == null) ? null : Photo.FileName;
 
                     dtoPkgList.Add(dto);
@@ -82,7 +85,7 @@ namespace Server.Controllers
                         var statusName = await TB.GetTransactionStatusName((int)trans.CurrentStatus);
                         var user = await UB.GetUserDetails(trans.BorrowerId);
                         
-                        var td = trans.TransactionDetail.Where(c => c.TransactionId == trans.Id).FirstOrDefault();
+                        var td = trans.TransactionDetail.Where(c => c.TransactionId == trans.Id && c.StatusId == status).FirstOrDefault();
 
                         TransactionItemPkgDTO dto = new TransactionItemPkgDTO()
                         {

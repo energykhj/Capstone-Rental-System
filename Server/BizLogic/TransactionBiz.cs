@@ -51,6 +51,7 @@ namespace Server.BizLogic
         public async Task<List<Transaction>> GetTransactionByBorrower(string userId, int status)
         {
             return await context.Transaction
+                .Include(c => c.TransactionDetail)
                 .Where(c => c.BorrowerId == userId &&
                         (c.CurrentStatus == status))
                 .ToListAsync();
