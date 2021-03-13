@@ -75,7 +75,7 @@ export class MyBorrowComponent implements OnInit {
       this.requestItemPkgs.forEach((transItemPkg) => {
         transItemPkg.item.defaultImageFile = transItemPkg.item.defaultImageFile
           ? environment.PhotoFileUrl + transItemPkg.item.defaultImageFile
-          : '';
+          : environment.PhotoFileUrl + 'noImage.png';
         this.getOwnerNames(transItemPkg.item.userId);
       });
       this.requestItemPkgs.sort((a, b) => {
@@ -96,7 +96,7 @@ export class MyBorrowComponent implements OnInit {
         this.borrowingItemPkgs.forEach((transItemPkg) => {
           transItemPkg.item.defaultImageFile = transItemPkg.item.defaultImageFile
             ? environment.PhotoFileUrl + transItemPkg.item.defaultImageFile
-            : '';
+            : environment.PhotoFileUrl + 'noImage.png';
           this.getOwnerNames(transItemPkg.item.userId);
         });
         this.borrowingItemPkgs.sort((a, b) => {
@@ -122,7 +122,7 @@ export class MyBorrowComponent implements OnInit {
         this.compledtedItemPkgs.forEach((transItemPkg) => {
           transItemPkg.item.defaultImageFile = transItemPkg.item.defaultImageFile
             ? environment.PhotoFileUrl + transItemPkg.item.defaultImageFile
-            : '';
+            : environment.PhotoFileUrl + 'noImage.png';
           this.getOwnerNames(transItemPkg.item.userId);
         });
         this.compledtedItemPkgs.sort((a, b) => {
