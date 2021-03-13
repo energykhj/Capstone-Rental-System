@@ -3,7 +3,7 @@ import { environment, customCurrencyMaskConfig } from 'src/environments/environm
 export class FormatUtils {
   static formatDate(date) {
     var retDate = new Date(date);
-    return retDate.toISOString().split('T')[0];
+    return retDate.toLocaleDateString('en-US');
   }
 
   static formatCurrency(value) {

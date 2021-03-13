@@ -12,7 +12,6 @@ import { UserDetailsComponent } from 'src/app/DOM/Account/user-details/user-deta
 import { DomSanitizer } from '@angular/platform-browser';
 import { ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
 import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
-
 @Component({
   selector: 'app-add-edit-post',
   templateUrl: './add-edit-post.component.html',
@@ -486,9 +485,9 @@ export class AddEditPostComponent implements OnInit {
     this.router.navigate(['/request-borrow'], { queryParams: { itemId: this.itemId } });
   }
 
-  checkAllowBorrow() {
+  validateAvailableDates() {
     var currentDate = new Date();
-    if (this.itemPkg.item.endDate < currentDate && this.itemPkg.item.endDate.getDate() != currentDate.getDate()) {
+    if (DateValidator.compareDateWithoutForm(this.itemPkg.item.endDate, currentDate) == 1) {
       return false;
     } else {
       return true;

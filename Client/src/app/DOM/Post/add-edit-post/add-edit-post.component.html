@@ -143,7 +143,7 @@
                         bsDatepicker
                         placement="top"
                         [bsValue]="itemPkg.item.startDate"
-                        [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
+                        [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'MM/DD/YYYY' }"
                       />
                       <div *ngFor="let validation of validation_messages.startDate">
                         <div
@@ -170,7 +170,7 @@
                         bsDatepicker
                         placement="top"
                         [bsValue]="itemPkg.item.endDate"
-                        [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'YYYY-MM-DD' }"
+                        [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'MM/DD/YYYY' }"
                       />
                       <div *ngFor="let validation of validation_messages.endDate">
                         <div
@@ -361,7 +361,7 @@
                 <div class="ml-2 mr-2">
                   <button mat-stroked-button type="reset" color="warn">Cancel</button>
                 </div>
-                <div *ngIf="isReadOnly == true && checkAllowBorrow() == true" class="ml-2">
+                <div *ngIf="isReadOnly == true && validateAvailableDates() == true" class="ml-2">
                   <button mat-stroked-button type="button" color="primary" (click)="requestBorrow()">Borrow</button>
                 </div>
               </div>

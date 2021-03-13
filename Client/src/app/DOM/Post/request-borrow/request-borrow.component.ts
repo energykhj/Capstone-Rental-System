@@ -29,12 +29,14 @@ export class RequestBorrowComponent implements OnInit {
   diffDays: number = 0;
   showMore: boolean;
   maxTextViewLen: number = 50;
+  itemTransactions: any[] = [];
 
   formatDate = FormatUtils.formatDate;
   formatCurrency = FormatUtils.formatCurrency;
 
   minDate: Date;
   maxDate: Date;
+  displayBorrowedDates = false;
 
   ownerDetails: any = {
     id: '',
@@ -197,6 +199,8 @@ export class RequestBorrowComponent implements OnInit {
 
       this.setFormData();
     });
+
+    this.getTransactions(itemId);
   }
 
   loadDefaultPhotoAddr(itemId: string) {
@@ -251,6 +255,36 @@ export class RequestBorrowComponent implements OnInit {
     });
   }
 
+  getTransactions(itemId) {
+    this.service.getItemBorrowedDate(itemId).subscribe((data: any) => {
+      //console.log(data);
+      data.forEach((trans) => {
+        this.itemTransactions.push(trans);
+      });
+    });
+  }
+
+  validateDates(startDate, endDate) {
+    var retFlag = true;
+
+    if (this.itemTransactions.length != 0) {
+      this.itemTransactions.forEach((trans) => {
+        var tranStartDate = new Date(trans.startDate);
+        var tranEndDate = new Date(trans.endDate);
+
+        // endDate < (tranStartDate ~ tranEndDate)
+        if (DateValidator.compareDateWithoutForm(endDate, tranStartDate) == 1) {
+        }
+        // (tranStartDate ~ tranEndDate) < startDate
+        else if (DateValidator.compareDateWithoutForm(tranEndDate, startDate) == 1) {
+        } else {
+          retFlag = false;
+        }
+      });
+    }
+    return retFlag;
+  }
+
   onSubmit() {
     this.isSubmitPressed = true;
 
@@ -258,14 +292,18 @@ export class RequestBorrowComponent implements OnInit {
       return;
     }
 
-    // TODO: Check other reservations of same item
-    // 1. ItemId -> reserved [{start,end}, {start,end},..]
-
     this.transactionPkg.trans.itemId = parseInt(this.itemId);
     this.transactionPkg.trans.borrowerId = this.userId;
     this.transactionPkg.trans.deposit = this.itemPkg.item.deposit;
     this.transactionPkg.trans.currentStatus = 1;
     this.getFormData();
+
+    // Check other reservations of same item
+    var checkDates = this.validateDates(this.transactionPkg.trans.startDate, this.transactionPkg.trans.endDate);
+    if (checkDates == false) {
+      this.displayBorrowedDates = true;
+      return;
+    }
 
     this.diffDays =
       FormatUtils.dateDiffInDays(this.transactionPkg.trans.startDate, this.transactionPkg.trans.endDate) + 1;

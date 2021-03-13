@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AlertsComponent } from 'src/app/DOM/Shared/alerts/alerts.component';
 import { MatDialog } from '@angular/material/dialog';
+import { map, catchError } from 'rxjs/operators';
 // import { User } from '../Models/user';
 
 @Injectable({
@@ -83,7 +84,16 @@ export class SharedService {
   }
 
   getItem(val: any): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/Item/GetItem/` + val);
+    return this.http.get<any>(`${environment.apiUrl}/Item/GetItem/` + val).pipe(
+      map((data) => {
+        // from Backend Date is UTC without 'Z' end
+        data.item.startDate = data.item.startDate + 'Z';
+        data.item.endDate = data.item.endDate + 'Z';
+        data.item.createdDate = data.item.createdDate + 'Z';
+        data.item.timeStamp = data.item.timeStamp + 'Z';
+        return data;
+      })
+    );
   }
 
   getUserItem(page: any, val: any) {
@@ -119,12 +129,44 @@ export class SharedService {
 
   GetItemByStatus(val: any, status: any) {
     const params = new HttpParams().set('userId', val).set('statusIds', status.join(','));
-    return this.http.get<any>(`${environment.apiUrl}/Transaction`, { params: params });
+    return this.http
+      .get<any>(`${environment.apiUrl}/Transaction`, { params: params })
+      .pipe(
+        map((data) => {
+          // from Backend Date is UTC without 'Z' end
+          for (var i = 0; i < data.length; i++) {
+            data[i].item.startDate = data[i].item.startDate + 'Z';
+            data[i].item.endDate = data[i].item.endDate + 'Z';
+            data[i].item.createdDate = data[i].item.createdDate + 'Z';
+            data[i].item.timeStamp = data[i].item.timeStamp + 'Z';
+            data[i].trans.startDate = data[i].trans.startDate + 'Z';
+            data[i].trans.endDate = data[i].trans.endDate + 'Z';
+            data[i].trans.requestDate = data[i].trans.requestDate + 'Z';
+          }
+          return data;
+        })
+      );
   }
 
   getTransactionByUser(val: any, status: any) {
     const params = new HttpParams().set('userId', val).set('statusIds', status.join(','));
-    return this.http.get<any>(`${environment.apiUrl}/Transaction/GetTransactionByUser`, { params: params });
+    return this.http
+      .get<any>(`${environment.apiUrl}/Transaction/GetTransactionByUser`, { params: params })
+      .pipe(
+        map((data) => {
+          // from Backend Date is UTC without 'Z' end
+          for (var i = 0; i < data.length; i++) {
+            data[i].item.startDate = data[i].item.startDate + 'Z';
+            data[i].item.endDate = data[i].item.endDate + 'Z';
+            data[i].item.createdDate = data[i].item.createdDate + 'Z';
+            data[i].item.timeStamp = data[i].item.timeStamp + 'Z';
+            data[i].trans.startDate = data[i].trans.startDate + 'Z';
+            data[i].trans.endDate = data[i].trans.endDate + 'Z';
+            data[i].trans.requestDate = data[i].trans.requestDate + 'Z';
+          }
+          return data;
+        })
+      );
   }
 
   insertTransaction(transPkg: any) {
@@ -133,6 +175,21 @@ export class SharedService {
 
   putTransactionDetail(tDetail: any) {
     return this.http.put<any>(`${environment.apiUrl}/Transaction/InsertTransactionDetails`, tDetail);
+  }
+
+  getItemBorrowedDate(itemId: string) {
+    return this.http.get<any>(`${environment.apiUrl}/Transaction/getItemBorrowedDate?itemId=${itemId}`).pipe(
+      map((data) => {
+        // from Backend Date is UTC without 'Z' end
+        for (var i = 0; i < data.length; i++) {
+          data[i].startDate = data[i].startDate + 'Z';
+          data[i].endDate = data[i].endDate + 'Z';
+          //data[i].createDate = data[i].createDate + 'Z';
+          data[i].requestDate = data[i].requestDate + 'Z';
+        }
+        return data;
+      })
+    );
   }
 
   Alert(t: string, m: string): void {
