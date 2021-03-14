@@ -128,12 +128,6 @@
                             <p>
                               <small><span>Total Fee: </span>{{ formatCurrency(requestItem.trans.total) }}</small>
                             </p>
-                            <!-- <p>
-                              <small
-                                ><span>Refund Deposit: </span
-                                >{{ formatCurrency(requestItem.trans.refundDeposit) }}</small
-                              >
-                            </p> -->
                             <button mat-stroked-button color="primary" (click)="confirmBorrow(requestItem.trans.id)">
                               Confirm Borrow
                             </button>
@@ -146,9 +140,9 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div *ngIf="notEmptyPost2" class="col-md-12 d-flex justify-content-center">
+                <div *ngIf="notEmptyPost2" class="col-md-12 d-flex justify-content-center">
                   <button (click)="onClick2()" type="button" class="btn btn-secondary">LOAD MORE</button>
-                </div> -->
+                </div>
               </ng-template>
             </li>
             <!-- Request end -->
@@ -201,17 +195,22 @@
                                 {{ formatDate(processingItem.trans.endDate) }}</span
                               >
                             </h4>
+                            <h4 class="returnby">
+                              Return by: {{ formatDate(processingItem.trans.endDate) }}
+                              <span *ngIf="dateDiffInDays(currentDate, processingItem.trans.endDate) == 0"
+                                >(today)
+                              </span>
+                              <span *ngIf="dateDiffInDays(currentDate, processingItem.trans.endDate) < 0">(over) </span>
+                              <span *ngIf="dateDiffInDays(currentDate, processingItem.trans.endDate) > 0"
+                                >({{ dateDiffInDays(processingItem.trans.endDate, currentDate) }})
+                              </span>
+                            </h4>
                           </div>
                           <div class="col-md-3">
                             <small><span>Deposit:</span> {{ formatCurrency(processingItem.trans.deposit) }}</small
                             ><br class="mb-1" />
                             <p>
                               <small><span>Total Fee: </span>{{ formatCurrency(processingItem.trans.total) }}</small>
-                              <!-- <br />
-                              <small
-                                ><span>Refund Deposit: </span
-                                >{{ formatCurrency(processingItem.trans.refundDeposit) }}</small
-                              > -->
                             </p>
                             <p>
                               <span class="status">Status: </span>
@@ -221,7 +220,12 @@
                               *ngIf="processingItem.trans.currentStatus === 2"
                               class="col-md-12 d-flex justify-content-center"
                             > -->
-                            <button mat-stroked-button color="primary" (click)="cancelBorrow(processingItem.trans.id)">
+                            <button
+                              mat-stroked-button
+                              color="primary"
+                              *ngIf="dateDiffInDays(currentDate, processingItem.trans.startDate) > 0"
+                              (click)="cancelBorrow(processingItem.trans.id)"
+                            >
                               Cancel Item
                             </button>
                             <!-- </div> -->
@@ -293,12 +297,6 @@
                             <p>
                               <small><span>Total Fee: </span>{{ formatCurrency(returnItem.trans.total) }}</small>
                             </p>
-                            <!-- <p>
-                              <small
-                                ><span>Refund Deposit: </span
-                                >{{ formatCurrency(returnItem.trans.refundDeposit) }}</small
-                              >
-                            </p> -->
                             <button mat-stroked-button color="primary" (click)="returnComplete(returnItem.trans.id)">
                               Return Complete
                             </button>
