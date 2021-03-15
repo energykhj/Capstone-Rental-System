@@ -25,6 +25,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Server
@@ -105,6 +107,12 @@ namespace Server
                                   });
             });
 
+            services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+            });
+
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
@@ -161,6 +169,38 @@ namespace Server
             {
                 return builder.AddBlobServiceClient(serviceUriOrConnectionString);
             }
+        }
+    }
+
+    internal class DateTimeConverter : JsonConverter<DateTime>
+    {
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            //Debug.Assert(typeToConvert == typeof(DateTime));
+            var str = reader.GetString(); //str = "2021-03-15T17:24:49.000Z" from Angular
+            var dt = DateTime.Parse(str); //dt = {3/15/2021 1:24:49 PM}, Kind = Local
+            var utc = dt.ToUniversalTime();  // utc = {3/15/2021 5:24:49 PM}, Kind = Utc
+            return utc;
+            //return DateTime.Parse(reader.GetString()).ToUniversalTime();
+        }
+
+        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        {
+            DateTime dt;
+
+            // value = {3/15/2021 5:24:49 PM}, Kind = Utc
+            // DateTimeKind.Unspecified -> from DB (assume UTC)
+            if (value.Kind == DateTimeKind.Local)
+            {
+                dt = value.ToUniversalTime();  // dt = {3/15/2021 5:24:49 PM}, Kind = Utc
+            }
+            else
+            {
+                dt = value;
+            }
+
+            var str = dt.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"); // str = "2021-03-15T17:24:49Z"
+            writer.WriteStringValue(str);
         }
     }
 }
