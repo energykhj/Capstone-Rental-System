@@ -30,7 +30,7 @@ namespace Server.BizLogic
         public async Task<List<Transaction>> GetTransactionByBorrower(string userId)
         {
             return await context.Transaction
-                .Where(c => c.BorrowerId == userId && 
+                .Where(c => c.BorrowerId == userId &&
                         (c.CurrentStatus == (int)TransactionStatusEnum.Request ||   // for cancel 
                         c.CurrentStatus == (int)TransactionStatusEnum.Confirmed ||
                         c.CurrentStatus == (int)TransactionStatusEnum.RequestReturn))
@@ -82,7 +82,6 @@ namespace Server.BizLogic
                         c.CurrentStatus == status)
                 .FirstOrDefaultAsync();
         }
-
 
         public async Task<Transaction> GetCompletedItem(int itemId)
         {

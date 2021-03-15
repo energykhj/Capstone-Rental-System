@@ -60,19 +60,18 @@ namespace Server.BizLogic
 
         public async Task<List<Item>> GetItem(string userId, int currentPage = 1)
         {
-            if (currentPage == 0) currentPage = 999;
             return await context.Item
                 .Include(c => c.Category)
                 .Include(c => c.Photo)
                 .Include(c => c.Address)
                 .Include(c => c.RecordStatus)
                 .Where(c => c.UserId == userId)
-                .OrderByDescending(c => c.Id)                
+                .OrderByDescending(c => c.Id)
                 .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
         }
 
-        public async Task<List<Item>> GetItem(string userId)
+        public async Task<List<Item>> GetItemTransaction(string userId, int currentPage = 1)
         {
             return await (
                 from i in context.Item
@@ -84,6 +83,7 @@ namespace Server.BizLogic
                 .Include(c => c.Address)
                 .Include(c => c.RecordStatus)
                 .OrderByDescending(c => c.Id)
+                .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
         }
 

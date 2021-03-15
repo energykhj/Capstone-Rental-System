@@ -47,6 +47,10 @@ namespace Server.Helpers
             CreateMap<TransactionStatusDTO, TransactionStatus>();
             CreateMap<TransactionStatus, TransactionStatusDTO>();
 
+            CreateMap<NotificationDTO, Notification>();
+            CreateMap<Notification, NotificationDTO>()
+                .ForMember(m => m.Type, opt => opt.MapFrom(x => x.NotiTypeNavigation.Type));
+
         }
     }
 }

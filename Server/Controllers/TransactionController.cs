@@ -57,10 +57,9 @@ namespace Server.Controllers
                     };
                     dto.Trans.StatusName = statusName;
                     dto.Trans.BorrowerName = user.FirstName + " " + user.LastName;
-                    //dto.Trans.requestDate = td.Date;
                     dto.Trans.requestDate = (td != null) ? td.Date : new DateTime(0);
                     dto.Trans.Reason = (td != null)? td.Reason : "";
-                    dto.Item.DefaultImageFile = (Photo == null) ? null : Photo.FileName;
+                    dto.Item.DefaultImageFile = (Photo != null) ? Photo.FileName : null;
 
                     dtoPkgList.Add(dto);
                 }
@@ -75,7 +74,7 @@ namespace Server.Controllers
         {
             List<TransactionItemPkgDTO> dtoPkgList = new List<TransactionItemPkgDTO>();
             List<int> statusList = GetStatusList(statusIds);
-            var Items = mapper.Map<List<ItemDTO>>(await IB.GetItem(userId));            
+            var Items = mapper.Map<List<ItemDTO>>(await IB.GetItemTransaction(userId));            
 
             foreach (var item in Items)
             {
@@ -84,6 +83,8 @@ namespace Server.Controllers
                     var trans = await TB.GetItemByStatus(item.Id, status);
                     if (trans != null)
                     {
+                        var utc = trans.StartDate;
+                        trans.StartDate = trans.StartDate.ToUniversalTime();
                         var Photo = await IB.GetItemDefaultPhoto(item.Id);
                         var user = await UB.GetUserDetails(trans.BorrowerId);
                         var statusName = await TB.GetTransactionStatusName((int)trans.CurrentStatus);                        
@@ -96,9 +97,9 @@ namespace Server.Controllers
                         };
                         dto.Trans.StatusName = statusName;
                         dto.Trans.BorrowerName = user.FirstName + " " + user.LastName;
-                        dto.Trans.requestDate = td.Date;
-                        dto.Trans.Reason = td.Reason;
-                        dto.Item.DefaultImageFile = (Photo == null) ? null : Photo.FileName;
+                        dto.Trans.requestDate = (td != null) ? td.Date.ToLocalTime() : new DateTime(0);
+                        dto.Trans.Reason = (td != null) ? td.Reason : "";
+                        dto.Item.DefaultImageFile = (Photo != null) ? Photo.FileName : null;
 
                         dtoPkgList.Add(dto);
                     }
