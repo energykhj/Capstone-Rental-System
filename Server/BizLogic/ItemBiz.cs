@@ -72,6 +72,23 @@ namespace Server.BizLogic
                 .ToListAsync();
         }
 
+        public async Task<List<Item>> GetItem(string userId)
+        {
+            return await (
+                from i in context.Item
+                join t in context.Transaction on i.Id equals t.ItemId
+                where t.BorrowerId == userId
+                select i)
+                .Include(c => c.Category)
+                .Include(c => c.Photo)
+                .Include(c => c.Address)
+                .Include(c => c.RecordStatus)
+                .OrderByDescending(c => c.Id)
+                .ToListAsync();
+        }
+
+
+
         public async Task<List<Photo>> GetItemPhotos(int itemId)
         {
             return await context.Photo
@@ -141,7 +158,7 @@ namespace Server.BizLogic
                 await ValidateItem();
                 if (errorList.Count == 0)
                 {
-                    item.TimeStamp = DateTime.Now;
+                    item.TimeStamp = DateTime.UtcNow;
                     item.StatusId = (int)RecordStatusEnum.Active;
                     context.Item.Update(item);
                     await context.SaveChangesAsync();
@@ -187,7 +204,7 @@ namespace Server.BizLogic
                 await ValidatePhoto();
                 if (errorList.Count == 0)
                 {
-                    item.TimeStamp = DateTime.Now;
+                    item.TimeStamp = DateTime.UtcNow;
                     item.StatusId = (int)RecordStatusEnum.Active;
                     context.Photo.Update(photo);
                     await context.SaveChangesAsync();

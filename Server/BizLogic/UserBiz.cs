@@ -93,7 +93,7 @@ namespace Server.BizLogic
                 await ValidateUser();
                 if (errorList.Count == 0)
                 {
-                    userDetails.TimeStamp = DateTime.Now;
+                    userDetails.TimeStamp = DateTime.UtcNow;
                     userDetails.StatusId = (int)RecordStatusEnum.Active;
                     context.UserDetails.Update(userDetails);
                     await context.SaveChangesAsync();
