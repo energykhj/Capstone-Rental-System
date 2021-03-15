@@ -40,6 +40,7 @@ namespace Server.Controllers
                 var fromUser = await UB.GetUserDetails(noti.FromUserId);
                 var ToUser = await UB.GetUserDetails(noti.ToUserId);
                 NotificationDTO dto = new NotificationDTO();
+                dto = mapper.Map<NotificationDTO>(noti);
                 dto.FromUserName = fromUser.FirstName + " " + fromUser.LastName;
                 dto.ToUserName = ToUser.FirstName + " " + ToUser.LastName;
 
@@ -52,7 +53,6 @@ namespace Server.Controllers
         [HttpPost("InsertNotification")]
         public async Task<ActionResult<NotificationDTO>> InsertNotification(Notification dto)
         {
-
             return mapper.Map<NotificationDTO>(await NB.InsertNotification(dto));
         }
 

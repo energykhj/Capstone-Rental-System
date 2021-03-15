@@ -31,12 +31,12 @@ namespace Server.BizLogic
         public async Task<List<Notification>> GetNotification(string userId, DateTime dt)
         {           
             return await context
-                            .Notification
-                            .Include(c => c.Item)
-                            .Include(c => c.NotiTypeNavigation)
-                            .Where(c => c.SendDate > dt && 
-                                    (c.FromUserId == userId || c.ToUserId == userId))
-                            .ToListAsync();
+                .Notification
+                .Include(c => c.Item)
+                .Include(c => c.NotiTypeNavigation)
+                .Where(c => c.SendDate > dt && 
+                        (c.FromUserId == userId || c.ToUserId == userId))
+                .ToListAsync();
         }
 
         public async Task<Notification> InsertNotification(Notification noti)
