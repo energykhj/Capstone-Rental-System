@@ -13,3 +13,13 @@ export enum TransactionStatusEnum {
   RequestReturn = 6,
   ReturnComplete = 7,
 }
+
+export enum NotificationTypeEnum {
+  Request = 1,
+  Confirmed = 2,
+  Rejected = 3,
+  CanceledByLender = 4,
+  CanceledByBorrower = 5,
+  RequestReturn = 6,
+  ReturnComplete = 7,
+}
