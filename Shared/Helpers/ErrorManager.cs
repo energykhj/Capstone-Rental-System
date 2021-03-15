@@ -32,6 +32,7 @@ namespace Shared.Helpers
             {14, "Address not found" },
             {15, "Related transaction not found" },
             {16, "Status not found" },
+            {17, "Notification type not found" },
         };
 
         public ErrorManager()

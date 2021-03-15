@@ -28,27 +28,38 @@ namespace Server.Controllers
             UB = new UserBiz(context);
         }
 
-        [HttpGet("GetTransactionByUser")]
+        [HttpGet("GetNotification")]
         public async Task<ActionResult<List<NotificationDTO>>> GetNotification(string userId, DateTime startDate)
-        {         
-            var noti = mapper.Map<List<NotificationDTO>>(await NB.GetNotification(userId/*, startDate*/));
-            return noti;
+        {
+            List<NotificationDTO> dtoList = new List<NotificationDTO>();
+
+            DateTime compareDate = new DateTime(startDate.Year, startDate.Month, startDate.Day);
+            var notiList = await NB.GetNotification(userId, compareDate);
+            foreach (var noti in notiList)
+            {
+                var fromUser = await UB.GetUserDetails(noti.FromUserId);
+                var ToUser = await UB.GetUserDetails(noti.ToUserId);
+                NotificationDTO dto = new NotificationDTO();
+                dto.FromUserName = fromUser.FirstName + " " + fromUser.LastName;
+                dto.ToUserName = ToUser.FirstName + " " + ToUser.LastName;
+
+                dtoList.Add(dto);
+            }
+
+            return dtoList;
         }
 
         [HttpPost("InsertNotification")]
-        public async Task<ActionResult<List<NotificationDTO>>> InsertNotification(NotificationDTO dto)
+        public async Task<ActionResult<NotificationDTO>> InsertNotification(Notification dto)
         {
 
-            var noti = mapper.Map<List<NotificationDTO>>(await NB.GetNotification("dd"));
-            return noti;
+            return mapper.Map<NotificationDTO>(await NB.InsertNotification(dto));
         }
 
         [HttpPut("UpdateNotificationStatus")]
-        public async Task<ActionResult<List<NotificationDTO>>> UpdateNotificationStatus(int notiId)
+        public async Task<ActionResult<NotificationDTO>> UpdateNotificationStatus(int notiId)
         {
-
-            var noti = mapper.Map<List<NotificationDTO>>(await NB.GetNotification("dd"));
-            return noti;
+            return mapper.Map<NotificationDTO>(await NB.UpdateReadStatusToRead(notiId));
         }
     }
 
