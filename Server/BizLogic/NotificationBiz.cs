@@ -34,7 +34,7 @@ namespace Server.BizLogic
                 .Notification
                 .Include(c => c.Item)
                 .Include(c => c.NotiTypeNavigation)
-                .Where(c => c.SendDate > dt && 
+                .Where(c => c.SendDate > dt && c.IsRead != true && 
                         (c.FromUserId == userId || c.ToUserId == userId))
                 .ToListAsync();
         }
@@ -84,8 +84,11 @@ namespace Server.BizLogic
 
         public async Task ValidateNoti()
         {
-            var user = await context.UserDetails.FirstOrDefaultAsync(c => c.Id == notification.FromUserId && c.Id == notification.ToUserId);
-            if (user == null) errorList.Add(4); // user not found
+            var userF = await context.UserDetails.FirstOrDefaultAsync(c => c.Id == notification.FromUserId);
+            if (userF == null) errorList.Add(4); // user not found
+
+            var userT = await context.UserDetails.FirstOrDefaultAsync(c => c.Id == notification.ToUserId);
+            if (userT == null) errorList.Add(4); // user not found
 
             var notiType = await context.NotificationType.FirstOrDefaultAsync(c => c.Id == notification.NotiType);
             if (notiType == null) errorList.Add(17);   //Notification type not found
