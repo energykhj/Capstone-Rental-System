@@ -1,5 +1,5 @@
 import 'zone.js/dist/zone-testing';
-import { AuthService } from './../../../Services/auth.service';
+import { AuthService } from '../../../Services/auth.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PostCardComponent } from './post-card.component';
 import { MatDialog } from '@angular/material/dialog';

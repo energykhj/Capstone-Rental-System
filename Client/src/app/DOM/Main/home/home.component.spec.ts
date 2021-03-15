@@ -1,4 +1,4 @@
-import 'src/app/DOM/Main/Post/add-edit-post/node_modules/zone.js/dist/zone-testing';
+import 'zone.js/dist/zone-testing';
 import { AuthService } from './../../../Services/auth.service';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
