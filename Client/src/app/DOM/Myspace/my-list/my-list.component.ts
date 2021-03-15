@@ -67,6 +67,8 @@ export class MyListComponent implements OnInit {
     date: new Date(),
   };
 
+  currentDate: Date = new Date();
+
   formatDate = FormatUtils.formatDate;
   formatCurrency = FormatUtils.formatCurrency;
   dateDiffInDays = FormatUtils.dateDiffInDays;
@@ -81,16 +83,17 @@ export class MyListComponent implements OnInit {
   }
 
   loadUserItem() {
-    //this.userId = '51afd4fa-7b65-47fd-b62a-a4a42ff10979';
     this.service.getUserItem(this.page1, this.userId).subscribe((userItem: any) => {
       this.userItems = userItem;
       if (userItem.length < 8) {
         this.notEmptyPost1 = false;
       }
       this.showMore = false;
-      this.userItems.defaultImageFile = this.userItems.defaultImageFile
-        ? environment.PhotoFileUrl + this.userItems.defaultImageFile
-        : '';
+      this.userItems.forEach((userItem) => {
+        userItem.item.defaultImageFile = userItem.item.defaultImageFile
+          ? userItem.item.defaultImageFile
+          : 'noImage.png';
+      });
       this.NameListWithoutFilter1 = userItem;
     });
 
@@ -100,9 +103,12 @@ export class MyListComponent implements OnInit {
         this.notEmptyPost2 = false;
       }
       this.showMore = false;
-      this.requestItems.defaultImageFile = this.requestItems.defaultImageFile
-        ? environment.PhotoFileUrl + this.requestItems.defaultImageFile
-        : '';
+      this.requestItems.forEach((requestItem) => {
+        requestItem.item.defaultImageFile = requestItem.item.defaultImageFile
+          ? requestItem.item.defaultImageFile
+          : 'noImage.png';
+      });
+
       this.NameListWithoutFilter2 = requestItem;
     });
 
@@ -112,9 +118,11 @@ export class MyListComponent implements OnInit {
         this.notEmptyPost3 = false;
       }
       this.showMore = false;
-      this.processingItems.defaultImageFile = this.processingItems.defaultImageFile
-        ? environment.PhotoFileUrl + this.processingItems.defaultImageFile
-        : '';
+      this.processingItems.forEach((processingItem) => {
+        processingItem.item.defaultImageFile = processingItem.item.defaultImageFile
+          ? processingItem.item.defaultImageFile
+          : 'noImage.png';
+      });
       this.NameListWithoutFilter3 = processingItem;
     });
 
@@ -124,9 +132,11 @@ export class MyListComponent implements OnInit {
         this.notEmptyPost4 = false;
       }
       this.showMore = false;
-      this.returnItems.defaultImageFile = this.returnItems.defaultImageFile
-        ? environment.PhotoFileUrl + this.returnItems.defaultImageFile
-        : '';
+      this.returnItems.forEach((returnItem) => {
+        returnItem.item.defaultImageFile = returnItem.item.defaultImageFile
+          ? returnItem.item.defaultImageFile
+          : 'noImage.png';
+      });
       this.NameListWithoutFilter4 = returnItem;
     });
 
@@ -136,9 +146,11 @@ export class MyListComponent implements OnInit {
         this.notEmptyPost5 = false;
       }
       this.showMore = false;
-      this.completedItems.defaultImageFile = this.completedItems.defaultImageFile
-        ? environment.PhotoFileUrl + this.completedItems.defaultImageFile
-        : '';
+      this.completedItems.forEach((completedItem) => {
+        completedItem.item.defaultImageFile = completedItem.item.defaultImageFile
+          ? completedItem.item.defaultImageFile
+          : 'noImage.png';
+      });
       this.NameListWithoutFilter5 = completedItem;
     });
   }
