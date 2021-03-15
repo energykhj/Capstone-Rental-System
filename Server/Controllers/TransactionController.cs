@@ -83,8 +83,6 @@ namespace Server.Controllers
                     var trans = await TB.GetItemByStatus(item.Id, status);
                     if (trans != null)
                     {
-                        var utc = trans.StartDate;
-                        trans.StartDate = trans.StartDate.ToUniversalTime();
                         var Photo = await IB.GetItemDefaultPhoto(item.Id);
                         var user = await UB.GetUserDetails(trans.BorrowerId);
                         var statusName = await TB.GetTransactionStatusName((int)trans.CurrentStatus);                        
