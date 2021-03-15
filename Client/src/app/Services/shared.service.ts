@@ -137,18 +137,7 @@ export class SharedService {
   }
 
   getItemBorrowedDate(itemId: string) {
-    return this.http.get<any>(`${environment.apiUrl}/Transaction/getItemBorrowedDate?itemId=${itemId}`).pipe(
-      map((data) => {
-        // from Backend Date is UTC without 'Z' end
-        for (var i = 0; i < data.length; i++) {
-          data[i].startDate = data[i].startDate + 'Z';
-          data[i].endDate = data[i].endDate + 'Z';
-          //data[i].createDate = data[i].createDate + 'Z';
-          data[i].requestDate = data[i].requestDate + 'Z';
-        }
-        return data;
-      })
-    );
+    return this.http.get<any>(`${environment.apiUrl}/Transaction/getItemBorrowedDate?itemId=${itemId}`);
   }
 
   Alert(t: string, m: string): void {
