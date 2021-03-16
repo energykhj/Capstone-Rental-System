@@ -146,6 +146,7 @@ export class MyListComponent implements OnInit {
 
     this.service.GetItemByStatus(this.userId, this.completedStatus).subscribe((completedItem: any) => {
       this.completedItems = completedItem;
+      console.log('completed:' + completedItem);
       if (completedItem.length < 8) {
         this.notEmptyPost5 = false;
       }
