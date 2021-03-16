@@ -150,6 +150,10 @@ export class SharedService {
     );
   }
 
+  updateNotificationStatus(val: any) {
+    return this.http.put<any>(`${environment.apiUrl}/Notification/UpdateNotificationStatus?notiId=${val}`, '');
+  }
+
   Alert(t: string, m: string): void {
     const timeout = 2000;
     const dialogRef = this.dialog.open(AlertsComponent, {

@@ -424,8 +424,8 @@
               <div class="hot">
                 <ul>
                   <div *ngFor="let notifi of noti">
-                    <a href="#" (click)="onCheck(notifi.id)">
-                      <li>{{ notifi.type }} from {{ notifi.fromUserName }}</li>
+                    <a [routerLink]="" (click)="onCheck(notifi.id)">
+                      <li>{{ notifi.type }} from {{ notifi.itemTitle }}</li>
                     </a>
                   </div>
                 </ul>

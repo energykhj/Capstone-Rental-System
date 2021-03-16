@@ -6,6 +6,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TransactionStatusEnum } from 'src/app/Helpers/enum';
 import { ReasonComponent } from './reason/reason.component';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
+import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-my-list',
@@ -346,5 +347,21 @@ export class MyListComponent implements OnInit {
     });
   }
 
-  onCheck(id: any) {}
+  onCheck(id: any) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Confirm Message',
+        message: 'Did you check the message?',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.service.updateNotificationStatus(id).subscribe((data: any) => {
+          console.log(data);
+          this.ngOnInit();
+        });
+      }
+    });
+  }
 }
