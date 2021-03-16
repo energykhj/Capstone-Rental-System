@@ -83,7 +83,7 @@ namespace Server.BizLogic
                 .Include(c => c.Address)
                 .Include(c => c.RecordStatus)
                 .OrderByDescending(c => c.Id)
-                .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
+                //.Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
         }
 

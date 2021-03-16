@@ -80,7 +80,7 @@ namespace Server.BizLogic
             {
                 throw ex;
             }
-        }
+        }   
 
         public async Task ValidateNoti()
         {
