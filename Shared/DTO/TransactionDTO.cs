@@ -9,10 +9,16 @@ namespace Shared.DTO
         public TransactionDTO Trans { get; set; }
         public TransactionDetailsDTO TranDetails { get; set; }
     }
-    public class TransactionItemPkgDTO
+    public class ItemTransactionListPkgDTO
     {
-        public TransactionDTO Trans { get; set; }
         public ItemDTO Item { get; set; }
+        public List<TransactionDTO> Trans { get; set; }
+    }
+
+    public class ItemTransactionPkgDTO
+    {
+        public ItemDTO Item { get; set; }
+        public TransactionDTO Trans { get; set; }
     }
 
     public class TransactionStatusListDTO

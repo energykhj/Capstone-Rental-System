@@ -57,6 +57,30 @@ namespace Server.BizLogic
                 .ToListAsync();
         }
 
+        public async Task<List<Transaction>> GetTransactionByBorrower(string userId, List<int> status)
+        {
+            return await context.Transaction
+                .Include(c => c.TransactionDetail)
+                .Where(c => status.Contains((int)c.CurrentStatus) && c.BorrowerId == userId)
+                .ToListAsync();
+
+            //list.Where(x => status.Contains((int)x.CurrentStatus));
+        }
+
+
+        public async Task<List<Transaction>> GetItemByStatus(int itemId, List<int> status)
+        {
+            return await context.Transaction
+                .Include(c => c.TransactionDetail)
+                .Where(c => status.Contains((int)c.CurrentStatus) && c.ItemId == itemId)
+                .ToListAsync();
+
+            /*return await context.Transaction
+                .Include(c => c.TransactionDetail)
+                .Where(c => c.ItemId == itemId *//*&&
+                        c.CurrentStatus == status*//*)
+                .ToListAsync();*/
+        }
 
         public async Task<List<Transaction>> GetReturnedItem(string userId)
         {
@@ -74,7 +98,7 @@ namespace Server.BizLogic
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Transaction> GetItemByStatus(int itemId, int status)
+        public async Task<Transaction> GetItemByStatusXXX(int itemId, int status)
         {
             return await context.Transaction
                 .Include(c => c.TransactionDetail)
