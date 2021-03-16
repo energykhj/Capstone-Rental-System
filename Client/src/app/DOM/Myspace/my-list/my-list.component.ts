@@ -7,6 +7,7 @@ import { TransactionStatusEnum } from 'src/app/Helpers/enum';
 import { ReasonComponent } from './reason/reason.component';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-list',
@@ -75,7 +76,7 @@ export class MyListComponent implements OnInit {
   formatCurrency = FormatUtils.formatCurrency;
   dateDiffInDays = FormatUtils.dateDiffInDays;
 
-  constructor(private service: SharedService, public dialog: MatDialog) {}
+  constructor(private service: SharedService, public dialog: MatDialog, private router: Router) {}
 
   ngOnInit(): void {
     this.userId = this.service.isLoginUser;
@@ -101,6 +102,7 @@ export class MyListComponent implements OnInit {
 
     this.service.GetItemByStatus(this.userId, this.requestStatus).subscribe((requestItem: any) => {
       this.requestItems = requestItem;
+      console.log(requestItem);
       if (requestItem.length < 8) {
         this.notEmptyPost2 = false;
       }
