@@ -73,17 +73,26 @@ namespace Server.BizLogic
 
         public async Task<List<Item>> GetItemTransaction(string userId, int currentPage = 1)
         {
-            return await (
-                from i in context.Item
-                join t in context.Transaction on i.Id equals t.ItemId
-                where t.BorrowerId == userId
-                select i)
+            //return await (
+            //    from i in context.Item
+            //    join t in context.Transaction on i.Id equals t.ItemId
+            //    where t.BorrowerId == userId
+            //    select i)
+            //    .Include(c => c.Category)
+            //    .Include(c => c.Photo)
+            //    .Include(c => c.Address)
+            //    .Include(c => c.RecordStatus)
+            //    .OrderByDescending(c => c.Id)
+            //    .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
+            //    .ToListAsync();
+            return await context.Item
                 .Include(c => c.Category)
                 .Include(c => c.Photo)
                 .Include(c => c.Address)
                 .Include(c => c.RecordStatus)
+                .Where(c => c.UserId == userId)
                 .OrderByDescending(c => c.Id)
-                .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
+                //.Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
         }
 
