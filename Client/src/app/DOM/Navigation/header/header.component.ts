@@ -29,7 +29,6 @@ export class HeaderComponent implements OnInit {
   address: any = [];
   photoUrl: string;
   userName: string = '';
-  itemCount = 1;
   borrowCount = 1;
 
   notificationCount = 0;
