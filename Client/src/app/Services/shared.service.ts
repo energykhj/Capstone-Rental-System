@@ -140,6 +140,12 @@ export class SharedService {
     return this.http.get<any>(`${environment.apiUrl}/Transaction/getItemBorrowedDate?itemId=${itemId}`);
   }
 
+  getNotification(val: any, startDate: any) {
+    return this.http.get<any>(
+      `${environment.apiUrl}/Notification/getNotification?userId=${val}&startDate=${startDate}`
+    );
+  }
+
   Alert(t: string, m: string): void {
     const timeout = 2000;
     const dialogRef = this.dialog.open(AlertsComponent, {

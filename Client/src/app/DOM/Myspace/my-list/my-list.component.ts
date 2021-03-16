@@ -48,6 +48,7 @@ export class MyListComponent implements OnInit {
   processingItems: any = [];
   returnItems: any = [];
   completedItems: any = [];
+  noti: any = [];
   requestStatus: any = [TransactionStatusEnum.Request];
   processingStatus: any = [TransactionStatusEnum.Confirmed];
   returnStatus: any = [TransactionStatusEnum.RequestReturn];
@@ -152,6 +153,11 @@ export class MyListComponent implements OnInit {
           : 'noImage.png';
       });
       this.NameListWithoutFilter5 = completedItem;
+    });
+
+    this.service.getNotification(this.userId, '2021-03-12 23:56:55.000').subscribe((notification: any) => {
+      console.log(notification);
+      this.noti = notification;
     });
   }
 
@@ -339,4 +345,6 @@ export class MyListComponent implements OnInit {
       this.ngOnInit();
     });
   }
+
+  onCheck(id: any) {}
 }

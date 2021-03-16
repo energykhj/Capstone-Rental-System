@@ -419,25 +419,15 @@
           <div class="card">
             <div class="card-body">
               <strong>
-                <p>Hot</p>
+                <p>Notification</p>
               </strong>
               <div class="hot">
                 <ul>
-                  <a href="#">
-                    <li>Want a this..</li>
-                  </a>
-                  <a href="#">
-                    <li>Does anyone have this?</li>
-                  </a>
-                  <a href="#">
-                    <li>New article</li>
-                  </a>
-                  <a href="#">
-                    <li>New article</li>
-                  </a>
-                  <a href="#">
-                    <li>New article</li>
-                  </a>
+                  <div *ngFor="let notifi of noti">
+                    <a href="#" (click)="onCheck(notifi.id)">
+                      <li>{{ notifi.type }} from {{ notifi.fromUserName }}</li>
+                    </a>
+                  </div>
                 </ul>
               </div>
             </div>
