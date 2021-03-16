@@ -196,6 +196,7 @@ export class MyBorrowComponent implements OnInit {
   onNavChange() {
     this.NameFilter = '';
     this.Filter(this.active);
+    //this.ngOnInit();
   }
 
   openOwnerDetails(id: any) {
@@ -284,12 +285,15 @@ export class MyBorrowComponent implements OnInit {
           this.service.insertNotification(this.notification).subscribe((data: any) => {
             console.log(data);
           });
+
+          this.ngOnInit();
         });
       }
     });
   }
 
   checkRequestReturn(statusId) {
+    // TODO: check available date
     if (statusId == TransactionStatusEnum.RequestReturn) {
       return true;
     } else {

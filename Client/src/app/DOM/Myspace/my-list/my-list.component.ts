@@ -166,6 +166,8 @@ export class MyListComponent implements OnInit {
         return el.toUserId == this.userId;
       });
       this.noti = filterdNotification;
+      // Set Noti count badge
+      this.service.sendNotificationCount(this.noti.length);
     });
   }
 
@@ -366,8 +368,7 @@ export class MyListComponent implements OnInit {
       if (result) {
         this.service.updateNotificationStatus(id).subscribe((data: any) => {
           console.log(data);
-          //this.ngOnInit();
-          window.location.reload();
+          this.ngOnInit();
         });
       }
     });

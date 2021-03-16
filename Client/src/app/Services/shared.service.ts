@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AlertsComponent } from 'src/app/DOM/Shared/alerts/alerts.component';
 import { MatDialog } from '@angular/material/dialog';
 import { map, catchError } from 'rxjs/operators';
@@ -167,5 +167,19 @@ export class SharedService {
         }, timeout);
       }
     });
+  }
+
+  private subject = new Subject<any>();
+
+  sendNotificationCount(count: number) {
+    this.subject.next(count);
+  }
+
+  clearNotificationCount() {
+    this.subject.next();
+  }
+
+  getNotificationCount(): Observable<any> {
+    return this.subject.asObservable();
   }
 }
