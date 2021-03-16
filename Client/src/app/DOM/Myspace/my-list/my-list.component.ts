@@ -146,7 +146,6 @@ export class MyListComponent implements OnInit {
 
     this.service.GetItemByStatus(this.userId, this.completedStatus).subscribe((completedItem: any) => {
       this.completedItems = completedItem;
-      console.log('completed:' + completedItem);
       if (completedItem.length < 8) {
         this.notEmptyPost5 = false;
       }
@@ -333,6 +332,7 @@ export class MyListComponent implements OnInit {
       if (data) {
         this.transDetailPkg.reason = data;
         this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
+          console.log(data);
           this.ngOnInit();
         });
       }
