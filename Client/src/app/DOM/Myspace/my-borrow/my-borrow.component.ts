@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/Services/shared.service';
 import { environment } from 'src/environments/environment';
-import { TransactionStatusEnum } from 'src/app/Helpers/enum';
+import { TransactionStatusEnum, NotificationTypeEnum } from 'src/app/Helpers/enum';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/user-details-view.component';
@@ -38,6 +38,17 @@ export class MyBorrowComponent implements OnInit {
     statusName: '',
     reason: '',
     date: new Date(),
+  };
+
+  notification: any = {
+    id: 0,
+    fromUserId: '',
+    toUserId: '',
+    itemId: 0,
+    notiType: NotificationTypeEnum.RequestReturn,
+    message: '',
+    sendDate: new Date(),
+    isRead: false,
   };
 
   statusText: string[] = [
@@ -260,6 +271,18 @@ export class MyBorrowComponent implements OnInit {
           this.loadTransaction();
           this.service.Alert('success', 'Requested Return');
           //this.router.navigate(['/main']);
+
+          //Send Notification
+          this.notification.fromUserId = this.userId;
+          this.notification.itemId = this.borrowingItemPkgs.find((el) => {
+            return el.trans.id == this.tranDetails.transactionId;
+          }).item.id;
+          this.notification.toUserId = this.borrowingItemPkgs.find((el) => {
+            return el.trans.id == this.tranDetails.transactionId;
+          }).item.userId;
+          this.service.insertNotification(this.notification).subscribe((data: any) => {
+            console.log(data);
+          });
         });
       }
     });

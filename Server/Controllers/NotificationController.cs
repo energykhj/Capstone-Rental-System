@@ -43,7 +43,7 @@ namespace Server.Controllers
                 dto = mapper.Map<NotificationDTO>(noti);
                 dto.FromUserName = fromUser.FirstName + " " + fromUser.LastName;
                 dto.ToUserName = ToUser.FirstName + " " + ToUser.LastName;
-
+                dto.ItemTitle = noti.Item.Name;
                 dtoList.Add(dto);
             }
 

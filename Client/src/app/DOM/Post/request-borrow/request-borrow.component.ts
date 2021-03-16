@@ -8,7 +8,7 @@ import { DetailComponent } from 'src/app/DOM/Main/detail/detail.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SharedService } from 'src/app/Services/shared.service';
 import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/user-details-view.component';
-import { TransactionStatusEnum } from 'src/app/Helpers/enum';
+import { TransactionStatusEnum, NotificationTypeEnum } from 'src/app/Helpers/enum';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
 @Component({
   selector: 'app-request-borrow',
@@ -96,6 +96,17 @@ export class RequestBorrowComponent implements OnInit {
       reason: '',
       date: new Date(),
     },
+  };
+
+  notification: any = {
+    id: 0,
+    fromUserId: '',
+    toUserId: '',
+    itemId: 0,
+    notiType: NotificationTypeEnum.Request,
+    message: '',
+    sendDate: new Date(),
+    isRead: false,
   };
 
   validation_messages = {
@@ -319,6 +330,14 @@ export class RequestBorrowComponent implements OnInit {
         console.log(data);
         this.service.Alert('success', 'Send Request Borrow');
         //this.router.navigate(['/main']);
+
+        //Send Notification
+        this.notification.fromUserId = this.userId;
+        this.notification.itemId = this.itemPkg.item.id;
+        this.notification.toUserId = this.itemPkg.item.userId;
+        this.service.insertNotification(this.notification).subscribe((data: any) => {
+          console.log(data);
+        });
       });
     }
   }
