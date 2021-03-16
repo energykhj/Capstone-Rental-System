@@ -7,6 +7,7 @@ import { TransactionStatusEnum } from 'src/app/Helpers/enum';
 import { ReasonComponent } from './reason/reason.component';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-list',
@@ -75,7 +76,7 @@ export class MyListComponent implements OnInit {
   formatCurrency = FormatUtils.formatCurrency;
   dateDiffInDays = FormatUtils.dateDiffInDays;
 
-  constructor(private service: SharedService, public dialog: MatDialog) {}
+  constructor(private service: SharedService, public dialog: MatDialog, private router: Router) {}
 
   ngOnInit(): void {
     this.userId = this.service.isLoginUser;
@@ -156,9 +157,13 @@ export class MyListComponent implements OnInit {
       this.NameListWithoutFilter5 = completedItem;
     });
 
-    this.service.getNotification(this.userId, '2021-03-12 23:56:55.000').subscribe((notification: any) => {
-      console.log(notification);
-      this.noti = notification;
+    var startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    var startDateStr = startDate.toUTCString();
+    this.service.getNotification(this.userId, startDateStr).subscribe((notifications: any) => {
+      var filterdNotification = notifications.filter((el) => {
+        return el.toUserId == this.userId;
+      });
+      this.noti = filterdNotification;
     });
   }
 
@@ -359,7 +364,8 @@ export class MyListComponent implements OnInit {
       if (result) {
         this.service.updateNotificationStatus(id).subscribe((data: any) => {
           console.log(data);
-          this.ngOnInit();
+          //this.ngOnInit();
+          window.location.reload();
         });
       }
     });
