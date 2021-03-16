@@ -102,6 +102,7 @@ export class MyListComponent implements OnInit {
 
     this.service.GetItemByStatus(this.userId, this.requestStatus).subscribe((requestItem: any) => {
       this.requestItems = requestItem;
+      console.log(requestItem);
       if (requestItem.length < 8) {
         this.notEmptyPost2 = false;
       }
@@ -145,6 +146,7 @@ export class MyListComponent implements OnInit {
 
     this.service.GetItemByStatus(this.userId, this.completedStatus).subscribe((completedItem: any) => {
       this.completedItems = completedItem;
+      console.log('completed:' + completedItem);
       if (completedItem.length < 8) {
         this.notEmptyPost5 = false;
       }

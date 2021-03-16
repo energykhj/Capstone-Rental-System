@@ -99,13 +99,13 @@
                     <div class="card">
                       <div class="card-body">
                         <div class="row">
-                          <div class="col-md-3">
+                          <div class="col-12 col-sm-4 col-md-3 col-lg-3">
                             <img
                               *ngIf="requestItem.item.defaultImageFile"
                               src="{{ filePath }}{{ requestItem.item.defaultImageFile }}"
                             />
                           </div>
-                          <div class="request col-md-6">
+                          <div class="request col-12 col-sm-8 col-md-4 col-lg-6">
                             <h4 mb-3>{{ requestItem.item.name }}</h4>
                             <h4 class="title">
                               Request from
@@ -122,7 +122,7 @@
                               >
                             </h4>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-12 col-sm-12 col-md-5 col-lg-3">
                             <small><span>Deposit:</span> {{ formatCurrency(requestItem.trans.deposit) }}</small
                             ><br class="mb-1" />
                             <p>
@@ -173,13 +173,13 @@
                     <div class="card">
                       <div class="card-body">
                         <div class="row">
-                          <div class="col-md-3">
+                          <div class="col-12 col-sm-4 col-md-3 col-lg-3">
                             <img
                               *ngIf="processingItem.item.defaultImageFile"
                               src="{{ filePath }}{{ processingItem.item.defaultImageFile }}"
                             />
                           </div>
-                          <div class="request col-md-6">
+                          <div class="request col-12 col-sm-8 col-md-4 col-lg-6">
                             <h4 mb-3>{{ processingItem.item.name }}</h4>
                             <h4 class="title">
                               Request from
@@ -206,7 +206,7 @@
                               </span>
                             </h4>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-12 col-sm-12 col-md-5 col-lg-3">
                             <small><span>Deposit:</span> {{ formatCurrency(processingItem.trans.deposit) }}</small
                             ><br class="mb-1" />
                             <p>
@@ -268,13 +268,13 @@
                     <div class="card">
                       <div class="card-body">
                         <div class="row">
-                          <div class="col-md-3">
+                          <div class="col-12 col-sm-4 col-md-3 col-lg-3">
                             <img
                               *ngIf="returnItem.item.defaultImageFile"
                               src="{{ filePath }}{{ returnItem.item.defaultImageFile }}"
                             />
                           </div>
-                          <div class="request col-md-6">
+                          <div class="request col-12 col-sm-8 col-md-4 col-lg-6">
                             <h4 mb-3>{{ returnItem.item.name }}</h4>
                             <h4 class="title">
                               Request from
@@ -291,7 +291,7 @@
                               >
                             </h4>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-12 col-sm-12 col-md-5 col-lg-3">
                             <small><span>Deposit:</span> {{ formatCurrency(returnItem.trans.deposit) }}</small
                             ><br class="mb-1" />
                             <p>
@@ -338,13 +338,13 @@
                     <div class="card">
                       <div class="card-body">
                         <div class="row">
-                          <div class="col-md-3">
+                          <div class="col-12 col-sm-4 col-md-3 col-lg-3">
                             <img
                               *ngIf="completedItem.item.defaultImageFile"
                               src="{{ filePath }}{{ completedItem.item.defaultImageFile }}"
                             />
                           </div>
-                          <div class="request col-md-6">
+                          <div class="request col-12 col-sm-8 col-md-4 col-lg-6">
                             <h4 mb-3>{{ completedItem.item.name }}</h4>
                             <h4 class="title">
                               Request from
@@ -361,7 +361,7 @@
                               >
                             </h4>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-12 col-sm-12 col-md-5 col-lg-3">
                             <small><span>Deposit:</span> {{ formatCurrency(completedItem.trans.deposit) }}</small
                             ><br class="mb-1" />
                             <p>
