@@ -9,6 +9,7 @@ import { SharedService } from 'src/app/Services/shared.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from '../../Account/login/login.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -28,15 +29,30 @@ export class HeaderComponent implements OnInit {
   address: any = [];
   photoUrl: string;
   userName: string = '';
-  itemCount = 1;
   borrowCount = 1;
+
   notificationCount = 0;
+  subscription: Subscription;
 
   constructor(public dialog: MatDialog, private router: Router, private service: SharedService, fb: FormBuilder) {
     this.options = fb.group({
       hideRequired: this.hideRequiredControl,
       floatLabel: this.floatLabelControl,
     });
+
+    // subscribe Notification Message Count
+    this.subscription = this.service.getNotificationCount().subscribe((count) => {
+      if (count) {
+        this.notificationCount = count;
+      } else {
+        this.notificationCount = 0;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
   }
 
   openLogin() {
@@ -116,7 +132,8 @@ export class HeaderComponent implements OnInit {
       var filterdNotification = notifications.filter((el) => {
         return el.toUserId == this.userAccount.id;
       });
-      this.notificationCount = filterdNotification.length;
+      //this.notificationCount = filterdNotification.length;
+      this.service.sendNotificationCount(filterdNotification.length);
     });
   }
 }

@@ -101,6 +101,7 @@ export class MyListComponent implements OnInit {
 
     this.service.GetItemByStatus(this.userId, this.requestStatus).subscribe((requestItem: any) => {
       this.requestItems = requestItem;
+      console.log(requestItem);
       if (requestItem.length < 8) {
         this.notEmptyPost2 = false;
       }
@@ -156,9 +157,15 @@ export class MyListComponent implements OnInit {
       this.NameListWithoutFilter5 = completedItem;
     });
 
-    this.service.getNotification(this.userId, '2021-03-12 23:56:55.000').subscribe((notification: any) => {
-      console.log(notification);
-      this.noti = notification;
+    var startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    var startDateStr = startDate.toUTCString();
+    this.service.getNotification(this.userId, startDateStr).subscribe((notifications: any) => {
+      var filterdNotification = notifications.filter((el) => {
+        return el.toUserId == this.userId;
+      });
+      this.noti = filterdNotification;
+      // Set Noti count badge
+      this.service.sendNotificationCount(this.noti.length);
     });
   }
 
@@ -324,6 +331,7 @@ export class MyListComponent implements OnInit {
       if (data) {
         this.transDetailPkg.reason = data;
         this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
+          console.log(data);
           this.ngOnInit();
         });
       }

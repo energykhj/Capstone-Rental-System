@@ -338,6 +338,8 @@ export class RequestBorrowComponent implements OnInit {
         this.service.insertNotification(this.notification).subscribe((data: any) => {
           console.log(data);
         });
+        this.getTransactions(this.itemId);
+        this.isPreview = false;
       });
     }
   }

@@ -8,6 +8,7 @@ import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
 import { ReasonComponent } from '../my-list/reason/reason.component';
+import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 
 @Component({
   selector: 'app-my-borrow',
@@ -195,6 +196,7 @@ export class MyBorrowComponent implements OnInit {
   onNavChange() {
     this.NameFilter = '';
     this.Filter(this.active);
+    //this.ngOnInit();
   }
 
   openOwnerDetails(id: any) {
@@ -283,12 +285,15 @@ export class MyBorrowComponent implements OnInit {
           this.service.insertNotification(this.notification).subscribe((data: any) => {
             console.log(data);
           });
+
+          this.ngOnInit();
         });
       }
     });
   }
 
   checkRequestReturn(statusId) {
+    // TODO: check available date
     if (statusId == TransactionStatusEnum.RequestReturn) {
       return true;
     } else {
@@ -296,5 +301,17 @@ export class MyBorrowComponent implements OnInit {
     }
   }
 
+  checkCancelBorrow(borrowingItemPkg) {
+    if (borrowingItemPkg.trans.currentStatus == TransactionStatusEnum.RequestReturn) {
+      return false;
+    } else {
+      if (borrowingItemPkg.trans.startDate)
+        if (DateValidator.compareDateWithoutForm(new Date(), borrowingItemPkg.trans.startDate) == 1) {
+          return true;
+        } else {
+          return false;
+        }
+    }
+  }
   onLoadMore() {}
 }
