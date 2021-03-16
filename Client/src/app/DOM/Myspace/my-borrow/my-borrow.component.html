@@ -161,7 +161,7 @@
                               Request Return
                             </button>
                             <button
-                              *ngIf="!checkRequestReturn(borrowingItemPkg.trans.currentStatus)"
+                              *ngIf="checkCancelBorrow(borrowingItemPkg)"
                               mat-stroked-button
                               (click)="onCancelReservation(borrowingItemPkg.trans.id)"
                               color="warn"
