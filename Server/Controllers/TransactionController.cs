@@ -66,14 +66,57 @@ namespace Server.Controllers
             return pkgDtoList;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId">Item owner</param>
+        /// <param name="statusIds"></param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<List<ItemTransactionListPkgDTO>>> GetItemByStatus([FromQuery] string userId, [FromQuery] string statusIds/*, [FromQuery] int currentPage*/)
+        public async Task<ActionResult<List<ItemTransactionPkgDTO>>> GetItemByStatus([FromQuery] string userId, [FromQuery] string statusIds/*, [FromQuery] int currentPage*/)
+        {
+            List<ItemTransactionPkgDTO> pkgDtoList = new List<ItemTransactionPkgDTO>();
+            List<int> statusList = GetStatusList(statusIds);
+
+            var Items = mapper.Map<List<ItemDTO>>(await IB.GetItem(userId));            
+
+            foreach (var item in Items)
+            {
+                var transactions = await TB.GetItemByStatus(item.Id, statusList);
+                if (transactions.Count <= 0) continue;
+
+                foreach (var trans in transactions)
+                {
+                    ItemTransactionPkgDTO dto = new ItemTransactionPkgDTO()
+                    {
+                        Trans = mapper.Map<TransactionDTO>(trans),
+                        Item = mapper.Map<ItemDTO>(item),
+                    };
+
+                    var Photo = await IB.GetItemDefaultPhoto(item.Id);
+                    var user = await UB.GetUserDetails(trans.BorrowerId);
+                    var statusName = await TB.GetTransactionStatusName((int)trans.CurrentStatus);
+                    var td = trans.TransactionDetail.Where(c => c.TransactionId == trans.Id && c.StatusId == trans.CurrentStatus).FirstOrDefault();
+
+                    dto.Trans.StatusName = statusName;
+                    dto.Trans.BorrowerName = user.FirstName + " " + user.LastName;
+                    dto.Trans.requestDate = (td != null) ? td.Date : new DateTime(0);
+                    dto.Trans.Reason = (td != null) ? td.Reason : "";
+                    dto.Item.DefaultImageFile = (Photo != null) ? Photo.FileName : null;
+                    pkgDtoList.Add(dto);
+                }
+            }
+            return pkgDtoList;
+        }
+
+
+        [HttpGet("GetItemByStatus1")]
+        public async Task<ActionResult<List<ItemTransactionListPkgDTO>>> GetItemByStatus1([FromQuery] string userId, [FromQuery] string statusIds/*, [FromQuery] int currentPage*/)
         {
             List<ItemTransactionListPkgDTO> pkgDtoList = new List<ItemTransactionListPkgDTO>();
             List<int> statusList = GetStatusList(statusIds);
 
-            var Items = mapper.Map<List<ItemDTO>>(await IB.GetItem(userId));            
+            var Items = mapper.Map<List<ItemDTO>>(await IB.GetItem(userId));
 
             foreach (var item in Items)
             {
