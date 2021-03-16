@@ -140,6 +140,10 @@ export class SharedService {
     return this.http.get<any>(`${environment.apiUrl}/Transaction/getItemBorrowedDate?itemId=${itemId}`);
   }
 
+  insertNotification(notification: any) {
+    return this.http.post<any>(`${environment.apiUrl}/Notification/InsertNotification`, notification);
+  }
+
   getNotification(val: any, startDate: any) {
     return this.http.get<any>(
       `${environment.apiUrl}/Notification/getNotification?userId=${val}&startDate=${startDate}`
