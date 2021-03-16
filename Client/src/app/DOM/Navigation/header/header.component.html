@@ -44,6 +44,13 @@
   <span class="example-spacer"></span>
   <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
     <ng-template [ngIf]="userName">
+      <mat-icon
+        matBadge="{{ notificationCount }}"
+        matBadgeColor="warn"
+        matBadgeOverlap="false"
+        class="no-padding-badge"
+      >
+      </mat-icon>
       <button mat-button [routerLink]="itemCount > 0 ? ['/my-list'] : ['/my-borrow']">My Space</button>
     </ng-template>
     <ul fxLayout fxLayoutGap="10px" class="navigation-items">
@@ -54,9 +61,6 @@
         <a mat-mini-fab routerLink="/ask" class="fab-color-ask">Ask</a>
       </li>
       <ng-template [ngIf]="userName" [ngIfElse]="logIn">
-        <li>
-          <mat-icon matBadge="2" matBadgeColor="warn" matBadgeOverlap="false" class="no-padding-badge"> </mat-icon>
-        </li>
         <li>
           <app-avatar [photoUrl]="photoUrl" [name]="userName"></app-avatar>
         </li>

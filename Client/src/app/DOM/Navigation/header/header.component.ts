@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit {
   userName: string = '';
   itemCount = 1;
   borrowCount = 1;
+  notificationCount = 0;
 
   constructor(public dialog: MatDialog, private router: Router, private service: SharedService, fb: FormBuilder) {
     this.options = fb.group({
@@ -67,6 +68,7 @@ export class HeaderComponent implements OnInit {
           this.photoUrl = this.userDetails.photoUrl ? environment.PhotoFileUrl + this.userDetails.photoUrl : '';
 
           //alert(this.userAccount.email);
+          this.getNotificationCount();
         },
         (error) => {}
       );
@@ -105,5 +107,16 @@ export class HeaderComponent implements OnInit {
       .then((page) => {
         window.location.reload();
       });
+  }
+
+  getNotificationCount() {
+    var startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    var startDateStr = startDate.toUTCString();
+    this.service.getNotification(this.userAccount.id, startDateStr).subscribe((notifications: any) => {
+      var filterdNotification = notifications.filter((el) => {
+        return el.toUserId == this.userAccount.id;
+      });
+      this.notificationCount = filterdNotification.length;
+    });
   }
 }
