@@ -152,6 +152,21 @@ namespace Server.Controllers
         [HttpPut("UpdateTransaction")]
         public async Task<ActionResult<TransactionDTO>> UpdateTransaction([FromBody] TransactionDTO trans)
         {
+            var newTrans = mapper.Map<Transaction>(trans);
+
+            try
+            {
+                return Ok(mapper.Map<TransactionDTO>(await TB.UpdateTransaction(newTrans)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("UpdateTransaction1")]
+        public async Task<ActionResult<TransactionDTO>> UpdateTransaction1([FromBody] TransactionDTO trans)
+        {
             var oldTrans = await TB.GetTransaction(trans.Id);
             var newTrans = mapper.Map<Transaction>(trans);
             var curStatus = TB.GetTransactionStatusName((int)oldTrans.CurrentStatus);
