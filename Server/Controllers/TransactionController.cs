@@ -109,45 +109,6 @@ namespace Server.Controllers
             return pkgDtoList;
         }
 
-
-        [HttpGet("GetItemByStatus1")]
-        public async Task<ActionResult<List<ItemTransactionListPkgDTO>>> GetItemByStatus1([FromQuery] string userId, [FromQuery] string statusIds/*, [FromQuery] int currentPage*/)
-        {
-            List<ItemTransactionListPkgDTO> pkgDtoList = new List<ItemTransactionListPkgDTO>();
-            List<int> statusList = GetStatusList(statusIds);
-
-            var Items = mapper.Map<List<ItemDTO>>(await IB.GetItem(userId));
-
-            foreach (var item in Items)
-            {
-                var transactions = await TB.GetItemByStatus(item.Id, statusList);
-                if (transactions.Count <= 0) continue;
-
-                ItemTransactionListPkgDTO pkgDto = new ItemTransactionListPkgDTO();
-                List<TransactionDTO> tDtoList = new List<TransactionDTO>();
-                foreach (var trans in transactions)
-                {
-                    pkgDto.Item = mapper.Map<ItemDTO>(item);
-                    var Photo = await IB.GetItemDefaultPhoto(item.Id);
-                    pkgDto.Item.DefaultImageFile = (Photo != null) ? Photo.FileName : null;
-
-                    var tDto = mapper.Map<TransactionDTO>(trans);
-                    var td = trans.TransactionDetail.Where(c => c.TransactionId == trans.Id && c.StatusId == trans.CurrentStatus).FirstOrDefault();
-                    var user = await UB.GetUserDetails(trans.BorrowerId);
-                    var statusName = await TB.GetTransactionStatusName((int)trans.CurrentStatus);
-
-                    tDto.StatusName = statusName;
-                    tDto.BorrowerName = user.FirstName + " " + user.LastName;
-                    tDto.requestDate = (td != null) ? td.Date : new DateTime(0);
-                    tDto.Reason = (td != null) ? td.Reason : "";
-                    tDtoList.Add(tDto);
-                }
-                pkgDto.Trans = tDtoList;
-                pkgDtoList.Add(pkgDto);
-            }
-            return pkgDtoList;
-        }
-
         [HttpGet("GetItemBorrowedDate")]
         public async Task<ActionResult<List<TransactionDTO>>> GetItemBorrowedDate(int itemId)
         {
@@ -196,11 +157,12 @@ namespace Server.Controllers
             var curStatus = TB.GetTransactionStatusName((int)oldTrans.CurrentStatus);
 
             if (oldTrans.CurrentStatus == (int)TransactionStatusEnum.Request ||
-                oldTrans.CurrentStatus == (int)TransactionStatusEnum.Rejected)
+                oldTrans.CurrentStatus == (int)TransactionStatusEnum.Rejected ||
+                newTrans.CurrentStatus == (int)TransactionStatusEnum.RequestReturn)
             {
                 try
                 {
-                    // keep exist status, status can't edited when update
+                    // keep exist status, status can't be edited when update
                     newTrans.CurrentStatus = oldTrans.CurrentStatus;
                     return Ok(mapper.Map<TransactionDTO>(await TB.UpdateTransaction(newTrans)));
                 }
