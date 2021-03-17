@@ -345,27 +345,46 @@ export class MyListComponent implements OnInit {
     this.rejectAndCancel('Cancellation');
   }
 
-  returnComplete(transId: any) {
-    this.transDetailPkg.transactionId = transId;
-    this.transDetailPkg.statusId = TransactionStatusEnum.ReturnComplete;
+  returnComplete(returnItem: any) {
+    const dialogRef = this.dialog.open(ReasonComponent, {
+      height: '400px',
+      width: '400px',
+      data: {
+        title: 'Return',
+        isRefund: true,
+      },
+    });
 
-    this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
-      console.log(data.status);
-      this.ngOnInit();
+    dialogRef.afterClosed().subscribe((data: any) => {
+      if (data) {
+        this.transDetailPkg.reason = data.reason;
+        returnItem.trans.refundDeposit = data.refundDeposit;
+
+        this.service.updateTransaction(returnItem.trans).subscribe((data: any) => {
+          //console.log(data.status);
+          this.transDetailPkg.transactionId = returnItem.trans.id;
+          this.transDetailPkg.statusId = TransactionStatusEnum.ReturnComplete;
+
+          this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
+            //console.log(data.status);
+            this.ngOnInit();
+          });
+        });
+      }
     });
   }
 
-  onCheck(id: any) {
+  onCheck(noti: any) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '350px',
       data: {
-        title: 'Confirm Message',
-        message: 'Did you check the message?',
+        title: 'Notification Message',
+        message: `${noti.type} ${noti.itemTitle} from ${noti.fromUserName} `,
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.service.updateNotificationStatus(id).subscribe((data: any) => {
+        this.service.updateNotificationStatus(noti.id).subscribe((data: any) => {
           console.log(data);
           this.ngOnInit();
         });

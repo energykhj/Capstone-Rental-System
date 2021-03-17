@@ -132,6 +132,10 @@ export class SharedService {
     return this.http.post<any>(`${environment.apiUrl}/Transaction`, transPkg);
   }
 
+  updateTransaction(transPkg: any) {
+    return this.http.put<any>(`${environment.apiUrl}/Transaction/UpdateTransaction`, transPkg);
+  }
+
   putTransactionDetail(tDetail: any) {
     return this.http.put<any>(`${environment.apiUrl}/Transaction/InsertTransactionDetails`, tDetail);
   }

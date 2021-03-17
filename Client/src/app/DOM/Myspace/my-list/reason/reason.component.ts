@@ -10,6 +10,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 export class ReasonComponent implements OnInit {
   title: string;
   reason: string;
+  refundDeposit: number;
+  isRefund: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -17,13 +19,22 @@ export class ReasonComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data
   ) {
     this.title = data.title;
+    if (data.isRefund) {
+      this.isRefund = data.isRefund;
+    } else {
+      this.isRefund = false;
+    }
   }
 
   ngOnInit(): void {}
 
   onSubmit() {
     console.log(this.reason);
-    this.MatDialogRef.close(this.reason);
+    if (this.isRefund) {
+      this.MatDialogRef.close({ refundDeposit: this.refundDeposit, reason: this.reason });
+    } else {
+      this.MatDialogRef.close(this.reason);
+    }
   }
 
   onCancel() {

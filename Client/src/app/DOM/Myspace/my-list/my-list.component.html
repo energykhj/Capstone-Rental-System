@@ -297,7 +297,7 @@
                             <p>
                               <small><span>Total Fee: </span>{{ formatCurrency(returnItem.trans.total) }}</small>
                             </p>
-                            <button mat-stroked-button color="primary" (click)="returnComplete(returnItem.trans.id)">
+                            <button mat-stroked-button color="primary" (click)="returnComplete(returnItem)">
                               Return Complete
                             </button>
                             <!-- <button mat-stroked-button color="warn">Reject Borrow</button> -->
@@ -424,7 +424,7 @@
               <div class="hot">
                 <ul>
                   <div *ngFor="let notifi of noti">
-                    <a [routerLink]="" (click)="onCheck(notifi.id)">
+                    <a [routerLink]="" (click)="onCheck(notifi)">
                       <li>{{ notifi.type }} from {{ notifi.itemTitle }}</li>
                     </a>
                   </div>
