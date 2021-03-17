@@ -36,6 +36,8 @@ export class RequestBorrowComponent implements OnInit {
 
   minDate: Date;
   maxDate: Date;
+  disabledDates: Date[] = [];
+
   displayBorrowedDates = false;
 
   ownerDetails: any = {
@@ -150,17 +152,9 @@ export class RequestBorrowComponent implements OnInit {
   createBorrowItemForm() {
     this.borrowItemForm = this.fb.group({
       //      priceInfo: this.fb.group({
-      borrowInfo: new FormGroup(
-        {
-          startDate: new FormControl('', Validators.required),
-          endDate: new FormControl('', Validators.required),
-        },
-
-        (formGroup: FormGroup) => {
-          var ret = DateValidator.compareDate(formGroup, 'startDate', 'endDate');
-          return ret;
-        }
-      ),
+      borrowInfo: new FormGroup({
+        dates: new FormControl('', Validators.required),
+      }),
     });
   }
 
@@ -169,13 +163,12 @@ export class RequestBorrowComponent implements OnInit {
   }
 
   getFormData() {
-    this.transactionPkg.trans.startDate = this.borrowInfo.get('startDate').value;
-    this.transactionPkg.trans.endDate = this.borrowInfo.get('endDate').value;
+    this.transactionPkg.trans.startDate = this.borrowInfo.get('dates').value[0];
+    this.transactionPkg.trans.endDate = this.borrowInfo.get('dates').value[1];
   }
 
   setFormData() {
-    this.borrowInfo.get('startDate').setValue(this.transactionPkg.trans.startDate);
-    this.borrowInfo.get('endDate').setValue(this.transactionPkg.trans.endDate);
+    this.borrowInfo.get('dates').setValue([this.transactionPkg.trans.startDate, this.transactionPkg.trans.endDate]);
   }
 
   loadItemPkg(itemId: string) {
@@ -271,8 +264,18 @@ export class RequestBorrowComponent implements OnInit {
       //console.log(data);
       data.forEach((trans) => {
         this.itemTransactions.push(trans);
+        this.addDisabledDates(new Date(trans.startDate), new Date(trans.endDate));
       });
     });
+  }
+
+  addDisabledDates(startDate, endDate) {
+    var now = new Date(startDate);
+
+    while (DateValidator.compareDateWithoutForm(now, endDate) >= 0) {
+      this.disabledDates.push(now);
+      now = new Date(now.valueOf() + 864e5); // Add 1 day
+    }
   }
 
   validateDates(startDate, endDate) {

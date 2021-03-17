@@ -56,45 +56,20 @@
                 <div *ngIf="isPreview == false">
                   <h3 class="text-primary">Borrow Date</h3>
                   <div class="form-group col-12">
-                    <label>Start Date *</label>
-                    <input
-                      type="text"
-                      placeholder="Start Date"
-                      class="form-control"
-                      formControlName="startDate"
-                      bsDatepicker
-                      placement="top"
-                      [minDate]="minDate"
-                      [maxDate]="maxDate"
-                      [bsValue]="transactionPkg.trans.startDate"
-                      [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'MM/DD/YYYY' }"
-                    />
-                    <div *ngFor="let validation of validation_messages.startDate">
-                      <div
-                        class="text-danger"
-                        *ngIf="
-                          borrowInfo.get('startDate').hasError(validation.type) &&
-                          (borrowInfo.get('startDate').dirty || borrowInfo.get('startDate').touched || isSubmitPressed)
-                        "
-                      >
-                        {{ validation.message }}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group col-12">
-                    <label>End Date *</label>
+                    <label>Start / End Date *</label>
                     <input
                       type="text"
                       matInput
-                      placeholder="End Date"
+                      placeholder="Start/End Date"
                       class="form-control"
-                      formControlName="endDate"
+                      formControlName="dates"
                       [errorStateMatcher]="parentErrorStateMatcher"
-                      bsDatepicker
+                      bsDaterangepicker
                       placement="top"
                       [minDate]="minDate"
                       [maxDate]="maxDate"
-                      [bsValue]="transactionPkg.trans.endDate"
+                      [datesDisabled]="disabledDates"
+                      [bsValue]="[transactionPkg.trans.startDate, transactionPkg.trans.endDate]"
                       [bsConfig]="{ containerClass: 'theme-dark-blue', dateInputFormat: 'MM/DD/YYYY' }"
                     />
                     <div *ngFor="let validation of validation_messages.endDate">
@@ -102,14 +77,15 @@
                         class="text-danger"
                         *ngIf="
                           borrowInfo.hasError(validation.type) ||
-                          (borrowInfo.get('endDate').hasError(validation.type) &&
-                            (borrowInfo.get('endDate').dirty || borrowInfo.get('endDate').touched || isSubmitPressed))
+                          (borrowInfo.get('dates').hasError(validation.type) &&
+                            (borrowInfo.get('dates').dirty || borrowInfo.get('dates').touched || isSubmitPressed))
                         "
                       >
                         {{ validation.message }}
                       </div>
                     </div>
                   </div>
+
                   <div>
                     <div *ngIf="displayBorrowedDates">
                       <p class="text-danger">Some Dates are already reserved</p>
