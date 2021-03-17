@@ -34,6 +34,7 @@ namespace Server.BizLogic
                         (c.CurrentStatus == (int)TransactionStatusEnum.Request ||   // for cancel 
                         c.CurrentStatus == (int)TransactionStatusEnum.Confirmed ||
                         c.CurrentStatus == (int)TransactionStatusEnum.RequestReturn))
+                .OrderByDescending(c => c.Id)
                 .ToListAsync();
         }
 
@@ -44,9 +45,9 @@ namespace Server.BizLogic
                         (c.CurrentStatus == (int)TransactionStatusEnum.Request ||   // for cancel 
                         c.CurrentStatus == (int)TransactionStatusEnum.Confirmed ||
                         c.CurrentStatus == (int)TransactionStatusEnum.RequestReturn))
+                .OrderByDescending(c => c.Id)
                 .ToListAsync();
         }
-
 
         public async Task<List<Transaction>> GetTransactionByBorrower(string userId, int status)
         {
@@ -54,6 +55,7 @@ namespace Server.BizLogic
                 .Include(c => c.TransactionDetail)
                 .Where(c => c.BorrowerId == userId &&
                         (c.CurrentStatus == status))
+                .OrderByDescending(c => c.Id)
                 .ToListAsync();
         }
 
@@ -62,6 +64,7 @@ namespace Server.BizLogic
             return await context.Transaction
                 .Include(c => c.TransactionDetail)
                 .Where(c => status.Contains((int)c.CurrentStatus) && c.BorrowerId == userId)
+                .OrderByDescending(c => c.Id)
                 .ToListAsync();
 
             //list.Where(x => status.Contains((int)x.CurrentStatus));
@@ -73,6 +76,7 @@ namespace Server.BizLogic
             return await context.Transaction
                 .Include(c => c.TransactionDetail)
                 .Where(c => status.Contains((int)c.CurrentStatus) && c.ItemId == itemId)
+                .OrderByDescending(c => c.Id)
                 .ToListAsync();
 
             /*return await context.Transaction
@@ -98,14 +102,6 @@ namespace Server.BizLogic
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Transaction> GetItemByStatusXXX(int itemId, int status)
-        {
-            return await context.Transaction
-                .Include(c => c.TransactionDetail)
-                .Where(c => c.ItemId == itemId &&
-                        c.CurrentStatus == status)
-                .FirstOrDefaultAsync();
-        }
 
         public async Task<Transaction> GetCompletedItem(int itemId)
         {
@@ -128,6 +124,7 @@ namespace Server.BizLogic
         {
             return await context.TransactionDetail
                 .Where(c => c.TransactionId == Id)
+                .OrderByDescending(c => c.Id)
                 .ToListAsync();
         }
 

@@ -46,6 +46,7 @@ namespace Server.BizLogic
                 .Include(c => c.RecordStatus)
                 .OrderByDescending(c => c.Id)
                 .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
+                .OrderByDescending(c => c.Id)
                 .ToListAsync();
         }
 
@@ -118,6 +119,7 @@ namespace Server.BizLogic
                 .Where(c => c.Name.ToUpper().Contains(strSearch) ||
                        c.Description.ToUpper().Contains(strSearch))
                 .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
+                .OrderByDescending(c => c.Id)
                 .ToListAsync();
         }
 
