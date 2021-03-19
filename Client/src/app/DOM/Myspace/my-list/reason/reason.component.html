@@ -1,6 +1,11 @@
 <div class="center-content">
-  <h2 mat-dialog-title>Resaon for {{ title }}</h2>
+  <h2 mat-dialog-title>{{ title }}</h2>
   <mat-dialog-content>
+    <mat-form-field *ngIf="isRefund" style="width: 350px" appearance="outline">
+      <label>Refund Deposit: </label>
+      <input type="text" currencyMask [(ngModel)]="refundDeposit" />
+    </mat-form-field>
+
     <mat-form-field style="width: 350px" appearance="outline">
       <textarea
         [(ngModel)]="reason"

@@ -90,9 +90,9 @@ export class MyBorrowComponent implements OnInit {
           : environment.PhotoFileUrl + 'noImage.png';
         this.getOwnerNames(transItemPkg.item.userId);
       });
-      this.requestItemPkgs.sort((a, b) => {
-        return b.trans.id - a.trans.id;
-      });
+      // this.requestItemPkgs.sort((a, b) => {
+      //   return b.trans.id - a.trans.id;
+      // });
       this.filteredRequestItemPkgs = this.requestItemPkgs;
     });
 
@@ -111,9 +111,9 @@ export class MyBorrowComponent implements OnInit {
             : environment.PhotoFileUrl + 'noImage.png';
           this.getOwnerNames(transItemPkg.item.userId);
         });
-        this.borrowingItemPkgs.sort((a, b) => {
-          return b.trans.id - a.trans.id;
-        });
+        // this.borrowingItemPkgs.sort((a, b) => {
+        //   return b.trans.id - a.trans.id;
+        // });
         this.filteredBorrowingItemPkgs = this.borrowingItemPkgs;
       });
 
@@ -137,9 +137,9 @@ export class MyBorrowComponent implements OnInit {
             : environment.PhotoFileUrl + 'noImage.png';
           this.getOwnerNames(transItemPkg.item.userId);
         });
-        this.compledtedItemPkgs.sort((a, b) => {
-          return b.trans.id - a.trans.id;
-        });
+        // this.compledtedItemPkgs.sort((a, b) => {
+        //   return b.trans.id - a.trans.id;
+        // });
         this.filteredCompledtedItemPkgs = this.compledtedItemPkgs;
       });
   }
