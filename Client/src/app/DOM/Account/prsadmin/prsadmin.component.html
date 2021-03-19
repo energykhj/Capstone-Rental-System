@@ -1,0 +1,56 @@
+<div class="control-box p-3 control-box-b">
+    <h2>Manage Database</h2>   
+  
+    <!-- <form [formGroup]="categoryForm"
+       (ngSubmit)="onSubmitAddNewCategory(categoryForm.value)">      
+        <div class="col-6">
+            <h4>Category</h4>
+            <div class="control-box mt-3 sidebar">             
+                <mat-selection-list #category [multiple]="false">
+                    <mat-list-option *ngFor="let category of categoryList">
+                    {{category.name}}
+                    </mat-list-option>
+                </mat-selection-list>            
+            </div>   
+        </div>
+        <div class="col-6 mt-5">
+            <mat-form-field class="example-full-width">
+                <mat-label>New Category</mat-label>
+                <input matInput placeholder="" type="text" formControlName="newCategory" >
+              </mat-form-field>
+              <button mat-button color="primary" type="submit">Add</button>
+            </div>
+      </form> -->
+   
+      <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Row</button>
+
+  <table mat-table [dataSource]="categoryList" #category class="my-table mt-3">
+
+    <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Id Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID. </th>
+      <td mat-cell *matCellDef="let element"> {{element.categoryId}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let element" class="action-link"> 
+        <a (click)="openDialog('Update',element)">Edit</a> | 
+        <a (click)="openDialog('Delete',element)">Delete</a>  
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

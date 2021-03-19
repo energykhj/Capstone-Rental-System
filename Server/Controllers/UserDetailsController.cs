@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Server.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserDetailsController : ControllerBase
@@ -38,11 +38,13 @@ namespace Server.Controllers
         [HttpGet("GetUser/{id}")]
         public async Task<ActionResult<UserPkgDTO>> GetUser(string id)
         {
+            
             UserPkgDTO userPkg = new UserPkgDTO()
             {
                 Account = mapper.Map<UserAccountDTO>(await UB.GetUserAccount(id)),
                 Details = mapper.Map<UserDetailsDTO>(await UB.GetUserDetails(id)),
-                Address = mapper.Map<AddressDTO>(await UB.GetDefaultAddress(id))
+                Address = mapper.Map<AddressDTO>(await UB.GetDefaultAddress(id)),
+                Role = await GetUserRole(id)
             };
 
             return userPkg; 
@@ -115,6 +117,13 @@ namespace Server.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        private async Task<RoleDTO> GetUserRole(string id)
+        {
+            var role = await context.AspNetRoles.FirstOrDefaultAsync(c => c.Id == id);
+            if (role == null) return new RoleDTO() { Name = ""};
+            else return new RoleDTO() { Name = role.Name };
         }
     }
 }    

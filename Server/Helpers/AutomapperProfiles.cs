@@ -51,6 +51,11 @@ namespace Server.Helpers
             CreateMap<Notification, NotificationDTO>()
                 .ForMember(m => m.Type, opt => opt.MapFrom(x => x.NotiTypeNavigation.Type));
 
+            CreateMap<RoleDTO, AspNetRoles>();
+            CreateMap<AspNetRoles, RoleDTO>();
+
+            CreateMap<AdminCategoryDTO, Category>();
+            CreateMap<Category, AdminCategoryDTO>();
         }
     }
 }

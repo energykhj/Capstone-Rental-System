@@ -125,7 +125,7 @@ namespace Server.Controllers
             if (trychange.Succeeded)
                 return Ok();
             else
-                return BadRequest();
+                return BadRequest(trychange.Errors.ToList()[0].Code);
         }
     }
 }
