@@ -103,8 +103,8 @@ describe('MyBorrowComponent', () => {
       itemId: 0,
       borrowerId: '',
       borrowerName: '',
-      startDate: new Date('03/19/2021'),
-      endDate: new Date('03/20/2021'),
+      startDate: new Date('03/20/2021'),
+      endDate: new Date('03/21/2021'),
       requestDate: new Date('03/18/2021'),
       reason: '',
       total: 10,
@@ -264,6 +264,52 @@ describe('MyBorrowComponent', () => {
     expect(compiled.innerHTML).toContain('item of status 7');
   });
 
+  it('should display Owner Name, Request/Start/End Dates, Deposit, Total Fee in Requested Tab', () => {
+    fakeTransMode = TransactionStatusEnum.Request;
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.innerHTML).toContain('Borrow from');
+    expect(compiled.innerHTML).toContain('Yi Phyo Hong');
+    expect(compiled.innerHTML).toContain('Request date:');
+    expect(compiled.innerHTML).toContain('3/18/2021');
+    expect(compiled.innerHTML).toContain('When:');
+    expect(compiled.innerHTML).toContain('3/20/2021 ~ 3/21/2021');
+    expect(compiled.innerHTML).toContain('Deposit:');
+    expect(compiled.innerHTML).toContain('100.00');
+    expect(compiled.innerHTML).toContain('Total Fee:');
+    expect(compiled.innerHTML).toContain('10.00');
+  });
+
+  it('should display Owner Name, Request/Start/End Dates, Deposit, Total Fee in Borrowing Tab', () => {
+    fakeTransMode = TransactionStatusEnum.Confirmed;
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.innerHTML).toContain('Borrow from');
+    expect(compiled.innerHTML).toContain('Yi Phyo Hong');
+    expect(compiled.innerHTML).toContain('Request date:');
+    expect(compiled.innerHTML).toContain('3/18/2021');
+    expect(compiled.innerHTML).toContain('When:');
+    expect(compiled.innerHTML).toContain('3/20/2021 ~ 3/21/2021');
+  });
+
+  it('should display Owner Name, Request/Start/End Dates, Deposit, Total Fee in Completed Tab', () => {
+    fakeTransMode = TransactionStatusEnum.ReturnComplete;
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.innerHTML).toContain('Borrow from');
+    expect(compiled.innerHTML).toContain('Yi Phyo Hong');
+    expect(compiled.innerHTML).toContain('Request date:');
+    expect(compiled.innerHTML).toContain('3/18/2021');
+    expect(compiled.innerHTML).toContain('When:');
+    expect(compiled.innerHTML).toContain('3/20/2021 ~ 3/21/2021');
+  });
+
   it('item of Request status should contain Cancel Request button', () => {
     fakeTransMode = TransactionStatusEnum.Request;
     component.ngOnInit();
@@ -290,49 +336,51 @@ describe('MyBorrowComponent', () => {
     expect(compiled.innerHTML).not.toContain('Request Return');
   });
 
-  it('should display Owner Name, Request/Start/End Dates, Deposit, Total Fee in Requested Tab', () => {
+  it('Cancel Request Button method should be called', fakeAsync(() => {
     fakeTransMode = TransactionStatusEnum.Request;
     component.ngOnInit();
     fixture.detectChanges();
 
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.innerHTML).toContain('Borrow from');
-    expect(compiled.innerHTML).toContain('Yi Phyo Hong');
-    expect(compiled.innerHTML).toContain('Request date:');
-    expect(compiled.innerHTML).toContain('3/18/2021');
-    expect(compiled.innerHTML).toContain('When:');
-    expect(compiled.innerHTML).toContain('3/19/2021 ~ 3/20/2021');
-    expect(compiled.innerHTML).toContain('Deposit:');
-    expect(compiled.innerHTML).toContain('100.00');
-    expect(compiled.innerHTML).toContain('Total Fee:');
-    expect(compiled.innerHTML).toContain('10.00');
-  });
+    spyOn(component, 'onCancelRequest');
 
-  it('should display Owner Name, Request/Start/End Dates, Deposit, Total Fee in Borrowing Tab', () => {
+    let button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    tick();
+
+    fixture.whenStable().then(() => {
+      expect(component.onCancelRequest).toHaveBeenCalled();
+    });
+  }));
+
+  it('Cancel Borrow Button method should be called', fakeAsync(() => {
     fakeTransMode = TransactionStatusEnum.Confirmed;
     component.ngOnInit();
     fixture.detectChanges();
 
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.innerHTML).toContain('Borrow from');
-    expect(compiled.innerHTML).toContain('Yi Phyo Hong');
-    expect(compiled.innerHTML).toContain('Request date:');
-    expect(compiled.innerHTML).toContain('3/18/2021');
-    expect(compiled.innerHTML).toContain('When:');
-    expect(compiled.innerHTML).toContain('3/19/2021 ~ 3/20/2021');
-  });
+    spyOn(component, 'onCancelReservation');
 
-  it('should display Owner Name, Request/Start/End Dates, Deposit, Total Fee in Completed Tab', () => {
-    fakeTransMode = TransactionStatusEnum.ReturnComplete;
+    let button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    tick();
+
+    fixture.whenStable().then(() => {
+      expect(component.onCancelReservation).toHaveBeenCalled();
+    });
+  }));
+
+  it('Request Return Button method should be called', fakeAsync(() => {
+    fakeTransMode = TransactionStatusEnum.Confirmed;
     component.ngOnInit();
     fixture.detectChanges();
 
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.innerHTML).toContain('Borrow from');
-    expect(compiled.innerHTML).toContain('Yi Phyo Hong');
-    expect(compiled.innerHTML).toContain('Request date:');
-    expect(compiled.innerHTML).toContain('3/18/2021');
-    expect(compiled.innerHTML).toContain('When:');
-    expect(compiled.innerHTML).toContain('3/19/2021 ~ 3/20/2021');
-  });
+    spyOn(component, 'onRequestReturn');
+
+    let button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    tick();
+
+    fixture.whenStable().then(() => {
+      expect(component.onRequestReturn).toHaveBeenCalled();
+    });
+  }));
 });
