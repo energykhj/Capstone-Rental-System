@@ -13,20 +13,24 @@ import { MyBorrowComponent } from 'src/app/DOM/Myspace/my-borrow/my-borrow.compo
 import { EditorComponent } from 'src/app/DOM/Shared/editor/editor.component';
 import { RequestBorrowComponent } from './DOM/Post/request-borrow/request-borrow.component';
 import { AuthService } from '../app/Services/auth.service';
+import { ChangePasswordComponent } from 'src/app/DOM/Account/change-password/change-password.component';
+import { PRSAdminComponent } from 'src/app/DOM/Account/prsadmin/prsadmin.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'user-account', component: UserAccountComponent },
+  { path: 'user-account', component: UserAccountComponent, canActivate: [AuthService] },
   { path: 'post', component: PostComponent, canActivate: [AuthService] },
   { path: 'my-list', component: MyListComponent, canActivate: [AuthService] },
   { path: 'my-borrow', component: MyBorrowComponent, canActivate: [AuthService] },
   { path: 'ask', component: AskComponent, canActivate: [AuthService] },
   { path: 'ask-detail', component: AskDetailComponent, canActivate: [AuthService] },
   { path: 'editor', component: EditorComponent },
-  { path: 'request-borrow', component: RequestBorrowComponent },
+  { path: 'request-borrow', component: RequestBorrowComponent },  
+  { path: 'prspassword', component: ChangePasswordComponent, canActivate: [AuthService] },
+  { path: 'prsadmin', component: PRSAdminComponent, canActivate: [AuthService] },
 ];
 
 @NgModule({

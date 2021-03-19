@@ -18,4 +18,11 @@ namespace Shared.Helpers
         RequestReturn = 6,
         ReturnComplete = 7
     }
+
+    public enum ManageEnum
+    {
+        Insert = 1,
+        Update = 2,
+        Delete = 3
+    }
 }

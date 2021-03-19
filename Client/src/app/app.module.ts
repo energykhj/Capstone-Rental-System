@@ -13,6 +13,26 @@ import { HomeComponent } from './DOM/Main/Home/home.component';
 import { DetailComponent } from './DOM/Main/detail/detail.component';
 import { PostComponent } from './DOM/Post/post.component';
 import { AddEditPostComponent } from './DOM/Post/add-edit-post/add-edit-post.component';
+import { UserAccountComponent } from './DOM/Account/user-account/user-account.component';
+import { UserDetailsComponent } from './DOM/Account/user-details/user-details.component';
+import { AskComponent } from './DOM/Ask/ask.component';
+import { PostCardComponent } from './DOM/Post/post-card/post-card.component';
+import { MapsComponent } from './DOM/Navigation/maps/maps.component';
+import { MyListComponent } from './DOM/Myspace/my-list/my-list.component';
+import { MyBorrowComponent } from './DOM/Myspace/my-borrow/my-borrow.component';
+import { AskDetailComponent } from './DOM/Ask/ask-detail/ask-detail.component';
+import { EditorComponent } from './DOM/Shared/editor/editor.component';
+import { RequestBorrowComponent } from './DOM/Post/request-borrow/request-borrow.component';
+import { UserDetailsViewComponent } from './DOM/Account/user-details-view/user-details-view.component';
+
+/* Account */
+import { ChangePasswordComponent } from './DOM/Account/change-password/change-password.component';
+import { PRSAdminComponent } from './DOM/Account/prsadmin/prsadmin.component';
+
+/* common component */
+import { AvatarComponent } from './DOM/Navigation/avatar/avatar.component';
+import { ConfirmDialogComponent } from './DOM/Shared/confirm-dialog/confirm-dialog.component';
+import { AlertsComponent } from './DOM/Shared/alerts/alerts.component';
 
 /* Angular Material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,6 +47,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxEditorModule } from 'ngx-editor';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 /* FormsModule */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -37,12 +58,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 /* Authenticate */
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './Services/auth.service';
-import { UserAccountComponent } from './DOM/Account/user-account/user-account.component';
-import { AvatarComponent } from './DOM/Navigation/avatar/avatar.component';
-import { UserDetailsComponent } from './DOM/Account/user-details/user-details.component';
-import { AskComponent } from './DOM/Ask/ask.component';
-import { PostCardComponent } from './DOM/Post/post-card/post-card.component';
-import { MapsComponent } from './DOM/Navigation/maps/maps.component';
 
 /* Currency Input */
 import { CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
@@ -50,14 +65,6 @@ import { customCurrencyMaskConfig } from 'src/environments/environment';
 
 /* Drag & Drop Files */
 import { NgxFileDropModule } from 'ngx-file-drop';
-import { AlertsComponent } from './DOM/Shared/alerts/alerts.component';
-import { AlertModule } from 'ngx-bootstrap/alert';
-import { MyListComponent } from './DOM/Myspace/my-list/my-list.component';
-import { MyBorrowComponent } from './DOM/Myspace/my-borrow/my-borrow.component';
-import { AskDetailComponent } from './DOM/Ask/ask-detail/ask-detail.component';
-import { EditorComponent } from './DOM/Shared/editor/editor.component';
-import { RequestBorrowComponent } from './DOM/Post/request-borrow/request-borrow.component';
-import { UserDetailsViewComponent } from './DOM/Account/user-details-view/user-details-view.component';
 
 /* Services */
 import { SharedService } from 'src/app/Services/shared.service';
@@ -67,7 +74,6 @@ import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { AuthImgPipe } from '../app/Helpers/auth-img.pipe';
 
 import { environment } from 'src/environments/environment';
-import { ConfirmDialogComponent } from './DOM/Shared/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +102,8 @@ import { ConfirmDialogComponent } from './DOM/Shared/confirm-dialog/confirm-dial
     ReasonComponent,
     AuthImgPipe,
     ConfirmDialogComponent,
+    ChangePasswordComponent,
+    PRSAdminComponent,
   ],
   imports: [
     BrowserModule,

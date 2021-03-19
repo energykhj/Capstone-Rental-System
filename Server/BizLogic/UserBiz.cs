@@ -17,8 +17,8 @@ namespace Server.BizLogic
     public partial class UserBiz
     {
         private readonly PhoenixContext context;
-        BlobServiceClient blobServiceClient;
-        private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".jpg", ".jpeg", ".png" };
+        /*BlobServiceClient blobServiceClient;
+        private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".jpg", ".jpeg", ".png" };*/
 
         List<int> errorList = new List<int>();
         UserDetails userDetails = new UserDetails();

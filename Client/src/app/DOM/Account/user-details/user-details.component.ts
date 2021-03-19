@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/material/dialog';
 import { SharedService } from 'src/app/Services/shared.service';
 import { ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
 import { environment } from 'src/environments/environment';
@@ -75,7 +75,6 @@ export class UserDetailsComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public dialog: MatDialog,
-    private dialogRef: MatDialogRef<UserDetailsComponent>,
     private service: SharedService
   ) {
     this.id = this.service.isLoginUser;
@@ -121,8 +120,7 @@ export class UserDetailsComponent implements OnInit {
           this.status = 0;
         }
         this.PhotoFilePath = environment.PhotoFileUrl + this.PhotoFileName;
-
-        // alert(this.PhotoFilePath);
+       //alert(this.PhotoFilePath);
       },
       (error) => {
         console.log(error);
@@ -134,7 +132,7 @@ export class UserDetailsComponent implements OnInit {
     var file = event.target.files[0];
 
     const formData: FormData = new FormData();
-    formData.append('uploadedFile', file, file.name);
+    formData.append(file.name, file, file.name);
     formData.append('id', this.id);
     //formData.append("id", this.id);
     this.service.uploadPhoto(formData).subscribe((data: any) => {
@@ -142,6 +140,7 @@ export class UserDetailsComponent implements OnInit {
       this.PhotoFileName = data.filePath; //toString();
       //this.PhotoFilePath=environment.PhotoUrlAvatar+this.PhotoFileName;
       this.PhotoFilePath = environment.PhotoFileUrl + this.PhotoFileName;
+      //alert(this.PhotoFilePath);
     });
   }
 
@@ -149,7 +148,6 @@ export class UserDetailsComponent implements OnInit {
     this.loginUser.details.photourl = this.PhotoFileName;
     this.service.updateUser(this.loginUser).subscribe(
       (res) => {
-        this.dialogRef.close();
         window.location.reload();
         this.service.Alert('success', 'successfully updated!!');
       },

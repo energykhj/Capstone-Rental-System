@@ -56,6 +56,18 @@ export class AuthenticationService {
       );
   }
 
+  ChangePassword(val: any) {
+    return this.http.post<any>(`${environment.apiUrl}/Authentication/ChangePassword`, val).pipe(
+      map((user) => {
+        this.currentUserSubject.next(user);
+        return user;
+      })
+    );
+    // localStorage.setItem("jwt", token);
+    // localStorage.setItem("userId", val.Email);
+  }
+
+
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');

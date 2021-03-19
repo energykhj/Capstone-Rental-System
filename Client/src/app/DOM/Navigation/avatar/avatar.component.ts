@@ -75,6 +75,7 @@ export class AvatarComponent implements OnInit {
 
   userDetails()
   {      
-    this.dialog.open(UserDetailsComponent);
+    //this.dialog.open(UserDetailsComponent);
+    this.router.navigate(["/user-account"]);
   }
 }

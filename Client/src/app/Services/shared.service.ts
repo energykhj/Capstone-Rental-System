@@ -158,6 +158,11 @@ export class SharedService {
     return this.http.put<any>(`${environment.apiUrl}/Notification/UpdateNotificationStatus?notiId=${val}`, '');
   }
 
+  ManageCategory(val: any): Observable<any> {
+    return this.http.put<any>(`${environment.apiUrl}/Admin/ManageCategory/`, val);
+  }
+
+  //type: success, info, warning, danger
   Alert(t: string, m: string): void {
     const timeout = 2000;
     const dialogRef = this.dialog.open(AlertsComponent, {

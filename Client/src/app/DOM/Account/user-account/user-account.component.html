@@ -1,67 +1,39 @@
-<div class="center-content">
-    <h1 mat-dialog-title>Login / Register</h1>
-    <div mat-dialog-content>
-        <mat-tab-group>
-            <mat-tab label="Login">
-                <form [formGroup]="loginForm" (ngSubmit)=" onLogin(loginForm.value)">
-                    <mat-form-field class="full-width">
-                        <mat-label>Email</mat-label>
-                        <input type="email" matInput placeholder="Email" formControlName="Email"
-                            (keyup)="resetLoginError(false)">
-                        <mat-icon matSuffix>email</mat-icon>
-                    </mat-form-field>
-                    <mat-form-field class="full-width">
-                        <mat-label>Password</mat-label>
-                        <input matInput type="password" placeholder="Password" formControlName="Password">
-                        <mat-icon matSuffix>lock</mat-icon>
-                    </mat-form-field>
-                    <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password</div>
-                    <br>
-                    <mat-checkbox class="remember-height">Remember Me!</mat-checkbox>
-                    <button mat-button color="primary">Login</button>
-                </form>
-            </mat-tab>
-            <mat-tab label="Register">
-                <form [formGroup]="registerForm" (ngSubmit)=" onRegister(registerForm.value)">
-                    <mat-form-field class="full-width">
-                        <input matInput type="email" placeholder="Email" formControlName="email" required>
-                        <mat-error *ngFor="let validation of account_validation_messages.email">
-                            <mat-error class="error-message" *ngIf="registerForm.get('email').hasError(validation.type) && 
-                                    (registerForm.get('email').dirty || registerForm.get('email').touched)">
-                                {{validation.message}}</mat-error>
-                        </mat-error>
-                        <mat-icon matSuffix>email</mat-icon>
-                    </mat-form-field>
-
-                    <div formGroupName="matching_passwords">
-                        <mat-form-field class="full-width">
-                            <input matInput type="password" placeholder="Password" formControlName="password" required>
-                            <mat-error *ngFor="let validation of account_validation_messages.password">
-                                <mat-error class="error-message" *ngIf="registerForm.get('matching_passwords').get('password').hasError(validation.type) && 
-                                        (registerForm.get('matching_passwords').get('password').dirty || 
-                                        registerForm.get('matching_passwords').get('password').touched)">
-                                    {{validation.message}}</mat-error>
-                            </mat-error>
-                            <mat-icon matSuffix>lock</mat-icon>
-                        </mat-form-field>
-
-                        <mat-form-field class="full-width">
-                            <input matInput type="password" placeholder="Confirm Password"
-                                formControlName="confirm_password" [errorStateMatcher]="parentErrorStateMatcher"
-                                required>
-                            <mat-error *ngFor="let validation of account_validation_messages.confirm_password">
-                                <mat-error class="error-message" *ngIf="(registerForm.get('matching_passwords').get('confirm_password').hasError(validation.type)|| 
-                                        registerForm.get('matching_passwords').hasError(validation.type)) && 
-                                        (registerForm.get('matching_passwords').get('confirm_password').dirty || 
-                                        registerForm.get('matching_passwords').get('confirm_password').touched)">
-                                    {{validation.message}}</mat-error>
-                            </mat-error>
-                            <mat-icon matSuffix>lock</mat-icon>
-                        </mat-form-field>
-                    </div>
-                    <button mat-button color="primary" class="login-button">Sign In</button>
-                </form>
-            </mat-tab>
-        </mat-tab-group>
+<div class="content">
+    <div class="container">
+        <div class="row mt-5 mb-5">
+            <div class="col-md-4">
+                <div class="control-box p-3">
+                    <h2>Account</h2>
+                </div>
+                <div class="control-box p-3 mt-3 sidebar">                  
+                    <mat-selection-list #menu [multiple]="false">
+                        <mat-list-option *ngFor="let menu of Menus" 
+                        [selected]="menu == 'Account'" 
+                        (click)="setMenu(menu)" 
+                        [value]="menu">
+                          {{menu}}
+                        </mat-list-option>
+                      </mat-selection-list>
+                </div>                
+                
+            </div>
+            <div class="col-md-8">
+                <div class="control-box pl-3 control-box-t">
+                    <p> {{loginUser.userName}}</p>
+                    <h3> {{loginUser.userEmail}}</h3>
+                </div>
+                <div>
+                    <ng-template [ngIf]="selectedMenu == 'Account'">
+                        <app-user-details></app-user-details>
+                    </ng-template>
+                    <ng-template [ngIf]="selectedMenu == 'Password'">
+                        <app-change-password [userEmail]="userEmail"></app-change-password>
+                    </ng-template>
+                    <ng-template [ngIf]="selectedMenu == 'Admin'">
+                        <app-prsadmin [userEmail]="userEmail"></app-prsadmin>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

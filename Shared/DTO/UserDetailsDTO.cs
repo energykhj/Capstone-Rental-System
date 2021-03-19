@@ -10,6 +10,7 @@ namespace Shared.DTO
         public UserDetailsDTO Details { get; set; }
         //public List<AddressDTO> Addresses { get; set; }
         public AddressDTO Address { get; set; }
+        public RoleDTO Role { get; set; }
     }
 
     public class UserAccountDTO
