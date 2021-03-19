@@ -106,7 +106,7 @@ namespace Server.Controllers
                     pkgDtoList.Add(dto);
                 }
             }
-            return pkgDtoList;
+            return pkgDtoList.OrderByDescending(c => c.Trans.Id).ToList();
         }
 
         [HttpGet("GetItemBorrowedDate")]
