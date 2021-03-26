@@ -27,7 +27,7 @@ export class UserDetailsViewComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data.dataKey);
-    this.service.GetOwnerInfo(this.data.dataKey).subscribe(
+    this.service.getOwnerInfo(this.data.dataKey).subscribe(
       (data: any) => {
         if (data.details != null) {
           this.ownerDetails = data.details;

@@ -416,40 +416,7 @@
     <div class="col-md-3">
       <div class="row mb-3">
         <div class="col-md-12">
-          <div class="card">
-            <div class="card-body">
-              <strong>
-                <p>Notification</p>
-              </strong>
-              <div class="hot">
-                <ul>
-                  <div *ngFor="let notifi of noti">
-                    <a [routerLink]="" (click)="onCheck(notifi)">
-                      <li>{{ notifi.type }} from {{ notifi.itemTitle }}</li>
-                    </a>
-                  </div>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-body">
-              <button type="button" class="btn btn-outline bg-orange btn-block">Contat Now</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-body">
-              <button type="button" class="btn btn-outline bg-orange btn-block">Contat Now</button>
-            </div>
-          </div>
+          <app-notification-list></app-notification-list>
         </div>
       </div>
     </div>

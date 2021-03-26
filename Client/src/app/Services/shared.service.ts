@@ -13,31 +13,15 @@ import { map, catchError } from 'rxjs/operators';
 export class SharedService {
   constructor(private http: HttpClient, public dialog: MatDialog) {}
 
-  Login(val: any) {
-    return this.http.post(`${environment.apiUrl}/Authentication/Login`, val);
-  }
-
-  CreateUser(val: any) {
-    return this.http.post(`${environment.apiUrl}/Authentication/CreateUser`, val);
-  }
-
-  Register(val: any) {
-    return this.http.post(`${environment.apiUrl}/Authentication/Register`, val);
-  }
-
-  public get GetUserInfo() {
+  public get getUserInfo() {
     var id = this.isLoginUser.replace(/['"]+/g, '');
     if (!id) return;
     return this.http.get<any>(`${environment.apiUrl}/UserDetails/GetUser/` + id);
   }
 
-  public GetOwnerInfo(id: string) {
+  public getOwnerInfo(id: string) {
     if (!id) return;
     return this.http.get<any>(`${environment.apiUrl}/UserDetails/GetUser/` + id);
-  }
-
-  GetWeather(): Observable<any[]> {
-    return this.http.get<any>(`${environment.apiUrl}/weatherforecast`);
   }
 
   getProvinces(): Observable<any[]> {
@@ -95,13 +79,6 @@ export class SharedService {
     return this.http.put<any>(`${environment.apiUrl}/Item`, val);
   }
 
-  // Item List //Need to change Name
-  // GetItem(val:any,page:any){
-  //   let va = 'http://localhost:49730/api/Item/'+val+'/'+page;
-  //   console.log(va);
-  //   return this.http.get<any>('http://localhost:49730/api/Item/'+val+'/'+page);
-  // }
-
   getSearchedItemAndDefaultPhoto(page: any, val: any) {
     return this.http.get<any>(`${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/` + page + '/' + val);
   }
@@ -118,7 +95,7 @@ export class SharedService {
     return this.http.get<any>(`${environment.apiUrl}/AskBoard`);
   }
 
-  GetItemByStatus(val: any, status: any) {
+  getItemByStatus(val: any, status: any) {
     const params = new HttpParams().set('userId', val).set('statusIds', status.join(','));
     return this.http.get<any>(`${environment.apiUrl}/Transaction`, { params: params });
   }
@@ -158,12 +135,12 @@ export class SharedService {
     return this.http.put<any>(`${environment.apiUrl}/Notification/UpdateNotificationStatus?notiId=${val}`, '');
   }
 
-  ManageCategory(val: any): Observable<any> {
+  manageCategory(val: any): Observable<any> {
     return this.http.put<any>(`${environment.apiUrl}/Admin/ManageCategory/`, val);
   }
 
   //type: success, info, warning, danger
-  Alert(t: string, m: string): void {
+  alert(t: string, m: string): void {
     const timeout = 2000;
     const dialogRef = this.dialog.open(AlertsComponent, {
       width: '360px',

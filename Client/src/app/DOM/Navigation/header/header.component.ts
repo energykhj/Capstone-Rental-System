@@ -71,7 +71,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     const userId: string = localStorage.getItem('userId');
     if (userId) {
-      this.service.GetUserInfo.subscribe(
+      this.service.getUserInfo.subscribe(
         (user) => {
           this.userAccount = user.account;
           this.userDetails = user.details;
@@ -101,7 +101,7 @@ export class HeaderComponent implements OnInit {
   // logout(){
   //   localStorage.removeItem("jwt");
   //   localStorage.removeItem("userId");
-  //   this.router.navigate(["/main"]);
+  //   this.router.navigate(["/home"]);
   // }
 
   public onToggleSidenav = () => {
@@ -135,5 +135,11 @@ export class HeaderComponent implements OnInit {
       //this.notificationCount = filterdNotification.length;
       this.service.sendNotificationCount(filterdNotification.length);
     });
+  }
+
+  onKeyDown(event, value) {
+    if (event.keyCode === 13) {
+      this.onSearch(value);
+    }
   }
 }

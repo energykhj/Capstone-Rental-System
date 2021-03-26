@@ -1,0 +1,16 @@
+<div class="card">
+  <div class="card-body">
+    <strong>
+      <p>Notification</p>
+    </strong>
+    <div class="notification">
+      <ul>
+        <div *ngFor="let notification of notifications">
+          <a [routerLink]="" (click)="onCheck(notification)">
+            <li>{{ notification.type }} from {{ notification.itemTitle }}</li>
+          </a>
+        </div>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -149,7 +149,7 @@ describe('MyBorrowComponent', () => {
       //console.log(fakeTransMode);
       return of(transactions);
     },
-    GetOwnerInfo(userId) {
+    getOwnerInfo(userId) {
       return of(userInfo);
     },
   };

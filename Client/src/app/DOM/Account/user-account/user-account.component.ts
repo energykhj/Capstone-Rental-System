@@ -14,29 +14,26 @@ export class UserAccountComponent implements OnInit {
   Menus: string[] = ['Account', 'Password'];
   selectedMenu = this.Menus[0];
   loginUser: any = {
-    userName:'',
-    userEmail:''
+    userName: '',
+    userEmail: '',
   };
 
   //loginUser: User;
   id: string;
   userEmail: string;
-  userRole = "";
-  constructor(
-    private router: Router,
-    private service: SharedService
-  ) {
+  userRole = '';
+  constructor(private router: Router, private service: SharedService) {
     this.id = this.service.isLoginUser;
     if (this.service.isLoginUser) {
       this.getUser();
     } else {
-      this.router.navigate(['/main']);
+      this.router.navigate(['/home']);
     }
   }
-  
+
   getUser() {
     this.id = this.id.replace(/['"]+/g, '');
-    this.service.GetUserInfo.subscribe(
+    this.service.getUserInfo.subscribe(
       (data: any) => {
         if (data.details != null) {
           this.loginUser.userName = data.details.firstName + ' ' + data.details.lastName;
@@ -46,10 +43,10 @@ export class UserAccountComponent implements OnInit {
           this.loginUser.userEmail = data.account.email;
         }
         this.userEmail = data.account.email;
-        if(data.role.name == 'Admin'){
+        if (data.role.name == 'Admin') {
           this.userRole = data.role.roleName;
           this.Menus.push('Admin');
-        } 
+        }
       },
       (error) => {
         console.log(error);
@@ -57,12 +54,9 @@ export class UserAccountComponent implements OnInit {
     );
   }
 
-  setMenu(menu){
+  setMenu(menu) {
     this.selectedMenu = menu;
   }
 
-  ngOnInit(): void {
-    
-  }
-
+  ngOnInit(): void {}
 }

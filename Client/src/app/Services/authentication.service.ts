@@ -21,7 +21,7 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  CreateUser(val: any) {
+  createUser(val: any) {
     //return this.http.post(environment.apiUrl+'/Authentication/CreateUser',val)
     return this.http.post<any>(`${environment.apiUrl}/Authentication/CreateUser`, val).pipe(
       map((user) => {
@@ -39,7 +39,7 @@ export class AuthenticationService {
     // localStorage.setItem("userId", val.Email);
   }
 
-  Login(Email: string, Password: string) {
+  login(Email: string, Password: string) {
     return this.http
       .post<any>(`${environment.apiUrl}/Authentication/Login`, { Email, Password })
       .pipe(
@@ -56,7 +56,7 @@ export class AuthenticationService {
       );
   }
 
-  ChangePassword(val: any) {
+  changePassword(val: any) {
     return this.http.post<any>(`${environment.apiUrl}/Authentication/ChangePassword`, val).pipe(
       map((user) => {
         this.currentUserSubject.next(user);
@@ -66,7 +66,6 @@ export class AuthenticationService {
     // localStorage.setItem("jwt", token);
     // localStorage.setItem("userId", val.Email);
   }
-
 
   logout() {
     // remove user from local storage to log user out
