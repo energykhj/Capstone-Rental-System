@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/user-details-view.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
-import { ReasonComponent } from '../my-list/reason/reason.component';
+import { ReasonDialogComponent } from 'src/app/DOM/Shared/reason-dialog/reason-dialog.component';
 import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 
 @Component({
@@ -213,7 +213,7 @@ export class MyBorrowComponent implements OnInit {
   }
 
   onCancelRequest(transactionId) {
-    const dialogRef = this.dialog.open(ReasonComponent, {
+    const dialogRef = this.dialog.open(ReasonDialogComponent, {
       height: '300px',
       width: '400px',
       data: {
@@ -235,7 +235,7 @@ export class MyBorrowComponent implements OnInit {
 
   onCancelReservation(transactionId) {
     // TODO: Check start date (-1)
-    const dialogRef = this.dialog.open(ReasonComponent, {
+    const dialogRef = this.dialog.open(ReasonDialogComponent, {
       height: '300px',
       width: '400px',
       data: {

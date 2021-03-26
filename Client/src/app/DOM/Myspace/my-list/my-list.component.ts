@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/user-details-view.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TransactionStatusEnum } from 'src/app/Helpers/enum';
-import { ReasonComponent } from './reason/reason.component';
+import { ReasonDialogComponent } from 'src/app/DOM/Shared/reason-dialog/reason-dialog.component';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
 
 @Component({
@@ -306,7 +306,7 @@ export class MyListComponent implements OnInit {
   }
 
   rejectAndCancel(text: any) {
-    const dialogRef = this.dialog.open(ReasonComponent, {
+    const dialogRef = this.dialog.open(ReasonDialogComponent, {
       height: '300px',
       width: '400px',
       data: {
@@ -333,7 +333,7 @@ export class MyListComponent implements OnInit {
   }
 
   returnComplete(returnItem: any) {
-    const dialogRef = this.dialog.open(ReasonComponent, {
+    const dialogRef = this.dialog.open(ReasonDialogComponent, {
       height: '400px',
       width: '400px',
       data: {

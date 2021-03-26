@@ -1,4 +1,3 @@
-import { ReasonComponent } from './DOM/Myspace/my-list/reason/reason.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -25,6 +24,7 @@ import { EditorComponent } from './DOM/Shared/editor/editor.component';
 import { RequestBorrowComponent } from './DOM/Post/request-borrow/request-borrow.component';
 import { UserDetailsViewComponent } from './DOM/Account/user-details-view/user-details-view.component';
 import { NotificationListComponent } from './DOM/Myspace/notification-list/notification-list.component';
+import { ReasonDialogComponent } from './DOM/Shared/reason-dialog/reason-dialog.component';
 
 /* Account */
 import { ChangePasswordComponent } from './DOM/Account/change-password/change-password.component';
@@ -100,12 +100,12 @@ import { environment } from 'src/environments/environment';
     EditorComponent,
     RequestBorrowComponent,
     UserDetailsViewComponent,
-    ReasonComponent,
     AuthImgPipe,
     ConfirmDialogComponent,
     ChangePasswordComponent,
     PRSAdminComponent,
     NotificationListComponent,
+    ReasonDialogComponent,
   ],
   imports: [
     BrowserModule,

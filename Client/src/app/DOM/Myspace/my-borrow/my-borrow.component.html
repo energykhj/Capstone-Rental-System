@@ -233,6 +233,12 @@
                             <p>
                               <small><span>Total Fee: </span>{{ formatCurrency(compledtedItemPkg.trans.total) }}</small>
                             </p>
+                            <p *ngIf="compledtedItemPkg.trans.currentStatus === 7">
+                              <small
+                                ><span>Refund Deposit: </span
+                                >{{ formatCurrency(compledtedItemPkg.trans.refundDeposit) }}</small
+                              >
+                            </p>
                             <p class="text-danger">
                               <span>Status: </span>{{ statusText[compledtedItemPkg.trans.currentStatus] }}
                             </p>

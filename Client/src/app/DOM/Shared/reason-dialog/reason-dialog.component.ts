@@ -3,11 +3,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-reason',
-  templateUrl: './reason.component.html',
-  styleUrls: ['./reason.component.scss'],
+  selector: 'app-reason-dialog',
+  templateUrl: './reason-dialog.component.html',
+  styleUrls: ['./reason-dialog.component.scss'],
 })
-export class ReasonComponent implements OnInit {
+export class ReasonDialogComponent implements OnInit {
   title: string;
   reason: string;
   refundDeposit: number;
@@ -15,7 +15,7 @@ export class ReasonComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private MatDialogRef: MatDialogRef<ReasonComponent>,
+    private MatDialogRef: MatDialogRef<ReasonDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data
   ) {
     this.title = data.title;
