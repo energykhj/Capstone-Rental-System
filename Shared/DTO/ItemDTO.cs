@@ -11,6 +11,11 @@ namespace Shared.DTO
         //public List<PhotoDTO> Photo { get; set; }
     }
 
+    public class ItemReviewPkgDTO
+    {
+        public ItemDTO Item { get; set; }
+        public ReviewDTO Review{ get; set; }
+    }
 
     public class ItemDTO
     {
@@ -67,4 +72,13 @@ namespace Shared.DTO
         public string FileName { get; set; }
     }
 
+    public class ReviewDTO
+    {
+        public int Id { get; set; }
+        public int ItemId { get; set; }
+        public int Rate { get; set; }
+        public string Title { get; set; }
+        public string Review1 { get; set; }
+        public DateTime Date { get; set; }
+    }
 }

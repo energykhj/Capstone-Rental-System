@@ -33,6 +33,8 @@ namespace Shared.Helpers
             {15, "Related transaction not found" },
             {16, "Status not found" },
             {17, "Notification type not found" },
+            {18, "Parent article not found" },
+            {19, "Review not found" },
         };
 
         public ErrorManager()

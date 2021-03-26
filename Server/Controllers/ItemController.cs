@@ -139,6 +139,29 @@ namespace Server.Controllers
             else return BadRequest("No Item and Address details");
         }
 
+        [HttpPost("InsertReview")]
+        public async Task<ActionResult<ItemReviewPkgDTO>> InsertReview([FromBody] Review review)
+        {
+            ItemReviewPkgDTO pDto = new ItemReviewPkgDTO()
+            {
+                Review = mapper.Map<ReviewDTO>(await IB.InsertReview(review)),
+                Item = mapper.Map<ItemDTO>(await IB.GetItem(review.ItemId))
+            };
+            return pDto;
+        }
+
+        [HttpPut("UpdateReview")]
+        public async Task<ActionResult<ItemReviewPkgDTO>> UpdateReview([FromBody] Review review)
+        {
+
+            ItemReviewPkgDTO pDto = new ItemReviewPkgDTO()
+            {
+                Review = mapper.Map<ReviewDTO>(await IB.UpdateReview(review)),
+                Item = mapper.Map<ItemDTO>(await IB.GetItem(review.ItemId))
+            };
+            return pDto;
+        }
+
         private async Task<List<ItemDTO>> GetPackedItemWithDefaultPhoto(List<Item> Items)
         {
             List<ItemDTO> itemDTO = new List<ItemDTO>();

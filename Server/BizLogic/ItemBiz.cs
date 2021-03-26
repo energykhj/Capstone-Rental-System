@@ -19,6 +19,8 @@ namespace Server.BizLogic
 
         Item item = new Item();
         Photo photo = new Photo();
+        Review review = new Review();
+
         List<int> errorList = new List<int>();
 
         public ItemBiz(PhoenixContext _context)
@@ -87,8 +89,6 @@ namespace Server.BizLogic
                .ToListAsync();
         }
 
-
-
         public async Task<List<Photo>> GetItemPhotos(int itemId)
         {
             return await context.Photo
@@ -128,6 +128,13 @@ namespace Server.BizLogic
                                 .Where(c => c.Id == addId)
                                 .FirstOrDefaultAsync();
             //.FirstOrDefaultAsync(c => c.IsDefault == true);
+        }
+
+        public async Task<Review> GetReview(int Id)
+        {
+            return await context.Review
+                .Include(c => c.Item)
+                .FirstOrDefaultAsync(c => c.Id == Id);
         }
 
         public async Task<Item> InsertItem(Item item)
@@ -222,7 +229,7 @@ namespace Server.BizLogic
         }
 
         // Delete from db
-        public async Task<Item> DeletePhotos(int itemId)
+        public async Task<bool> DeletePhotos(int itemId)
         {
             try
             {
@@ -233,7 +240,7 @@ namespace Server.BizLogic
                     //context.Photo.RemoveRange(context.Photo.Where(x => x.ItemId == item.Id));
                     context.Photo.RemoveRange(context.Photo.Where(x => x.ItemId == itemId));
                     await context.SaveChangesAsync();
-                    return await GetItem(item.Id);
+                    return true;
                 //}
                 //else
                 //    throw new Exception(new ErrorManager().ErrorList(errorList));
@@ -291,6 +298,46 @@ namespace Server.BizLogic
             return files;
         }
 
+        public async Task<Review> InsertReview(Review review)
+        {
+            try
+            {
+                this.review = review;
+                await ValidateReviewItem();
+                if (errorList.Count == 0)
+                {
+                    context.Review.Add(review);
+                    await context.SaveChangesAsync();
+                    return await GetReview(review.Id);
+                }
+                else
+                    throw new Exception(new ErrorManager().ErrorList(errorList));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Review> UpdateReview(Review review)
+        {
+            try
+            {
+                this.review = review;
+                await ValidateReview();
+                if (errorList.Count == 0)
+                {
+                    context.Review.Update(review);
+                    await context.SaveChangesAsync();
+                    return await GetReview(review.Id);
+                }
+                else
+                    throw new Exception(new ErrorManager().ErrorList(errorList));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task ValidateItem()
         {
             var user = await context.UserDetails.FirstOrDefaultAsync(c => c.Id == item.UserId);
@@ -308,11 +355,15 @@ namespace Server.BizLogic
             if (item == null) errorList.Add(12); // Item not found
         }
 
-        public async Task ValidatePhoto(int itemID)
+        public async Task ValidateReview()
         {
-            var item = await context.Item.FirstOrDefaultAsync(c => c.Id == itemID);
+            var review = await context.Review.FirstOrDefaultAsync(c => c.Id == this.review.Id);
+            if (review == null) errorList.Add(19); // Review not found
+        }
+        public async Task ValidateReviewItem()
+        {
+            var item = await context.Review.FirstOrDefaultAsync(c => c.Id == review.ItemId);
             if (item == null) errorList.Add(12); // Item not found
         }
-
     }
 }
