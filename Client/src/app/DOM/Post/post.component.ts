@@ -16,7 +16,7 @@ export class PostComponent implements OnInit {
       this.userId = this.service.isLoginUser;
       this.userId = this.userId.replace(/['"]+/g, '');
     } else {
-      this.router.navigate(['/main']);
+      this.router.navigate(['/home']);
     }
   }
 

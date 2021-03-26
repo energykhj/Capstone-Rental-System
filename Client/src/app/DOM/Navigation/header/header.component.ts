@@ -101,7 +101,7 @@ export class HeaderComponent implements OnInit {
   // logout(){
   //   localStorage.removeItem("jwt");
   //   localStorage.removeItem("userId");
-  //   this.router.navigate(["/main"]);
+  //   this.router.navigate(["/home"]);
   // }
 
   public onToggleSidenav = () => {

@@ -107,7 +107,7 @@ export class AddEditPostComponent implements OnInit {
       this.loadProvinceList();
       this.loadCategoryList();
     } else {
-      this.router.navigate(['/main']);
+      this.router.navigate(['/home']);
     }
   }
 

@@ -9,20 +9,18 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss']
+  styleUrls: ['./change-password.component.scss'],
 })
 export class ChangePasswordComponent implements OnInit {
   @Input()
   public userEmail: string;
-  
+
   passwordForm: FormGroup;
   matching_passwords_group: FormGroup;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
-  password_validation_messages = {   
-    current_password: [
-      { type: 'required', message: 'Currernt password is required' },
-    ],
+  password_validation_messages = {
+    current_password: [{ type: 'required', message: 'Currernt password is required' }],
     confirm_password: [
       { type: 'required', message: 'Confirm password is required' },
       { type: 'areEqual', message: 'Password mismatch' },
@@ -50,7 +48,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   onSubmitPasswordChange(value) {
-    var val = {      
+    var val = {
       Email: this.userEmail,
       Password: value.current_password,
       NewPassword: value.matching_passwords.password,
@@ -58,14 +56,13 @@ export class ChangePasswordComponent implements OnInit {
 
     this.authenticationService.ChangePassword(val).subscribe(
       (res) => {
-        this.router.navigate(['/main']);
+        this.router.navigate(['/home']);
         window.location.reload();
         this.service.Alert('success', 'successfully updated!!');
       },
       (error) => {
         console.log(error.error);
-        if(error.error == 'PasswordMismatch')
-          this.service.Alert('danger', 'Current password is wrong');
+        if (error.error == 'PasswordMismatch') this.service.Alert('danger', 'Current password is wrong');
       }
     );
   }
@@ -91,9 +88,8 @@ export class ChangePasswordComponent implements OnInit {
 
     // user links form validations
     this.passwordForm = this.fb.group({
-      current_password: new FormControl('', Validators.required ),
+      current_password: new FormControl('', Validators.required),
       matching_passwords: this.matching_passwords_group,
     });
   }
-
 }

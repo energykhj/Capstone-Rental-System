@@ -83,7 +83,7 @@ export class UserDetailsComponent implements OnInit {
       this.getUser();
       this.loadProvinceList();
     } else {
-      this.router.navigate(['/main']);
+      this.router.navigate(['/home']);
     }
   }
 
@@ -120,7 +120,7 @@ export class UserDetailsComponent implements OnInit {
           this.status = 0;
         }
         this.PhotoFilePath = environment.PhotoFileUrl + this.PhotoFileName;
-       //alert(this.PhotoFilePath);
+        //alert(this.PhotoFilePath);
       },
       (error) => {
         console.log(error);

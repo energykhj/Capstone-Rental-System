@@ -272,7 +272,7 @@ export class MyBorrowComponent implements OnInit {
           //console.log(data);
           this.loadTransaction();
           this.service.Alert('success', 'Requested Return');
-          //this.router.navigate(['/main']);
+          //this.router.navigate(['/home']);
 
           //Send Notification
           this.notification.fromUserId = this.userId;

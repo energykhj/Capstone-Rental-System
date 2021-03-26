@@ -68,7 +68,7 @@ export class RegisterComponent implements OnInit {
 
     this.authenticationService.CreateUser(val).subscribe(
       (res) => {
-        this.router.navigate(['/main']);
+        this.router.navigate(['/home']);
         this.dialogRef.close();
         window.location.reload();
       },

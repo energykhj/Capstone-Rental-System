@@ -44,16 +44,6 @@
   <span class="example-spacer"></span>
   <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
     <ng-template [ngIf]="userName">
-      <!-- <mat-icon
-        matBadge="{{ notificationCount }}"
-        matBadgeColor="warn"
-        matBadgeOverlap="false"
-        class="no-padding-badge"
-      >
-      </mat-icon>
-      <button mat-button [routerLink]="notificationCount > 0 ? ['/my-list'] : ['/my-borrow']">
-        My Space
-      </button> -->
       <button
         mat-raised-button
         color="primary"
@@ -92,7 +82,7 @@
             <mat-icon class="positronx">menu</mat-icon>
         </button>
     </div>
-    <div><a href="/main">Wanted.ca</a></div>
+    <div><a href="/home">Wanted.ca</a></div>
     <span class="nav-tool-items">
       <a mat-button routerLink="login" routerLinkActive="active">Log in</a>
       <a mat-button mat-raised-button routerLink="register" routerLinkActive="active">Register</a>
