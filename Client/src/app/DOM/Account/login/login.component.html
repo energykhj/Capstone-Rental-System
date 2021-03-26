@@ -1,26 +1,54 @@
 <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
   <div mat-dialog-content>
-      <h1 mat-dialog-title>Login</h1>
-      <form class="example-form" [formGroup]="loginForm" (ngSubmit)=" onLogin(loginForm.value)">
-        <mat-card-content>
-          <mat-form-field class="full-width">
-            <input matInput type="email" placeholder="Email" formControlName="Email" (keyup)="resetLoginError(false)" required autofocus>
-            <mat-icon matSuffix>email</mat-icon>
-          </mat-form-field>
+    <h1 mat-dialog-title>Login</h1>
+    <form
+      class="example-form"
+      [formGroup]="loginForm"
+      (ngSubmit)="onLogin(loginForm.value)"
+      (keydown)="onKeyDown($event, loginForm.value)"
+    >
+      <mat-card-content>
+        <mat-form-field class="full-width">
+          <input
+            matInput
+            type="email"
+            placeholder="Email"
+            formControlName="Email"
+            (keyup)="resetLoginError(false)"
+            required
+            autofocus
+          />
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
 
-          <mat-form-field class="full-width">
-            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="Password" required>
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-              </button>
-          </mat-form-field>
-        </mat-card-content>
-       
-        <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password</div>
-        <br>
-        <button mat-raised-button color="warn" type="submit" class="login-button">Log in</button>
-      </form>
-      <br><br><br>
-      <p class="text-center">Don't have an Account? <a role="button" class="blue-text" (click)="openLogin()">Sign up</a></p>
+        <mat-form-field class="full-width">
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            placeholder="Password"
+            formControlName="Password"
+            (keydown)="$event.stopPropagation()"
+            required
+          />
+          <div
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </div>
+        </mat-form-field>
+      </mat-card-content>
+
+      <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password</div>
+      <br />
+      <button mat-raised-button color="warn" type="submit" class="login-button">Log in</button>
+    </form>
+    <br /><br /><br />
+    <p class="text-center">
+      Don't have an Account? <a role="button" class="blue-text" (click)="openLogin()">Sign up</a>
+    </p>
   </div>
 </div>

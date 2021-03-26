@@ -47,28 +47,6 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  //   onLogin(value) {
-  //     alert(value.Email);
-
-  //    this.submitted = true;
-
-  //    // this.service.Login(value).subscribe(res => {
-  //    this.authenticationService.Login(value).subscribe(res => {
-  //      const token = (<any>res).token;
-
-  //      localStorage.setItem("jwt", token);
-  //      localStorage.setItem("userId", value.Email);
-
-  //      this.resetLoginError(false);
-  //      this.router.navigate(["/home"]);
-  //      this.dialogRef.close();
-  //    }, error => {
-  //      this.resetLoginError(true);
-  //      //alert(error.error);
-  //      console.log(error.errors);
-  //    })
-  //  }
-
   resetLoginError(val: boolean) {
     this.invalidLogin = val;
   }
@@ -87,5 +65,11 @@ export class LoginComponent implements OnInit {
   openLogin() {
     this.dialog.closeAll();
     this.dialog.open(RegisterComponent);
+  }
+
+  onKeyDown(event, value) {
+    if (event.keyCode === 13) {
+      this.onLogin(value);
+    }
   }
 }
