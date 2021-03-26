@@ -136,4 +136,10 @@ export class HeaderComponent implements OnInit {
       this.service.sendNotificationCount(filterdNotification.length);
     });
   }
+
+  onKeyDown(event, value) {
+    if (event.keyCode === 13) {
+      this.onSearch(value);
+    }
+  }
 }

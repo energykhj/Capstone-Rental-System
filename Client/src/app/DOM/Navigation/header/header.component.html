@@ -10,35 +10,37 @@
   <span class="example-spacer"></span>
 
   <!-- Search start -->
-  <form class="form-inline col-md-7">
+  <div class="col-md-7">
     <div fxFlex fxLayout fxLayoutAlign="center center" fxHide.xs>
-      <div class="input-group">
-        <input
-          type="text"
-          name="value"
-          [(ngModel)]="value"
-          class="form-control"
-          placeholder="Search"
-          aria-label="Search"
-          aria-describedby="basic-addon2"
-        />
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" (click)="onSearch(value)">
-            <i class="fa fa-search fa-xs"></i>
-          </button>
+      <form class="form-inline col-md-7" (keydown)="onKeyDown($event, value)">
+        <div class="input-group">
+          <input
+            type="text"
+            name="value"
+            [(ngModel)]="value"
+            class="form-control"
+            placeholder="Search"
+            aria-label="Search"
+            aria-describedby="basic-addon2"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" (click)="onSearch(value)">
+              <i class="fa fa-search fa-xs"></i>
+            </button>
+          </div>
         </div>
-        <span class="mr-2"></span>
-        <button
-          mat-stroked-button
-          style="font-style: italic"
-          class="mr-sm-1 btn-outline-info search-color"
-          (click)="openMaps()"
-        >
-          Location Search<i class="material-icons">place</i>
-        </button>
-      </div>
+      </form>
+      <span class="mr-2"></span>
+      <button
+        mat-stroked-button
+        style="font-style: italic"
+        class="mr-sm-1 btn-outline-info search-color"
+        (click)="openMaps()"
+      >
+        Location Search<i class="material-icons">place</i>
+      </button>
     </div>
-  </form>
+  </div>
   <!-- Search end -->
 
   <span class="example-spacer"></span>
@@ -74,17 +76,3 @@
     </ul>
   </div>
 </mat-toolbar>
-
-<!-- Toolbar -->
-<!-- <mat-toolbar color="primary" class="app-header">
-    <div fxHide.gt-xs>
-        <button mat-icon-button (click)="onToggleSidenav()">
-            <mat-icon class="positronx">menu</mat-icon>
-        </button>
-    </div>
-    <div><a href="/home">Wanted.ca</a></div>
-    <span class="nav-tool-items">
-      <a mat-button routerLink="login" routerLinkActive="active">Log in</a>
-      <a mat-button mat-raised-button routerLink="register" routerLinkActive="active">Register</a>
-    </span>
-  </mat-toolbar> -->
