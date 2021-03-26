@@ -22,5 +22,6 @@ export class PostComponent implements OnInit {
 
   ngOnInit() {
     //this.itemId = "15";
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 }
