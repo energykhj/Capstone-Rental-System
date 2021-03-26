@@ -66,7 +66,7 @@ export class RegisterComponent implements OnInit {
       Password: value.matching_passwords.password,
     };
 
-    this.authenticationService.CreateUser(val).subscribe(
+    this.authenticationService.createUser(val).subscribe(
       (res) => {
         this.router.navigate(['/home']);
         this.dialogRef.close();

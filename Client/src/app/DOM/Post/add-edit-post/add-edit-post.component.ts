@@ -255,7 +255,7 @@ export class AddEditPostComponent implements OnInit {
   onChangeDefaultAddress() {
     this.getFormData();
     if (this.isDefaultAddress) {
-      this.service.GetUserInfo.subscribe(
+      this.service.getUserInfo.subscribe(
         (data: any) => {
           if (data.address) {
             this.itemPkg.address = {
@@ -391,21 +391,21 @@ export class AddEditPostComponent implements OnInit {
       });
       if (errorMsg != '') {
         if (this.isNewItem == true) {
-          this.service.Alert(
+          this.service.alert(
             'danger',
             'Item Created, but some photos lost<br/> Please, check error(s):<br/>' + errorMsg
           );
         } else {
-          this.service.Alert(
+          this.service.alert(
             'danger',
             'Item Modified, but some photos lost<br/> Please, check error(s):<br/>' + errorMsg
           );
         }
       } else {
         if (this.isNewItem == true) {
-          this.service.Alert('success', 'Item Created');
+          this.service.alert('success', 'Item Created');
         } else {
-          this.service.Alert('success', 'Item Modified');
+          this.service.alert('success', 'Item Modified');
         }
       }
     });

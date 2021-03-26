@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Inject, Optional, ViewChild } from '@angular/
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { SharedService } from 'src/app/Services/shared.service';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA  } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 
 export interface CategoryData {
@@ -13,15 +13,15 @@ export interface CategoryData {
 @Component({
   selector: 'app-prsadmin',
   templateUrl: './prsadmin.component.html',
-  styleUrls: ['./prsadmin.component.scss']
+  styleUrls: ['./prsadmin.component.scss'],
 })
 export class PRSAdminComponent implements OnInit {
   @Input()
   public userEmail: string;
-      categoryForm: FormGroup;
+  categoryForm: FormGroup;
   categoryList: CategoryData[];
   displayedColumns: string[] = ['id', 'name', 'action'];
-  @ViewChild(MatTable,{static:true}) table: MatTable<any>;
+  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
 
   // constructor(private fb: FormBuilder, private http:HttpClient) { }
   constructor(
@@ -30,7 +30,6 @@ export class PRSAdminComponent implements OnInit {
     private service: SharedService,
     public dialog: MatDialog
   ) {
-    
     this.loadCategoryList();
   }
 
@@ -43,21 +42,21 @@ export class PRSAdminComponent implements OnInit {
 
   ngOnInit() {
     this.categoryForm = this.fb.group({
-      newCategory: new FormControl('',null)
+      newCategory: new FormControl('', null),
     });
   }
 
-  onSubmitAddNewCategory(value) {   
-    var val = {      
+  onSubmitAddNewCategory(value) {
+    var val = {
       option: 1, // insert
       Name: value.newCategory,
     };
 
-    this.service.ManageCategory(val).subscribe(
+    this.service.manageCategory(val).subscribe(
       (res) => {
-       // this.router.navigate(['/prsadmin']);
+        // this.router.navigate(['/prsadmin']);
         //window.location.reload();
-        this.service.Alert('success', 'successfully insert!!');
+        this.service.alert('success', 'successfully insert!!');
       },
       (error) => {
         console.log(error.error);
@@ -65,43 +64,42 @@ export class PRSAdminComponent implements OnInit {
     );
   }
 
-  openDialog(action,obj) {
+  openDialog(action, obj) {
     obj.action = action;
     const dialogRef = this.dialog.open(PopupComponent, {
       width: '250px',
-      data:obj
+      data: obj,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result.event == 'Add'){
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.event == 'Add') {
         this.addRowData(result.data);
-      }else if(result.event == 'Update'){
+      } else if (result.event == 'Update') {
         this.updateRowData(result.data);
-      }else if(result.event == 'Delete'){
+      } else if (result.event == 'Delete') {
         this.deleteRowData(result.data);
       }
     });
   }
 
-  addRowData(row_obj){
+  addRowData(row_obj) {
     var d = new Date();
     this.categoryList.push({
-      categoryId:d.getTime(),
-      name:row_obj.name
+      categoryId: d.getTime(),
+      name: row_obj.name,
     });
     this.table.renderRows();
-    
   }
-  updateRowData(row_obj){
-    this.categoryList = this.categoryList.filter((value,key)=>{
-      if(value.categoryId == row_obj.categoryId){
+  updateRowData(row_obj) {
+    this.categoryList = this.categoryList.filter((value, key) => {
+      if (value.categoryId == row_obj.categoryId) {
         value.name = row_obj.name;
       }
       return true;
     });
   }
-  deleteRowData(row_obj){
-    this.categoryList = this.categoryList.filter((value,key)=>{
+  deleteRowData(row_obj) {
+    this.categoryList = this.categoryList.filter((value, key) => {
       return value.categoryId != row_obj.categoryId;
     });
   }
@@ -110,28 +108,27 @@ export class PRSAdminComponent implements OnInit {
 @Component({
   selector: 'app-popup',
   templateUrl: './prsadmin-popup.component.html',
-  styleUrls: ['./prsadmin.component.scss']
+  styleUrls: ['./prsadmin.component.scss'],
 })
 export class PopupComponent {
-
-  action:string;
-  local_data:any;
+  action: string;
+  local_data: any;
 
   constructor(
     public dialogRef: MatDialogRef<PopupComponent>,
     //@Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: CategoryData) {
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: CategoryData
+  ) {
     console.log(data);
-    this.local_data = {...data};
+    this.local_data = { ...data };
     this.action = this.local_data.action;
   }
 
-  doAction(){
-    this.dialogRef.close({event:this.action,data:this.local_data});
+  doAction() {
+    this.dialogRef.close({ event: this.action, data: this.local_data });
   }
 
-  closeDialog(){
-    this.dialogRef.close({event:'Cancel'});
+  closeDialog() {
+    this.dialogRef.close({ event: 'Cancel' });
   }
-
 }

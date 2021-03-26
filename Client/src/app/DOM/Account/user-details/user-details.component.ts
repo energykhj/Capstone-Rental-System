@@ -93,7 +93,7 @@ export class UserDetailsComponent implements OnInit {
 
   getUser() {
     this.id = this.id.replace(/['"]+/g, '');
-    this.service.GetUserInfo.subscribe(
+    this.service.getUserInfo.subscribe(
       (data: any) => {
         if (data.details != null) {
           this.loginUser.account = data.account;
@@ -149,7 +149,7 @@ export class UserDetailsComponent implements OnInit {
     this.service.updateUser(this.loginUser).subscribe(
       (res) => {
         window.location.reload();
-        this.service.Alert('success', 'successfully updated!!');
+        this.service.alert('success', 'successfully updated!!');
       },
       (error) => {
         console.log(error);

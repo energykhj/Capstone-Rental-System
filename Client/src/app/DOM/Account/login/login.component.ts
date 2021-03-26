@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   onLogin(value) {
     this.submitted = true;
-    this.authenticationService.Login(value.Email, value.Password).subscribe(
+    this.authenticationService.login(value.Email, value.Password).subscribe(
       (res) => {
         this.resetLoginError(false);
         this.router.navigate(['/home']);

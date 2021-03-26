@@ -221,7 +221,7 @@ export class RequestBorrowComponent implements OnInit {
   }
 
   getOwnerDetails() {
-    this.service.GetOwnerInfo(this.itemPkg.item.userId).subscribe(
+    this.service.getOwnerInfo(this.itemPkg.item.userId).subscribe(
       (data: any) => {
         if (data.details != null) {
           this.ownerDetails = data.details;
@@ -331,7 +331,7 @@ export class RequestBorrowComponent implements OnInit {
     if (this.borrowInfo.invalid == false) {
       this.service.insertTransaction(this.transactionPkg).subscribe((data: any) => {
         console.log(data);
-        this.service.Alert('success', 'Send Request Borrow');
+        this.service.alert('success', 'Send Request Borrow');
         //this.router.navigate(['/home']);
 
         //Send Notification

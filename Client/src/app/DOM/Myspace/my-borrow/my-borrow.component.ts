@@ -155,7 +155,7 @@ export class MyBorrowComponent implements OnInit {
     }
 
     if (existKey == false) {
-      this.service.GetOwnerInfo(userId).subscribe(
+      this.service.getOwnerInfo(userId).subscribe(
         (data: any) => {
           if (data.details != null) {
             var name = data.details.firstName + ' ' + data.details.lastName;
@@ -271,7 +271,7 @@ export class MyBorrowComponent implements OnInit {
         this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
           //console.log(data);
           this.loadTransaction();
-          this.service.Alert('success', 'Requested Return');
+          this.service.alert('success', 'Requested Return');
           //this.router.navigate(['/home']);
 
           //Send Notification

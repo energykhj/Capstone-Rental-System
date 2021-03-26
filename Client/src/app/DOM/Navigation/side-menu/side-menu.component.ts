@@ -24,7 +24,7 @@ export class SideMenuComponent implements OnInit {
   getUser() {
     const userId: string = localStorage.getItem('userId');
     if (userId) {
-      this.service.GetUserInfo.subscribe((user) => {
+      this.service.getUserInfo.subscribe((user) => {
         this.userDetails = user.details;
         this.userName = this.userDetails.firstName ? this.userDetails.firstName + ' ' + this.userDetails.lastName : '';
         this.photoUrl = this.userDetails.photoUrl ? environment.PhotoFileUrl + this.userDetails.photoUrl : '';

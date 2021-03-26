@@ -178,8 +178,8 @@ describe('RequestBorrowComponent', () => {
       //console.log('getTransactionByUser:' + fakeTransMode);
       return of(transactions);
     },
-    GetOwnerInfo(userId) {
-      //console.log('GetOwnerInfo:');
+    getOwnerInfo(userId) {
+      //console.log('getOwnerInfo:');
       //console.log(userInfo);
       return of(userInfo);
     },

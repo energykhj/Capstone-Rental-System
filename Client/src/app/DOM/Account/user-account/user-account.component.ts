@@ -33,7 +33,7 @@ export class UserAccountComponent implements OnInit {
 
   getUser() {
     this.id = this.id.replace(/['"]+/g, '');
-    this.service.GetUserInfo.subscribe(
+    this.service.getUserInfo.subscribe(
       (data: any) => {
         if (data.details != null) {
           this.loginUser.userName = data.details.firstName + ' ' + data.details.lastName;

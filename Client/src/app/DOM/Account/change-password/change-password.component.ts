@@ -54,15 +54,15 @@ export class ChangePasswordComponent implements OnInit {
       NewPassword: value.matching_passwords.password,
     };
 
-    this.authenticationService.ChangePassword(val).subscribe(
+    this.authenticationService.changePassword(val).subscribe(
       (res) => {
         this.router.navigate(['/home']);
         window.location.reload();
-        this.service.Alert('success', 'successfully updated!!');
+        this.service.alert('success', 'successfully updated!!');
       },
       (error) => {
         console.log(error.error);
-        if (error.error == 'PasswordMismatch') this.service.Alert('danger', 'Current password is wrong');
+        if (error.error == 'PasswordMismatch') this.service.alert('danger', 'Current password is wrong');
       }
     );
   }

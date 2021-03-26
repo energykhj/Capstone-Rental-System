@@ -71,7 +71,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     const userId: string = localStorage.getItem('userId');
     if (userId) {
-      this.service.GetUserInfo.subscribe(
+      this.service.getUserInfo.subscribe(
         (user) => {
           this.userAccount = user.account;
           this.userDetails = user.details;
