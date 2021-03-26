@@ -67,6 +67,7 @@ namespace Server.Controllers
             return await GetPackedItemWithDefaultPhoto(Items);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetItemPhotos/{itemId}")]
         public async Task<ActionResult<List<PhotoDTO>>> GetItemPhotos(int itemId)
         {
