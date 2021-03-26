@@ -24,6 +24,7 @@ import { AskDetailComponent } from './DOM/Ask/ask-detail/ask-detail.component';
 import { EditorComponent } from './DOM/Shared/editor/editor.component';
 import { RequestBorrowComponent } from './DOM/Post/request-borrow/request-borrow.component';
 import { UserDetailsViewComponent } from './DOM/Account/user-details-view/user-details-view.component';
+import { NotificationListComponent } from './DOM/Myspace/notification-list/notification-list.component';
 
 /* Account */
 import { ChangePasswordComponent } from './DOM/Account/change-password/change-password.component';
@@ -104,6 +105,7 @@ import { environment } from 'src/environments/environment';
     ConfirmDialogComponent,
     ChangePasswordComponent,
     PRSAdminComponent,
+    NotificationListComponent,
   ],
   imports: [
     BrowserModule,

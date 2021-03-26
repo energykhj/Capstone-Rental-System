@@ -6,7 +6,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TransactionStatusEnum } from 'src/app/Helpers/enum';
 import { ReasonComponent } from './reason/reason.component';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
-import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-my-list',
@@ -49,7 +48,6 @@ export class MyListComponent implements OnInit {
   processingItems: any = [];
   returnItems: any = [];
   completedItems: any = [];
-  noti: any = [];
   requestStatus: any = [TransactionStatusEnum.Request];
   processingStatus: any = [TransactionStatusEnum.Confirmed];
   returnStatus: any = [TransactionStatusEnum.RequestReturn];
@@ -155,17 +153,6 @@ export class MyListComponent implements OnInit {
           : 'noImage.png';
       });
       this.NameListWithoutFilter5 = completedItem;
-    });
-
-    var startDate = new Date(new Date().setDate(new Date().getDate() - 30));
-    var startDateStr = startDate.toUTCString();
-    this.service.getNotification(this.userId, startDateStr).subscribe((notifications: any) => {
-      var filterdNotification = notifications.filter((el) => {
-        return el.toUserId == this.userId;
-      });
-      this.noti = filterdNotification;
-      // Set Noti count badge
-      this.service.sendNotificationCount(this.noti.length);
     });
   }
 
@@ -369,24 +356,6 @@ export class MyListComponent implements OnInit {
             //console.log(data.status);
             this.ngOnInit();
           });
-        });
-      }
-    });
-  }
-
-  onCheck(noti: any) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '350px',
-      data: {
-        title: 'Notification Message',
-        message: `${noti.type} ${noti.itemTitle} from ${noti.fromUserName} `,
-      },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.service.updateNotificationStatus(noti.id).subscribe((data: any) => {
-          console.log(data);
-          this.ngOnInit();
         });
       }
     });
