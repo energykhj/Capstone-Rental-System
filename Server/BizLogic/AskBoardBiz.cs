@@ -24,11 +24,18 @@ namespace Server.BizLogic
 
         public async Task<List<AskBoard>> GetAllArticles()
         {
-            var a = await context.AskBoard
-                .Where(c => c.Id == c.ParentId)
-                .OrderByDescending(c => c.ParentId).ThenBy(c => c.Date)
+            return await context.AskBoard
+                  .Where(c => c.Id == c.ParentId)
+                  .OrderByDescending(c => c.ParentId).ThenBy(c => c.Date)
+                  .ToListAsync();
+        }
+
+        public async Task<List<AskBoard>> GetArticlesWithReply(int Id)
+        {
+            return await context.AskBoard
+                .Where(c => c.Id == Id || c.ParentId == Id)
+                .OrderBy(c => c.ParentId).ThenBy(c => c.Date)
                 .ToListAsync();
-            return a;
         }
         public async Task<AskBoard> GetArticle(int Id)
         {
@@ -41,10 +48,9 @@ namespace Server.BizLogic
             try
             {
                 this.ab = ab;
-                //await ValidateItem();
+                await ValidateUser();
                 if (errorList.Count == 0)
                 {
-                    //SetUserDetailsDefaultValues();
                     context.AskBoard.Add(ab);
                     await context.SaveChangesAsync();
 
@@ -67,7 +73,7 @@ namespace Server.BizLogic
             try
             {
                 this.ab = ab;
-                //await ValidateItem();
+                await ValidateAskParent();
                 if (errorList.Count == 0)
                 {
                     context.AskBoard.Add(ab);
@@ -88,7 +94,7 @@ namespace Server.BizLogic
             try
             {
                 this.ab = ab;
-                //await ValidateItem();
+                await ValidateAsk();
                 if (errorList.Count == 0)
                 {
                     context.AskBoard.Update(ab);
@@ -104,6 +110,61 @@ namespace Server.BizLogic
             }
         }
 
+        public async Task<bool> DeleteArticle(int Id)
+        {
+            try
+            {
+                await ValidateAsk();
+                if (errorList.Count == 0)
+                {                   
+                    context.AskBoard.Remove(ab);
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+                else
+                    throw new Exception(new ErrorManager().ErrorList(errorList));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+
+        public async Task<bool> DeleteReply(int Id)
+        {
+            try
+            {
+                await ValidateAskParent();
+                if (errorList.Count == 0)
+                {
+                    context.AskBoard.Remove(ab);
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+                else
+                    throw new Exception(new ErrorManager().ErrorList(errorList));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task ValidateUser()
+        {
+            var user = await context.UserDetails.FirstOrDefaultAsync(c => c.Id == ab.UserId);
+            if (user == null) errorList.Add(4); // user not found
+        }
+        public async Task ValidateAsk()
+        {
+            var item = await context.AskBoard.FirstOrDefaultAsync(c => c.Id == ab.Id);
+            if (item == null) errorList.Add(18); // Parent article not found
+        }
+        public async Task ValidateAskParent()
+        {
+            var item = await context.AskBoard.FirstOrDefaultAsync(c => c.Id == ab.ParentId);
+            if (item == null) errorList.Add(18); // Parent article not found
+        }
     }
 }

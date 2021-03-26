@@ -10,6 +10,7 @@ namespace Server.Models
         public int Rate { get; set; }
         public string Title { get; set; }
         public string Review1 { get; set; }
+        public DateTime? Date { get; set; }
 
         public virtual Item Item { get; set; }
     }

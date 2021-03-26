@@ -370,6 +370,10 @@ namespace Server.Models
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.Date)
+                    .HasColumnName("date")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.ItemId).HasColumnName("itemID");
 
                 entity.Property(e => e.Rate).HasColumnName("rate");
