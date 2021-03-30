@@ -14,6 +14,7 @@ import { Location } from '@angular/common';
 })
 export class AskDetailComponent implements OnInit {
   //dataSource: MatTableDataSource<Article>;
+  content: string;
 
   userId = '';
   rowId: any;
@@ -42,6 +43,8 @@ export class AskDetailComponent implements OnInit {
     this.rowId = Number(this.route.snapshot.queryParamMap.get('rowId'));
     console.log(this.rowId);
     this.loadInitAskDetail();
+
+    this.content = 'Test Content'; // Ask content test
   }
 
   loadInitAskDetail() {
@@ -68,5 +71,9 @@ export class AskDetailComponent implements OnInit {
 
   onBack() {
     this.location.back();
+  }
+
+  onChange(content: string) {
+    this.content = content;
   }
 }
