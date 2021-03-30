@@ -80,6 +80,11 @@ tr.example-element-row:not(.example-expanded-row):active {
   color: #212529;
   font-size: 14px;
 }
+
+.icon:hover {
+  cursor: pointer;
+}
+
 // .mat-stroked-button.mat-primary:hover {
 //   color: rgb(13, 13, 14);
 //   background-color: #fdc500;

@@ -31,9 +31,27 @@ img {
 }
 
 .card-header {
-  height: 42px;
+  //height: 42px;
   padding: 4px 10px !important;
   background-color: #fcf7e4 !important;
   color: #000000;
   text-align: center;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.description {
+  flex: 1;
+}
+
+.icon-button {
+  flex: 1;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.icon:hover {
+  cursor: pointer;
 }

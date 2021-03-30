@@ -1,0 +1,18 @@
+<div class="center-content">
+  <mat-dialog-content>
+    <div class="col-md-12 p-0 mb-3">
+      <div c class="chat__editor">
+        <app-editor height="100px" minHeight="50px" [content]="content" (contentChange)="onChange($event)"></app-editor>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <div class="col text-center">
+      <button class="mat-raised-button mr-2" (click)="onCancel()">Cancel</button>
+      <button class="mat-raised-button mat-primary" [disabled]="content === '<p></p>'" (click)="onSubmit()">
+        Save
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

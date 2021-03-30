@@ -23,7 +23,13 @@
               <ng-container matColumnDef="userName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
                 <td mat-cell *matCellDef="let row">
-                  <img *ngIf="row.photoUrl" class="circle" src="{{ filePath }}{{ row.photoUrl }}" /> {{ row.userName }}
+                  <img
+                    *ngIf="row.photoUrl"
+                    (click)="openBorrowerDetails(row.userId)"
+                    class="circle"
+                    src="{{ filePath }}{{ row.photoUrl }}"
+                  />
+                  {{ row.userName }}
                 </td>
               </ng-container>
 
@@ -52,7 +58,13 @@
                   <mat-icon class="icon" style="float: right" *ngIf="userId === row.userId" (click)="onDelete(row.id)"
                     >delete_forever</mat-icon
                   >
-                  <mat-icon class="icon" style="float: right" *ngIf="userId === row.userId">edit</mat-icon>
+                  <mat-icon
+                    class="icon"
+                    style="float: right"
+                    *ngIf="userId === row.userId"
+                    (click)="onEdit(row.id, row.description, row.title)"
+                    >edit</mat-icon
+                  >
                 </td>
               </ng-container>
 
@@ -94,7 +106,12 @@
                   <mat-label>Title</mat-label>
                   <input matInput [(ngModel)]="askBoardPkg.title" />
                 </mat-form-field>
-                <app-editor height="100px" minHeight="50px"></app-editor>
+                <app-editor
+                  height="100px"
+                  minHeight="50px"
+                  [content]="content"
+                  (contentChange)="onChange($event)"
+                ></app-editor>
               </mat-card-content>
             </mat-card>
           </div>
@@ -102,7 +119,7 @@
             <button
               mat-stroked-button
               color="primary"
-              [disabled]="!askBoardPkg.title || !askBoardPkg.description"
+              [disabled]="!askBoardPkg.title || !content"
               (click)="requestAsk()"
             >
               Ask

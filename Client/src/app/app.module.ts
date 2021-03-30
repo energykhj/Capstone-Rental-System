@@ -75,6 +75,7 @@ import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { AuthImgPipe } from '../app/Helpers/auth-img.pipe';
 
 import { environment } from 'src/environments/environment';
+import { EditDialogComponent } from './DOM/Shared/edit-dialog/edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { environment } from 'src/environments/environment';
     PRSAdminComponent,
     NotificationListComponent,
     ReasonDialogComponent,
+    EditDialogComponent,
   ],
   imports: [
     BrowserModule,

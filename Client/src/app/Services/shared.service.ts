@@ -103,8 +103,19 @@ export class SharedService {
     return this.http.post<any>(`${environment.apiUrl}/AskBoard/InsertArticle`, askBoardPkg);
   }
 
+  updateArticle(askBoardPkg: any) {
+    return this.http.put<any>(`${environment.apiUrl}/AskBoard/UpdateArticle`, askBoardPkg);
+  }
+
+  updateReply(askBoardPkg: any) {
+    return this.http.put<any>(`${environment.apiUrl}/AskBoard/UpdateReply`, askBoardPkg);
+  }
   deleteArticle(id: any) {
     return this.http.delete<any>(`${environment.apiUrl}/AskBoard/DeleteArticle/` + id);
+  }
+
+  deleteReply(id: any) {
+    return this.http.delete<any>(`${environment.apiUrl}/AskBoard/DeleteReply/` + id);
   }
 
   insertReply(askReplyPkg: any) {

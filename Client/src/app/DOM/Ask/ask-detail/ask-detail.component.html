@@ -2,34 +2,50 @@
   <div class="d-flex flex-row flex-wrap">
     <div class="col-md-9 p-0 mb-3">
       <div class="card item-card shadow-sm bg-white m-1">
-        <div class="card-header">
-          <h2>{{ title }}</h2>
-        </div>
-        <div class="row mb-3" *ngFor="let article of articles">
-          <div class="card-body" *ngIf="article.id != rowId">
-            <div class="chat">
-              <ul class="chat__posts">
-                <li>
-                  <!-- <img src="../../assets/img/m_1.jpg" alt="avatar" class="photo"> -->
-                  <img *ngIf="article.photoUrl" src="{{ filePath }}{{ article.photoUrl }}" class="photo" />
-                  {{ article.userName }} Posted
-                  {{ formatDate(article.date) }}
-                  <div class="chat__posts__post__message">
-                    <br />
-                    <!-- <strong>{{ article.userName }}</strong> -->
-                    <!-- <a class="chat__posts__post__mailto-user"> {{ article.email }}</a> -->
-                    <!-- <span class="chat__posts__post__time">Posted {{ formatDate(article.date) }}</span> -->
-                    <!-- <p class="chat__posts__post__content"> -->
-                    {{ article.description }}
-                    <mat-icon class="icon" style="float: right" *ngIf="userId === article.userId">edit</mat-icon>
-                    <mat-icon class="icon" style="float: right" *ngIf="userId === article.userId"
-                      >delete_forever</mat-icon
-                    >
-
+        <div *ngFor="let article of articles">
+          <div class="card-header" style="text-align: left" *ngIf="article.id === article.parentId">
+            <h2>{{ article.title }}</h2>
+            <h3 [innerHTML]="article.description"></h3>
+          </div>
+          <div class="row mb-3">
+            <div class="card-body" *ngIf="article.id != article.parentId">
+              <div class="chat">
+                <ul class="chat__posts">
+                  <li>
+                    <!-- <img src="../../assets/img/m_1.jpg" alt="avatar" class="photo"> -->
+                    <img
+                      *ngIf="article.photoUrl"
+                      src="{{ filePath }}{{ article.photoUrl }}"
+                      (click)="openBorrowerDetails(article.userId)"
+                      class="photo"
+                    />
+                    {{ article.userName }} Posted
+                    {{ formatDate(article.date) }}
+                    <div class="chat__posts__post__message">
+                      <br />
+                      <!-- <strong>{{ article.userName }}</strong> -->
+                      <!-- <a class="chat__posts__post__mailto-user"> {{ article.email }}</a> -->
+                      <!-- <span class="chat__posts__post__time">Posted {{ formatDate(article.date) }}</span> -->
+                      <!-- <p class="chat__posts__post__content"> -->
+                      <div class="wrapper">
+                        <div [innerHTML]="article.description" class="description"></div>
+                        <div class="icon-button">
+                          <mat-icon
+                            class="icon"
+                            *ngIf="userId === article.userId"
+                            (click)="onEdit(article.id, article.description, article.title)"
+                            >edit</mat-icon
+                          >
+                          <mat-icon class="icon" *ngIf="userId === article.userId" (click)="onDelete(article.id)"
+                            >delete_forever</mat-icon
+                          >
+                        </div>
+                      </div>
+                    </div>
                     <!-- </p> -->
-                  </div>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -46,10 +62,12 @@
         <button class="chat-send" type="button">Send</button>
       </div> -->
           </div>
-          <div>Ask Content Test: {{ content }}</div>
+          <!-- <div>Ask Content Test: {{ content }}</div> -->
         </div>
         <div class="d-flex flex-row flex-wrap justify-content-end mb-2 mr-3">
-          <button mat-stroked-button color="primary" class="mr-3" (click)="requestAskReply()">Reply</button>
+          <button mat-stroked-button color="primary" [disabled]="!content" class="mr-3" (click)="requestAskReply()">
+            Reply
+          </button>
           <button mat-stroked-button color="primary" (click)="onBack()">Back</button>
         </div>
       </div>
