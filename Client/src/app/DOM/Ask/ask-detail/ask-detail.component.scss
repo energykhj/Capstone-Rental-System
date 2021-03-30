@@ -1,0 +1,39 @@
+img {
+  width: 100%;
+  max-width: 30px;
+  object-fit: contain;
+}
+
+.mat-stroked-button {
+  margin-bottom: 5px;
+  width: 20%;
+  height: 30px;
+  border: none;
+  padding-top: 0px !important;
+}
+.mat-stroked-button.mat-primary {
+  background-color: #fddf73;
+  color: #212529;
+  font-size: 14px;
+}
+.mat-stroked-button.mat-primary:hover {
+  color: rgb(13, 13, 14);
+  background-color: #fdc500;
+}
+.mat-stroked-button.mat-warn {
+  background-color: #fbdade;
+  color: #212529;
+  font-size: 14px;
+}
+.mat-stroked-button.mat-stroked-button.mat-warn:hover {
+  color: rgb(13, 13, 14);
+  background-color: #fa6a7b;
+}
+
+.card-header {
+  height: 42px;
+  padding: 4px 10px !important;
+  background-color: #fcf7e4 !important;
+  color: #000000;
+  text-align: center;
+}

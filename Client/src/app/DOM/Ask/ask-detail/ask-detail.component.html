@@ -1,101 +1,105 @@
 <div class="container mt-3">
-    <div class="d-flex flex-row flex-wrap">
-        <div class="col-md-9 p-0 mb-3">
-            <div class="card item-card shadow-sm bg-white m-1">
-                <div class="card-header">
-                    <h2>Test 123</h2>
-                </div>
-                <div class="card-body">
-                    <div class="chat">
-                        <ul class="chat__posts">
-                            <li>
-                                <img src="../../assets/img/m_1.jpg" alt="avatar" class="photo">
-                                <div class="chat__posts__post__message">
-                                    <strong>Charles Flores</strong>
-                                    <a class="chat__posts__post__mailto-user" href="mailto:cflores@example.com">@cflores</a>
-                                    <span class="chat__posts__post__time">2 hours ago</span>
-                                    <p class="chat__posts__post__content">
-                                        Thanks for another <a class="mention" data-mention="#yummy" href="https://example.com/social/yummy">#yummy</a> recipe,
-                                        <a class="mention" data-mention="@dwilliams" href="mailto:dwilliams@example.com">@dwilliams</a>!
-                                        Makes me <a class="mention" data-mention="#hungry" href="https://example.com/social/hungry">#hungry</a>
-                                        just looking at the photos 😋. Definitely adding it to my TODO list for our next
-                                        <a class="mention" data-mention="#mediterranean" href="https://example.com/social/mediterranean">#mediterranean</a> potluck.
-                                    </p>
-                                </div>
-                            </li>
-                            <li>
-                                <img src="../../assets/img/w_1.jpg" alt="avatar" class="photo">
-                                <div class="chat__posts__post__message">
-                                    <strong>Mildred Wilson</strong>
-                                    <a class="chat__posts__post__mailto-user" href="mailto:mwilson@example.com">@mwilson</a>
-                                    <span class="chat__posts__post__time">4 hours ago</span>
-                                    <p class="chat__posts__post__content">
-                                        Really appreciate the <a class="mention" data-mention="#vegetarian" href="https://example.com/social/vegetarian">#vegetarian</a>
-                                        and <a class="mention" data-mention="#vegan" href="https://example.com/social/vegan">#vegan</a> variations of your recipes.
-                                        So thoughtful of you! 🌱
-                                    </p>
-                                </div>
-                            </li>
-                        </ul>
-                        <div c class="chat__editor">
-                            <app-editor height="100px" minHeight="50px"></app-editor>
-                        </div>                       
-                    </div>
-                </div>
-                
-                <button class="chat-send" type="button">Send</button>
-            </div>
+  <div class="d-flex flex-row flex-wrap">
+    <div class="col-md-9 p-0 mb-3">
+      <div class="card item-card shadow-sm bg-white m-1">
+        <div class="card-header">
+          <h2>{{ title }}</h2>
         </div>
-        <div class="col-md-3">
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <strong>
-                                <p>Notification</p>
-                            </strong>
-                            <ul class="list-unstyled">
-                                <a href="#">
-                                    <li>Reject</li>
-                                </a>
-                                <a href="#">
-                                    <li>Confirmed from Allison</li>
-                                </a>
-                                <a href="#">
-                                    <li>Digital Accuracy</li>
-                                </a>
-                                <a href="#">
-                                    <li>Digital Accuracy</li>
-                                </a>
-                                <a href="#">
-                                    <li>Digital Accuracy</li>
-                                </a>
-                                <a href="#">
-                                    <li>Digital Accuracy</li>
-                                </a>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        <div class="row mb-3" *ngFor="let article of articles">
+          <div class="card-body" *ngIf="article.id != rowId">
+            <div class="chat">
+              <ul class="chat__posts">
+                <li>
+                  <!-- <img src="../../assets/img/m_1.jpg" alt="avatar" class="photo"> -->
+                  <img *ngIf="article.photoUrl" src="{{ filePath }}{{ article.photoUrl }}" class="photo" />
+                  {{ article.userName }} Posted
+                  {{ formatDate(article.date) }}
+                  <div class="chat__posts__post__message">
+                    <br />
+                    <!-- <strong>{{ article.userName }}</strong> -->
+                    <!-- <a class="chat__posts__post__mailto-user"> {{ article.email }}</a> -->
+                    <!-- <span class="chat__posts__post__time">Posted {{ formatDate(article.date) }}</span> -->
+                    <!-- <p class="chat__posts__post__content"> -->
+                    {{ article.description }}
+                    <mat-icon class="icon" style="float: right" *ngIf="userId === article.userId">edit</mat-icon>
+                    <mat-icon class="icon" style="float: right" *ngIf="userId === article.userId"
+                      >delete_forever</mat-icon
+                    >
+
+                    <!-- </p> -->
+                  </div>
+                </li>
+              </ul>
             </div>
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <button type="button" class="btn btn-outline bg-orange btn-block">Contat Now</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <button type="button" class="btn btn-outline bg-orange btn-block">Contat Now</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="col-md-12 p-0 mb-3">
+          <div c class="chat__editor">
+            <app-editor height="100px" minHeight="50px"></app-editor>
+            <!-- </div>
+
+        <button class="chat-send" type="button">Send</button>
+      </div> -->
+          </div>
+        </div>
+        <div class="d-flex flex-row flex-wrap justify-content-end mb-2 mr-3">
+          <button mat-stroked-button color="primary" class="mr-3" (click)="requestAskReply()">Reply</button>
+          <button mat-stroked-button color="primary" (click)="onBack()">Back</button>
+        </div>
+      </div>
     </div>
+    <div class="col-md-3">
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <app-notification-list></app-notification-list>
+          <!-- <div class="card">
+            <div class="card-body"> -->
+          <!-- <strong>
+                <p>Notification</p>
+              </strong> -->
+          <!-- <ul class="list-unstyled">
+                <a href="#">
+                  <li>Reject</li>
+                </a>
+                <a href="#">
+                  <li>Confirmed from Allison</li>
+                </a>
+                <a href="#">
+                  <li>Digital Accuracy</li>
+                </a>
+                <a href="#">
+                  <li>Digital Accuracy</li>
+                </a>
+                <a href="#">
+                  <li>Digital Accuracy</li>
+                </a>
+                <a href="#">
+                  <li>Digital Accuracy</li>
+                </a>
+              </ul> -->
+          <!-- </div>
+          </div> -->
+        </div>
+      </div>
+      <!-- <div class="row mb-3">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <button type="button" class="btn btn-outline bg-orange btn-block">Contat Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <button type="button" class="btn btn-outline bg-orange btn-block">Contat Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    </div>
+  </div>
 </div>

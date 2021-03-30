@@ -91,8 +91,24 @@ export class SharedService {
     return this.http.get(`${environment.PhotoFileUrl}` + val, { responseType: 'blob' });
   }
 
-  getAllBoardArticles() {
-    return this.http.get<any>(`${environment.apiUrl}/AskBoard`);
+  getArticleList() {
+    return this.http.get<any>(`${environment.apiUrl}/AskBoard/`);
+  }
+
+  getArticleWithReply(val: any) {
+    return this.http.get<any>(`${environment.apiUrl}/AskBoard/GetArticleWithReply?Id=${val}`);
+  }
+
+  insertArticle(askBoardPkg: any) {
+    return this.http.post<any>(`${environment.apiUrl}/AskBoard/InsertArticle`, askBoardPkg);
+  }
+
+  deleteArticle(id: any) {
+    return this.http.delete<any>(`${environment.apiUrl}/AskBoard/DeleteArticle/` + id);
+  }
+
+  insertReply(askReplyPkg: any) {
+    return this.http.post<any>(`${environment.apiUrl}/AskBoard/InsertReply`, askReplyPkg);
   }
 
   getItemByStatus(val: any, status: any) {
