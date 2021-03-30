@@ -60,7 +60,7 @@ namespace Server.BizLogic
                 .FirstOrDefaultAsync(c => c.Id == Id);
         }
 
-        public async Task<List<Item>> GetItem(string userId, int currentPage = 1)
+        public async Task<List<Item>> GetItems(string userId, int currentPage = 1)
         {
             return await context.Item
                 .Include(c => c.Category)
@@ -135,6 +135,23 @@ namespace Server.BizLogic
             return await context.Review
                 .Include(c => c.Item)
                 .FirstOrDefaultAsync(c => c.Id == Id);
+        }
+
+        public async Task<List<Review>> GetReviewList(int itemId)
+        {
+            return await context.Review
+                .Include(c => c.Item)
+                .Where(c => c.ItemId == itemId)
+                .OrderBy(c => c.Date)
+                .ToListAsync();
+        }
+
+        public int GetRateSumByItem(int itemId)
+        {
+            return context.Review
+                .Include(c => c.Item)
+                .Where(c => c.ItemId == itemId)
+                .Sum(c => c.Rate);
         }
 
         public async Task<Item> InsertItem(Item item)
@@ -326,6 +343,7 @@ namespace Server.BizLogic
                 await ValidateReview();
                 if (errorList.Count == 0)
                 {
+                    DetachedKey(review);
                     context.Review.Update(review);
                     await context.SaveChangesAsync();
                     return await GetReview(review.Id);
@@ -338,6 +356,41 @@ namespace Server.BizLogic
                 throw ex;
             }
         }
+
+        void DetachedKey(Review review)
+        {
+            // to avoid 
+            // "The instance of entity type cannot be tracked because another instance of this type with the same key is already being tracked"
+            var local = context.Set<Review>()
+                                       .Local
+                                       .FirstOrDefault(entry => entry.Id.Equals(review.Id));
+            if (local != null)
+            {
+                context.Entry(local).State = EntityState.Detached;
+            }
+            context.Entry(review).State = EntityState.Modified;
+        }
+
+        public async Task<bool> DeleteReview(int reviewId)
+        {
+            try
+            {
+                this.review = await GetReview(reviewId);
+                if (review != null)
+                {
+                    context.Review.Remove(review);
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+                else
+                    throw new Exception(new ErrorManager().ErrorList(errorList));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task ValidateItem()
         {
             var user = await context.UserDetails.FirstOrDefaultAsync(c => c.Id == item.UserId);
@@ -362,7 +415,7 @@ namespace Server.BizLogic
         }
         public async Task ValidateReviewItem()
         {
-            var item = await context.Review.FirstOrDefaultAsync(c => c.Id == review.ItemId);
+            var item = await context.Review.FirstOrDefaultAsync(c => c.ItemId == review.ItemId);
             if (item == null) errorList.Add(12); // Item not found
         }
     }

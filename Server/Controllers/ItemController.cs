@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Server.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ItemController : ControllerBase
@@ -40,7 +40,7 @@ namespace Server.Controllers
         {
             List<ItemPkgDTO> dtoPkgList = new List<ItemPkgDTO>();
 
-            var Items = await IB.GetItem(userId, currentPage);
+            var Items = await IB.GetItems(userId, currentPage);
             foreach (Item item in Items)
             {
                 var Add = await IB.GetItemAddress(item.AddressId);
@@ -140,6 +140,63 @@ namespace Server.Controllers
             else return BadRequest("No Item and Address details");
         }
 
+        [HttpGet("GetItemReview/{itemID}")]
+        public async Task<ActionResult<List<ItemReviewPkgDTO>>>GetItemReview(int itemID)
+        {
+            List<ItemReviewPkgDTO> dtoPkgList = new List<ItemReviewPkgDTO>();
+            
+            var Reviews = await IB.GetReviewList(itemID);
+            foreach (Review review in Reviews)
+            {
+                ItemReviewPkgDTO dto = new ItemReviewPkgDTO()
+                {
+                    Item = mapper.Map<ItemDTO>(review.Item),
+                    Review = mapper.Map<ReviewDTO>(review)                   
+                };
+
+                dtoPkgList.Add(dto);
+            }
+            return dtoPkgList;
+        }
+
+
+        [HttpGet("GetItemReviewAvg/{itemID}")]
+        public async Task<ActionResult<double>> GetItemReviewAvg(int itemID)
+        {
+            var Reviews = await IB.GetReviewList(itemID);
+            double SumOfItemRate = Reviews.Sum(c => c.Rate);
+            double avg = SumOfItemRate / Reviews.Count();
+
+            return avg;
+        }
+
+
+        [HttpGet("GetOwnerRateAndItems/{userId}")]
+        public async Task<ActionResult<List<string>>> GetOwnerRateAndItems(string userId)
+        {
+            List<string> OwnerRateAndItems = new List<string>();
+            var ItemsbyUser = await IB.GetItems(userId, 1);
+            
+            if (ItemsbyUser == null) return null;
+
+            double rateSum = 0;
+            int cnt = 0;
+            foreach (Item item in ItemsbyUser)
+            {
+                int rate = IB.GetRateSumByItem(item.Id);
+                if(rateSum > 0)
+                {
+                    rateSum += rate;
+                    cnt++;
+                }
+            }
+            OwnerRateAndItems.Add(cnt.ToString());
+            OwnerRateAndItems.Add((cnt != 0)? (rateSum / cnt).ToString() : "0");
+
+            
+            return OwnerRateAndItems;
+        }       
+
         [HttpPost("InsertReview")]
         public async Task<ActionResult<ItemReviewPkgDTO>> InsertReview([FromBody] Review review)
         {
@@ -154,6 +211,7 @@ namespace Server.Controllers
         [HttpPut("UpdateReview")]
         public async Task<ActionResult<ItemReviewPkgDTO>> UpdateReview([FromBody] Review review)
         {
+            //var review = mapper.Map<Review>(rv);
 
             ItemReviewPkgDTO pDto = new ItemReviewPkgDTO()
             {
@@ -161,6 +219,16 @@ namespace Server.Controllers
                 Item = mapper.Map<ItemDTO>(await IB.GetItem(review.ItemId))
             };
             return pDto;
+        }
+
+        [HttpDelete("DeleteReview/{reviewId}")]
+        public async Task<ActionResult<bool>> DeleteReview(int reviewId)
+        {
+            var result = await IB.DeleteReview(reviewId);
+            if (result)
+                return Ok(true);
+            else
+                return BadRequest();
         }
 
         private async Task<List<ItemDTO>> GetPackedItemWithDefaultPhoto(List<Item> Items)

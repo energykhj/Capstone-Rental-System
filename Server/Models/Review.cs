@@ -11,7 +11,9 @@ namespace Server.Models
         public string Title { get; set; }
         public string Review1 { get; set; }
         public DateTime? Date { get; set; }
+        public string UserId { get; set; }
 
         public virtual Item Item { get; set; }
+        public virtual UserDetails User { get; set; }
     }
 }

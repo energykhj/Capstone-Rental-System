@@ -114,30 +114,9 @@ namespace Server.BizLogic
         {
             try
             {
-                await ValidateAsk();
-                if (errorList.Count == 0)
+                this.ab = await GetArticle(Id);
+                if (ab != null)
                 {                   
-                    context.AskBoard.Remove(ab);
-                    await context.SaveChangesAsync();
-                    return true;
-                }
-                else
-                    throw new Exception(new ErrorManager().ErrorList(errorList));
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-
-        public async Task<bool> DeleteReply(int Id)
-        {
-            try
-            {
-                await ValidateAskParent();
-                if (errorList.Count == 0)
-                {
                     context.AskBoard.Remove(ab);
                     await context.SaveChangesAsync();
                     return true;

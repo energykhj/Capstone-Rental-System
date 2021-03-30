@@ -78,7 +78,7 @@ namespace Server.Controllers
             List<ItemTransactionPkgDTO> pkgDtoList = new List<ItemTransactionPkgDTO>();
             List<int> statusList = GetStatusList(statusIds);
 
-            var Items = mapper.Map<List<ItemDTO>>(await IB.GetItem(userId));            
+            var Items = mapper.Map<List<ItemDTO>>(await IB.GetItems(userId));            
 
             foreach (var item in Items)
             {
@@ -212,11 +212,21 @@ namespace Server.Controllers
             }
             else return BadRequest($"Current status is {curStatus}, can't be added or updateed to {nextStatus}");
         }
+
         private async Task<string> UpdateStatus(Transaction trans)
         {
             var newTH = await TB.UpdateTransaction(trans);
             return await TB.GetTransactionStatusName((int)newTH.CurrentStatus);
         }
+
+        [HttpGet("GetBorrowItemCount/{userId}")]
+        public async Task<ActionResult<int>> GetBorrowItemCount(string userId)
+        {
+            var statusList = await TB.GetTransactionByBorrower(userId, (int)TransactionStatusEnum.ReturnComplete);
+            return statusList.Count();
+        }
+
+
         private bool CanNextStatus(int curStatus, int nextStatus)
         {
             /* Request = 1,

@@ -56,6 +56,9 @@ namespace Server.Helpers
 
             CreateMap<AdminCategoryDTO, Category>();
             CreateMap<Category, AdminCategoryDTO>();
+
+            CreateMap<ReviewDTO, Review>();
+            CreateMap<Review, ReviewDTO>();
         }
     }
 }

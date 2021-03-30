@@ -386,11 +386,22 @@ namespace Server.Models
                     .HasColumnName("title")
                     .HasMaxLength(255);
 
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasColumnName("userID")
+                    .HasMaxLength(450);
+
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.Review)
                     .HasForeignKey(d => d.ItemId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Review_Item");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Review)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Review_User");
             });
 
             modelBuilder.Entity<Transaction>(entity =>

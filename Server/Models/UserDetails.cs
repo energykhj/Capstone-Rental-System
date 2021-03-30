@@ -12,6 +12,7 @@ namespace Server.Models
             Item = new HashSet<Item>();
             NotificationFromUser = new HashSet<Notification>();
             NotificationToUser = new HashSet<Notification>();
+            Review = new HashSet<Review>();
             Transaction = new HashSet<Transaction>();
         }
 
@@ -25,12 +26,13 @@ namespace Server.Models
         public DateTime? TimeStamp { get; set; }
 
         public virtual AspNetUsers LoginUser { get; set; }
-        public virtual RecordStatus RecordStatus { get; set; }
+        public virtual RecordStatus RecordStatus{ get; set; }
         public virtual ICollection<Address> Address { get; set; }
         public virtual ICollection<AskBoard> AskBoard { get; set; }
         public virtual ICollection<Item> Item { get; set; }
         public virtual ICollection<Notification> NotificationFromUser { get; set; }
         public virtual ICollection<Notification> NotificationToUser { get; set; }
+        public virtual ICollection<Review> Review { get; set; }
         public virtual ICollection<Transaction> Transaction { get; set; }
     }
 }

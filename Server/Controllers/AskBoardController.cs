@@ -76,7 +76,7 @@ namespace Server.Controllers
             var article = mapper.Map<AskBoard>(dto);
             var result = await AB.InsertArticle(article);
             if (result != null)
-                return Ok(result);
+                return Ok(result.Id);
             else
                 return BadRequest(result);
         }
@@ -87,7 +87,7 @@ namespace Server.Controllers
             var article = mapper.Map<AskBoard>(dto);
             var result = await AB.UpdateArticle(article);
             if (result != null)
-                return Ok(result);
+                return Ok(result.Id);
             else
                 return BadRequest(result);
         }
@@ -98,7 +98,7 @@ namespace Server.Controllers
             var article = mapper.Map<AskBoard>(dto);
             var result = await AB.InsertReply(article);
             if (result != null)
-                return Ok(result);
+                return Ok(result.Id);
             else
                 return BadRequest(result);
         }
@@ -109,7 +109,7 @@ namespace Server.Controllers
             var article = mapper.Map<AskBoard>(dto);
             var result = await AB.UpdateArticle(article);
             if (result != null)
-                return Ok(result);
+                return Ok(result.Id);
             else
                 return BadRequest(result);
         }
@@ -122,7 +122,7 @@ namespace Server.Controllers
 
             var result = await AB.DeleteArticle(Id);
             if (result)
-                return Ok(result);
+                return Ok(true);
             else
                 return BadRequest();
         }
@@ -130,9 +130,9 @@ namespace Server.Controllers
         [HttpDelete("DeleteReply/{id}")]
         public async Task<ActionResult<bool>> DeleteReply(int Id)
         {
-            var result = await AB.DeleteReply(Id);
+            var result = await AB.DeleteArticle(Id);
             if (result)
-                return Ok(result);
+                return Ok(true);
             else
                 return BadRequest();
         }
