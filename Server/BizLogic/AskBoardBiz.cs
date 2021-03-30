@@ -97,6 +97,7 @@ namespace Server.BizLogic
                 await ValidateAsk();
                 if (errorList.Count == 0)
                 {
+                    DetachedKey(ab);
                     context.AskBoard.Update(ab);
                     await context.SaveChangesAsync();
                     return await GetArticle(ab.Id);
@@ -108,6 +109,20 @@ namespace Server.BizLogic
             {
                 throw ex;
             }
+        }
+
+        void DetachedKey(AskBoard ab)
+        {
+            // to avoid 
+            // "The instance of entity type cannot be tracked because another instance of this type with the same key is already being tracked"
+            var local = context.Set<AskBoard>()
+                                       .Local
+                                       .FirstOrDefault(entry => entry.Id.Equals(ab.Id));
+            if (local != null)
+            {
+                context.Entry(local).State = EntityState.Detached;
+            }
+            context.Entry(ab).State = EntityState.Modified;
         }
 
         public async Task<bool> DeleteArticle(int Id)
