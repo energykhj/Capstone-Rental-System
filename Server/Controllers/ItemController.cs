@@ -184,7 +184,8 @@ namespace Server.Controllers
             foreach (Item item in ItemsbyUser)
             {
                 int rate = IB.GetRateSumByItem(item.Id);
-                if(rateSum > 0)
+//                if(rateSum > 0)
+                if (rate > 0)
                 {
                     rateSum += rate;
                     cnt++;

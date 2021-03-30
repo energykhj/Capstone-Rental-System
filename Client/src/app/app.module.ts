@@ -25,6 +25,7 @@ import { RequestBorrowComponent } from './DOM/Post/request-borrow/request-borrow
 import { UserDetailsViewComponent } from './DOM/Account/user-details-view/user-details-view.component';
 import { NotificationListComponent } from './DOM/Myspace/notification-list/notification-list.component';
 import { ReasonDialogComponent } from './DOM/Shared/reason-dialog/reason-dialog.component';
+import { ReviewDialogComponent } from './DOM/Shared/review-dialog/review-dialog.component';
 
 /* Account */
 import { ChangePasswordComponent } from './DOM/Account/change-password/change-password.component';
@@ -106,6 +107,7 @@ import { environment } from 'src/environments/environment';
     PRSAdminComponent,
     NotificationListComponent,
     ReasonDialogComponent,
+    ReviewDialogComponent,
   ],
   imports: [
     BrowserModule,

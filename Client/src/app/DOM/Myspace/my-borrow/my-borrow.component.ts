@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
 import { ReasonDialogComponent } from 'src/app/DOM/Shared/reason-dialog/reason-dialog.component';
 import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
+import { ReviewDialogComponent } from '../../Shared/review-dialog/review-dialog.component';
 
 @Component({
   selector: 'app-my-borrow',
@@ -50,6 +51,16 @@ export class MyBorrowComponent implements OnInit {
     message: '',
     sendDate: new Date(),
     isRead: false,
+  };
+
+  review: any = {
+    id: 0,
+    itemId: 0,
+    rate: 1,
+    title: '',
+    review1: '',
+    date: new Date(),
+    userId: '',
   };
 
   statusText: string[] = [
@@ -313,5 +324,51 @@ export class MyBorrowComponent implements OnInit {
         }
     }
   }
+
+  onSubmitReview(compledtedItemPkg) {
+    this.service.getItemReview(compledtedItemPkg.item.id).subscribe((data: any) => {
+      this.review.id = 0;
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].review.itemId == compledtedItemPkg.item.id && data[i].review.userId == this.userId) {
+          this.review = data[i].review;
+        }
+      }
+
+      if (this.review.id == 0) {
+        this.review.rate = 1;
+        this.review.title = '';
+        this.review.review1 = '';
+      }
+
+      const dialogRef = this.dialog.open(ReviewDialogComponent, {
+        height: '420px',
+        width: '400px',
+        data: {
+          title: 'Write a Review',
+          itemName: compledtedItemPkg.item.name,
+          itemRate: this.review.rate,
+          reviewTitle: this.review.title,
+          review: this.review.review1,
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((data: any) => {
+        if (data) {
+          this.review.itemId = compledtedItemPkg.item.id;
+          this.review.date = new Date();
+          this.review.userId = this.userId;
+          this.review.rate = data.itemRate;
+          this.review.title = data.reviewTitle;
+          this.review.review1 = data.review;
+          if (this.review.id == 0) {
+            this.service.insertItemReview(this.review).subscribe((data: any) => {});
+          } else {
+            this.service.updateItemReview(this.review).subscribe((data: any) => {});
+          }
+        }
+      });
+    });
+  }
+
   onLoadMore() {}
 }

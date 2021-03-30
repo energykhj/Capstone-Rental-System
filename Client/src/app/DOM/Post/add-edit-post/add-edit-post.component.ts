@@ -12,6 +12,7 @@ import { UserDetailsComponent } from 'src/app/DOM/Account/user-details/user-deta
 import { DomSanitizer } from '@angular/platform-browser';
 import { ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
 import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
+import { FormatUtils } from 'src/app/Helpers/format-utils';
 @Component({
   selector: 'app-add-edit-post',
   templateUrl: './add-edit-post.component.html',
@@ -23,12 +24,14 @@ export class AddEditPostComponent implements OnInit {
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
   activeTabId = 0;
-  maxTabNum = 4;
+  maxTabNum = 5;
 
   addItemForm: FormGroup;
 
   categoryList: any = [];
   provinceList: any = [];
+
+  reviewPkgs = [];
 
   photoUrls = [];
   photoFiles: any = [];
@@ -42,6 +45,8 @@ export class AddEditPostComponent implements OnInit {
   isNewItem: boolean;
   isReadOnly: boolean;
   isSubmitPressed: boolean;
+
+  formatDate = FormatUtils.formatDate;
 
   itemPkg: any = {
     item: {
@@ -119,6 +124,7 @@ export class AddEditPostComponent implements OnInit {
     if (this.itemId != null) {
       this.loadItemPkg(this.itemId);
       this.loadItemPhotos(this.itemId);
+      this.loadReviews(this.itemId);
       this.isNewItem = false;
     } else {
       this.isNewItem = true;
@@ -250,6 +256,12 @@ export class AddEditPostComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  loadReviews(itemId) {
+    this.service.getItemReview(itemId).subscribe((data: any) => {
+      this.reviewPkgs = data;
+    });
   }
 
   onChangeDefaultAddress() {

@@ -313,7 +313,41 @@
                   </ng-template>
                 </li>
 
-                <li *ngIf="isReadOnly == false" [ngbNavItem]="3">
+                <li [ngbNavItem]="3">
+                  <a ngbNavLink>Review</a>
+                  <ng-template ngbNavContent>
+                    <div class="d-flex flex-column mt-3">
+                      <div *ngIf="reviewPkgs.length == 0"><p>No Reviews</p></div>
+                      <div *ngIf="reviewPkgs.length != 0" class="mt-2">
+                        <div class="d-flex flex-column justify-content-start">
+                          <div *ngFor="let reviewPkg of reviewPkgs">
+                            <div class="d-flex flex-row justify-content-start">
+                              <ngb-rating
+                                class="mb-2"
+                                [readonly]="true"
+                                [(rate)]="reviewPkg.review.rate"
+                                [min]="1"
+                                [max]="5"
+                              ></ngb-rating>
+                            </div>
+                            <div class="d-flex flex-row justify-content-between">
+                              <div>{{ reviewPkg.review.userId }}</div>
+                              <div>Reviewed on {{ formatDate(reviewPkg.review.date) }}</div>
+                            </div>
+                            <div class="d-flex flex-row justify-content-start">
+                              <p>{{ reviewPkg.review.title }}</p>
+                            </div>
+                            <div class="d-flex flex-row justify-content-start">
+                              <p>{{ reviewPkg.review.review1 }}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </li>
+
+                <li *ngIf="isReadOnly == false" [ngbNavItem]="4">
                   <a ngbNavLink>Photos</a>
                   <ng-template ngbNavContent>
                     <div class="center mt-3">

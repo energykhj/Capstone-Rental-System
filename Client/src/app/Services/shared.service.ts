@@ -184,4 +184,20 @@ export class SharedService {
   getNotificationCount(): Observable<any> {
     return this.subject.asObservable();
   }
+
+  getItemReview(itemId) {
+    return this.http.get<any>(`${environment.apiUrl}/Item/GetItemReview/${itemId}`);
+  }
+
+  getOwnerRateAndItems(userId) {
+    return this.http.get<any>(`${environment.apiUrl}/Item/GetOwnerRateAndItems/${userId}`);
+  }
+
+  insertItemReview(review) {
+    return this.http.post<any>(`${environment.apiUrl}/Item/InsertReview`, review);
+  }
+
+  updateItemReview(review) {
+    return this.http.put<any>(`${environment.apiUrl}/Item/UpdateReview`, review);
+  }
 }

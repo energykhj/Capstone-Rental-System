@@ -148,10 +148,25 @@ namespace Server.BizLogic
 
         public int GetRateSumByItem(int itemId)
         {
-            return context.Review
-                .Include(c => c.Item)
-                .Where(c => c.ItemId == itemId)
-                .Sum(c => c.Rate);
+            //return context.Review
+            //    .Include(c => c.Item)
+            //.Where(c => c.ItemId == itemId)
+            //.Sum(c => c.Rate);
+            double count = context.Review
+            .Include(c => c.Item)
+            .Where(c => c.ItemId == itemId)
+            .Count(c => c.Rate != 0);
+
+            double sum = context.Review
+            .Include(c => c.Item)
+            .Where(c => c.ItemId == itemId && c.Rate != 0)
+            .Sum(c => c.Rate);
+
+            if (count != 0)
+            {
+                return (int)(sum / count);
+            }
+            return 0; 
         }
 
         public async Task<Item> InsertItem(Item item)
@@ -415,7 +430,8 @@ namespace Server.BizLogic
         }
         public async Task ValidateReviewItem()
         {
-            var item = await context.Review.FirstOrDefaultAsync(c => c.ItemId == review.ItemId);
+            //var item = await context.Review.FirstOrDefaultAsync(c => c.ItemId == review.ItemId);
+            var item = await context.Item.FirstOrDefaultAsync(c => c.Id == review.ItemId);
             if (item == null) errorList.Add(12); // Item not found
         }
     }
