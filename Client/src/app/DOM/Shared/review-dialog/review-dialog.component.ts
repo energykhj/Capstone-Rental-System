@@ -14,6 +14,8 @@ export class ReviewDialogComponent implements OnInit {
   reviewTitle: string;
   review: string;
 
+  canDelete: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private MatDialogRef: MatDialogRef<ReviewDialogComponent>,
@@ -24,12 +26,24 @@ export class ReviewDialogComponent implements OnInit {
     this.itemRate = data.itemRate;
     this.reviewTitle = data.reviewTitle;
     this.review = data.review;
+    this.canDelete = data.canDelete;
   }
 
   ngOnInit(): void {}
 
   onSubmit() {
-    this.MatDialogRef.close({ itemRate: this.itemRate, reviewTitle: this.reviewTitle, review: this.review });
+    this.MatDialogRef.close({
+      itemRate: this.itemRate,
+      reviewTitle: this.reviewTitle,
+      review: this.review,
+      isDelete: false,
+    });
+  }
+
+  onDelete() {
+    this.MatDialogRef.close({
+      isDelete: true,
+    });
   }
 
   onCancel() {

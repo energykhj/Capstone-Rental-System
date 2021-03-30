@@ -23,7 +23,8 @@
   <mat-dialog-actions>
     <div class="col text-center">
       <button class="mat-raised-button mr-2" (click)="onCancel()">Cancel</button>
-      <button class="mat-raised-button mat-primary" (click)="onSubmit()">Submit</button>
+      <button class="mat-raised-button mat-primary mr-2" (click)="onSubmit()">Save</button>
+      <button *ngIf="canDelete" class="mat-raised-button mat-warn" (click)="onDelete()">Delete</button>
     </div>
   </mat-dialog-actions>
 </div>

@@ -341,7 +341,7 @@ export class MyBorrowComponent implements OnInit {
       }
 
       const dialogRef = this.dialog.open(ReviewDialogComponent, {
-        height: '420px',
+        height: '430px',
         width: '400px',
         data: {
           title: 'Write a Review',
@@ -349,21 +349,26 @@ export class MyBorrowComponent implements OnInit {
           itemRate: this.review.rate,
           reviewTitle: this.review.title,
           review: this.review.review1,
+          canDelete: this.review.id != 0,
         },
       });
 
       dialogRef.afterClosed().subscribe((data: any) => {
         if (data) {
-          this.review.itemId = compledtedItemPkg.item.id;
-          this.review.date = new Date();
-          this.review.userId = this.userId;
-          this.review.rate = data.itemRate;
-          this.review.title = data.reviewTitle;
-          this.review.review1 = data.review;
-          if (this.review.id == 0) {
-            this.service.insertItemReview(this.review).subscribe((data: any) => {});
+          if (data.isDelete) {
+            this.service.deleteItemReview(this.review.id).subscribe((data: any) => {});
           } else {
-            this.service.updateItemReview(this.review).subscribe((data: any) => {});
+            this.review.itemId = compledtedItemPkg.item.id;
+            this.review.date = new Date();
+            this.review.userId = this.userId;
+            this.review.rate = data.itemRate;
+            this.review.title = data.reviewTitle;
+            this.review.review1 = data.review;
+            if (this.review.id == 0) {
+              this.service.insertItemReview(this.review).subscribe((data: any) => {});
+            } else {
+              this.service.updateItemReview(this.review).subscribe((data: any) => {});
+            }
           }
         }
       });

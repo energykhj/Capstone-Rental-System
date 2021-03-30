@@ -81,5 +81,7 @@ namespace Shared.DTO
         public string Review1 { get; set; }
         public DateTime Date { get; set; }
         public string UserId { get; set; }
+        public string UserName { get; set; }
+        
     }
 }

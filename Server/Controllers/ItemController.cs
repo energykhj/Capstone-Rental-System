@@ -154,6 +154,9 @@ namespace Server.Controllers
                     Review = mapper.Map<ReviewDTO>(review)                   
                 };
 
+                var user = await UB.GetUserDetails(dto.Review.UserId);
+                dto.Review.UserName = user.FirstName + " " + user.LastName;
+
                 dtoPkgList.Add(dto);
             }
             return dtoPkgList;
