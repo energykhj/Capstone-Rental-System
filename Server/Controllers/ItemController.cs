@@ -154,6 +154,9 @@ namespace Server.Controllers
                     Review = mapper.Map<ReviewDTO>(review)                   
                 };
 
+                var user = await UB.GetUserDetails(dto.Review.UserId);
+                dto.Review.UserName = user.FirstName + " " + user.LastName;
+
                 dtoPkgList.Add(dto);
             }
             return dtoPkgList;
@@ -184,7 +187,8 @@ namespace Server.Controllers
             foreach (Item item in ItemsbyUser)
             {
                 int rate = IB.GetRateSumByItem(item.Id);
-                if(rateSum > 0)
+//                if(rateSum > 0)
+                if (rate > 0)
                 {
                     rateSum += rate;
                     cnt++;

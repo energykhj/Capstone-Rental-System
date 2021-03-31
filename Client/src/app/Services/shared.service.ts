@@ -13,6 +13,20 @@ import { map, catchError } from 'rxjs/operators';
 export class SharedService {
   constructor(private http: HttpClient, public dialog: MatDialog) {}
 
+  private subject = new Subject<any>();
+
+  sendNotificationCount(count: number) {
+    this.subject.next(count);
+  }
+
+  clearNotificationCount() {
+    this.subject.next();
+  }
+
+  getNotificationCount(): Observable<any> {
+    return this.subject.asObservable();
+  }
+
   public get getUserInfo() {
     var id = this.isLoginUser.replace(/['"]+/g, '');
     if (!id) return;
@@ -182,17 +196,23 @@ export class SharedService {
     });
   }
 
-  private subject = new Subject<any>();
-
-  sendNotificationCount(count: number) {
-    this.subject.next(count);
+  getItemReview(itemId) {
+    return this.http.get<any>(`${environment.apiUrl}/Item/GetItemReview/${itemId}`);
   }
 
-  clearNotificationCount() {
-    this.subject.next();
+  getOwnerRateAndItems(userId) {
+    return this.http.get<any>(`${environment.apiUrl}/Item/GetOwnerRateAndItems/${userId}`);
   }
 
-  getNotificationCount(): Observable<any> {
-    return this.subject.asObservable();
+  insertItemReview(review) {
+    return this.http.post<any>(`${environment.apiUrl}/Item/InsertReview`, review);
+  }
+
+  updateItemReview(review) {
+    return this.http.put<any>(`${environment.apiUrl}/Item/UpdateReview`, review);
+  }
+
+  deleteItemReview(reviewId) {
+    return this.http.delete<any>(`${environment.apiUrl}/Item/DeleteReview/${reviewId}`);
   }
 }

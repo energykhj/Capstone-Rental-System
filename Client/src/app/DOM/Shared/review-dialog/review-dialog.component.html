@@ -1,0 +1,30 @@
+<div class="center-content">
+  <h2 mat-dialog-title class="mb-1">{{ title }}</h2>
+  <mat-dialog-content class="mt-1 mb-1">
+    <h3>{{ itemName }}</h3>
+    <ngb-rating class="mb-2" [(rate)]="itemRate" [min]="1" [max]="5"></ngb-rating>
+    <mat-form-field style="width: 350px" appearance="outline">
+      <input matInput type="text" [(ngModel)]="reviewTitle" placeholder="Please enter a title" />
+    </mat-form-field>
+
+    <mat-form-field style="width: 350px" appearance="outline">
+      <textarea
+        class="mt-1 mb-1"
+        [(ngModel)]="review"
+        matInput
+        rows="6"
+        cols="40"
+        placeholder="Please enter a review"
+        maxlength="250"
+      ></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <div class="col text-center">
+      <button class="mat-raised-button mr-2" (click)="onCancel()">Cancel</button>
+      <button class="mat-raised-button mat-primary mr-2" (click)="onSubmit()">Save</button>
+      <button *ngIf="canDelete" class="mat-raised-button mat-warn" (click)="onDelete()">Delete</button>
+    </div>
+  </mat-dialog-actions>
+</div>

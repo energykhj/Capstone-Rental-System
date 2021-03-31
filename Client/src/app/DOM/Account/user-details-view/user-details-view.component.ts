@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedService } from 'src/app/Services/shared.service';
 import { environment } from 'src/environments/environment';
+import { FormatUtils } from 'src/app/Helpers/format-utils';
 
 @Component({
   selector: 'app-user-details-view',
@@ -11,7 +12,8 @@ import { environment } from 'src/environments/environment';
 export class UserDetailsViewComponent implements OnInit {
   PhotoFileName: string = '';
   PhotoFilePath: string = '';
-  currentRate: number = 4;
+  currentRate: number = 0;
+  historyCount: number = 0;
 
   ownerDetails: any = {
     id: '',
@@ -22,6 +24,8 @@ export class UserDetailsViewComponent implements OnInit {
     phone: '',
     statusId: 0,
   };
+
+  formatDate = FormatUtils.formatDate;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private service: SharedService) {}
 
@@ -42,5 +46,9 @@ export class UserDetailsViewComponent implements OnInit {
         console.log(error);
       }
     );
+    this.service.getOwnerRateAndItems(this.data.dataKey).subscribe((data: any) => {
+      this.historyCount = data[0];
+      this.currentRate = data[1];
+    });
   }
 }

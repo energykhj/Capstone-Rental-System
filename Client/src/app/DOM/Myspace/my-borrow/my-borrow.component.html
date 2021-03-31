@@ -245,6 +245,14 @@
                             <p *ngIf="compledtedItemPkg.trans.reason" class="text-danger">
                               Reason: {{ compledtedItemPkg.trans.reason }}
                             </p>
+                            <button
+                              *ngIf="compledtedItemPkg.trans.currentStatus === 7"
+                              mat-stroked-button
+                              (click)="onSubmitReview(compledtedItemPkg)"
+                              color="primary"
+                            >
+                              Review
+                            </button>
                           </div>
                         </div>
                       </div>
