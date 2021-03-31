@@ -129,7 +129,7 @@ export class AskComponent implements AfterViewInit {
     this.count = 0;
     this.service.getArticleWithReply(id).subscribe((data: any) => {
       this.count = data.length - 1;
-      if (this.count > 0) this.service.alert('success', 'This asked content cannot be deleted because a reply exists.');
+      if (this.count > 0) this.service.alert('warning', 'This asked content cannot be deleted because a reply exists.');
       else {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
           width: '350px',

@@ -26,6 +26,7 @@ export class AskDetailComponent implements OnInit {
   url: any;
   name: any;
   title: any;
+  headContent: string;
   articles: any = [];
   filePath = environment.PhotoFileUrl;
   formatDate = FormatUtils.formatDate;
@@ -68,7 +69,10 @@ export class AskDetailComponent implements OnInit {
       this.articles = data;
       this.content = '';
       for (let el of data) {
-        if (el.id === this.rowId) this.title = el.title;
+        if (el.id === this.rowId) {
+          this.title = el.title;
+          this.headContent = el.description;
+        }
       }
     });
   }
