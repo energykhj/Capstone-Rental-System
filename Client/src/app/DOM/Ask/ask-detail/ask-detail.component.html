@@ -2,12 +2,12 @@
   <div class="d-flex flex-row flex-wrap">
     <div class="col-md-9 p-0 mb-3">
       <div class="card item-card shadow-sm bg-white m-1">
-        <div *ngFor="let article of articles">
-          <div class="card-header" style="text-align: left" *ngIf="article.id === article.parentId">
-            <h2>{{ article.title }}</h2>
-            <h3 [innerHTML]="article.description"></h3>
+        <div>
+          <div class="card-header" style="text-align: left">
+            <h2>{{ title }}</h2>
+            <h3 [innerHTML]="headContent"></h3>
           </div>
-          <div class="row mb-3">
+          <div class="row mb-3" *ngFor="let article of articles">
             <div class="card-body" *ngIf="article.id != article.parentId">
               <div class="chat">
                 <ul class="chat__posts">
