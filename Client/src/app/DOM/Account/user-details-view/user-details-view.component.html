@@ -8,4 +8,7 @@
     <p class="text-primary">{{ ownerDetails.phone }}</p>
   </div>
 </div>
-<div class="rounded border p-2">{{ historyCount }} reviewed items since {{ formatDate(ownerDetails.createdDate) }}</div>
+<div *ngIf="isLoading == true" class="rounded border p-2">Loading...</div>
+<div *ngIf="isLoading == false" class="rounded border p-2">
+  {{ historyCount }} reviewed items since {{ formatDate(ownerDetails.createdDate) }}
+</div>

@@ -190,17 +190,23 @@ export class MyBorrowComponent implements OnInit {
 
     switch (tabNum) {
       case 0:
-        this.filteredRequestItemPkgs = this.requestItemPkgs.filter(function (el: any) {
-          return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
-        });
+        if (this.requestItemPkgs) {
+          this.filteredRequestItemPkgs = this.requestItemPkgs.filter(function (el: any) {
+            return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
+          });
+        }
       case 1:
-        this.filteredBorrowingItemPkgs = this.borrowingItemPkgs.filter(function (el: any) {
-          return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
-        });
+        if (this.borrowingItemPkgs) {
+          this.filteredBorrowingItemPkgs = this.borrowingItemPkgs.filter(function (el: any) {
+            return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
+          });
+        }
       case 2:
-        this.filteredCompledtedItemPkgs = this.compledtedItemPkgs.filter(function (el: any) {
-          return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
-        });
+        if (this.compledtedItemPkgs) {
+          this.filteredCompledtedItemPkgs = this.compledtedItemPkgs.filter(function (el: any) {
+            return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
+          });
+        }
     }
   }
 

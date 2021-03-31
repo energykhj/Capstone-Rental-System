@@ -14,6 +14,7 @@ export class UserDetailsViewComponent implements OnInit {
   PhotoFilePath: string = '';
   currentRate: number = 0;
   historyCount: number = 0;
+  isLoading: boolean = true;
 
   ownerDetails: any = {
     id: '',
@@ -49,6 +50,7 @@ export class UserDetailsViewComponent implements OnInit {
     this.service.getOwnerRateAndItems(this.data.dataKey).subscribe((data: any) => {
       this.historyCount = data[0];
       this.currentRate = data[1];
+      this.isLoading = false;
     });
   }
 }
