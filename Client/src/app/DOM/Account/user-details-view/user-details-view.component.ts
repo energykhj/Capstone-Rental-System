@@ -15,6 +15,7 @@ export class UserDetailsViewComponent implements OnInit {
   currentRate: number = 0;
   historyCount: number = 0;
   isLoading: boolean = true;
+  isLender: boolean = false;
 
   ownerDetails: any = {
     id: '',
@@ -31,7 +32,8 @@ export class UserDetailsViewComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private service: SharedService) {}
 
   ngOnInit(): void {
-    console.log(this.data.dataKey);
+    //console.log(this.data.dataKey);
+    this.isLender = this.data.isLender;
     this.service.getOwnerInfo(this.data.dataKey).subscribe(
       (data: any) => {
         if (data.details != null) {
@@ -47,10 +49,12 @@ export class UserDetailsViewComponent implements OnInit {
         console.log(error);
       }
     );
-    this.service.getOwnerRateAndItems(this.data.dataKey).subscribe((data: any) => {
-      this.historyCount = data[0];
-      this.currentRate = data[1];
-      this.isLoading = false;
-    });
+    if (this.isLender == true) {
+      this.service.getOwnerRateAndItems(this.data.dataKey).subscribe((data: any) => {
+        this.historyCount = data[0];
+        this.currentRate = data[1];
+        this.isLoading = false;
+      });
+    }
   }
 }

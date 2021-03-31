@@ -200,6 +200,10 @@ export class SharedService {
     return this.http.get<any>(`${environment.apiUrl}/Item/GetItemReview/${itemId}`);
   }
 
+  getItemReviewAvg(itemId) {
+    return this.http.get<any>(`${environment.apiUrl}/Item/GetItemReviewAvg/${itemId}`);
+  }
+
   getOwnerRateAndItems(userId) {
     return this.http.get<any>(`${environment.apiUrl}/Item/GetOwnerRateAndItems/${userId}`);
   }

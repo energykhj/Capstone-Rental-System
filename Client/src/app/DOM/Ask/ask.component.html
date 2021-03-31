@@ -11,7 +11,7 @@
             <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
           </mat-form-field>
 
-          <div class="mat-elevation-z8">
+          <div>
             <table mat-table [dataSource]="dataSource" matSort>
               <!-- ID Column -->
               <ng-container matColumnDef="id">
@@ -99,7 +99,7 @@
 
             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
           </div>
-          <div class="col-md-12 p-0 mb-3">
+          <div class="col-md-12 p-0 mb-3 mt-3">
             <mat-card class="example-card">
               <mat-card-content>
                 <mat-form-field>

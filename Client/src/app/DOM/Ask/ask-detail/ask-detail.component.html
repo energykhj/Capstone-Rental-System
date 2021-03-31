@@ -2,11 +2,21 @@
   <div class="d-flex flex-row flex-wrap">
     <div class="col-md-9 p-0 mb-3">
       <div class="card item-card shadow-sm bg-white m-1">
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = false" (closed)="panelOpenState = true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ title }}
+              </mat-panel-title>
+              <mat-panel-description> </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p [innerHTML]="headContent"></p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <div class="card item-card shadow-sm bg-white m-1">
         <div>
-          <div class="card-header" style="text-align: left">
-            <h2>{{ title }}</h2>
-            <h3 [innerHTML]="headContent"></h3>
-          </div>
+          <!-- <div class="card-header" style="text-align: left"></div> -->
           <div class="row mb-3" *ngFor="let article of articles">
             <div class="card-body" *ngIf="article.id != article.parentId">
               <div class="chat">

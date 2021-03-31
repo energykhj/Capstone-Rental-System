@@ -320,6 +320,16 @@
                       <div *ngIf="reviewPkgs.length == 0"><p>No Reviews</p></div>
                       <div *ngIf="reviewPkgs.length != 0" class="mt-2">
                         <div class="d-flex flex-column justify-content-start">
+                          <div *ngIf="avgRate != 0" class="d-flex flex-row justify-content-start">
+                            <ngb-rating
+                              class="mb-2"
+                              [readonly]="true"
+                              [(rate)]="avgRate"
+                              [min]="1"
+                              [max]="5"
+                            ></ngb-rating>
+                            <p>{{ reviewsCount }} Reviews / Average: {{ avgRate }}</p>
+                          </div>
                           <div *ngFor="let reviewPkg of reviewPkgs">
                             <div class="d-flex flex-row justify-content-start">
                               <ngb-rating

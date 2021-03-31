@@ -18,6 +18,8 @@ import { EditDialogComponent } from '../../Shared/edit-dialog/edit-dialog.compon
 })
 export class AskDetailComponent implements OnInit {
   //dataSource: MatTableDataSource<Article>;
+  panelOpenState = true;
+
   content: string;
 
   userId = '';
@@ -115,7 +117,7 @@ export class AskDetailComponent implements OnInit {
 
   onEdit(id: number, content: string, title: string) {
     const dialogRef = this.dialog.open(EditDialogComponent, {
-      height: '250px',
+      height: '450px',
       width: '800px',
       data: {
         content: content,
@@ -144,6 +146,7 @@ export class AskDetailComponent implements OnInit {
       width: '300px',
       data: {
         dataKey: id,
+        isLender: false,
       },
     });
     dialogRef.afterClosed().subscribe((result) => {

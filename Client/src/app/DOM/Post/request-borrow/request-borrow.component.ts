@@ -252,6 +252,7 @@ export class RequestBorrowComponent implements OnInit {
       width: '300px',
       data: {
         dataKey: id,
+        isLender: true,
       },
     });
     dialogRef.afterClosed().subscribe((result) => {

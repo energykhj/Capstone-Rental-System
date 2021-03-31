@@ -281,6 +281,7 @@ export class MyListComponent implements OnInit {
       width: '300px',
       data: {
         dataKey: id,
+        isLender: false,
       },
     });
     dialogRef.afterClosed().subscribe((result) => {

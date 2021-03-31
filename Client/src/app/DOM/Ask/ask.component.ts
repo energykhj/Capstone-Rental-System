@@ -159,6 +159,7 @@ export class AskComponent implements AfterViewInit {
       width: '300px',
       data: {
         dataKey: id,
+        isLender: false,
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -168,7 +169,7 @@ export class AskComponent implements AfterViewInit {
 
   onEdit(id: number, content: string, title: string) {
     const dialogRef = this.dialog.open(EditDialogComponent, {
-      height: '250px',
+      height: '450px',
       width: '800px',
       data: {
         content: content,

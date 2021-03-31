@@ -31,7 +31,9 @@ export class AddEditPostComponent implements OnInit {
   categoryList: any = [];
   provinceList: any = [];
 
-  reviewPkgs = [];
+  reviewPkgs: any = [];
+  avgRate: number = 0;
+  reviewsCount: number = 0;
 
   photoUrls = [];
   photoFiles: any = [];
@@ -261,6 +263,10 @@ export class AddEditPostComponent implements OnInit {
   loadReviews(itemId) {
     this.service.getItemReview(itemId).subscribe((data: any) => {
       this.reviewPkgs = data;
+      this.reviewsCount = this.reviewPkgs.length;
+    });
+    this.service.getItemReviewAvg(itemId).subscribe((data: any) => {
+      this.avgRate = data;
     });
   }
 

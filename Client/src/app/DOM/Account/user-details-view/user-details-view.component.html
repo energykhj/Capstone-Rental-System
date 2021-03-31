@@ -3,12 +3,18 @@
     <img class="rounded z-depth-2" [src]="PhotoFilePath" height="80px;" width="80px;" />
   </div>
   <div class="ml-3 d-flex flex-column justify-content-between">
-    <ngb-rating *ngIf="currentRate != 0" class="mb-3" [(rate)]="currentRate" [readonly]="true" [max]="5"></ngb-rating>
+    <ngb-rating
+      *ngIf="isLender == true && currentRate != 0"
+      class="mb-3"
+      [(rate)]="currentRate"
+      [readonly]="true"
+      [max]="5"
+    ></ngb-rating>
     <p class="text-primary">{{ ownerDetails.lastName }} {{ ownerDetails.firstName }}</p>
     <p class="text-primary">{{ ownerDetails.phone }}</p>
   </div>
 </div>
-<div *ngIf="isLoading == true" class="rounded border p-2">Loading...</div>
-<div *ngIf="isLoading == false" class="rounded border p-2">
+<div *ngIf="isLender == true && isLoading == true" class="rounded border p-2">Loading...</div>
+<div *ngIf="isLender == true && isLoading == false" class="rounded border p-2">
   {{ historyCount }} reviewed items since {{ formatDate(ownerDetails.createdDate) }}
 </div>
