@@ -186,20 +186,16 @@ namespace Server.Controllers
             int cnt = 0;
             foreach (Item item in ItemsbyUser)
             {
-                int rate = IB.GetRateSumByItem(item.Id);
-//                if(rateSum > 0)
-                if (rate > 0)
-                {
-                    rateSum += rate;
-                    cnt++;
-                }
+                var rv = await IB.GetReviewList(item.Id);
+                cnt += rv.Count();
+                rateSum += rv.Sum(c => c.Rate);
             }
             OwnerRateAndItems.Add(cnt.ToString());
             OwnerRateAndItems.Add((cnt != 0)? (rateSum / cnt).ToString() : "0");
 
             
             return OwnerRateAndItems;
-        }       
+        }
 
         [HttpPost("InsertReview")]
         public async Task<ActionResult<ItemReviewPkgDTO>> InsertReview([FromBody] Review review)

@@ -145,7 +145,7 @@ namespace Server.BizLogic
                 .OrderBy(c => c.Date)
                 .ToListAsync();
         }
-
+/*
         public int GetRateSumByItem(int itemId)
         {
             //return context.Review
@@ -167,7 +167,7 @@ namespace Server.BizLogic
                 return (int)(sum / count);
             }
             return 0; 
-        }
+        }*/
 
         public async Task<Item> InsertItem(Item item)
         {
