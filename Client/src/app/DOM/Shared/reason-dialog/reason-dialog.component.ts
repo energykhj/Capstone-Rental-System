@@ -21,6 +21,7 @@ export class ReasonDialogComponent implements OnInit {
     this.title = data.title;
     if (data.isRefund) {
       this.isRefund = data.isRefund;
+      this.refundDeposit = data.deposit;
     } else {
       this.isRefund = false;
     }

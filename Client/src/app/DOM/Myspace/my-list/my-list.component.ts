@@ -340,6 +340,7 @@ export class MyListComponent implements OnInit {
       data: {
         title: 'Return',
         isRefund: true,
+        deposit: returnItem.trans.deposit,
       },
     });
 

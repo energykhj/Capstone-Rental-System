@@ -21,7 +21,10 @@
   <mat-dialog-actions>
     <div class="col text-center">
       <button class="mat-raised-button mr-2" (click)="onCancel()">Cancel</button>
-      <button class="mat-raised-button mat-primary" [disabled]="!reason" (click)="onSubmit()">Submit</button>
+      <button class="mat-raised-button mat-primary" *ngIf="isRefund" (click)="onSubmit()">Submit</button>
+      <button class="mat-raised-button mat-primary" *ngIf="!isRefund" [disabled]="!reason" (click)="onSubmit()">
+        Submit
+      </button>
     </div>
   </mat-dialog-actions>
 </div>
