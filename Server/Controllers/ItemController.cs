@@ -187,7 +187,7 @@ namespace Server.Controllers
             foreach (Item item in ItemsbyUser)
             {
                 var rv = await IB.GetReviewList(item.Id);
-                cnt = rv.Count();
+                cnt += rv.Count();
                 rateSum += rv.Sum(c => c.Rate);
             }
             OwnerRateAndItems.Add(cnt.ToString());
