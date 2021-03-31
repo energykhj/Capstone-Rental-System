@@ -6,7 +6,14 @@
           <h3>My Items</h3>
         </div>
         <div class="card-body">
-          <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs">
+          <ul
+            ngbNav
+            #nav="ngbNav"
+            (navChange)="onNavChange()"
+            [(activeId)]="active"
+            [destroyOnHide]="false"
+            class="nav-tabs"
+          >
             <li [ngbNavItem]="1" [destroyOnHide]="true">
               <a ngbNavLink>My Items</a>
               <ng-template ngbNavContent>

@@ -275,6 +275,10 @@ export class MyListComponent implements OnInit {
     });
   }
 
+  onNavChange() {
+    this.loadUserItem();
+  }
+
   openBorrowerDetails(id: any) {
     const dialogRef = this.dialog.open(UserDetailsViewComponent, {
       // height: '500px',

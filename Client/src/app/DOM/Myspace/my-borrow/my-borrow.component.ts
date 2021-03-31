@@ -214,6 +214,7 @@ export class MyBorrowComponent implements OnInit {
     this.NameFilter = '';
     this.Filter(this.active);
     //this.ngOnInit();
+    this.loadTransaction();
   }
 
   openOwnerDetails(id: any) {
