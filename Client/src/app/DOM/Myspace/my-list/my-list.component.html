@@ -135,7 +135,7 @@
                             <p>
                               <small><span>Total Fee: </span>{{ formatCurrency(requestItem.trans.total) }}</small>
                             </p>
-                            <button mat-stroked-button color="primary" (click)="confirmBorrow(requestItem.trans.id)">
+                            <button mat-stroked-button color="primary" (click)="confirmBorrow(requestItem.trans)">
                               Confirm Borrow
                             </button>
                             <button mat-stroked-button color="warn" (click)="rejectBorrow(requestItem.trans.id)">

@@ -6,6 +6,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TransactionStatusEnum } from 'src/app/Helpers/enum';
 import { ReasonDialogComponent } from 'src/app/DOM/Shared/reason-dialog/reason-dialog.component';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
+import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 
 @Component({
   selector: 'app-my-list',
@@ -43,6 +44,7 @@ export class MyListComponent implements OnInit {
   NameListWithoutFilter3: any = [];
   NameListWithoutFilter4: any = [];
   NameListWithoutFilter5: any = [];
+  itemTransactions: any[] = [];
   userItems: any = [];
   requestItems: any = [];
   processingItems: any = [];
@@ -293,13 +295,39 @@ export class MyListComponent implements OnInit {
     });
   }
 
-  confirmBorrow(transId: any) {
-    this.transDetailPkg.transactionId = transId;
-    this.transDetailPkg.statusId = TransactionStatusEnum.Confirmed;
+  confirmBorrow(newTrans: any) {
+    this.service.getItemBorrowedDate(newTrans.itemId).subscribe((data: any) => {
+      //console.log(data);
+      var checkDates = true;
+      if (data.length != 0) {
+        for (var i = 0; i < data.length; i++) {
+          var tranStartDate = new Date(data[i].startDate);
+          var tranEndDate = new Date(data[i].endDate);
 
-    this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
-      console.log(data.status);
-      this.ngOnInit();
+          // endDate < (tranStartDate ~ tranEndDate)
+          if (DateValidator.compareDateWithoutForm(newTrans.endDate, tranStartDate) == 1) {
+          }
+          // (tranStartDate ~ tranEndDate) < startDate
+          else if (DateValidator.compareDateWithoutForm(tranEndDate, newTrans.startDate) == 1) {
+          } else if (data[i].currentStatus == TransactionStatusEnum.Request) {
+          } else {
+            checkDates = false;
+          }
+        }
+      }
+      // Check other reservations of same item
+      if (checkDates == false) {
+        this.service.alert('danger', 'This item was already reserved.<br/> Please, Reject this request.');
+        return;
+      }
+
+      this.transDetailPkg.transactionId = newTrans.id;
+      this.transDetailPkg.statusId = TransactionStatusEnum.Confirmed;
+
+      this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
+        //console.log(data.status);
+        this.ngOnInit();
+      });
     });
   }
 
