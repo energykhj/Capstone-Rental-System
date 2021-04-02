@@ -29,7 +29,7 @@ import { ReviewDialogComponent } from './DOM/Shared/review-dialog/review-dialog.
 
 /* Account */
 import { ChangePasswordComponent } from './DOM/Account/change-password/change-password.component';
-import { PRSAdminComponent } from './DOM/Account/prsadmin/prsadmin.component';
+import { PRSAdminComponent, PopupComponent } from './DOM/Account/prsadmin/prsadmin.component';
 
 /* common component */
 import { AvatarComponent } from './DOM/Navigation/avatar/avatar.component';
@@ -110,6 +110,7 @@ import { EditDialogComponent } from './DOM/Shared/edit-dialog/edit-dialog.compon
     ReasonDialogComponent,
     ReviewDialogComponent,
     EditDialogComponent,
+    PopupComponent,
   ],
   imports: [
     BrowserModule,
