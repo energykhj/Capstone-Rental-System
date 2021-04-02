@@ -34,6 +34,9 @@ export class HeaderComponent implements OnInit {
   notificationCount = 0;
   subscription: Subscription;
 
+  selectedCity: string = 'All';
+  cityList: any = [];
+
   constructor(public dialog: MatDialog, private router: Router, private service: SharedService, fb: FormBuilder) {
     this.options = fb.group({
       hideRequired: this.hideRequiredControl,
@@ -89,14 +92,18 @@ export class HeaderComponent implements OnInit {
         (error) => {}
       );
     }
+    this.getCityList();
   }
 
-  openMaps() {
-    const dialogRef = this.dialog.open(MapsComponent, {
-      width: '650px',
-      height: '600px',
-    });
+  getCityList() {
+    this.cityList = ['All', 'Waterloo', 'Kitchener'];
   }
+  // openMaps() {
+  //   const dialogRef = this.dialog.open(MapsComponent, {
+  //     width: '650px',
+  //     height: '600px',
+  //   });
+  // }
 
   // logout(){
   //   localStorage.removeItem("jwt");
@@ -112,8 +119,8 @@ export class HeaderComponent implements OnInit {
     this.userName = name;
   }
 
-  onSearch(value) {
-    console.log('header');
+  onSearch(value, selectedCity) {
+    //console.log(selectedCity);
     this.router
       .navigate(['/home'], {
         queryParams: {
@@ -137,9 +144,9 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  onKeyDown(event, value) {
-    if (event.keyCode === 13) {
-      this.onSearch(value);
+  onKeyDown(event, value, selectedCity) {
+    if (event.keyCode === 13) { //return
+      this.onSearch(value, selectedCity);
     }
   }
 }

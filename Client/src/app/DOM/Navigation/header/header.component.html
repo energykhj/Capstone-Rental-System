@@ -12,7 +12,7 @@
   <!-- Search start -->
   <div class="col-md-7">
     <div fxFlex fxLayout fxLayoutAlign="center center" fxHide.xs>
-      <form class="form-inline" (keydown)="onKeyDown($event, value)">
+      <form class="form-inline" (keydown)="onKeyDown($event, value, selectedCity)">
         <div class="input-group">
           <input
             type="text"
@@ -24,21 +24,20 @@
             aria-describedby="basic-addon2"
           />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" (click)="onSearch(value)">
+            <button class="btn btn-outline-secondary" type="button" (click)="onSearch(value, selectedCity)">
               <i class="fa fa-search fa-xs"></i>
             </button>
           </div>
         </div>
+        <span class="mr-2"></span>
+        <div class="input-group">
+          <select class="form-control" name="selectedCity" [(ngModel)]="selectedCity">
+            <option *ngFor="let city of cityList" [value]="city">
+              {{ city }}
+            </option>
+          </select>
+        </div>
       </form>
-      <span class="mr-2"></span>
-      <button
-        mat-stroked-button
-        style="font-style: italic"
-        class="mr-sm-1 btn-outline-info search-color"
-        (click)="openMaps()"
-      >
-        Location Search<i class="material-icons">place</i>
-      </button>
     </div>
   </div>
   <!-- Search end -->
