@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject, Optional, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Inject, Optional, ViewChild, NgModule } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { SharedService } from 'src/app/Services/shared.service';
 import { Router } from '@angular/router';
@@ -46,17 +46,16 @@ export class PRSAdminComponent implements OnInit {
     });
   }
 
-  onSubmitAddNewCategory(value) {
+  onSubmitAddNewCategory(value, opt, mess) {
     var val = {
-      option: 1, // insert
-      Name: value.newCategory,
+      option: opt, // insert:1,update:2,delete:3
+      Id: value.categoryId,
+      Name: value.name,
     };
-
     this.service.manageCategory(val).subscribe(
       (res) => {
-        // this.router.navigate(['/prsadmin']);
-        //window.location.reload();
-        this.service.alert('success', 'successfully insert!!');
+        this.service.alert('success', 'successfully ' + mess + '!!');
+        this.loadCategoryList();
       },
       (error) => {
         console.log(error.error);
@@ -67,7 +66,7 @@ export class PRSAdminComponent implements OnInit {
   openDialog(action, obj) {
     obj.action = action;
     const dialogRef = this.dialog.open(PopupComponent, {
-      width: '250px',
+      width: '300px',
       data: obj,
     });
 
@@ -83,23 +82,24 @@ export class PRSAdminComponent implements OnInit {
   }
 
   addRowData(row_obj) {
-    var d = new Date();
-    this.categoryList.push({
-      categoryId: d.getTime(),
-      name: row_obj.name,
-    });
-    this.table.renderRows();
+    this.onSubmitAddNewCategory(row_obj, 1, 'insert');
   }
+
   updateRowData(row_obj) {
     this.categoryList = this.categoryList.filter((value, key) => {
       if (value.categoryId == row_obj.categoryId) {
         value.name = row_obj.name;
+        this.onSubmitAddNewCategory(row_obj, 2, 'update');
       }
       return true;
     });
   }
+
   deleteRowData(row_obj) {
     this.categoryList = this.categoryList.filter((value, key) => {
+      if (value.categoryId == row_obj.categoryId) {
+        this.onSubmitAddNewCategory(row_obj, 3, 'delete');
+      }
       return value.categoryId != row_obj.categoryId;
     });
   }
@@ -119,7 +119,6 @@ export class PopupComponent {
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: CategoryData
   ) {
-    console.log(data);
     this.local_data = { ...data };
     this.action = this.local_data.action;
   }

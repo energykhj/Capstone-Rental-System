@@ -1,4 +1,11 @@
-.full-width {margin-top: 20px; width: 500%;}
+.full-width {
+  margin-top: 20px;
+  width: 500%;
+}
 table {
-    width: 100%;
-  }
+  width: 100%;
+}
+
+.action-link:hover {
+  cursor: pointer;
+}
