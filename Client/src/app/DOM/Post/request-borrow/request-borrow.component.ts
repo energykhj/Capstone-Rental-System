@@ -204,7 +204,7 @@ export class RequestBorrowComponent implements OnInit {
       this.setFormData();
     });
 
-    this.getTransactions(itemId);
+    //this.getTransactions(itemId);
   }
 
   loadDefaultPhotoAddr(itemId: string) {

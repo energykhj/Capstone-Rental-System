@@ -7,6 +7,7 @@ import { TransactionStatusEnum } from 'src/app/Helpers/enum';
 import { ReasonDialogComponent } from 'src/app/DOM/Shared/reason-dialog/reason-dialog.component';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
+import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-my-list',
@@ -299,6 +300,7 @@ export class MyListComponent implements OnInit {
     this.service.getItemBorrowedDate(newTrans.itemId).subscribe((data: any) => {
       //console.log(data);
       var checkDates = true;
+      var requestCount = 0;
       if (data.length != 0) {
         for (var i = 0; i < data.length; i++) {
           var tranStartDate = new Date(data[i].startDate);
@@ -310,24 +312,47 @@ export class MyListComponent implements OnInit {
           // (tranStartDate ~ tranEndDate) < startDate
           else if (DateValidator.compareDateWithoutForm(tranEndDate, newTrans.startDate) == 1) {
           } else if (data[i].currentStatus == TransactionStatusEnum.Request) {
+            requestCount++;
           } else {
             checkDates = false;
           }
         }
       }
+
       // Check other reservations of same item
       if (checkDates == false) {
         this.service.alert('danger', 'This item was already reserved.<br/> Please, Reject this request.');
         return;
       }
 
-      this.transDetailPkg.transactionId = newTrans.id;
-      this.transDetailPkg.statusId = TransactionStatusEnum.Confirmed;
+      // Check other requests of same item
+      if (requestCount > 1) {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+          width: '350px',
+          data: {
+            title: 'Request Alert',
+            message: `This item was requested from ${requestCount} lenders <br />` + 'Do you confirm this request?',
+          },
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            this.sendConfirmBorrow(newTrans.id);
+          }
+        });
+        return;
+      } else {
+        this.sendConfirmBorrow(newTrans.id);
+      }
+    });
+  }
 
-      this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
-        //console.log(data.status);
-        this.ngOnInit();
-      });
+  sendConfirmBorrow(transId) {
+    this.transDetailPkg.transactionId = transId;
+    this.transDetailPkg.statusId = TransactionStatusEnum.Confirmed;
+
+    this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
+      //console.log(data.status);
+      this.ngOnInit();
     });
   }
 
