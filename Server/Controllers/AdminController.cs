@@ -44,10 +44,7 @@ namespace Server.Controllers
                     cate.Name = dto.Name;
                     context.Category.Update(cate);
                     break;
-               case (int)ManageEnum.Delete:
-                    cate.Name = dto.Name;
-                    context.Category.Remove(cate);
-                    break;
+                // not allow to delete previous category               
                 default:
                     return BadRequest("Bad option");
             }

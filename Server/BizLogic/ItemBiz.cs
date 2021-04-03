@@ -122,6 +122,22 @@ namespace Server.BizLogic
                 .ToListAsync();
         }
 
+        public async Task<List<Item>> GetSearchItem(int currentPage, string strSearch, List<int> cityList)
+        {
+            if (cityList.Count == 0) return await GetSearchItem(strSearch, currentPage);
+
+            return await context.Item
+                .Include(c => c.Category)
+                .Include(c => c.RecordStatus)
+                .OrderByDescending(c => c.Id)
+                .Where(c => cityList.Contains(c.AddressId) && 
+                        (c.Name.ToUpper().Contains(strSearch) ||
+                        c.Description.ToUpper().Contains(strSearch)))
+                .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
+                .OrderByDescending(c => c.Id)
+                .ToListAsync();
+        }
+
         public async Task<Address> GetItemAddress(int addId)
         {
             return await context.Address
@@ -145,29 +161,6 @@ namespace Server.BizLogic
                 .OrderBy(c => c.Date)
                 .ToListAsync();
         }
-/*
-        public int GetRateSumByItem(int itemId)
-        {
-            //return context.Review
-            //    .Include(c => c.Item)
-            //.Where(c => c.ItemId == itemId)
-            //.Sum(c => c.Rate);
-            double count = context.Review
-            .Include(c => c.Item)
-            .Where(c => c.ItemId == itemId)
-            .Count(c => c.Rate != 0);
-
-            double sum = context.Review
-            .Include(c => c.Item)
-            .Where(c => c.ItemId == itemId && c.Rate != 0)
-            .Sum(c => c.Rate);
-
-            if (count != 0)
-            {
-                return (int)(sum / count);
-            }
-            return 0; 
-        }*/
 
         public async Task<Item> InsertItem(Item item)
         {

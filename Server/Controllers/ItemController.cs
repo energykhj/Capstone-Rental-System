@@ -58,12 +58,25 @@ namespace Server.Controllers
             return dtoPkgList;
         }
 
-        [AllowAnonymous]
+       /* [AllowAnonymous]
         [HttpGet("GetSearchedItemAndDefaultPhoto/{currentPage}/{search?}")]
         public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(int currentPage, string search = null)
         {
             if (string.IsNullOrEmpty(search) || search == "null") search = "";
             var Items = await IB.GetSearchItem(search, currentPage);
+            return await GetPackedItemWithDefaultPhoto(Items);
+        }*/
+
+        [AllowAnonymous]
+        [HttpGet("GetSearchedItemAndDefaultPhoto/{currentPage}/{search?}/{city?}")]
+        public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(int currentPage, string search = null, string city = null)
+        {
+            if (string.IsNullOrEmpty(search) || search == "null") search = "";
+            if (string.IsNullOrEmpty(city) || city == "null") city = "";
+            var cityList = context.Address.Where(c => c.City == city).Select(c => c.Id).ToList();
+
+            if (string.IsNullOrEmpty(search) || search == "null") search = "";
+            var Items = await IB.GetSearchItem(currentPage, search, cityList);
             return await GetPackedItemWithDefaultPhoto(Items);
         }
 
@@ -72,6 +85,13 @@ namespace Server.Controllers
         public async Task<ActionResult<List<PhotoDTO>>> GetItemPhotos(int itemId)
         {
             return mapper.Map<List<PhotoDTO>>(await IB.GetItemPhotos(itemId));
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetCityOfAddress")]
+        public List<string> GetCityOfAddress()
+        {
+            return context.Address.Select(c => c.City).Distinct().ToList();
         }
 
         [HttpPost]
