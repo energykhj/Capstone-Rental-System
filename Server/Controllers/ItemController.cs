@@ -75,7 +75,6 @@ namespace Server.Controllers
             if (string.IsNullOrEmpty(city) || city == "null") city = "";
             var cityList = context.Address.Where(c => c.City == city).Select(c => c.Id).ToList();
 
-            if (string.IsNullOrEmpty(search) || search == "null") search = "";
             var Items = await IB.GetSearchItem(currentPage, search, cityList);
             return await GetPackedItemWithDefaultPhoto(Items);
         }
