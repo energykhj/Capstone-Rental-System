@@ -82,10 +82,29 @@ export class MyListComponent implements OnInit {
     this.userId = this.service.isLoginUser;
     this.userId = this.userId.replace(/['"]+/g, '');
 
-    this.loadUserItem();
+    this.loadTabItems(this.active);
   }
 
-  loadUserItem() {
+  loadTabItems(activeId) {
+    if (activeId == 1) {
+      // My Items
+      this.loadUserItems();
+    } else if (activeId == 2) {
+      // Request
+      this.loadTransactionRequest();
+    } else if (activeId == 3) {
+      // Processing Items
+      this.loadTransactionProcessing();
+    } else if (activeId == 4) {
+      // Request Return
+      this.loadTransactionRequestReturn();
+    } else if (activeId == 5) {
+      // Completed
+      this.loadTransactionCompleted();
+    }
+  }
+
+  loadUserItems() {
     this.service.getUserItem(this.page1, this.userId).subscribe((userItem: any) => {
       this.userItems = userItem;
       if (userItem.length < 8) {
@@ -99,7 +118,9 @@ export class MyListComponent implements OnInit {
       });
       this.NameListWithoutFilter1 = userItem;
     });
+  }
 
+  loadTransactionRequest() {
     this.service.getItemByStatus(this.userId, this.requestStatus).subscribe((requestItem: any) => {
       this.requestItems = requestItem;
       console.log(requestItem);
@@ -115,7 +136,9 @@ export class MyListComponent implements OnInit {
 
       this.NameListWithoutFilter2 = requestItem;
     });
+  }
 
+  loadTransactionProcessing() {
     this.service.getItemByStatus(this.userId, this.processingStatus).subscribe((processingItem: any) => {
       this.processingItems = processingItem;
       if (processingItem.length < 8) {
@@ -129,7 +152,9 @@ export class MyListComponent implements OnInit {
       });
       this.NameListWithoutFilter3 = processingItem;
     });
+  }
 
+  loadTransactionRequestReturn() {
     this.service.getItemByStatus(this.userId, this.returnStatus).subscribe((returnItem: any) => {
       this.returnItems = returnItem;
       if (returnItem.length < 8) {
@@ -143,7 +168,9 @@ export class MyListComponent implements OnInit {
       });
       this.NameListWithoutFilter4 = returnItem;
     });
+  }
 
+  loadTransactionCompleted() {
     this.service.getItemByStatus(this.userId, this.completedStatus).subscribe((completedItem: any) => {
       this.completedItems = completedItem;
       if (completedItem.length < 8) {
@@ -278,8 +305,8 @@ export class MyListComponent implements OnInit {
     });
   }
 
-  onNavChange() {
-    this.loadUserItem();
+  onNavChange(event) {
+    this.loadTabItems(event.nextId);
   }
 
   openBorrowerDetails(id: any) {
@@ -376,7 +403,7 @@ export class MyListComponent implements OnInit {
       if (data) {
         this.transDetailPkg.reason = data;
         this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
-          console.log(data);
+          //console.log(data);
           this.ngOnInit();
         });
       }

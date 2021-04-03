@@ -84,10 +84,23 @@ export class MyBorrowComponent implements OnInit {
     this.userId = this.service.isLoginUser;
     this.userId = this.userId.replace(/['"]+/g, '');
     //this.service.getUserItem(8, this.userId).subscribe((userItem) => {});
-    this.loadTransaction();
+    this.loadTransaction(this.active);
   }
 
-  loadTransaction() {
+  loadTransaction(activeId) {
+    if (activeId == 0) {
+      // Requested Tab
+      this.loadTransactionRequested();
+    } else if (activeId == 1) {
+      // Borrowing Tab
+      this.loadTransactionBorrowing();
+    } else if (activeId == 2) {
+      // Completed Tab
+      this.loadTransactionCompleted();
+    }
+  }
+
+  loadTransactionRequested() {
     this.service.getTransactionByUser(this.userId, [TransactionStatusEnum.Request]).subscribe((transItemPkgs: any) => {
       this.requestItemPkgs = transItemPkgs;
       if (transItemPkgs.length < 8) {
@@ -106,7 +119,9 @@ export class MyBorrowComponent implements OnInit {
       // });
       this.filteredRequestItemPkgs = this.requestItemPkgs;
     });
+  }
 
+  loadTransactionBorrowing() {
     this.service
       .getTransactionByUser(this.userId, [TransactionStatusEnum.Confirmed, TransactionStatusEnum.RequestReturn])
       .subscribe((transItemPkgs: any) => {
@@ -127,7 +142,9 @@ export class MyBorrowComponent implements OnInit {
         // });
         this.filteredBorrowingItemPkgs = this.borrowingItemPkgs;
       });
+  }
 
+  loadTransactionCompleted() {
     this.service
       .getTransactionByUser(this.userId, [
         TransactionStatusEnum.CanceledByBorrower,
@@ -210,11 +227,9 @@ export class MyBorrowComponent implements OnInit {
     }
   }
 
-  onNavChange() {
+  onNavChange(event) {
     this.NameFilter = '';
-    this.Filter(this.active);
-    //this.ngOnInit();
-    this.loadTransaction();
+    this.loadTransaction(event.nextId);
   }
 
   openOwnerDetails(id: any) {
@@ -289,7 +304,7 @@ export class MyBorrowComponent implements OnInit {
         this.tranDetails.statusId = TransactionStatusEnum.RequestReturn;
         this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
           //console.log(data);
-          this.loadTransaction();
+          this.loadTransaction(this.active);
           this.service.alert('success', 'Requested Return');
           //this.router.navigate(['/home']);
 

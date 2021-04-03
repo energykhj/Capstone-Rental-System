@@ -9,7 +9,7 @@
           <ul
             ngbNav
             #nav="ngbNav"
-            (navChange)="onNavChange()"
+            (navChange)="onNavChange($event)"
             [(activeId)]="active"
             [destroyOnHide]="false"
             class="nav-tabs"
@@ -156,7 +156,7 @@
 
             <!-- Request Return Start -->
             <li [ngbNavItem]="3">
-              <a ngbNavLink>Processing Items</a>
+              <a ngbNavLink>Processing</a>
               <!-- <ng-template ngbNavContent let-active>
                 <ngb-alert *ngIf="active" [dismissible]="false" class="d-block mt-3">
                   While tab content DOM is never destroyed, this alert exists only when current tab is active
