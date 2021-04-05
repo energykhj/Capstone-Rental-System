@@ -46,8 +46,9 @@
   <a mat-list-item routerLink="/ask" (click)="onSidenavClose()">
     <mat-icon>question_answer</mat-icon><span class="nav-caption">Ask</span>
   </a>
-  <a mat-list-item routerLink="/my-list" (click)="onSidenavClose()">
-    <mat-icon>face</mat-icon><span class="nav-caption">My Space</span>
+  <a mat-list-item [routerLink]="notificationCount > 0 ? ['/my-list'] : ['/my-borrow']" (click)="onSidenavClose()">
+    <mat-icon matBadge="{{ notificationCount }}" matBadgeColor="accent" matBadgePosition="above before">face</mat-icon
+    ><span class="nav-caption">My Space</span>
   </a>
   <mat-list-item [matMenuTriggerFor]="menu">
     <mat-icon>account_balance</mat-icon>
