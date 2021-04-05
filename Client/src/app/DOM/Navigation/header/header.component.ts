@@ -1,5 +1,4 @@
 import { HomeComponent } from './../../Main/home/home.component';
-import { MapsComponent } from '../../Navigation/maps/maps.component';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserAccountComponent } from '../../Account/user-account/user-account.component';
@@ -18,7 +17,9 @@ import { Subscription } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
   @Output() public sidenavToggle = new EventEmitter();
-  value = '';
+
+  public static ALL_CITIES: string = 'All Cities';
+  search = '';
   searchValue: any;
   options: FormGroup;
   hideRequiredControl = new FormControl(false);
@@ -34,7 +35,7 @@ export class HeaderComponent implements OnInit {
   notificationCount = 0;
   subscription: Subscription;
 
-  selectedCity: string = 'All';
+  selectedCity: string = HeaderComponent.ALL_CITIES;
   cityList: any = [];
 
   constructor(public dialog: MatDialog, private router: Router, private service: SharedService, fb: FormBuilder) {
@@ -59,7 +60,6 @@ export class HeaderComponent implements OnInit {
   }
 
   openLogin() {
-    //this.dialog.open(UserAccountComponent);
     this.dialog.open(LoginComponent);
   }
 
@@ -86,7 +86,6 @@ export class HeaderComponent implements OnInit {
             : '';
           this.photoUrl = this.userDetails.photoUrl ? environment.PhotoFileUrl + this.userDetails.photoUrl : '';
 
-          //alert(this.userAccount.email);
           this.getNotificationCount();
         },
         (error) => {}
@@ -96,20 +95,14 @@ export class HeaderComponent implements OnInit {
   }
 
   getCityList() {
-    this.cityList = ['All', 'Waterloo', 'Kitchener'];
+    this.cityList = [];
+    this.service.getCityOfAddress().subscribe((data) => {
+      for (var i = 0; i < data.length; i++) {
+        this.cityList.push(data[i]);
+      }
+      this.cityList.push(HeaderComponent.ALL_CITIES);
+    });
   }
-  // openMaps() {
-  //   const dialogRef = this.dialog.open(MapsComponent, {
-  //     width: '650px',
-  //     height: '600px',
-  //   });
-  // }
-
-  // logout(){
-  //   localStorage.removeItem("jwt");
-  //   localStorage.removeItem("userId");
-  //   this.router.navigate(["/home"]);
-  // }
 
   public onToggleSidenav = () => {
     this.sidenavToggle.emit();
@@ -119,16 +112,26 @@ export class HeaderComponent implements OnInit {
     this.userName = name;
   }
 
-  onSearch(value, selectedCity) {
-    //console.log(selectedCity);
+  onSearch(search, selectedCity) {
+    var queryParams;
+
+    if (selectedCity == HeaderComponent.ALL_CITIES) {
+      queryParams = {
+        search: search,
+        city: '',
+      };
+    } else {
+      queryParams = {
+        search: search,
+        city: selectedCity,
+      };
+    }
     this.router
       .navigate(['/home'], {
-        queryParams: {
-          value: value,
-        },
+        queryParams: queryParams,
       })
-      .then((page) => {
-        window.location.reload();
+      .then(() => {
+        this.service.sendNotificationReloadHome();
       });
   }
 
@@ -144,9 +147,10 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  onKeyDown(event, value, selectedCity) {
-    if (event.keyCode === 13) { //return
-      this.onSearch(value, selectedCity);
+  onKeyDown(event, search, selectedCity) {
+    if (event.keyCode === 13) {
+      //return
+      this.onSearch(search, selectedCity);
     }
   }
 }

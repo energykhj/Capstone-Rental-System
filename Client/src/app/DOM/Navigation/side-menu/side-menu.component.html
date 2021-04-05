@@ -9,22 +9,29 @@
     <div *ngIf="userName">Hello, {{ userName }}</div>
   </h2>
   <div mat-list-item>
-    <form class="form-inline flex-nowrap form-bg rounded p-1">
-      <div class="input-group">
+    <form class="flex-nowrap form-bg rounded p-1">
+      <div class="input-group mb-2">
         <input
           type="text"
-          name="value"
-          [(ngModel)]="value"
+          name="search"
+          [(ngModel)]="search"
           class="form-control"
           placeholder="Search"
           aria-label="Search"
           aria-describedby="basic-addon2"
         />
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" (click)="onSearch(value)">
+          <button class="btn btn-outline-secondary" type="button" (click)="onSearch(search, selectedCity)">
             <i class="fa fa-search fa-xs"></i>
           </button>
         </div>
+      </div>
+      <div class="input-group">
+        <select class="form-control" name="selectedCity" [(ngModel)]="selectedCity">
+          <option *ngFor="let city of cityList" [value]="city">
+            {{ city }}
+          </option>
+        </select>
       </div>
     </form>
   </div>

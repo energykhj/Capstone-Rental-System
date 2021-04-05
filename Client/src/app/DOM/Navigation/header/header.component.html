@@ -12,19 +12,19 @@
   <!-- Search start -->
   <div class="col-md-7">
     <div fxFlex fxLayout fxLayoutAlign="center center" fxHide.xs>
-      <form class="form-inline" (keydown)="onKeyDown($event, value, selectedCity)">
+      <form class="form-inline" (keydown)="onKeyDown($event, search, selectedCity)">
         <div class="input-group">
           <input
             type="text"
-            name="value"
-            [(ngModel)]="value"
+            name="search"
+            [(ngModel)]="search"
             class="form-control"
             placeholder="Search"
             aria-label="Search"
             aria-describedby="basic-addon2"
           />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" (click)="onSearch(value, selectedCity)">
+            <button class="btn btn-outline-secondary" type="button" (click)="onSearch(search, selectedCity)">
               <i class="fa fa-search fa-xs"></i>
             </button>
           </div>

@@ -13,18 +13,31 @@ import { map, catchError } from 'rxjs/operators';
 export class SharedService {
   constructor(private http: HttpClient, public dialog: MatDialog) {}
 
-  private subject = new Subject<any>();
+  private subjectNotification = new Subject<any>();
+  private subjectReloadHome = new Subject<any>();
 
   sendNotificationCount(count: number) {
-    this.subject.next(count);
+    this.subjectNotification.next(count);
   }
 
   clearNotificationCount() {
-    this.subject.next();
+    this.subjectNotification.next();
   }
 
   getNotificationCount(): Observable<any> {
-    return this.subject.asObservable();
+    return this.subjectNotification.asObservable();
+  }
+
+  sendNotificationReloadHome() {
+    this.subjectReloadHome.next();
+  }
+
+  clearNotificationReloadHome() {
+    this.subjectReloadHome.next();
+  }
+
+  getNotificationReloadHome(): Observable<any> {
+    return this.subjectReloadHome.asObservable();
   }
 
   public get getUserInfo() {
@@ -93,8 +106,10 @@ export class SharedService {
     return this.http.put<any>(`${environment.apiUrl}/Item`, val);
   }
 
-  getSearchedItemAndDefaultPhoto(page: any, val: any) {
-    return this.http.get<any>(`${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/` + page + '/' + val);
+  getSearchedItemAndDefaultPhoto(page: any, search: string, city: string) {
+    return this.http.get<any>(
+      `${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/` + page + '/' + search + '/' + city
+    );
   }
 
   getItemPhotos(val: any) {
@@ -218,5 +233,9 @@ export class SharedService {
 
   deleteItemReview(reviewId) {
     return this.http.delete<any>(`${environment.apiUrl}/Item/DeleteReview/${reviewId}`);
+  }
+
+  getCityOfAddress() {
+    return this.http.get<any>(`${environment.apiUrl}/Item/GetCityOfAddress`);
   }
 }

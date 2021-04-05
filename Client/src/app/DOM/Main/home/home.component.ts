@@ -7,6 +7,7 @@ import { DetailComponent } from '../detail/detail.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -19,9 +20,12 @@ export class HomeComponent implements OnInit {
 
   properties: any = [];
   page = 1;
-  value = '';
+  search = '';
+  city = '';
   notEmptyPost = true;
   notScrolly = true;
+
+  subscription: Subscription;
 
   constructor(
     private router: Router,
@@ -29,7 +33,17 @@ export class HomeComponent implements OnInit {
     private service: SharedService,
     private route: ActivatedRoute,
     public dialog: MatDialog
-  ) {}
+  ) {
+    // subscribe reload home page
+    this.subscription = this.service.getNotificationReloadHome().subscribe((data) => {
+      this.ngOnInit();
+    });
+  }
+
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
+  }
 
   isUserAuthenticated() {
     const token: string = localStorage.getItem('jwt');
@@ -38,14 +52,24 @@ export class HomeComponent implements OnInit {
       return true;
     } else return false;
   }
+
   ngOnInit(): void {
-    this.value = this.route.snapshot.queryParamMap.get('value');
-    console.log(this.value + 'onInit');
+    this.page = 1;
+    this.notEmptyPost = true;
+    this.search = this.route.snapshot.queryParamMap.get('search');
+    this.city = this.route.snapshot.queryParamMap.get('city');
+    if (this.search === null || this.search === '') {
+      this.search = 'null';
+    }
+    if (this.city === null || this.city === '') {
+      this.city = 'null';
+    }
+    //console.log(this.search + 'onInit');
     this.loadInitPost();
   }
 
   loadInitPost() {
-    this.service.getSearchedItemAndDefaultPhoto(this.page, this.value).subscribe(
+    this.service.getSearchedItemAndDefaultPhoto(this.page, this.search, this.city).subscribe(
       (data) => {
         this.properties = data;
         if (this.properties.length < 8) {
@@ -62,7 +86,7 @@ export class HomeComponent implements OnInit {
     console.log('click');
     this.page = this.page + 1;
 
-    this.service.getSearchedItemAndDefaultPhoto(this.page, this.value).subscribe((data) => {
+    this.service.getSearchedItemAndDefaultPhoto(this.page, this.search, this.city).subscribe((data) => {
       const newList = data;
 
       if (newList.length < 8) {

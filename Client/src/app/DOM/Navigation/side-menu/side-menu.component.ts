@@ -4,6 +4,7 @@ import { SharedService } from 'src/app/Services/shared.service';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from 'src/app/DOM/Account/login/login.component';
+import { HeaderComponent } from 'src/app/DOM/Navigation/header/header.component';
 
 @Component({
   selector: 'app-side-menu',
@@ -11,11 +12,14 @@ import { LoginComponent } from 'src/app/DOM/Account/login/login.component';
   styleUrls: ['./side-menu.component.scss'],
 })
 export class SideMenuComponent implements OnInit {
-  value = '';
+  @Output() sidenavClose = new EventEmitter();
+
+  search = '';
   userDetails: any = [];
   photoUrl: string;
   userName: string = '';
-  @Output() sidenavClose = new EventEmitter();
+  selectedCity: string = HeaderComponent.ALL_CITIES;
+  cityList: any = [];
 
   constructor(private router: Router, private service: SharedService, public dialog: MatDialog) {
     this.getUser();
@@ -33,7 +37,19 @@ export class SideMenuComponent implements OnInit {
       });
     }
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getCityList();
+  }
+
+  getCityList() {
+    this.cityList = [];
+    this.service.getCityOfAddress().subscribe((data) => {
+      for (var i = 0; i < data.length; i++) {
+        this.cityList.push(data[i]);
+      }
+      this.cityList.push(HeaderComponent.ALL_CITIES);
+    });
+  }
 
   public onSidenavClose = () => {
     this.sidenavClose.emit();
@@ -48,21 +64,31 @@ export class SideMenuComponent implements OnInit {
     localStorage.removeItem('jwt');
     localStorage.removeItem('userId');
     localStorage.removeItem('currentUser');
-    this.router.navigate(['/home']).then((v) => {
+    this.router.navigate(['/home']).then(() => {
       window.location.reload();
     });
     this.sidenavClose.emit();
   };
 
-  onSearch(value) {
-    console.log('header');
+  onSearch(search, selectedCity) {
+    var queryParams;
+
+    if (selectedCity == HeaderComponent.ALL_CITIES) {
+      queryParams = {
+        search: search,
+        city: '',
+      };
+    } else {
+      queryParams = {
+        search: search,
+        city: selectedCity,
+      };
+    }
     this.router
       .navigate(['/home'], {
-        queryParams: {
-          value: value,
-        },
+        queryParams: queryParams,
       })
-      .then((page) => {
+      .then(() => {
         window.location.reload();
       });
   }
