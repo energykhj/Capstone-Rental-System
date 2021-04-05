@@ -50,12 +50,24 @@
     <mat-icon matBadge="{{ notificationCount }}" matBadgeColor="accent" matBadgePosition="above before">face</mat-icon
     ><span class="nav-caption">My Space</span>
   </a>
-  <mat-list-item [matMenuTriggerFor]="menu">
-    <mat-icon>account_balance</mat-icon>
-    <a matline><span class="nav-caption">Account Actions</span></a>
-  </mat-list-item>
-  <mat-menu #menu="matMenu" yPosition="below">
-    <button mat-menu-item (click)="onLogInAndSideClose()">Login</button>
-    <button mat-menu-item (click)="onLogOutAndSideClose()">Logout</button>
-  </mat-menu>
+
+  <ng-template [ngIf]="userName" [ngIfElse]="logIn">
+    <mat-list-item [matMenuTriggerFor]="menu">
+      <mat-icon>account_balance</mat-icon>
+      <a matline><span class="nav-caption">Account Actions</span></a>
+    </mat-list-item>
+    <mat-menu #menu="matMenu" yPosition="below">
+      <button mat-menu-item (click)="onAccountAndSideClose()">
+        <mat-icon>account_circle</mat-icon>
+        <span>Account</span>
+      </button>
+      <button mat-menu-item (click)="onLogOutAndSideClose()">
+        <mat-icon>power_settings_new</mat-icon>
+        <span>Sign Out</span>
+      </button>
+    </mat-menu>
+  </ng-template>
+  <ng-template #logIn>
+    <button mat-button color="accent" (click)="onLogInAndSideClose()">Login/Register</button>
+  </ng-template>
 </mat-nav-list>

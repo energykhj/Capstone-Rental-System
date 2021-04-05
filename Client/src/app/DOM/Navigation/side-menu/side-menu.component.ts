@@ -97,6 +97,13 @@ export class SideMenuComponent implements OnInit {
     this.sidenavClose.emit();
   };
 
+  public onAccountAndSideClose = () => {
+    this.router.navigate(['/user-account']).then(() => {
+      window.location.reload();
+    });
+    this.sidenavClose.emit();
+  };
+
   onSearch(search, selectedCity) {
     var queryParams;
 
