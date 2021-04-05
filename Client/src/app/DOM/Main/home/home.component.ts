@@ -56,6 +56,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.page = 1;
     this.notEmptyPost = true;
+
     this.search = this.route.snapshot.queryParamMap.get('search');
     this.city = this.route.snapshot.queryParamMap.get('city');
     if (this.search === null || this.search === '') {
