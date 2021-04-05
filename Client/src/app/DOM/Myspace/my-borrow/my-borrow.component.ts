@@ -63,17 +63,6 @@ export class MyBorrowComponent implements OnInit {
     userId: '',
   };
 
-  statusText: string[] = [
-    '',
-    'Wait Confirmation',
-    'Request Confirmed',
-    'Request Rejected',
-    'Canceled By Lender',
-    'Canceled By Borrower',
-    'Wait Return Confirmation',
-    'Return Completed',
-  ];
-
   formatDate = FormatUtils.formatDate;
   formatCurrency = FormatUtils.formatCurrency;
   dateDiffInDays = FormatUtils.dateDiffInDays;

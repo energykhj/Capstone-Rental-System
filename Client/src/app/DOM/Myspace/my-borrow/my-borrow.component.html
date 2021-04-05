@@ -63,11 +63,10 @@
                             <p>
                               <small><span>Total Fee: </span>{{ formatCurrency(requestItemPkg.trans.total) }}</small>
                             </p>
-                            <p class="text-danger">
-                              <span>Status: </span>{{ statusText[requestItemPkg.trans.currentStatus] }}
+                            <p>
+                              <span class="status">Status: </span>
+                              <span class="statusName">{{ requestItemPkg.trans.statusName }}</span>
                             </p>
-
-                            <!-- {{ requestItemPkg.trans.statusName }} -->
                             <button mat-stroked-button (click)="onCancelRequest(requestItemPkg.trans.id)" color="warn">
                               Cancel Request
                             </button>
@@ -148,10 +147,10 @@
                             <p>
                               <small><span>Total Fee: </span>{{ formatCurrency(borrowingItemPkg.trans.total) }}</small>
                             </p>
-                            <p class="text-danger">
-                              <span>Status: </span>{{ statusText[borrowingItemPkg.trans.currentStatus] }}
+                            <p>
+                              <span class="status">Status: </span>
+                              <span class="statusName">{{ borrowingItemPkg.trans.statusName }}</span>
                             </p>
-
                             <button
                               *ngIf="!checkRequestReturn(borrowingItemPkg.trans.currentStatus)"
                               mat-stroked-button
@@ -239,8 +238,9 @@
                                 >{{ formatCurrency(compledtedItemPkg.trans.refundDeposit) }}</small
                               >
                             </p>
-                            <p class="text-danger">
-                              <span>Status: </span>{{ statusText[compledtedItemPkg.trans.currentStatus] }}
+                            <p>
+                              <span class="status">Status: </span>
+                              <span class="statusName">{{ compledtedItemPkg.trans.statusName }}</span>
                             </p>
                             <p *ngIf="compledtedItemPkg.trans.reason" class="text-danger">
                               Reason: {{ compledtedItemPkg.trans.reason }}
