@@ -74,28 +74,10 @@ mat-button {
 }
 
 /* Search */
-.example-spacer {
+.search-spacer {
   flex: 1 1 auto;
 }
-.example-container .mat-form-field + .mat-form-field {
-  margin-left: 28px;
-}
 
-.example-container .mat-form-field {
-  width: 220px;
-}
-
-.example-container form {
-  margin-bottom: 20px;
-}
-
-.example-container form > * {
-  margin: 5px 0;
-}
-
-.example-container .mat-radio-button {
-  margin: 0 12px;
-}
 /* Search */
 @media (max-width: 959px) {
   mat-toolbar {

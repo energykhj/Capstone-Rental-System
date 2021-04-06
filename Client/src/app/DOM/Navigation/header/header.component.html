@@ -1,17 +1,17 @@
 <!-- Toolbar -->
 <mat-toolbar color="primary" class="header-bg">
-  <div fxHide.gt-xs>
+  <div fxHide.gt-sm>
     <button mat-icon-button (click)="onToggleSidenav()">
       <mat-icon>menu</mat-icon>
     </button>
   </div>
   <div><a href="/home" class="logo">PRS</a></div>
 
-  <span class="example-spacer"></span>
+  <span class="search-spacer"></span>
 
   <!-- Search start -->
-  <div class="col-md-7">
-    <div fxFlex fxLayout fxLayoutAlign="center center" fxHide.xs>
+  <div class="col-7" fxShow fxHide.lt-md>
+    <div fxFlex fxLayout fxLayoutAlign="center center">
       <form class="form-inline" (keydown)="onKeyDown($event, search, selectedCity)">
         <div class="input-group">
           <input
@@ -42,8 +42,9 @@
   </div>
   <!-- Search end -->
 
-  <span class="example-spacer"></span>
-  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+  <span class="search-spacer"></span>
+
+  <div fxFlex fxLayout fxLayoutAlign="end" fxShow fxHide.lt-sm>
     <ng-template [ngIf]="userName">
       <button
         mat-raised-button

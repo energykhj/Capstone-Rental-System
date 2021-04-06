@@ -1,61 +1,63 @@
 <div class="container mt-3">
-  <div class="d-flex flex-row flex-wrap">
+  <div class="d-flex flex-row-reverse flex-wrap">
+    <div class="col-md-3 p-0">
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <app-notification-list></app-notification-list>
+        </div>
+      </div>
+    </div>
     <div class="col-md-9 p-0 mb-3">
       <div class="card item-card shadow-sm bg-white m-1">
-        <mat-accordion>
-          <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = false" (closed)="panelOpenState = true">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                {{ title }}
-              </mat-panel-title>
-              <mat-panel-description> </mat-panel-description>
-            </mat-expansion-panel-header>
-            <p [innerHTML]="headContent"></p>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </div>
-      <div class="card item-card shadow-sm bg-white m-1">
-        <div>
-          <!-- <div class="card-header" style="text-align: left"></div> -->
-          <div class="row mb-3" *ngFor="let article of articles">
-            <div class="card-body" *ngIf="article.id != article.parentId">
-              <div class="chat">
-                <ul class="chat__posts">
-                  <li>
-                    <!-- <img src="../../assets/img/m_1.jpg" alt="avatar" class="photo"> -->
-                    <img
-                      *ngIf="article.photoUrl"
-                      src="{{ filePath }}{{ article.photoUrl }}"
-                      (click)="openBorrowerDetails(article.userId)"
-                      class="photo"
-                    />
-                    {{ article.userName }} Posted
-                    {{ formatDate(article.date) }}
-                    <div class="chat__posts__post__message">
-                      <br />
-                      <!-- <strong>{{ article.userName }}</strong> -->
-                      <!-- <a class="chat__posts__post__mailto-user"> {{ article.email }}</a> -->
-                      <!-- <span class="chat__posts__post__time">Posted {{ formatDate(article.date) }}</span> -->
-                      <!-- <p class="chat__posts__post__content"> -->
-                      <div class="wrapper">
-                        <div [innerHTML]="article.description" class="description"></div>
-                        <div class="icon-button">
-                          <mat-icon
-                            class="icon"
-                            *ngIf="userId === article.userId"
-                            (click)="onEdit(article.id, article.description, article.title)"
-                            >edit</mat-icon
-                          >
-                          <mat-icon class="icon" *ngIf="userId === article.userId" (click)="onDelete(article.id)"
-                            >delete_forever</mat-icon
-                          >
-                        </div>
+        <div class="card-header"><h3>Ask Details</h3></div>
+        <div class="card-body">
+          <mat-accordion>
+            <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = false" (closed)="panelOpenState = true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <h3>{{ title }}</h3>
+                </mat-panel-title>
+                <mat-panel-description> </mat-panel-description>
+              </mat-expansion-panel-header>
+              <p [innerHTML]="headContent"></p>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <div class="mb-1" *ngFor="let article of articles">
+            <div class="chat">
+              <ul class="chat__posts">
+                <li *ngIf="article.id != article.parentId">
+                  <!-- <img src="../../assets/img/m_1.jpg" alt="avatar" class="photo"> -->
+                  <img
+                    *ngIf="article.photoUrl"
+                    src="{{ filePath }}{{ article.photoUrl }}"
+                    (click)="openBorrowerDetails(article.userId)"
+                    class="photo"
+                  />
+                  {{ article.userName }} Posted
+                  {{ formatDate(article.date) }}
+                  <div class="chat__posts__post__message">
+                    <br />
+                    <!-- <strong>{{ article.userName }}</strong> -->
+                    <!-- <a class="chat__posts__post__mailto-user"> {{ article.email }}</a> -->
+                    <!-- <span class="chat__posts__post__time">Posted {{ formatDate(article.date) }}</span> -->
+                    <!-- <p class="chat__posts__post__content"> -->
+                    <div class="d-flex flex-row justify-content-between">
+                      <div [innerHTML]="article.description" class="description"></div>
+                      <div class="icon-button">
+                        <mat-icon
+                          class="icon"
+                          *ngIf="userId === article.userId"
+                          (click)="onEdit(article.id, article.description, article.title)"
+                          >edit</mat-icon
+                        >
+                        <mat-icon class="icon" *ngIf="userId === article.userId" (click)="onDelete(article.id)"
+                          >delete_forever</mat-icon
+                        >
                       </div>
                     </div>
-                    <!-- </p> -->
-                  </li>
-                </ul>
-              </div>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -81,59 +83,6 @@
           <button mat-stroked-button color="primary" (click)="onBack()">Back</button>
         </div>
       </div>
-    </div>
-    <div class="col-md-3">
-      <div class="row mb-3">
-        <div class="col-md-12">
-          <app-notification-list></app-notification-list>
-          <!-- <div class="card">
-            <div class="card-body"> -->
-          <!-- <strong>
-                <p>Notification</p>
-              </strong> -->
-          <!-- <ul class="list-unstyled">
-                <a href="#">
-                  <li>Reject</li>
-                </a>
-                <a href="#">
-                  <li>Confirmed from Allison</li>
-                </a>
-                <a href="#">
-                  <li>Digital Accuracy</li>
-                </a>
-                <a href="#">
-                  <li>Digital Accuracy</li>
-                </a>
-                <a href="#">
-                  <li>Digital Accuracy</li>
-                </a>
-                <a href="#">
-                  <li>Digital Accuracy</li>
-                </a>
-              </ul> -->
-          <!-- </div>
-          </div> -->
-        </div>
-      </div>
-      <!-- <div class="row mb-3">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-body">
-              <button type="button" class="btn btn-outline bg-orange btn-block">Contat Now</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-body">
-              <button type="button" class="btn btn-outline bg-orange btn-block">Contat Now</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
     </div>
   </div>
 </div>

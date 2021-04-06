@@ -91,16 +91,6 @@ export class SideMenuComponent implements OnInit {
     localStorage.removeItem('jwt');
     localStorage.removeItem('userId');
     localStorage.removeItem('currentUser');
-    this.router.navigate(['/home']).then(() => {
-      window.location.reload();
-    });
-    this.sidenavClose.emit();
-  };
-
-  public onAccountAndSideClose = () => {
-    this.router.navigate(['/user-account']).then(() => {
-      window.location.reload();
-    });
     this.sidenavClose.emit();
   };
 

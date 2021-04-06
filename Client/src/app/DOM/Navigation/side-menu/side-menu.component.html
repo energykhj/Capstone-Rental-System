@@ -52,22 +52,16 @@
   </a>
 
   <ng-template [ngIf]="userName" [ngIfElse]="logIn">
-    <mat-list-item [matMenuTriggerFor]="menu">
-      <mat-icon>account_balance</mat-icon>
-      <a matline><span class="nav-caption">Account Actions</span></a>
-    </mat-list-item>
-    <mat-menu #menu="matMenu" yPosition="below">
-      <button mat-menu-item (click)="onAccountAndSideClose()">
-        <mat-icon>account_circle</mat-icon>
-        <span>Account</span>
-      </button>
-      <button mat-menu-item (click)="onLogOutAndSideClose()">
-        <mat-icon>power_settings_new</mat-icon>
-        <span>Sign Out</span>
-      </button>
-    </mat-menu>
+    <a mat-list-item routerLink="/user-account" (click)="onSidenavClose()">
+      <mat-icon>account_circle</mat-icon><span class="nav-caption">Account</span>
+    </a>
+    <a mat-list-item routerLink="/home" (click)="onLogOutAndSideClose()">
+      <mat-icon>power_settings_new</mat-icon><span class="nav-caption">Sign Out</span>
+    </a>
   </ng-template>
   <ng-template #logIn>
-    <button mat-button color="accent" (click)="onLogInAndSideClose()">Login/Register</button>
+    <a mat-list-item routerLink="/" class="accent-color" (click)="onLogInAndSideClose()">
+      <mat-icon>login</mat-icon><span class="nav-caption">Login/Register</span>
+    </a>
   </ng-template>
 </mat-nav-list>
