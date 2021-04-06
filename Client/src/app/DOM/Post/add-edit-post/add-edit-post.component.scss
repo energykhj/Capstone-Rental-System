@@ -112,33 +112,16 @@ small.color_red {
   .nav-item {
     width: 600px;
   }
+
+  .nav-tabs .nav-link.active {
+    background-color: #ffdedd !important;
+    border: 4px solid #ffdedd;
+  }
 }
 
 .tab-panel {
   min-height: 600px;
 }
-
-// .item-card {
-//   min-height: 640px;
-// }
-
-// .card-body h1 {
-//   font-family: fantasy;
-//   color: #0069d9;
-// }
-
-// .card-header > h1,
-// .card-header > h2,
-// .card-header > h3 {
-//   color: #00296b;
-// }
-
-// .card-header {
-//   height: 42px;
-//   padding: 4px 10px !important;
-//   background-color: #e8e9eb !important;
-//   text-align: center;
-// }
 
 .preview-image {
   height: 100%;
