@@ -357,8 +357,9 @@ export class MyListComponent implements OnInit {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
           width: '350px',
           data: {
-            title: 'Request Alert',
-            message: `This item was requested from ${requestCount} lenders <br />` + 'Do you confirm this request?',
+            title: 'Duplicated Request Alert',
+            message:
+              `This item was requested from <b>${requestCount} lenders</b><br />` + 'Do you confirm this request?',
           },
         });
         dialogRef.afterClosed().subscribe((result) => {
