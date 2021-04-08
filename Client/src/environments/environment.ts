@@ -6,19 +6,19 @@ import { CurrencyMaskInputMode } from 'ngx-currency';
 export const environment = {
   production: false,
   // Local API Server
-  // apiUrl: 'http://localhost:57183/api',
-  // PhotoUrl: 'http://localhost:57183/',
-  // PhotoUrlAvatar: 'http://localhost:57183/api/UserDetails/GetAvatar/',
-  // PhotoFileUrl: 'http://localhost:57183/api/Lookup/GetPhoto/',
-  // allowedDomains: ['localhost:57183'],
-  // disallowedRoutes: ['localhost:57183/api/Authentication/'],
+  apiUrl: 'http://localhost:57183/api',
+  PhotoUrl: 'http://localhost:57183/',
+  PhotoUrlAvatar: 'http://localhost:57183/api/UserDetails/GetAvatar/',
+  PhotoFileUrl: 'http://localhost:57183/api/Lookup/GetPhoto/',
+  allowedDomains: ['localhost:57183'],
+  disallowedRoutes: ['localhost:57183/api/Authentication/'],
   // Azure API Server
-  apiUrl: 'https://phoenixrentalserviceapi.azurewebsites.net/api',
-  PhotoUrl: 'https://phoenixrentalserviceapi.azurewebsites.net/',
-  PhotoUrlAvatar: 'https://phoenixrentalserviceapi.azurewebsites.net/api/UserDetails/GetAvatar/',
-  PhotoFileUrl: 'https://phoenixrentalserviceapi.azurewebsites.net/api/Lookup/GetPhoto/',
-  allowedDomains: ['phoenixrentalserviceapi.azurewebsites.net'],
-  disallowedRoutes: ['phoenixrentalserviceapi.azurewebsites.net/api/Authentication/'],
+  // apiUrl: 'https://phoenixrentalserviceapi.azurewebsites.net/api',
+  // PhotoUrl: 'https://phoenixrentalserviceapi.azurewebsites.net/',
+  // PhotoUrlAvatar: 'https://phoenixrentalserviceapi.azurewebsites.net/api/UserDetails/GetAvatar/',
+  // PhotoFileUrl: 'https://phoenixrentalserviceapi.azurewebsites.net/api/Lookup/GetPhoto/',
+  // allowedDomains: ['phoenixrentalserviceapi.azurewebsites.net'],
+  // disallowedRoutes: ['phoenixrentalserviceapi.azurewebsites.net/api/Authentication/'],
 };
 
 export const customCurrencyMaskConfig = {
