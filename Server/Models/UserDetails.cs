@@ -26,7 +26,7 @@ namespace Server.Models
         public DateTime? TimeStamp { get; set; }
 
         public virtual AspNetUsers LoginUser { get; set; }
-        public virtual RecordStatus RecordStatus{ get; set; }
+        public virtual RecordStatus RecordStatus { get; set; }
         public virtual ICollection<Address> Address { get; set; }
         public virtual ICollection<AskBoard> AskBoard { get; set; }
         public virtual ICollection<Item> Item { get; set; }

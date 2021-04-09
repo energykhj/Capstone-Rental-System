@@ -16,7 +16,8 @@ namespace Shared.Helpers
         CanceledByLender = 4,
         CanceledByBorrower = 5,
         RequestReturn = 6,
-        ReturnComplete = 7
+        ReturnComplete = 7,
+        AskReply = 8
     }
 
     public enum ManageEnum

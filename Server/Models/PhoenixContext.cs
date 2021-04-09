@@ -255,7 +255,7 @@ namespace Server.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Item_Category");
 
-                entity.HasOne(d => d.RecordStatus)
+                entity.HasOne(d => d.Status)
                     .WithMany(p => p.Item)
                     .HasForeignKey(d => d.StatusId)
                     .HasConstraintName("FK_Item_RecordStatus");
@@ -512,13 +512,13 @@ namespace Server.Models
                     .HasColumnName("timeStamp")
                     .HasColumnType("datetime");
 
-                entity.HasOne(d => d.LoginUser)
+                entity.HasOne(d => d.IdNavigation)
                     .WithOne(p => p.UserDetails)
                     .HasForeignKey<UserDetails>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserDetails_AspNetUsers");
 
-                entity.HasOne(d => d.RecordStatus)
+                entity.HasOne(d => d.Status)
                     .WithMany(p => p.UserDetails)
                     .HasForeignKey(d => d.StatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
