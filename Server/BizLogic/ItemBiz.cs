@@ -122,8 +122,30 @@ namespace Server.BizLogic
                 .ToListAsync();
         }
 
-        public async Task<List<Item>> GetSearchItem(int currentPage, string strSearch, List<int> cityList)
+        /*  public async Task<List<Item>> GetSearchItem(int currentPage, string strSearch, List<int> cityList)
+          {
+              if (cityList.Count == 0) return await GetSearchItem(strSearch, currentPage);
+
+              return await context.Item
+                  .Include(c => c.Category)
+                  .Include(c => c.RecordStatus)
+                  .OrderByDescending(c => c.Id)
+                  .Where(c => cityList.Contains(c.AddressId) && 
+                          (c.Name.ToUpper().Contains(strSearch) ||
+                          c.Description.ToUpper().Contains(strSearch)))
+                  .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
+                  .OrderByDescending(c => c.Id)
+                  .ToListAsync();
+          }*/
+
+        public async Task<List<Item>> GetSearchItem(int currentPage, string strSearch, string city, int category)
         {
+            List<int> categoryList = new List<int>();
+            List<int> cityList = context.Address.Where(c => c.City == city).Select(c => c.Id).ToList();
+            categoryList = (category > 0) ?
+                 context.Category.Where(c => c.CategoryId == category).Select(c => c.CategoryId).ToList() :
+                 context.Category.Select(c => c.CategoryId).ToList();
+
             if (cityList.Count == 0) return await GetSearchItem(strSearch, currentPage);
 
             return await context.Item
@@ -131,6 +153,7 @@ namespace Server.BizLogic
                 .Include(c => c.RecordStatus)
                 .OrderByDescending(c => c.Id)
                 .Where(c => cityList.Contains(c.AddressId) && 
+                        categoryList.Contains(c.CategoryId) &&
                         (c.Name.ToUpper().Contains(strSearch) ||
                         c.Description.ToUpper().Contains(strSearch)))
                 .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)

@@ -42,6 +42,7 @@ namespace Server.Controllers
             return File(file, "application/octet-stream");
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<Category>>> GetCategories()
         {
