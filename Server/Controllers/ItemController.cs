@@ -58,15 +58,6 @@ namespace Server.Controllers
             return dtoPkgList;
         }
 
-       /* [AllowAnonymous]
-        [HttpGet("GetSearchedItemAndDefaultPhoto/{currentPage}/{search?}")]
-        public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(int currentPage, string search = null)
-        {
-            if (string.IsNullOrEmpty(search) || search == "null") search = "";
-            var Items = await IB.GetSearchItem(search, currentPage);
-            return await GetPackedItemWithDefaultPhoto(Items);
-        }*/
-
         [AllowAnonymous]
         [HttpGet("GetSearchedItemAndDefaultPhoto/{currentPage}/{search?}/{city?}")]
         public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(int currentPage, string search = null, string city = null)
@@ -186,10 +177,11 @@ namespace Server.Controllers
         public async Task<ActionResult<double>> GetItemReviewAvg(int itemID)
         {
             var Reviews = await IB.GetReviewList(itemID);
+            if (Reviews.Count() == 0) return 0;
             double SumOfItemRate = Reviews.Sum(c => c.Rate);
             double avg = SumOfItemRate / Reviews.Count();
 
-            return avg;
+            return Math.Round(avg,1);
         }
 
 
@@ -210,7 +202,7 @@ namespace Server.Controllers
                 rateSum += rv.Sum(c => c.Rate);
             }
             OwnerRateAndItems.Add(cnt.ToString());
-            OwnerRateAndItems.Add((cnt != 0)? (rateSum / cnt).ToString() : "0");
+            OwnerRateAndItems.Add((cnt != 0)? (Math.Round((rateSum / cnt), 1)).ToString() : "0");
 
             
             return OwnerRateAndItems;
