@@ -402,21 +402,37 @@ describe('AddEditPostComponent', () => {
     expect(component.onSubmit).toHaveBeenCalled();
   }));
 
-  // it('load itemId', () => {
-  //   //component.itemId = "2";
-  //   //component.userId = "8f92e1b8-3a09-4b84-b1d8-d019f7c94987";
-  //   //component.itemPkg.item.name = "Test";
-  //   component.basicInfo.get("name").setValue('Karma Test');
+  it('should display No Reviews if no review exists', () => {
+    component.reviewPkgs;
 
-  //   //fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-  //   //tick();
-  //   fixture.detectChanges();
-  //   const compiled = fixture.debugElement.nativeElement;
-  //   expect(compiled.innerHTML).toContain("2");
-  //   //expect(component.userId).toEqual("8f92e1b8-3a09-4b84-b1d8-d019f7c94987");
-  //   console.log(component.userId);
-  //   console.log(component.itemPkg.item.userId);
-  //   console.log(component.itemPkg.address.userId);
-  //   console.log(component.itemPkg.item.categoryId);
-  // });
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.innerHTML).toContain('No Reviews');
+  });
+
+  it('should display injected review', () => {
+    let review = {
+      userName: 'Harry Hong',
+      date: new Date('2021-03-01T12:00:00.00Z'),
+      rate: 3,
+      title: 'Bicycle Review',
+      review1: 'Bicycle is Good',
+    };
+    component.reviewPkgs.push({
+      review: review,
+    });
+    component.reviewsCount = 1;
+    component.avgRate = 3;
+
+    fixture.detectChanges();
+    //    tick();
+
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.innerHTML).toContain('Harry Hong');
+    expect(compiled.innerHTML).toContain('Bicycle Review');
+    expect(compiled.innerHTML).toContain('Bicycle is Good');
+    expect(compiled.innerHTML).toContain('3/1/2021');
+
+    const rating = fixture.debugElement.query(By.css('.ratingText')).nativeElement;
+    expect(rating.innerHTML).toContain('1 Reviews / Average: 3');
+  });
 });
