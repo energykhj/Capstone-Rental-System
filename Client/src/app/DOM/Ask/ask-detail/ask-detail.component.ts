@@ -106,7 +106,7 @@ export class AskDetailComponent implements OnInit {
   sendNotification() {
     //Send Notification
     this.notification.fromUserId = this.userId;
-    this.notification.itemId = 76; // dummy itemId
+    this.notification.itemId = 10; // dummy itemId for backend API
     this.notification.toUserId = this.articles[0].userId; //parent userId
     this.notification.message = this.askReplyPkg.title;
     this.service.insertNotification(this.notification).subscribe((data: any) => {
