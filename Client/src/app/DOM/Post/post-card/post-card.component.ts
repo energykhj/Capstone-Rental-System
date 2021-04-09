@@ -4,6 +4,7 @@ import { Template } from '@angular/compiler/src/render3/r3_ast';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { FormatUtils } from 'src/app/Helpers/format-utils';
 
 @Component({
   selector: 'app-post-card',
@@ -12,7 +13,13 @@ import { Router } from '@angular/router';
 })
 export class PostCardComponent implements OnInit {
   @Input() property: any;
+  @Input() isDetail: boolean;
+
   PhotoFilePath: string = '';
+
+  dateDiffInDays = FormatUtils.dateDiffInDays;
+  formatCurrency = FormatUtils.formatCurrency;
+  currentDate: Date = new Date();
 
   constructor(public dialog: MatDialog, private router: Router) {
     this.PhotoFilePath = environment.PhotoFileUrl;

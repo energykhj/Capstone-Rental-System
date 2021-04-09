@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   city = '';
   notEmptyPost = true;
   notScrolly = true;
+  isSearched = false;
 
   subscription: Subscription;
 
@@ -56,6 +57,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.page = 1;
     this.notEmptyPost = true;
+    this.isSearched = false;
 
     this.search = this.route.snapshot.queryParamMap.get('search');
     this.city = this.route.snapshot.queryParamMap.get('city');
@@ -64,6 +66,9 @@ export class HomeComponent implements OnInit {
     }
     if (this.city === null || this.city === '') {
       this.city = 'null';
+    }
+    if (this.search != 'null' || this.city != 'null') {
+      this.isSearched = true;
     }
     //console.log(this.search + 'onInit');
     this.loadInitPost();

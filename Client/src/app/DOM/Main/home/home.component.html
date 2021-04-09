@@ -6,9 +6,14 @@
   <hr class="mt-1 mb-0" />
 
   <div class="search-result">
-    <div class="row pt-5">
-      <div *ngFor="let property of properties" class="shadow-lg col-12 col-sm-6 col-md-4 col-lg-3 p-3">
-        <app-post-card [property]="property"></app-post-card>
+    <div *ngIf="!isSearched" class="row pt-5">
+      <div *ngFor="let property of properties" class="shadow col-12 col-sm-6 col-md-4 col-lg-3 p-3">
+        <app-post-card [isDetail]="false" [property]="property"></app-post-card>
+      </div>
+    </div>
+    <div *ngIf="isSearched" class="row pt-5">
+      <div *ngFor="let property of properties" class="shadow col-12 p-3">
+        <app-post-card [isDetail]="true" [property]="property"></app-post-card>
       </div>
     </div>
   </div>
