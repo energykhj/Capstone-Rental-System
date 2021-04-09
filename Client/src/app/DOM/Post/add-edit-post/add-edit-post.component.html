@@ -339,6 +339,7 @@
                             <div *ngFor="let reviewPkg of reviewPkgs">
                               <div class="d-flex flex-row justify-content-start">
                                 <ngb-rating
+                                  id="rating"
                                   class="mb-2"
                                   [readonly]="true"
                                   [(rate)]="reviewPkg.review.rate"
