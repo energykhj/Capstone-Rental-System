@@ -22,4 +22,5 @@ export enum NotificationTypeEnum {
   CanceledByBorrower = 5,
   RequestReturn = 6,
   ReturnComplete = 7,
+  AskReply = 8,
 }

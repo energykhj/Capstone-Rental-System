@@ -10,6 +10,7 @@ import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
 import { EditDialogComponent } from '../../Shared/edit-dialog/edit-dialog.component';
+import { NotificationTypeEnum } from 'src/app/Helpers/enum';
 
 @Component({
   selector: 'app-ask-detail',
@@ -50,6 +51,17 @@ export class AskDetailComponent implements OnInit {
     parentId: 0,
   };
 
+  notification: any = {
+    id: 0,
+    fromUserId: '',
+    toUserId: '',
+    itemId: 0,
+    notiType: NotificationTypeEnum.AskReply,
+    message: '',
+    sendDate: new Date(),
+    isRead: false,
+  };
+
   constructor(
     private route: ActivatedRoute,
     private service: SharedService,
@@ -86,7 +98,19 @@ export class AskDetailComponent implements OnInit {
     this.askReplyPkg.description = this.content;
     console.log(this.askReplyPkg);
     this.service.insertReply(this.askReplyPkg).subscribe((data: any) => {
+      this.sendNotification();
       this.ngOnInit();
+    });
+  }
+
+  sendNotification() {
+    //Send Notification
+    this.notification.fromUserId = this.userId;
+    this.notification.itemId = 76; // No itemId
+    this.notification.toUserId = this.articles[0].userId; //parent userId
+    this.notification.message = this.askReplyPkg.title;
+    this.service.insertNotification(this.notification).subscribe((data: any) => {
+      //console.log(data);
     });
   }
 

@@ -4,7 +4,8 @@
   <ul>
     <div *ngFor="let notification of notifications">
       <a [routerLink]="" (click)="onCheck(notification)">
-        <li>{{ notification.type }} from {{ notification.itemTitle }}</li>
+        <li *ngIf="notification.notiType != 8">{{ notification.type }} of {{ notification.itemTitle }}</li>
+        <li *ngIf="notification.notiType == 8">{{ notification.type }} of {{ notification.message }}</li>
       </a>
     </div>
   </ul>
