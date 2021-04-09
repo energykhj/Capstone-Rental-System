@@ -27,7 +27,14 @@
     <div class="product-block col-md-12" (click)="onclickDetails(property.id)">
       <h3 class="text-danger">{{ property.name }}</h3>
       <h4 class="mb-0">
-        <span *ngIf="dateDiffInDays(property.createdDate, currentDate) == 0">today</span>
+        <span *ngIf="dateDiffInDays(property.createdDate, currentDate) == 0">
+          <span *ngIf="dateDiffInHours(property.createdDate, currentDate) == 0">
+            {{ dateDiffInMins(property.createdDate, currentDate) }} mins ago
+          </span>
+          <span *ngIf="dateDiffInHours(property.createdDate, currentDate) > 0">
+            {{ dateDiffInHours(property.createdDate, currentDate) }} hours ago
+          </span>
+        </span>
         <span *ngIf="dateDiffInDays(property.createdDate, currentDate) > 0">
           {{ dateDiffInDays(property.createdDate, currentDate) }} days ago
         </span>
@@ -73,7 +80,14 @@
     <div class="product-block col-md-8" (click)="onclickDetails(property.id)">
       <h3 class="text-danger">{{ property.name }}</h3>
       <h4 class="mb-0">
-        <span *ngIf="dateDiffInDays(property.createdDate, currentDate) == 0">today</span>
+        <span *ngIf="dateDiffInDays(property.createdDate, currentDate) == 0">
+          <span *ngIf="dateDiffInHours(property.createdDate, currentDate) == 0">
+            {{ dateDiffInMins(property.createdDate, currentDate) }} mins ago
+          </span>
+          <span *ngIf="dateDiffInHours(property.createdDate, currentDate) > 0">
+            {{ dateDiffInHours(property.createdDate, currentDate) }} hours ago
+          </span>
+        </span>
         <span *ngIf="dateDiffInDays(property.createdDate, currentDate) > 0">
           {{ dateDiffInDays(property.createdDate, currentDate) }} days ago
         </span>

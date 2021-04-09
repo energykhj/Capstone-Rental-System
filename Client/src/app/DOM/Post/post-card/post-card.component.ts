@@ -18,7 +18,10 @@ export class PostCardComponent implements OnInit {
   PhotoFilePath: string = '';
 
   dateDiffInDays = FormatUtils.dateDiffInDays;
+  dateDiffInHours = FormatUtils.dateDiffInHours;
+  dateDiffInMins = FormatUtils.dateDiffInMins;
   formatCurrency = FormatUtils.formatCurrency;
+
   currentDate: Date = new Date();
 
   constructor(public dialog: MatDialog, private router: Router) {
