@@ -106,9 +106,9 @@ export class SharedService {
     return this.http.put<any>(`${environment.apiUrl}/Item`, val);
   }
 
-  getSearchedItemAndDefaultPhoto(page: any, search: string, city: string) {
+  getSearchedItemAndDefaultPhoto(page: any, search: string, city: string, categoryId: string) {
     return this.http.get<any>(
-      `${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/` + page + '/' + search + '/' + city
+      `${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/` + page + '/' + search + '/' + city + '/' + categoryId
     );
   }
 

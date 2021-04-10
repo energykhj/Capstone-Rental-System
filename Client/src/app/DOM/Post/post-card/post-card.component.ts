@@ -21,6 +21,7 @@ export class PostCardComponent implements OnInit {
   dateDiffInHours = FormatUtils.dateDiffInHours;
   dateDiffInMins = FormatUtils.dateDiffInMins;
   formatCurrency = FormatUtils.formatCurrency;
+  formatDate = FormatUtils.formatDate;
 
   currentDate: Date = new Date();
 

@@ -21,10 +21,21 @@
           aria-describedby="basic-addon2"
         />
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" (click)="onSearch(search, selectedCity)">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="onSearch(search, selectedCity, selectedCategoryId)"
+          >
             <i class="fa fa-search fa-xs"></i>
           </button>
         </div>
+      </div>
+      <div class="input-group mb-2">
+        <select class="form-control" name="selectedCategoryId" [(ngModel)]="selectedCategoryId">
+          <option *ngFor="let category of categoryList" [value]="category.categoryId">
+            {{ category.name }}
+          </option>
+        </select>
       </div>
       <div class="input-group">
         <select class="form-control" name="selectedCity" [(ngModel)]="selectedCity">

@@ -35,8 +35,11 @@
             {{ dateDiffInHours(property.createdDate, currentDate) }} hours ago
           </span>
         </span>
-        <span *ngIf="dateDiffInDays(property.createdDate, currentDate) > 0">
-          {{ dateDiffInDays(property.createdDate, currentDate) }} days ago
+        <span *ngIf="dateDiffInDays(property.createdDate, currentDate) == 1">
+          {{ dateDiffInDays(property.createdDate, currentDate) }} yesterday
+        </span>
+        <span *ngIf="dateDiffInDays(property.createdDate, currentDate) > 1">
+          {{ formatDate(property.createdDate) }}
         </span>
       </h4>
       <ul class="list-inline">
