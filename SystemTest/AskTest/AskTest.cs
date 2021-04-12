@@ -37,6 +37,54 @@ namespace AskTest
         }
 
         [Test]
+        public void asktest()
+        {
+            /// Default login Start
+            driver.Navigate().GoToUrl("http://localhost:4200/home");
+            driver.Manage().Window.Size = new System.Drawing.Size(1100, 800);
+
+
+            driver.FindElement(By.CssSelector(".mat-button > .mat-button-wrapper")).Click();
+            driver.FindElement(By.Id("mat-input-0")).Click();
+            driver.FindElement(By.Id("mat-input-0")).SendKeys("jyh@test.com");
+            driver.FindElement(By.Id("mat-input-1")).Click();
+            driver.FindElement(By.Id("mat-input-1")).SendKeys("Welcome!234");
+            driver.FindElement(By.CssSelector(".login-button > .mat-button-wrapper")).Click();
+            //wait until login complete
+
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.CssSelector(".mat-menu-trigger")));
+
+            /// Default login End
+            
+            driver.FindElement(By.CssSelector(".fab-color-ask > .mat-button-wrapper")).Click();
+            {
+                var element = driver.FindElement(By.TagName("body"));
+                Actions builder = new Actions(driver);
+                builder.MoveToElement(element, 0, 0).Perform();
+            }
+            driver.FindElement(By.Id("mat-input-1")).Click();
+            driver.FindElement(By.Id("mat-input-1")).SendKeys("sel test 0001");
+            driver.FindElement(By.CssSelector("p:nth-child(1)")).Click();
+            {
+                var element = driver.FindElement(By.CssSelector(".ProseMirror"));
+                js.ExecuteScript("if(arguments[0].contentEditable === 'true') {arguments[0].innerText = 'sel test ask 0001'}", element);
+            }
+
+            //wait until 
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.CssSelector(".mat-row:nth-child(1) > .cdk-column-title > .ng-tns-c289-2")));
+            driver.FindElement(By.CssSelector(".mat-stroked-button")).Click();
+
+            //wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            //wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//button[contains(.,'Ask')")));
+            //driver.FindElement(By.XPath("//button[contains(.,'Ask')")).Click();
+
+            Assert.That(driver.FindElement(By.CssSelector(".mat-row:nth-child(1) > .cdk-column-title > .ng-tns-c289-2")).Text, Is.EqualTo("sel test 0001"));
+            /////
+        }
+
+        [Test]
         public void a_displayAskList_ClickTheAskButton_DisplayAskList()
         {
             driver.Navigate().GoToUrl("http://localhost:4200/home");
