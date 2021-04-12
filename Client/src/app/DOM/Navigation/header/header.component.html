@@ -10,9 +10,9 @@
   <span class="search-spacer"></span>
 
   <!-- Search start -->
-  <div class="col-7" fxShow fxHide.lt-md>
+  <div class="col-8" fxShow fxHide.lt-md>
     <div fxFlex fxLayout fxLayoutAlign="center center">
-      <form class="form-inline" (keydown)="onKeyDown($event, search, selectedCity)">
+      <form class="form-inline" (keydown)="onKeyDown($event, search, selectedCity, selectedCategoryId)">
         <div class="input-group">
           <input
             type="text"
@@ -24,10 +24,22 @@
             aria-describedby="basic-addon2"
           />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" (click)="onSearch(search, selectedCity)">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              (click)="onSearch(search, selectedCity, selectedCategoryId)"
+            >
               <i class="fa fa-search fa-xs"></i>
             </button>
           </div>
+        </div>
+        <span class="mr-2"></span>
+        <div class="input-group">
+          <select class="form-control" name="selectedCategoryId" [(ngModel)]="selectedCategoryId">
+            <option *ngFor="let category of categoryList" [value]="category.categoryId">
+              {{ category.name }}
+            </option>
+          </select>
         </div>
         <span class="mr-2"></span>
         <div class="input-group">
@@ -56,7 +68,7 @@
         My Space
       </button>
     </ng-template>
-    <ul fxLayout fxLayoutGap="10px" class="navigation-items">
+    <ul fxLayout fxLayoutGap="10px" class="navigation-items pl-3">
       <li>
         <a mat-mini-fab routerLink="/post" class="fab-color-post">Post</a>
       </li>

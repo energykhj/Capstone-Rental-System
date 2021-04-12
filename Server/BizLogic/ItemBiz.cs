@@ -130,13 +130,15 @@ namespace Server.BizLogic
                  context.Category.Where(c => c.CategoryId == category).Select(c => c.CategoryId).ToList() :
                  context.Category.Select(c => c.CategoryId).ToList();
 
-            if (cityList.Count == 0) return await GetSearchItem(strSearch, currentPage);
+            //if (cityList.Count == 0) return await GetSearchItem(strSearch, currentPage);
+            if (cityList.Count == 0 && category == 0) return await GetSearchItem(strSearch, currentPage);
 
             return await context.Item
                 .Include(c => c.Category)
                 .Include(c => c.RecordStatus)
                 .OrderByDescending(c => c.Id)
-                .Where(c => cityList.Contains(c.AddressId) && 
+//                .Where(c => cityList.Contains(c.AddressId) &&
+                .Where(c => (cityList.Count == 0 || cityList.Contains(c.AddressId)) &&
                         categoryList.Contains(c.CategoryId) &&
                         (c.Name.ToUpper().Contains(strSearch) ||
                         c.Description.ToUpper().Contains(strSearch)))

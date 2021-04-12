@@ -21,7 +21,9 @@ export class SideMenuComponent implements OnInit {
   photoUrl: string;
   userName: string = '';
   selectedCity: string = HeaderComponent.ALL_CITIES;
+  selectedCategoryId = 0;
   cityList: any = [];
+  categoryList: any = [];
   notificationCount = 0;
   subscription: Subscription;
 
@@ -54,15 +56,24 @@ export class SideMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCityList();
+    this.getCategoryList();
   }
 
   getCityList() {
-    this.cityList = [];
+    this.cityList = [HeaderComponent.ALL_CITIES];
     this.service.getCityOfAddress().subscribe((data) => {
       for (var i = 0; i < data.length; i++) {
         this.cityList.push(data[i]);
       }
-      this.cityList.push(HeaderComponent.ALL_CITIES);
+    });
+  }
+
+  getCategoryList() {
+    this.categoryList = [{ categoryId: 0, name: HeaderComponent.ALL_CATEGORIES, item: [] }];
+    this.service.getCategories().subscribe((data: any) => {
+      for (var i = 0; i < data.length; i++) {
+        this.categoryList.push(data[i]);
+      }
     });
   }
 
@@ -94,18 +105,20 @@ export class SideMenuComponent implements OnInit {
     this.sidenavClose.emit();
   };
 
-  onSearch(search, selectedCity) {
+  onSearch(search, selectedCity, selectedCategoryId) {
     var queryParams;
 
     if (selectedCity == HeaderComponent.ALL_CITIES) {
       queryParams = {
         search: search,
         city: '',
+        categoryId: selectedCategoryId,
       };
     } else {
       queryParams = {
         search: search,
         city: selectedCity,
+        categoryId: selectedCategoryId,
       };
     }
     this.router
@@ -113,7 +126,8 @@ export class SideMenuComponent implements OnInit {
         queryParams: queryParams,
       })
       .then(() => {
-        window.location.reload();
+        this.service.sendNotificationReloadHome();
+        this.sidenavClose.emit();
       });
   }
 }

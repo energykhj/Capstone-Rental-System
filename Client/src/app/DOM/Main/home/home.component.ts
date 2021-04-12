@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
   page = 1;
   search = '';
   city = '';
+  categoryId = '';
   notEmptyPost = true;
   notScrolly = true;
   isSearched = false;
@@ -61,13 +62,17 @@ export class HomeComponent implements OnInit {
 
     this.search = this.route.snapshot.queryParamMap.get('search');
     this.city = this.route.snapshot.queryParamMap.get('city');
+    this.categoryId = this.route.snapshot.queryParamMap.get('categoryId');
     if (this.search === null || this.search === '') {
       this.search = 'null';
     }
     if (this.city === null || this.city === '') {
       this.city = 'null';
     }
-    if (this.search != 'null' || this.city != 'null') {
+    if (this.categoryId === null || this.categoryId === '') {
+      this.categoryId = '0';
+    }
+    if (this.search != 'null' || this.city != 'null' || this.categoryId != '0') {
       this.isSearched = true;
     }
     //console.log(this.search + 'onInit');
@@ -75,7 +80,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadInitPost() {
-    this.service.getSearchedItemAndDefaultPhoto(this.page, this.search, this.city).subscribe(
+    this.service.getSearchedItemAndDefaultPhoto(this.page, this.search, this.city, this.categoryId).subscribe(
       (data) => {
         this.properties = data;
         if (this.properties.length < 8) {
@@ -92,15 +97,17 @@ export class HomeComponent implements OnInit {
     console.log('click');
     this.page = this.page + 1;
 
-    this.service.getSearchedItemAndDefaultPhoto(this.page, this.search, this.city).subscribe((data) => {
-      const newList = data;
+    this.service
+      .getSearchedItemAndDefaultPhoto(this.page, this.search, this.city, this.categoryId)
+      .subscribe((data) => {
+        const newList = data;
 
-      if (newList.length < 8) {
-        this.notEmptyPost = false;
-      }
+        if (newList.length < 8) {
+          this.notEmptyPost = false;
+        }
 
-      this.properties = this.properties.concat(newList);
-      this.notScrolly = true;
-    });
+        this.properties = this.properties.concat(newList);
+        this.notScrolly = true;
+      });
   }
 }

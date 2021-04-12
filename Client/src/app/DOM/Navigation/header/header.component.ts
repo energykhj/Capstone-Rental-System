@@ -19,6 +19,8 @@ export class HeaderComponent implements OnInit {
   @Output() public sidenavToggle = new EventEmitter();
 
   public static ALL_CITIES: string = 'All Cities';
+  public static ALL_CATEGORIES: string = 'All Categories';
+
   search = '';
   searchValue: any;
   options: FormGroup;
@@ -36,7 +38,10 @@ export class HeaderComponent implements OnInit {
   subscription: Subscription;
 
   selectedCity: string = HeaderComponent.ALL_CITIES;
+  selectedCategoryId = 0;
+
   cityList: any = [];
+  categoryList: any = [];
 
   constructor(public dialog: MatDialog, private router: Router, private service: SharedService, fb: FormBuilder) {
     this.options = fb.group({
@@ -92,16 +97,27 @@ export class HeaderComponent implements OnInit {
       );
     }
     this.getCityList();
+    this.getCategoryList();
   }
 
   getCityList() {
-    this.cityList = [];
+    this.cityList = [HeaderComponent.ALL_CITIES];
     this.service.getCityOfAddress().subscribe((data) => {
       for (var i = 0; i < data.length; i++) {
         this.cityList.push(data[i]);
       }
-      this.cityList.push(HeaderComponent.ALL_CITIES);
+      //this.cityList.push(HeaderComponent.ALL_CITIES);
     });
+  }
+
+  getCategoryList() {
+    this.categoryList = [{ categoryId: 0, name: HeaderComponent.ALL_CATEGORIES, item: [] }];
+    this.service.getCategories().subscribe((data: any) => {
+      for (var i = 0; i < data.length; i++) {
+        this.categoryList.push(data[i]);
+      }
+    });
+    //this.categoryList.push({ categoryId: 0, name: HeaderComponent.ALL_CATEGORIES, item: [] });
   }
 
   public onToggleSidenav = () => {
@@ -112,18 +128,20 @@ export class HeaderComponent implements OnInit {
     this.userName = name;
   }
 
-  onSearch(search, selectedCity) {
+  onSearch(search, selectedCity, selectedCategoryId) {
     var queryParams;
 
     if (selectedCity == HeaderComponent.ALL_CITIES) {
       queryParams = {
         search: search,
         city: '',
+        categoryId: selectedCategoryId,
       };
     } else {
       queryParams = {
         search: search,
         city: selectedCity,
+        categoryId: selectedCategoryId,
       };
     }
     this.router
@@ -147,10 +165,10 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  onKeyDown(event, search, selectedCity) {
+  onKeyDown(event, search, selectedCity, selectedCategoryId) {
     if (event.keyCode === 13) {
       //return
-      this.onSearch(search, selectedCity);
+      this.onSearch(search, selectedCity, selectedCategoryId);
     }
   }
 }
