@@ -121,23 +121,7 @@ namespace Server.BizLogic
                 .OrderByDescending(c => c.Id)
                 .ToListAsync();
         }
-
-        /*  public async Task<List<Item>> GetSearchItem(int currentPage, string strSearch, List<int> cityList)
-          {
-              if (cityList.Count == 0) return await GetSearchItem(strSearch, currentPage);
-
-              return await context.Item
-                  .Include(c => c.Category)
-                  .Include(c => c.RecordStatus)
-                  .OrderByDescending(c => c.Id)
-                  .Where(c => cityList.Contains(c.AddressId) && 
-                          (c.Name.ToUpper().Contains(strSearch) ||
-                          c.Description.ToUpper().Contains(strSearch)))
-                  .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
-                  .OrderByDescending(c => c.Id)
-                  .ToListAsync();
-          }*/
-
+        
         public async Task<List<Item>> GetSearchItem(int currentPage, string strSearch, string city, int category)
         {
             List<int> categoryList = new List<int>();

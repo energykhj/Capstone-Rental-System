@@ -58,22 +58,11 @@ namespace Server.Controllers
             return dtoPkgList;
         }
 
-       /* [AllowAnonymous]
-        [HttpGet("GetSearchedItemAndDefaultPhoto/{currentPage}/{search?}/{city?}")]
-        public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(int currentPage, string search = null, string city = null)
-        {
-            if (string.IsNullOrEmpty(search) || search == "null") search = "";
-            if (string.IsNullOrEmpty(city) || city == "null") city = "";
-            var cityList = context.Address.Where(c => c.City == city).Select(c => c.Id).ToList();
-
-            var Items = await IB.GetSearchItem(currentPage, search, cityList);
-            return await GetPackedItemWithDefaultPhoto(Items);
-        }*/
-
         [AllowAnonymous]
         [HttpGet("GetSearchedItemAndDefaultPhoto/{currentPage}/{search?}/{city?}/{category?}")]
         public async Task<ActionResult<List<ItemDTO>>> GetSearchedItemAndDefaultPhoto(int currentPage, string search = null, string city = null, int category = 0)
         {
+
             if (string.IsNullOrEmpty(search) || search == "null") search = "";
             if (string.IsNullOrEmpty(city) || city == "null") city = "";
 
