@@ -58,7 +58,7 @@ export class SharedService {
   updateUser(val: any) {
     //alert(val.details.statusId);
     if (val.details.statusId == 0) {
-      return this.http.post<any>(`${environment.apiUrl}/UserDetails/CreateUser`, val);
+      return this.http.post<any>(`${environment.apiUrl}/UserDetails/InsertUser`, val);
     } else {
       return this.http.put<any>(`${environment.apiUrl}/UserDetails/UpdateUser`, val);
     }
